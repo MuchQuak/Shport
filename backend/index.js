@@ -17,7 +17,8 @@ app.get('/teams', async (req, res) => {
 
     try {
         const result = await nbaServices.getTeams(team);
-        res.send({team_list: result});         
+        console.log(result);
+        res.send({team_list: result});
     } catch (error) {
         console.log(error);
         res.status(500).send('An error ocurred in the server.');
@@ -30,6 +31,7 @@ function formatData(responseData) {
     for (var i = 0; i < games.length; i++) {
         var game = games[i];
         var new_game = {}
+        new_game.clock = game.clock;
         new_game.arena = game.arena.name;
         new_game.startTimeEST = game.startTimeEastern;
         new_game.currentQtr = game.period.current;

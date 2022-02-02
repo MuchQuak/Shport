@@ -4,8 +4,18 @@ import './GameSchedule.css';
 
 function Schedule(props) {
     const games = props.gameData.map((game, index) => {
+        var clock_data = game.clock.toString().trim();
+        function ready(data) {
+            return data !== "";
+        }
+        const clock = function() {
+            if (!ready(clock_data)){
+                return (null);
+            }
+            return (<p>{clock_data} - ({game.currentQtr}/{game.maxQtr})</p>)
+        }
         const score = function(score) {
-            if (score === "") {
+            if (score === "" || !ready(clock_data)) {
                 return (null);
             }
             return (<p>{score}</p>)
@@ -13,8 +23,8 @@ function Schedule(props) {
         return (
             <div className='game'>
                 <div className='game-header'>
+                    {clock()}
                     <p>{game.arena} - {game.startTimeEST}</p>
-                    <p>QUARTER {game.currentQtr}/{game.maxQtr}</p>
                 </div>
                 <div className='game-data'>
                     <div className='game-left'>
