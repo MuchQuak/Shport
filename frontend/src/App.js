@@ -21,7 +21,7 @@ function App() {
     async function fetchTeams(){
         try {
             const response = await axios.get('http://localhost:5000/teams');
-            return response.data.teams_list;
+            return response.data.team_list;
         }
         catch (error){
             //Log error to console
