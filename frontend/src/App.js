@@ -26,12 +26,18 @@ function App() {
   return (
       <div className='container'>
           <h1 className='header'>Sports Dashboard</h1>
-          <div className='data'>
+          <div className='items'>
               <div className='item'>
                 <p className='item-title'>Team Standings</p>
                 <div className='item-body'>
                   <Table teamData={teams} />
                 </div>
+              </div>
+              <div className='item'>
+                  <p className='item-title'>News Article</p>
+                  <div className='item-body'>
+                      <p>BIG NBA NEWS!</p>
+                  </div>
               </div>
           </div>
       </div>

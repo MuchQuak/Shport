@@ -17,17 +17,19 @@
     box-shadow: 0px 4px #dbdbdb;
 }
 
-.data {
+.items {
     margin: auto;
     width: 50%;
+    display: block;
     text-align: center;
 }
 
 .item {
     margin: 0 auto 10px;
     width: 75%;
+    display: block;
     color: #d1d1d1;
-    border-radius: 15px;
+    border-radius: 20px;
     border: 2px solid #ff5257;
     overflow: hidden;
 }
@@ -44,6 +46,14 @@
 .item-body {
     margin: 0;
     padding: 2px;
+    display: flex;
+    flex-flow: column nowrap;
     background-color: #dbdbdb;
     color: #212121;
+}
+
+.data {
+    margin: 0 auto;
+    width: 100%;
+    table-layout: auto;
 }
