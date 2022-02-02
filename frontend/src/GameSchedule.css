@@ -1,0 +1,50 @@
+.schedule {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.game {
+    margin: 5px auto;
+    padding: 5px;
+    width: 75%;
+    border-radius: 15px;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #ff5257;
+    color: #ffffff;
+}
+
+.game-header {
+    margin: 0 auto 5px;
+    width: 100%;
+    border-radius: 15px;
+    display: block;
+}
+
+.game-data {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    font-weight: bold;
+}
+
+.game p {
+    margin: 0 auto;
+    padding: 1px;
+}
+
+.game-left {
+    width: 50%;
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
+}
+
+.game-right {
+    width: 50%;
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
+}
