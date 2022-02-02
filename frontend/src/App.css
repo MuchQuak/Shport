@@ -3,7 +3,41 @@
     text-align: center;
 }
 
+.header {
+    margin: 0 auto 10px;
+    text-align: left;
+    padding: 10px;
+    background-color: #ff3d44;
+    color: #ffffff;
+}
+
 .data {
     margin: auto;
+    width: 50%;
     text-align: center;
+}
+
+.item {
+    margin: 0 auto 10px;
+    width: 75%;
+    color: #d1d1d1;
+    border-radius: 15px;
+    border: 2px solid #ff1934;
+    overflow: hidden;
+}
+
+.item-title {
+    margin: 0;
+    padding: 2px;
+    background-color: #ff5257;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.item-body {
+    margin: 0;
+    padding: 2px;
+    background-color: #dbdbdb;
+    color: #212121;
 }

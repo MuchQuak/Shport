@@ -25,8 +25,15 @@ function App() {
     }
   return (
       <div className='container'>
-        <h1>Sports Dashboard</h1>
-        <Table teamData={teams} />
+          <h1 className='header'>Sports Dashboard</h1>
+          <div className='data'>
+              <div className='item'>
+                <p className='item-title'>Team Standings</p>
+                <div className='item-body'>
+                  <Table teamData={teams} />
+                </div>
+              </div>
+          </div>
       </div>
   );
 }
