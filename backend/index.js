@@ -1,26 +1,11 @@
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 5000;
 
-const teams = {
-    teams_list: [
-        {
-            name: 'Kings',
-            wins: 18,
-            losses: 34,
-        },
-        {
-            name: 'Warriors',
-            wins: 39,
-            losses: 13
-        },
-        {
-            name: 'Pelicans',
-            wins: 19,
-            losses: 32
-        }
-    ]
-}
+app.use(cors());
+
+const nbaServices = require('./models/nbaServices');
 
 app.use(express.json());
 
@@ -28,8 +13,16 @@ app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
 
-app.get('/teams', (req, res) => {
-    res.send(teams);
+app.get('/teams', async (req, res) => {
+    const team = req.query.team;
+
+    try {
+        const result = await nbaServices.getTeams(team);
+        res.send({team_list: result});         
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('An error ocurred in the server.');
+    }
 });
 
 app.listen(port, () => {
