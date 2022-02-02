@@ -1,11 +1,14 @@
+const cors = require('express');
 const express = require('express');
+
+
 const app = express();
+const port = 5000;
 
 app.use(cors());
 app.use(express.json());
-const port = 5000;
-const http = require('http');
 
+const http = require('http');
 const nbaServices = require('./models/nbaServices');
 
 app.get('/', (req, res) => {

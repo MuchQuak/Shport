@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import Table from './Table';
 import './App.css';
@@ -11,6 +12,7 @@ function App() {
                 setTeams(result);
         });
     }, [] );
+    
     async function fetchTeams(){
         try {
             const response = await axios.get('http://localhost:5000/teams');
