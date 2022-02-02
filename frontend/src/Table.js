@@ -13,28 +13,26 @@ function TableHeader() {
     );
 }
 
-function TableBody() {
+function TableBody(props) {
+    const rows = props.teamData.map((row, index) => {
+        return (
+            <tr key={index}>
+                <td>{row.name}</td>
+                <td>{row.wins}</td>
+                <td>{row.losses}</td>
+            </tr>
+        );
+    });
     return (
-        <tbody>
-        <tr>
-            <td>Kings</td>
-            <td>18</td>
-            <td>34</td>
-        </tr>
-        <tr>
-            <td>Warriors</td>
-            <td>39</td>
-            <td>13</td>
-        </tr>
-        </tbody>
+        <tbody>{rows}</tbody>
     );
 }
 
-function Table() {
+function Table(props) {
     return (
         <table className='data'>
             <TableHeader />
-            <TableBody />
+            <TableBody teamData={props.teamData} />
         </table>
     );
 }
