@@ -1,13 +1,11 @@
 const cors = require('cors');
 const express = require('express');
 const app = express();
-const cors = require('cors');
+
 app.use(cors());
 app.use(express.json());
 const port = 5000;
 const http = require('http');
-
-app.use(cors());
 
 const nbaServices = require('./models/nbaServices');
 
