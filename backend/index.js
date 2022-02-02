@@ -1,13 +1,14 @@
 const cors = require('cors');
 const express = require('express');
 const app = express();
+const cors = require('cors');
+app.use(cors());
+app.use(express.json());
 const port = 5000;
 
 app.use(cors());
 
 const nbaServices = require('./models/nbaServices');
-
-app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send("Backend Landing");
@@ -26,5 +27,5 @@ app.get('/teams', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Backend listening at http://localhost:${port}`);
 });
