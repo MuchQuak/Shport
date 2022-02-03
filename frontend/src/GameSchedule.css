@@ -50,6 +50,7 @@
 
 
 .game-left {
+    padding-left: 10px;
     width: 50%;
     display: flex;
     flex-flow: column nowrap;
@@ -57,6 +58,7 @@
 }
 
 .game-right {
+    padding-right: 10px;
     width: 50%;
     display: flex;
     flex-flow: column nowrap;
