@@ -23,6 +23,11 @@
     display: block;
 }
 
+.game-header p {
+    margin: 0 auto;
+    padding: 1px;
+}
+
 .game-data {
     width: 100%;
     display: flex;
@@ -37,10 +42,12 @@
     height: 40px;
 }
 
-.game p {
+.logo-container {
     margin: 0 auto;
     padding: 1px;
+    border-radius: 25%;
 }
+
 
 .game-left {
     width: 50%;
@@ -56,6 +63,36 @@
     text-align: center;
 }
 
+.game-name-record {
+    margin: 0 auto;
+    width: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    align-content: flex-start;
+}
+
+.game-team-name {
+    margin: 0;
+    padding: 0;
+}
+
+.game-record {
+    margin: 0;
+    padding-left: 5px;
+    font-size: 75%;
+}
+
+.score {
+    margin: 0 auto;
+    padding: 1px;
+    font-size: 120%;
+}
+
 .game-footer {
+    margin: 0 auto;
+    padding: 1px;
     font-size: 75%;
 }

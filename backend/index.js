@@ -31,7 +31,9 @@ function formatData(responseData) {
     for (var i = 0; i < games.length; i++) {
         var game = games[i];
         var new_game = {}
+        new_game.activated = game.isGameActivated;
         new_game.clock = game.clock;
+        new_game.halftime = game.period.isHalftime;
         new_game.arena = game.arena.name;
         new_game.startTimeEST = game.startTimeEastern;
         new_game.currentQtr = game.period.current;

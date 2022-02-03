@@ -8,21 +8,30 @@ function Schedule(props) {
         function ready(data) {
             return data !== "";
         }
+        function halftime() {
+            return game.halftime || (!ready(clock_data) && game.currentQtr == 2 && game.activated)
+        }
         const clock = function() {
-            if (!ready(clock_data)){
+            if (halftime()) {
+                return (<p>Halftime</p>)
+            }
+            if (!ready(clock_data) || !game.activated){
                 return (<p>{game.startTimeEST}</p>);
             }
             return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>)
         }
         const score = function(score) {
-            if (score === "" || !ready(clock_data)) {
+            if (score === "" || !game.activated) {
                 return (null);
             }
             return (<p className='score'>{score}</p>)
         }
         const logo = function(abbreviation) {
             var logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-            return (<img src={logo}/>)
+            return (<div className='logo-container'><img src={logo}/></div>)
+        }
+        const name_record = function (team, record) {
+            return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
         }
         return (
             <div className='game'>
@@ -32,12 +41,12 @@ function Schedule(props) {
                 <div className='game-data'>
                     <div className='game-left'>
                         {logo(game.home)}
-                        <p>{game.home} ({game.home_record})</p>
+                        {name_record(game.home, game.home_record)}
                         {score(game.home_score)}
                     </div>
                     <div className='game-right'>
                         {logo(game.away)}
-                        <p>{game.away} ({game.away_record})</p>
+                        {name_record(game.away, game.away_record)}
                         {score(game.away_score)}
                     </div>
                 </div>
