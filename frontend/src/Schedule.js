@@ -8,10 +8,16 @@ function Schedule(props) {
         function ready(data) {
             return data !== "";
         }
+        function over() {
+            return !game.halftime && !ready(clock_data) && game.currentQtr === 4 && game.endPeriod && game.activated
+        }
         function halftime() {
-            return game.halftime || (!ready(clock_data) && game.currentQtr === 2 && game.activated)
+            return game.halftime || (!ready(clock_data) && game.currentQtr === 2 && game.endPeriod && game.activated)
         }
         const clock = function() {
+            if (over()) {
+                return (<p>Final Score</p>)
+            }
             if (halftime()) {
                 return (<p><b>Halftime</b></p>)
             }
