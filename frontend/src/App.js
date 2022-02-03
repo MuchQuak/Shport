@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Table from './Table';
 import Schedule from './Schedule';
+import Article from './Article';
 import './App.css';
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
               <div className='item'>
                   <p className='item-title'>News Article</p>
                   <div className='item-body'>
-                      <p>BIG NBA NEWS! KINGS SIGNING PORZINGIS... LOREM IPSUM...</p>
+                      <Article about='test'/>
                   </div>
               </div>
           </div>
