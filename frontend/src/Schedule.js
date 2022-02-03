@@ -9,11 +9,11 @@ function Schedule(props) {
             return data !== "";
         }
         function halftime() {
-            return game.halftime || (!ready(clock_data) && game.currentQtr == 2 && game.activated)
+            return game.halftime || (!ready(clock_data) && game.currentQtr === 2 && game.activated)
         }
         const clock = function() {
             if (halftime()) {
-                return (<p>Halftime</p>)
+                return (<p><b>Halftime</b></p>)
             }
             if (!ready(clock_data) || !game.activated){
                 return (<p>{game.startTimeEST}</p>);
@@ -28,7 +28,7 @@ function Schedule(props) {
         }
         const logo = function(abbreviation) {
             var logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-            return (<div className='logo-container'><img src={logo}/></div>)
+            return (<div className='logo-container'><img src={logo} alt='logo'/></div>)
         }
         const name_record = function (team, record) {
             return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
