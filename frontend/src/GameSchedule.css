@@ -48,3 +48,7 @@
     flex-flow: column nowrap;
     text-align: center;
 }
+
+.game-footer {
+    font-size: 75%;
+}

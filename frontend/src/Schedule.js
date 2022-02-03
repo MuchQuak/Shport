@@ -10,9 +10,9 @@ function Schedule(props) {
         }
         const clock = function() {
             if (!ready(clock_data)){
-                return (null);
+                return (<p>{game.startTimeEST}</p>);
             }
-            return (<p>{clock_data} - ({game.currentQtr}/{game.maxQtr})</p>)
+            return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>)
         }
         const score = function(score) {
             if (score === "" || !ready(clock_data)) {
@@ -24,7 +24,6 @@ function Schedule(props) {
             <div className='game'>
                 <div className='game-header'>
                     {clock()}
-                    <p>{game.arena} - {game.startTimeEST}</p>
                 </div>
                 <div className='game-data'>
                     <div className='game-left'>
@@ -36,6 +35,7 @@ function Schedule(props) {
                         {score(game.away_score)}
                     </div>
                 </div>
+                <p class='game-footer'>{game.arena}</p>
             </div>
         );
     });
