@@ -31,6 +31,7 @@ function formatData(responseData) {
     for (var i = 0; i < games.length; i++) {
         var game = games[i];
         var new_game = {}
+        new_game.status = game.statusNum;
         new_game.activated = game.isGameActivated;
         new_game.endPeriod = game.period.isEndOfPeriod;
         new_game.clock = game.clock;

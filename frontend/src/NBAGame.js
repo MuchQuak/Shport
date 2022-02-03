@@ -9,7 +9,7 @@ function NBAGame(props) {
         return data !== "";
     }
     function over() {
-        return !game.halftime && !ready(clock_data) && game.currentQtr === 4 && game.endPeriod && game.activated
+        return game.status > 2 || (!game.halftime && !ready(clock_data) && game.currentQtr === 4 && game.endPeriod)
     }
     function halftime() {
         return game.halftime || (!ready(clock_data) && game.currentQtr === 2 && game.endPeriod && game.activated)
@@ -27,7 +27,7 @@ function NBAGame(props) {
         return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>)
     }
     const score = function(score) {
-        if (score === "" || !game.activated) {
+        if (score === "" || game.status <= 1) {
             return (null);
         }
         return (<p className='score'>{score}</p>)
