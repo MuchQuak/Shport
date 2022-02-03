@@ -30,6 +30,13 @@
     font-weight: bold;
 }
 
+.game-data img {
+    margin: 0 auto;
+    padding: 1px;
+    width: 40px;
+    height: 40px;
+}
+
 .game p {
     margin: 0 auto;
     padding: 1px;

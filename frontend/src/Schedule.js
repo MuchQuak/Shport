@@ -18,7 +18,11 @@ function Schedule(props) {
             if (score === "" || !ready(clock_data)) {
                 return (null);
             }
-            return (<p>{score}</p>)
+            return (<p className='score'>{score}</p>)
+        }
+        const logo = function(abbreviation) {
+            var logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+            return (<img src={logo}/>)
         }
         return (
             <div className='game'>
@@ -27,15 +31,17 @@ function Schedule(props) {
                 </div>
                 <div className='game-data'>
                     <div className='game-left'>
+                        {logo(game.home)}
                         <p>{game.home} ({game.home_record})</p>
                         {score(game.home_score)}
                     </div>
                     <div className='game-right'>
+                        {logo(game.away)}
                         <p>{game.away} ({game.away_record})</p>
                         {score(game.away_score)}
                     </div>
                 </div>
-                <p class='game-footer'>{game.arena}</p>
+                <p className='game-footer'>{game.arena}</p>
             </div>
         );
     });
