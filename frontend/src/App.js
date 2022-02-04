@@ -14,6 +14,8 @@ function App() {
     const [favTeamStatistics, setFavTeamStatistics] = useState([]);
     const [favTeam2, setFavTeam2] = useState([]);
     const [favTeamStatistics2, setFavTeamStatistics2] = useState([]);
+    const [favTeam3, setFavTeam3] = useState([]);
+    const [favTeamStatistics3, setFavTeamStatistics3] = useState([]);
 
     useEffect(() => {
         fetchTeams().then( result => {
@@ -30,6 +32,7 @@ function App() {
         });
         var favorite1 = 'SAC'
         var favorite2 = 'CHI'
+        var favorite3 = 'LAL'
         fetchFavTeam(favorite1).then( result => {
             if (result)
                 setFavTeam(result);
@@ -45,6 +48,14 @@ function App() {
         fetchFavTeamStatistics(favorite2).then( result => {
             if (result)
                 setFavTeamStatistics2(result);
+        });
+        fetchFavTeam(favorite3).then( result => {
+            if (result)
+                setFavTeam3(result);
+        });
+        fetchFavTeamStatistics(favorite3).then( result => {
+            if (result)
+                setFavTeamStatistics3(result);
         });
     }, [] );
     async function fetchTeams(){
@@ -129,6 +140,12 @@ function App() {
                           <TeamOverview team={favTeam2} stats={favTeamStatistics2}/>
                       </div>
                   </div>
+                  <div className='item'>
+                      <p className='item-title'>Team Overview</p>
+                      <div className='item-body'>
+                          <TeamOverview team={favTeam3} stats={favTeamStatistics3}/>
+                      </div>
+                  </div>
               </div>
           </div>
           <div className='third'>
@@ -142,7 +159,7 @@ function App() {
                   <div className='item'>
                       <p className='item-title'>News Article</p>
                       <div className='item-body'>
-                          <Article about='test number 1'/>
+                          <Article about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
                       </div>
                   </div>
                   <div className='item'>
