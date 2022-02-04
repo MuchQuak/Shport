@@ -21,6 +21,8 @@ const teamSchema = new mongoose.Schema({
   },
 }, {collection : 'team_list'});
 
+const host = 'data.nba.net'
+
 function getDbConnection() {
     const url = "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
     if (!dbConnection) {
@@ -49,7 +51,7 @@ async function getGames(req, res) {
   var today = new Date();
     var currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
     var options = {
-        host: 'data.nba.net',
+        host: host,
         path: '/10s/prod/v1/' + currentDate + '/scoreboard.json',
         method: 'GET'
     }
@@ -96,7 +98,7 @@ async function getTeams(req, res) {
   const id = req.params['id'];
   const year = (new Date().getFullYear() - 1).toString().trim()
   var options = {
-      host: 'data.nba.net',
+      host: host,
       path: '/10s/prod/v2/' + year + '/teams.json',
       method: 'GET'
   }
@@ -164,7 +166,7 @@ function formatStandingsData(responseData) {
 async function getStandings(req, res){
   const id = req.params['id'];
     var options = {
-        host: 'data.nba.net',
+        host: host,
         path: '/10s/prod/v1/current/standings_conference.json',
         method: 'GET'
     }
