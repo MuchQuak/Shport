@@ -77,3 +77,9 @@
     width: 100%;
     table-layout: fixed;
 }
+
+.logo-container {
+    margin: 0 auto;
+    padding: 1px;
+    border-radius: 25%;
+}

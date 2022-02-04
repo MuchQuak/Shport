@@ -35,19 +35,12 @@
     font-weight: bold;
 }
 
-.game-data img {
+.logo-container img {
     margin: 0 auto;
     padding: 1px;
     width: 40px;
     height: 40px;
 }
-
-.logo-container {
-    margin: 0 auto;
-    padding: 1px;
-    border-radius: 25%;
-}
-
 
 .game-left {
     padding-left: 10px;

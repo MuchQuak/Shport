@@ -4,10 +4,16 @@ import Table from './Table';
 import Schedule from './Schedule';
 import Article from './Article';
 import './App.css';
+import TeamOverview from "./TeamOverview";
 
 function App() {
     const [teams, setTeams] = useState([]);
     const [games, setGames] = useState([]);
+    const [nbaTeams, setNbaTeams] = useState([]);
+    const [favTeam, setFavTeam] = useState([]);
+    const [favTeamStatistics, setFavTeamStatistics] = useState([]);
+    const [favTeam2, setFavTeam2] = useState([]);
+    const [favTeamStatistics2, setFavTeamStatistics2] = useState([]);
 
     useEffect(() => {
         fetchTeams().then( result => {
@@ -17,6 +23,28 @@ function App() {
         fetchGames().then( result => {
             if (result)
                 setGames(result);
+        });
+        fetchNbaTeams().then( result => {
+            if (result)
+                setNbaTeams(result);
+        });
+        var favorite1 = 'SAC'
+        var favorite2 = 'CHI'
+        fetchFavTeam(favorite1).then( result => {
+            if (result)
+                setFavTeam(result);
+        });
+        fetchFavTeamStatistics(favorite1).then( result => {
+            if (result)
+                setFavTeamStatistics(result);
+        });
+        fetchFavTeam(favorite2).then( result => {
+            if (result)
+                setFavTeam2(result);
+        });
+        fetchFavTeamStatistics(favorite2).then( result => {
+            if (result)
+                setFavTeamStatistics2(result);
         });
     }, [] );
     async function fetchTeams(){
@@ -41,6 +69,39 @@ function App() {
             return false;
         }
     }
+    async function fetchNbaTeams(){
+        try {
+            const response = await axios.get('http://localhost:5000/nba/teams');
+            return response.data;
+        }
+        catch (error){
+            //Log error to console
+            console.log(error);
+            return false;
+        }
+    }
+    async function fetchFavTeam(interest){
+        try {
+            const response = await axios.get('http://localhost:5000/nba/teams/' + interest);
+            return response.data;
+        }
+        catch (error){
+            //Log error to console
+            console.log(error);
+            return false;
+        }
+    }
+    async function fetchFavTeamStatistics(interest){
+        try {
+            const response = await axios.get('http://localhost:5000/nba/standings/' + interest);
+            return response.data;
+        }
+        catch (error){
+            //Log error to console
+            console.log(error);
+            return false;
+        }
+    }
   return (
       <div className='container'>
           <h1 className='header'>Sports Dashboard</h1>
@@ -57,15 +118,15 @@ function App() {
           <div className='third'>
               <div className='items'>
                   <div className='item'>
-                      <p className='item-title'>News Article</p>
+                      <p className='item-title'>Team Overview</p>
                       <div className='item-body'>
-                          <Article about='test'/>
+                          <TeamOverview team={favTeam} stats={favTeamStatistics}/>
                       </div>
                   </div>
                   <div className='item'>
-                      <p className='item-title'>News Article</p>
+                      <p className='item-title'>Team Overview</p>
                       <div className='item-body'>
-                          <Article about='test number 2'/>
+                          <TeamOverview team={favTeam2} stats={favTeamStatistics2}/>
                       </div>
                   </div>
               </div>
@@ -81,7 +142,13 @@ function App() {
                   <div className='item'>
                       <p className='item-title'>News Article</p>
                       <div className='item-body'>
-                          <Article about='test number 3'/>
+                          <Article about='test number 1'/>
+                      </div>
+                  </div>
+                  <div className='item'>
+                      <p className='item-title'>News Article</p>
+                      <div className='item-body'>
+                          <Article about='test number 2'/>
                       </div>
                   </div>
               </div>
