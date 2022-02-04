@@ -44,23 +44,45 @@ function App() {
   return (
       <div className='container'>
           <h1 className='header'>Sports Dashboard</h1>
-          <div className='items'>
-              <div className='item'>
-                  <p className='item-title'>Today's NBA Schedule</p>
-                  <div className='item-body'>
-                    <Schedule gameData={games} />
+          <div className='third'>
+              <div className='items'>
+                  <div className='item'>
+                      <p className='item-title'>Today's NBA Schedule</p>
+                      <div className='item-body'>
+                        <Schedule className='nbaSchedule' gameData={games} />
+                      </div>
                   </div>
               </div>
-              <div className='item'>
-                <p className='item-title'>NBA Team Standings</p>
-                <div className='item-body'>
-                  <Table teamData={teams} />
-                </div>
+          </div>
+          <div className='third'>
+              <div className='items'>
+                  <div className='item'>
+                      <p className='item-title'>News Article</p>
+                      <div className='item-body'>
+                          <Article about='test'/>
+                      </div>
+                  </div>
+                  <div className='item'>
+                      <p className='item-title'>News Article</p>
+                      <div className='item-body'>
+                          <Article about='test number 2'/>
+                      </div>
+                  </div>
               </div>
-              <div className='item'>
-                  <p className='item-title'>News Article</p>
-                  <div className='item-body'>
-                      <Article about='test'/>
+          </div>
+          <div className='third'>
+              <div className='items'>
+                  <div className='item'>
+                      <p className='item-title'>NBA Team Standings</p>
+                      <div className='item-body'>
+                          <Table teamData={teams} />
+                      </div>
+                  </div>
+                  <div className='item'>
+                      <p className='item-title'>News Article</p>
+                      <div className='item-body'>
+                          <Article about='test number 3'/>
+                      </div>
                   </div>
               </div>
           </div>
