@@ -25,10 +25,10 @@ app.get('/teams', async (req, res) => {
 });
 
 app.get('/nba', async (req, res) =>{nba.getGames(req, res)});
-app.get('/nba/teams', (req, res) => {nba.getTeams(req, res)});
-app.get('/nba/teams/:id', (req, res) => {nba.getTeams(req, res)});
-app.get('/nba/standings', (req, res) => {nba.getStandings(req, res)});
-app.get('/nba/standings/:id', (req, res) => {nba.getStandings(req, res)});
+app.get('/nba/teams', async (req, res) => {nba.getTeams(req, res)});
+app.get('/nba/teams/:id', async (req, res) => {nba.getTeams(req, res)});
+app.get('/nba/standings', async (req, res) => {nba.getStandings(req, res)});
+app.get('/nba/standings/:id', async (req, res) => {nba.getStandings(req, res)});
 
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
