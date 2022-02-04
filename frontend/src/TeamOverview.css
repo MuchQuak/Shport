@@ -20,9 +20,18 @@
     height: 100px;
 }
 
+.overview-team-name {
+    color: #1f1f1f;
+    font-size: 23px;
+}
+
+.overview-stats {
+    color: #1f1f1f;
+    font-size: 18px;
+}
+
 .overview p {
     flex-basis: 70%;
-    font-size: 20px;
     font-weight: bold;
     margin: 0 auto;
     padding-left: 5px;

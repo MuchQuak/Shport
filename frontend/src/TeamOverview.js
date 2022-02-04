@@ -21,10 +21,10 @@ function TeamOverview(props) {
         <div className='overview'>
             {logo(code)}
             <div className='overview-header'>
-                <div><p>{favorite.full_name}</p></div>
+                <div><p className='overview-team-name'>{favorite.full_name}</p></div>
                 <p className='break'></p>
-                <div><p>{rank} in the {conference}</p></div>
-                <div><p>{wins}-{losses}</p></div>
+                <div><p className='overview-stats'>{rank} in the {conference}</p></div>
+                <div><p className='overview-stats'>{wins}-{losses}</p></div>
             </div>
         </div>
     );
