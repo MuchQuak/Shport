@@ -3,7 +3,10 @@ import './App.css';
 
 function Article(props) {
     return (
-        <p>Article about {props.about}</p>
+        <div className='article'>
+            <p className='article-date'>{props.date}</p>
+            <p className='article-body'>Article about {props.about}</p>
+        </div>
     );
 }
 

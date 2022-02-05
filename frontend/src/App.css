@@ -1,4 +1,4 @@
-.container {
+.content {
     margin: 0 auto;
     width: 100%;
     min-height: 100vh;
@@ -7,18 +7,18 @@
     flex-flow: row wrap;
     justify-content: space-around;
     align-items: flex-start;
-    align-content: space-around;
     background-color: #f5f5f5;
     text-align: center;
 }
 
 .header {
-    margin: 0 auto 50px;
+    margin: 0 auto 45px;
     height: 80px;
     width: 100%;
     text-align: left;
     background-color: #5259FF;
     box-shadow: 0px 5px #31318f;
+    align-self: flex-start;
 }
 
 .header-text {
@@ -62,17 +62,50 @@
 }
 
 .item-title {
+    width: 100%;
+    height: auto;
     margin: 0;
     padding: 5px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
     background-color: #5259FF;
-    text-align: center;
+}
+
+.item-title p {
+    width: 100%;
+    margin: 0;
     font-weight: bold;
     color: #ffffff;
 }
 
+.leftSpace {
+    height: 100%;
+    flex-basis: 10%;
+}
+
+.rightSpace {
+    height: 100%;
+    flex-basis: 10%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: flex-end;
+    align-items: center;
+}
+
+.closeButton {
+    margin: 0 auto;
+    height: 10px;
+    width: 10px;
+}
+
+.middleSpace {
+    height: 100%;
+    flex-basis: 80%;
+}
+
 .item-body {
-    margin: 0;
-    margin-top: 5px;
+    margin: 5px 0 0;
     padding: 2px;
     display: flex;
     flex-flow: column nowrap;
@@ -90,4 +123,29 @@
     margin: 0 auto;
     padding: 1px;
     border-radius: 25%;
+}
+
+.article {
+    margin: 0 auto;
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
+}
+
+.article-date {
+    margin: 0 0 2px;
+    width: 100%;
+    flex-basis: 100%;
+    font-weight: bold;
+}
+
+.article-body {
+    margin: 0;
+    width: 100%;
+    flex-basis: 100%;
 }

@@ -1,37 +1,84 @@
-@media all and (min-width: 480px) {
-    
 
-    .SignUp {
-      padding: 60px 0;
-      background-color: rgb(224, 94, 94);
-      padding-left: 50px;
-      padding-right: 50px;
-    }
-    .signUpLabel{
-        margin: 0 auto;
-        text-align: center;
-        padding-bottom: 60px ;
-    }
-  
-    .Login form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
-    
-    .passwordForm{
-        padding-bottom: 10px;
-    }
+.signup-content{
+  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
 
-    .submitButton{
-        padding-right: 145px;
-        padding-left: 125px;
-        margin-bottom: 5px;
-    }
-    .signUp{
-      padding-right: 130px;
-      padding-left: 118px;
-    }
+.signup {
+  margin: 0 auto;
+  min-width: 30%;
+  max-width: 350px;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background-color: #5259FF;
+  border-radius: 8px;
+  color: #FFFFFF;
+}
+
+.signup-name {
+  text-align: center;
+  margin: 0 auto 30px;
+}
 
 
-  }
-  
+.firstnameForm {
+  margin: 0;
+  width: 100%;
+  height: auto;
+}
+.lastnameForm {
+  margin: 0;
+  width: 100%;
+  height: auto;
+}
+
+.emailForm {
+  margin: 0;
+  width: 100%;
+  height: auto;
+}
+
+.passwordForm {
+  margin: 0 0 10px;
+  width: 100%;
+  height: auto;
+}
+
+
+.submit-button{
+    margin: 0;
+    width: 100%;
+    height: auto;
+    background-color: #31318f;
+}
+
+.submit-button:disabled {
+  background-color: #111133;
+  color: #FFFFFF;
+}
+
+.submit-button:hover {
+  background-color: #4343cc;
+}
+
+#submit {
+  margin: 0 0 5px;
+}
+
+.have-account{
+  margin: 0;
+  width: 100%;
+  height: auto;
+}

@@ -1,35 +1,74 @@
-@media all and (min-width: 480px) {
-    
+.login-content {
+    margin: 0 auto;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
 
-    .Login {
-      padding: 60px 0;
-      background-color: rgb(224, 94, 94);
-    }
-    .websiteName{
-        margin: 0 auto;
-        text-align: center;
-        padding-bottom: 60px ;
-    }
-  
-    .Login form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
-    
-    .passwordForm{
-        padding-bottom: 10px;
-    }
+.login {
+    margin: 0 auto;
+    min-width: 30%;
+    max-width: 350px;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: #5259FF;
+    border-radius: 8px;
+    color: #FFFFFF;
+}
 
-    .submitButton{
-        padding-right: 145px;
-        padding-left: 125px;
-        margin-bottom: 5px;
-    }
-    .signUp{
-      padding-right: 130px;
-      padding-left: 118px;
-    }
+.websiteName {
+    text-align: center;
+    margin: 0 auto 30px;
+}
 
+.login form {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
 
-  }
-  
+.emailForm {
+    margin: 0;
+    width: 100%;
+    height: auto;
+}
+
+.passwordForm {
+    margin: 0 0 10px;
+    width: 100%;
+    height: auto;
+}
+
+.login-button {
+    margin: 0;
+    width: 100%;
+    height: auto;
+    background-color: #31318f;
+}
+
+.login-button:disabled {
+    background-color: #111133;
+    color: #FFFFFF;
+}
+
+.login-button:hover {
+    background-color: #4343cc;
+}
+
+#submit {
+    margin: 0 0 5px;
+}
