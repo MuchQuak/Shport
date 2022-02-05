@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import './SignUp.css';
 
 
@@ -9,6 +9,8 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+
 
   function validateForm() {
     let usernameValidation = validateUsername();
@@ -41,6 +43,8 @@ export default function SignUp() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    navigate('../', {replace:true});
+    alert("username" + username + "email:" + email + "\npassword" + password);
   }
 
   return (
@@ -69,9 +73,7 @@ export default function SignUp() {
                           <Form.Check disabled type={type} label={`MLB`} id={`3`}/>
                       </div>
                     ))}
-                    <Link to="/"className="submit-button" onClick={validateForm() === 0 && handleSubmit}>
-                        <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
-                    </Link>
+                    <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
                     
                     <Link to="/Login">
                         <p className="have-account">Already registered? Sign in</p>
