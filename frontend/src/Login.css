@@ -24,6 +24,7 @@
     background-color: #5259FF;
     border-radius: 8px;
     color: #FFFFFF;
+    box-shadow:inset 0px 0px 4px 2px #4146cc;
 }
 
 .websiteName {
