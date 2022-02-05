@@ -1,4 +1,4 @@
-.signup-content{
+.signup-content {
   margin: 0 auto;
   width: 100%;
   min-height: 100vh;
@@ -24,6 +24,7 @@
   background-color: #5259FF;
   border-radius: 8px;
   color: #FFFFFF;
+  box-shadow:inset 0px 0px 4px 2px #4146cc;
 }
 
 .signup form {
@@ -59,7 +60,6 @@
   width: 100%;
   height: auto;
 }
-
 
 .submit-button{
     margin: 0;

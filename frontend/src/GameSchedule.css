@@ -16,7 +16,7 @@
     flex-flow: column nowrap;
     background-color: #5259FF;
     color: #ffffff;
-    box-shadow: 0px 3px #31318f;
+    box-shadow: inset 0px 0px 2px 1px #4146cc, 0px 3px #31318f;
 }
 
 .game-header {

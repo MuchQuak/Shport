@@ -16,6 +16,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 
 
+<<<<<<< HEAD
 ReactDOM.render(
    <BrowserRouter>
    <Routes>
@@ -28,3 +29,11 @@ ReactDOM.render(
  </BrowserRouter>, 
    document.getElementById('root'
 ));
+=======
+/*
+   -- Login Page Testing --
+   Need to uncomment this but comment out the ReactDom.render from above
+   Also need to call [npm install react-bootstrap bootstrap@5.1.3] on the frontend to install react-bootstrap*/
+
+ReactDOM.render(<App />, document.getElementById('root'));
+>>>>>>> 1f67f982ce060828c9031077294426c9ca9a277b
