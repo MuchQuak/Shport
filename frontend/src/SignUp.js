@@ -50,11 +50,11 @@ export default function SignUp() {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="usernameForm" size="lg" controlId="username">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <Form.Control autoFocus type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="emailForm" size="lg" controlId="email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control autoFocus type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="passwordForm" size="lg" controlId="password">
                         <Form.Label>Password</Form.Label>
@@ -70,12 +70,12 @@ export default function SignUp() {
                       </div>
                     ))}
                     <Link to="/"className="submit-button" onClick={validateForm() === 0 && handleSubmit}>
-                      <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
+                        <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
                     </Link>
                     
                     <Link to="/Login">
-                      <p className="have-account">Already registered? Sign in</p>
-                      </Link>
+                        <p className="have-account">Already registered? Sign in</p>
+                    </Link>
                 </Form>
             </div>
         </div>
