@@ -4,6 +4,7 @@ import Table from './Table';
 import Schedule from './Schedule';
 import Article from './Article';
 import './App.css';
+import NavBar from './NavBar';
 import TeamOverview from "./TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
@@ -121,7 +122,7 @@ function App() {
     }
   return (
       <div className='content'>
-          <div className='header'><h1 className='header-text'>Sports Dashboard</h1></div>
+          <NavBar/>
           <ThirdContent>
               <CloseableItem title='NBA Schedule'><Schedule className='nbaSchedule' gameData={games} /></CloseableItem>
           </ThirdContent>

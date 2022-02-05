@@ -62,6 +62,7 @@
 
 .login-button:disabled {
     background-color: #111133;
+    pointer-events: none;
     color: #FFFFFF;
 }
 

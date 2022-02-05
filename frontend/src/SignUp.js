@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import './SignUp.css';
 
 
@@ -10,9 +11,17 @@ export default function SignUp() {
   const [username, setUsername] = useState("");
 
   function validateForm() {
+    let usernameValidation = validateUsername();
     let emailValidation = validateEmail();
     let passwordValidation = validatePassword();
-    return emailValidation && passwordValidation;
+    return usernameValidation && emailValidation && passwordValidation;
+  }
+
+  function validateUsername(){
+    if(username.length > 0){
+        return 1;
+    }
+    return 0;
   }
 
 
@@ -60,8 +69,13 @@ export default function SignUp() {
                           <Form.Check disabled type={type} label={`MLB`} id={`3`}/>
                       </div>
                     ))}
-                    <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
-                    <p className="have-account">Already registered? <a href="#">Sign in</a></p>
+                    <Link to="/"className="submit-button" onClick={validateForm() === 0 && handleSubmit}>
+                      <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
+                    </Link>
+                    
+                    <Link to="/Login">
+                      <p className="have-account">Already registered? Sign in</p>
+                      </Link>
                 </Form>
             </div>
         </div>

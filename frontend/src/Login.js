@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import './Login.css';
+
 
 
 export default function Login() {
@@ -46,8 +48,12 @@ export default function Login() {
                       <Form.Label>Password</Form.Label>
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </Form.Group>
-                  <Button className="login-button" id="login" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
-                  <Button className="login-button" id="signup" block size="lg" type="button">Sign Up</Button>
+                  <Link to="/"className="login-button" onClick={validateForm() === 0 && handleSubmit}>
+                    <Button className="login-button" id="login" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                  </Link> 
+                  <Link to="/SignUp" className="login-button">
+                    <Button className="login-button" id="signup" block size="lg" type="button">Sign Up</Button>
+                  </Link>
               </Form>
           </div>
       </div>
