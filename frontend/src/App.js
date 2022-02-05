@@ -133,10 +133,10 @@ function App() {
           <ThirdContent>
               <CloseableItem title='NBA Standings'><Table teamData={teams} /></CloseableItem>
               <CloseableItem title='News Article 1'>
-                  <Article about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
+                  <Article date='2022-02-03' about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
               </CloseableItem>
               <CloseableItem title='News Article 2'>
-                  <Article about='test number 2'/>
+                  <Article date='2022-02-03' about='test number 2'/>
               </CloseableItem>
           </ThirdContent>
       </div>

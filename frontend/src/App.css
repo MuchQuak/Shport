@@ -124,3 +124,28 @@
     padding: 1px;
     border-radius: 25%;
 }
+
+.article {
+    margin: 0 auto;
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
+}
+
+.article-date {
+    margin: 0 0 2px;
+    width: 100%;
+    flex-basis: 100%;
+    font-weight: bold;
+}
+
+.article-body {
+    margin: 0;
+    width: 100%;
+    flex-basis: 100%;
+}
