@@ -1,0 +1,35 @@
+@media all and (min-width: 480px) {
+    
+
+    .Login {
+      padding: 60px 0;
+      background-color: rgb(224, 94, 94);
+    }
+    .websiteName{
+        margin: 0 auto;
+        text-align: center;
+        padding-bottom: 60px ;
+    }
+  
+    .Login form {
+      margin: 0 auto;
+      max-width: 320px;
+    }
+    
+    .passwordForm{
+        padding-bottom: 10px;
+    }
+
+    .submitButton{
+        padding-right: 145px;
+        padding-left: 125px;
+        margin-bottom: 5px;
+    }
+    .signUp{
+      padding-right: 130px;
+      padding-left: 118px;
+    }
+
+
+  }
+  
