@@ -1,4 +1,3 @@
-
 .signup-content{
   margin: 0 auto;
   width: 100%;
@@ -27,18 +26,23 @@
   color: #FFFFFF;
 }
 
+.signup form {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  text-align: left;
+}
+
 .signup-name {
   text-align: center;
   margin: 0 auto 30px;
 }
 
-
-.firstnameForm {
-  margin: 0;
-  width: 100%;
-  height: auto;
-}
-.lastnameForm {
+.usernameForm {
   margin: 0;
   width: 100%;
   height: auto;
@@ -79,6 +83,16 @@
 
 .have-account{
   margin: 0;
+  width: 100%;
+  height: auto;
+}
+
+.have-account a {
+  color: #FFFFFF;
+}
+
+.preferences {
+  margin: 0 0 1px;
   width: 100%;
   height: auto;
 }
