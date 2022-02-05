@@ -85,10 +85,9 @@
   margin: 0;
   width: 100%;
   height: auto;
-}
-
-.have-account a {
   color: #FFFFFF;
+  text-decoration: underline;
+  text-decoration-color: #FFFFFF;
 }
 
 .preferences {

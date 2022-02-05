@@ -121,26 +121,28 @@ function App() {
         return (<TeamOverview team={teamInfo} stats={teamStats}/>);
     }
   return (
-      <div className='content'>
+      <>
           <NavBar/>
-          <ThirdContent>
-              <CloseableItem title='NBA Schedule'><Schedule className='nbaSchedule' gameData={games} /></CloseableItem>
-          </ThirdContent>
-          <ThirdContent>
-              <CloseableItem title='Team Overview'>{teamOverview(favTeam, favTeamStatistics)}</CloseableItem>
-              <CloseableItem title='Team Overview'>{teamOverview(favTeam2, favTeamStatistics2)}</CloseableItem>
-              <CloseableItem title='Team Overview'>{teamOverview(favTeam3, favTeamStatistics3)}</CloseableItem>
-          </ThirdContent>
-          <ThirdContent>
-              <CloseableItem title='NBA Standings'><Table teamData={teams} /></CloseableItem>
-              <CloseableItem title='News Article 1'>
-                  <Article date='2022-02-03' about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
-              </CloseableItem>
-              <CloseableItem title='News Article 2'>
-                  <Article date='2022-02-03' about='test number 2'/>
-              </CloseableItem>
-          </ThirdContent>
-      </div>
+          <div className='content'>
+              <ThirdContent>
+                  <CloseableItem title='NBA Schedule'><Schedule className='nbaSchedule' gameData={games} /></CloseableItem>
+              </ThirdContent>
+              <ThirdContent>
+                  <CloseableItem title='Team Overview'>{teamOverview(favTeam, favTeamStatistics)}</CloseableItem>
+                  <CloseableItem title='Team Overview'>{teamOverview(favTeam2, favTeamStatistics2)}</CloseableItem>
+                  <CloseableItem title='Team Overview'>{teamOverview(favTeam3, favTeamStatistics3)}</CloseableItem>
+              </ThirdContent>
+              <ThirdContent>
+                  <CloseableItem title='NBA Standings'><Table teamData={teams} /></CloseableItem>
+                  <CloseableItem title='News Article 1'>
+                      <Article date='2022-02-03' about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
+                  </CloseableItem>
+                  <CloseableItem title='News Article 2'>
+                      <Article date='2022-02-03' about='test number 2'/>
+                  </CloseableItem>
+              </ThirdContent>
+          </div>
+      </>
   );
 }
 
