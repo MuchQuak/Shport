@@ -44,7 +44,7 @@ export default function SignUp() {
   function handleSubmit(event) {
     event.preventDefault();
     navigate('../', {replace:true});
-    alert("username" + username + "email:" + email + "\npassword" + password);
+    alert("username: " + username + "\nemail: " + email + "\npassword: " + password);
   }
 
   return (

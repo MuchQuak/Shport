@@ -34,7 +34,7 @@ export default function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     navigate('../', {replace:true});
-    alert("email:" + email + "\npassword" + password);
+    alert("email: " + email + "\npassword: " + password);
   }
 
   return (
