@@ -5,6 +5,8 @@ import Schedule from './Schedule';
 import Article from './Article';
 import './App.css';
 import TeamOverview from "./TeamOverview";
+import CloseableItem from "./CloseableItem";
+import ThirdContent from "./ThirdContent";
 
 function App() {
     const [teams, setTeams] = useState([]);
@@ -30,9 +32,10 @@ function App() {
             if (result)
                 setNbaTeams(result);
         });
-        var favorite1 = 'SAC'
-        var favorite2 = 'CHI'
-        var favorite3 = 'LAL'
+        const teams = ['ATL', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL',  'DEN', 'DET', 'GSW',  'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOH', 'NYK', 'BKN', 'OKC', 'ORL', 'PHI', 'PHO', 'POR', 'SAC', 'TOR', 'UTH', 'WAS']
+        var favorite1 = teams.splice(Math.floor(Math.random() * teams.length), 1);
+        var favorite2 = teams.splice(Math.floor(Math.random() * teams.length), 1);
+        var favorite3 = teams.splice(Math.floor(Math.random() * teams.length), 1);
         fetchFavTeam(favorite1).then( result => {
             if (result)
                 setFavTeam(result);
@@ -113,63 +116,29 @@ function App() {
             return false;
         }
     }
+    const teamOverview = (teamInfo, teamStats) => {
+        return (<TeamOverview team={teamInfo} stats={teamStats}/>);
+    }
   return (
-      <div className='container'>
+      <div className='content'>
           <div className='header'><h1 className='header-text'>Sports Dashboard</h1></div>
-          <div className='third'>
-              <div className='items'>
-                  <div className='item'>
-                      <p className='item-title'>Today's NBA Schedule</p>
-                      <div className='item-body'>
-                        <Schedule className='nbaSchedule' gameData={games} />
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div className='third'>
-              <div className='items'>
-                  <div className='item'>
-                      <p className='item-title'>Team Overview</p>
-                      <div className='item-body'>
-                          <TeamOverview team={favTeam} stats={favTeamStatistics}/>
-                      </div>
-                  </div>
-                  <div className='item'>
-                      <p className='item-title'>Team Overview</p>
-                      <div className='item-body'>
-                          <TeamOverview team={favTeam2} stats={favTeamStatistics2}/>
-                      </div>
-                  </div>
-                  <div className='item'>
-                      <p className='item-title'>Team Overview</p>
-                      <div className='item-body'>
-                          <TeamOverview team={favTeam3} stats={favTeamStatistics3}/>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div className='third'>
-              <div className='items'>
-                  <div className='item'>
-                      <p className='item-title'>NBA Team Standings</p>
-                      <div className='item-body'>
-                          <Table teamData={teams} />
-                      </div>
-                  </div>
-                  <div className='item'>
-                      <p className='item-title'>News Article</p>
-                      <div className='item-body'>
-                          <Article about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
-                      </div>
-                  </div>
-                  <div className='item'>
-                      <p className='item-title'>News Article</p>
-                      <div className='item-body'>
-                          <Article about='test number 2'/>
-                      </div>
-                  </div>
-              </div>
-          </div>
+          <ThirdContent>
+              <CloseableItem title='Team Overview'><Schedule className='nbaSchedule' gameData={games} /></CloseableItem>
+          </ThirdContent>
+          <ThirdContent>
+              <CloseableItem title='Team Overview'>{teamOverview(favTeam, favTeamStatistics)}</CloseableItem>
+              <CloseableItem title='Team Overview'>{teamOverview(favTeam2, favTeamStatistics2)}</CloseableItem>
+              <CloseableItem title='Team Overview'>{teamOverview(favTeam3, favTeamStatistics3)}</CloseableItem>
+          </ThirdContent>
+          <ThirdContent>
+              <CloseableItem title='NBA Standings'><Table teamData={teams} /></CloseableItem>
+              <CloseableItem title='News Article 1'>
+                  <Article about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
+              </CloseableItem>
+              <CloseableItem title='News Article 2'>
+                  <Article about='test number 2'/>
+              </CloseableItem>
+          </ThirdContent>
       </div>
   );
 }
