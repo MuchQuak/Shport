@@ -5,7 +5,7 @@
     height: 100%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: flex-start;
     background-color: inherit;
     text-align: center;
@@ -32,14 +32,14 @@
 
 .third {
     flex-shrink: 0;
-    width: 33.33%;
+    width: 30%;
     min-width: 400px;
     margin-bottom: 10px;
 }
 
 .items {
     margin: auto;
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
