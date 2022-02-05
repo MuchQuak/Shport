@@ -115,7 +115,7 @@ function App() {
     }
   return (
       <div className='container'>
-          <h1 className='header'>Sports Dashboard</h1>
+          <div className='header'><h1 className='header-text'>Sports Dashboard</h1></div>
           <div className='third'>
               <div className='items'>
                   <div className='item'>

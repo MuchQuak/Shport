@@ -14,6 +14,22 @@ function NBAGame(props) {
     function halftime() {
         return game.halftime || (!ready(clock_data) && game.currentQtr === 2 && game.endPeriod && game.activated)
     }
+    function starttime() {
+        const today = new Date();
+        const currentDate = today.getFullYear() + "-" +
+            String(today.getMonth() + 1).padStart(2, '0') + "-" +
+            String(today.getDate()).padStart(2, '0');
+        const startTime = String(game.startTimeEST)
+            .replace(' ', '')
+            .replace('PM', '')
+            .replace('AM', '')
+            .replace('ET', '')
+            .trim().padStart(5, '0');
+        const dateString = currentDate + 'T' + startTime + ':00.000-05:00';
+        const date = new Date(dateString);
+        return date.toTimeString().substr(0, 5) + ' ' +
+            date.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
+    }
     const clock = function() {
         if (over()) {
             return (<p>Final Score</p>)
@@ -22,7 +38,7 @@ function NBAGame(props) {
             return (<p><b>Halftime</b></p>)
         }
         if (!ready(clock_data) || !game.activated){
-            return (<p>{game.startTimeEST}</p>);
+            return (<p>{starttime()}</p>);
         }
         return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>)
     }
