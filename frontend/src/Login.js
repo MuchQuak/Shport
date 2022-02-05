@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import './Login.css';
@@ -9,6 +9,7 @@ import './Login.css';
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function validateForm() {
     let emailValidation = validateEmail();
@@ -32,6 +33,8 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    navigate('../', {replace:true});
+    alert("email:" + email + "\npassword" + password);
   }
 
   return (
@@ -48,9 +51,7 @@ export default function Login() {
                       <Form.Label>Password</Form.Label>
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </Form.Group>
-                  <Link to="/"className="login-button" onClick={validateForm() === 0 && handleSubmit}>
                     <Button className="login-button" id="login" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
-                  </Link> 
                   <Link to="/SignUp" className="login-button">
                     <Button className="login-button" id="signup" block size="lg" type="button">Sign Up</Button>
                   </Link>
