@@ -123,7 +123,7 @@ function App() {
       <div className='content'>
           <div className='header'><h1 className='header-text'>Sports Dashboard</h1></div>
           <ThirdContent>
-              <CloseableItem title='Team Overview'><Schedule className='nbaSchedule' gameData={games} /></CloseableItem>
+              <CloseableItem title='NBA Schedule'><Schedule className='nbaSchedule' gameData={games} /></CloseableItem>
           </ThirdContent>
           <ThirdContent>
               <CloseableItem title='Team Overview'>{teamOverview(favTeam, favTeamStatistics)}</CloseableItem>
