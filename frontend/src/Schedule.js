@@ -6,7 +6,7 @@ import NBAGame from "./NBAGame";
 
 function Schedule(props) {
     const games = props.gameData.map((game, index) => {
-        return (<NBAGame game={game} />);
+        return (<NBAGame game={game} key={index} />);
     });
     return (
         <div className='schedule'>{games}</div>
