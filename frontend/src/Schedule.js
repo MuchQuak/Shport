@@ -5,7 +5,10 @@ import './NBAGame.js'
 import NBAGame from "./NBAGame";
 
 function Schedule(props) {
-    const games = props.gameData.map((game, index) => {
+    if (!props.games) {
+        return null;
+    }
+    const games = props.games.map((game, index) => {
         return (<NBAGame game={game} key={index} />);
     });
     return (

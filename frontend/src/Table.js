@@ -14,7 +14,10 @@ function TableHeader() {
 }
 
 function TableBody(props) {
-    const rows = props.teamData.map((row, index) => {
+    if (!props.teams) {
+        return null;
+    }
+    const rows = props.teams.map((row, index) => {
         return (
             <tr key={index}>
                 <td>{row.name}</td>

@@ -117,50 +117,53 @@ async function getTeams(req, res) {
   }).end();
 }
 
-  function formatTeamsData(responseData) {
-    var old_teams = JSON.parse(responseData).league.standard;
-    var teams = {};
-    for (var i = 0; i < old_teams.length; i++) {
-        var team = old_teams[i];
-        var new_team = {}
-        new_team.code = team.tricode
-        new_team.name = team.nickname
-        new_team.full_name = team.fullName
-        new_team.city = team.city
-        teams[team.tricode] = new_team;
+function formatTeamsData(responseData) {
+    const old_teams = JSON.parse(responseData)['league']['standard'];
+    const teams = {};
+    for (let i = 0; i < old_teams.length; i++) {
+        const team = old_teams[i];
+        const new_team = {};
+        const code = team['tricode'];
+        new_team.code = code;
+        new_team.name = team['nickname'];
+        new_team.full_name = team['fullName'];
+        new_team.city = team['city'];
+        teams[code] = new_team;
     }
-    return teams;
+    return {teams: teams};
 }
 
 function formatStandingsData(responseData) {
-  var east = JSON.parse(responseData).league.standard.conference.east;
-  var west = JSON.parse(responseData).league.standard.conference.west;
-  var new_teams = {}
-  for (var i = 0; i < east.length; i++) {
-      var team = east[i];
-      var new_team = {}
-      new_team.code = team.teamSitesOnly.teamTricode
-      new_team.name = team.teamSitesOnly.teamNickname
-      new_team.city = team.teamSitesOnly.teamName
-      new_team.conference = 'east'
-      new_team.rank = team.confRank;
-      new_team.wins = team.win;
-      new_team.losses = team.loss;
-      new_teams[team.teamSitesOnly.teamTricode] = new_team;
-  }
-  for (var i = 0; i < west.length; i++) {
-      var team = west[i];
-      var new_team = {}
-      new_team.code = team.teamSitesOnly.teamTricode
-      new_team.name = team.teamSitesOnly.teamNickname
-      new_team.city = team.teamSitesOnly.teamName
-      new_team.conference = 'west'
-      new_team.rank = team.confRank;
-      new_team.wins = team.win;
-      new_team.losses = team.loss;
-      new_teams[team.teamSitesOnly.teamTricode] = new_team;
-  }
-  return new_teams;
+    const east = JSON.parse(responseData)['league']['standard']['conference']['east'];
+    const west = JSON.parse(responseData)['league']['standard']['conference']['west'];
+    const new_teams = {};
+    for (let i = 0; i < east.length; i++) {
+        const team = east[i];
+        const new_team = {};
+        const code = team['teamSitesOnly']['teamTricode'];
+        new_team.code = code;
+        new_team.name = team['teamSitesOnly']['teamNickname'];
+        new_team.city = team['teamSitesOnly']['teamName'];
+        new_team.conference = 'east';
+        new_team.rank = team['confRank'];
+        new_team.wins = team['win'];
+        new_team.losses = team['loss'];
+        new_teams[code] = new_team;
+    }
+    for (let i = 0; i < west.length; i++) {
+        const team = west[i];
+        const new_team = {};
+        const code = team['teamSitesOnly']['teamTricode'];
+        new_team.code = code;
+        new_team.name = team['teamSitesOnly']['teamNickname'];
+        new_team.city = team['teamSitesOnly']['teamName'];
+        new_team.conference = 'west';
+        new_team.rank = team['confRank'];
+        new_team.wins = team['win'];
+        new_team.losses = team['loss'];
+        new_teams[code] = new_team;
+    }
+    return {teams: new_teams};
 }
 
 async function getStandings(req, res){
@@ -179,7 +182,7 @@ async function getStandings(req, res){
             if(id === undefined)
                 res.send(formatStandingsData(body));
             else
-                res.send(formatStandingsData(body)[id]);
+                res.send(formatStandingsData(body)['teams'][id]);
         });
     }).end();
 }
