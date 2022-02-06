@@ -13,7 +13,7 @@ export default function SignUp(props) {
 
 
   function validateForm() {
-    return validateUsername() && validateEmail() && validatePassword;
+    return validateUsername() && validateEmail() && validatePassword();
   }
 
   function validateUsername(){
