@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import './SignUp.css';
 
 
-export default function SignUp() {
+export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -20,31 +20,37 @@ export default function SignUp() {
   }
 
   function validateUsername(){
-    if(username.length > 0){
-        return 1;
-    }
-    return 0;
+    return username.length > 0;
   }
 
-
   function validatePassword(){
-    if(password.length > 0){
-        return 1;
-    }
-    return 0;
+    return password.length > 0;
   }
 
   function validateEmail(){
-    if(email.length > 0){
-      return 1;
-    }
-    return 0;
+    return email.length > 0;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    navigate('../', {replace:true});
+    if(testNewUser()){ // looks for duplicates in the database
+      /* create new user object 
+        ---  placeholder for now ---
+
+      */
+      navigate('../', {replace:true});
+    }
+    else{
+      alert("Duplicate!!!");
+    }
+
     alert("username: " + username + "\nemail: " + email + "\npassword: " + password);
+  }
+
+  function testNewUser(){
+    // allow duplicates for now
+    // In our case we look if that username or email have been entered.
+    return true;
   }
 
   return (
