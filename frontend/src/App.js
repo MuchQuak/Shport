@@ -11,15 +11,11 @@ import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
 
 function App() {
-    /*
-    //
-    // -- Instructions to see input from user --
-    // [1] Need to login once if you don't it crashes because location.state.email is NULL
-    // [2] uncomment the lines below
-    // --------------------------------
+    // -- See input from login or sign up --
     const location = useLocation();
-    alert("User landing page\nemail: " + location.state.email + "\npassword: " + location.state.password);
-    */
+    if(location.state != null){
+        alert("User landing page\n\nusername:\t" + location.state.username +"\nemail:\t\t" + location.state.email + "\npassword:\t" + location.state.password);
+    }
 
     const [teams, setTeams] = useState([]);
     const [games, setGames] = useState([]);

@@ -13,10 +13,7 @@ export default function SignUp(props) {
 
 
   function validateForm() {
-    let usernameValidation = validateUsername();
-    let emailValidation = validateEmail();
-    let passwordValidation = validatePassword();
-    return usernameValidation && emailValidation && passwordValidation;
+    return validateUsername() && validateEmail() && validatePassword;
   }
 
   function validateUsername(){
@@ -34,22 +31,28 @@ export default function SignUp(props) {
   function handleSubmit(event) {
     event.preventDefault();
     if(testNewUser()){ // looks for duplicates in the database
-      /* create new user object 
-        ---  placeholder for now ---
+      //  create new user object --- hardcoded for now for now ---
+      //  currently preferences dont work
+      const newUser = { // ------------ User schema?
+        "email": email,
+        "username":username,
+        "password": password,
+        "no_preferences":true,
+        "nba":false,
+        "nfl":false,
+        "mlb":false
+      };
 
-      */
-      navigate('../', {replace:true});
+      navigate('../', {replace:true, state: newUser});
     }
     else{
       alert("Duplicate!!!");
     }
-
-    alert("username: " + username + "\nemail: " + email + "\npassword: " + password);
   }
 
   function testNewUser(){
     // allow duplicates for now
-    // In our case we look if that username or email have been entered.
+    // In our case we look if that username or email have been entered in the database.
     return true;
   }
 

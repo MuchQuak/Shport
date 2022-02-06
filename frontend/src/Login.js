@@ -16,16 +16,14 @@ export default function Login(props) {
     "email": "test@g.com",
     "username":"testUSER",
     "password": "123",
-    "no_perferences":true, 
+    "no_preferences":true, 
     "nba":false,
     "nfl":false,
     "mlb":false
   };
 
   function validateForm() {
-    let emailValidation = validateEmail();
-    let passwordValidation = validatePassword();
-    return emailValidation && passwordValidation;
+    return validateEmail() && validatePassword();
   }
 
   function validatePassword(){
@@ -45,8 +43,6 @@ export default function Login(props) {
     else{
       alert("Not valid email or password\nHINT: Look at the dummy user in Login.js");
     }
-    alert("email: " + email + "\npassword: " + password);
-
   }
 
   // Simple test for the user input and the dummy user
