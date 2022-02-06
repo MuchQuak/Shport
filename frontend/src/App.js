@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useLocation} from 'react-router-dom';
 import axios from 'axios';
 import Table from './Table';
 import Schedule from './Schedule';
@@ -10,6 +11,16 @@ import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
 
 function App() {
+    /*
+    //
+    // -- Instructions to see input from user --
+    // [1] Need to login once if you don't it crashes because location.state.email is NULL
+    // [2] uncomment the lines below
+    // --------------------------------
+    const location = useLocation();
+    alert("User landing page\nemail: " + location.state.email + "\npassword: " + location.state.password);
+    */
+
     const [teams, setTeams] = useState([]);
     const [games, setGames] = useState([]);
     const [nbaTeams, setNbaTeams] = useState([]);
