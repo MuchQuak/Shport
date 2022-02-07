@@ -6,9 +6,21 @@ app.use(cors());
 app.use(express.json());
 
 const nba = require('./models/nbaServices');
+const userServices = require('./models/userServices');
+
 
 app.get('/', (req, res) => {
     res.send("Backend Landing");
+});
+
+//User db calls
+app.post('/users', async (req, res) => {
+    const user = req.body;
+    const savedUser = await userServices.signUpUser(user);
+    if (savedUser)
+        res.status(201).send();
+    else
+        res.status(500).end();
 });
 
 //NBA api Calls
