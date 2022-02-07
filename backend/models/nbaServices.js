@@ -115,19 +115,19 @@ async function getTeams(req, res) {
   }).end();
 }
 
-  function formatTeamsData(responseData) {
-    var old_teams = JSON.parse(responseData).league.standard;
-    var teams = {};
-    for (var i = 0; i < old_teams.length; i++) {
-        var team = old_teams[i];
-        var new_team = {}
-        new_team.code = team.tricode
-        new_team.name = team.nickname
-        new_team.full_name = team.fullName
-        new_team.city = team.city
-        teams[team.tricode] = new_team;
-    }
-    return teams;
+function formatTeamsData(responseData) {
+  var old_teams = JSON.parse(responseData).league.standard;
+  var teams = {};
+  for (var i = 0; i < old_teams.length; i++) {
+      var team = old_teams[i];
+      var new_team = {}
+      new_team.code = team.tricode
+      new_team.name = team.nickname
+      new_team.full_name = team.fullName
+      new_team.city = team.city
+      teams[team.tricode] = new_team;
+  }
+  return teams;
 }
 
 function formatStandingsData(responseData) {
