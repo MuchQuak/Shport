@@ -8,12 +8,13 @@
 .game {
     margin: 5px auto;
     padding: 5px;
-    width: 75%;
-    border-radius: 15px;
+    width: 90%;
     display: flex;
+    border-radius: 8px;
     flex-flow: column nowrap;
     background-color: #5259FF;
-    color: #ffffff;
+    color: #FFFFFF;
+    box-shadow: inset 0px 0px 2px 1px #4146cc, 0px 3px #31318F;
 }
 
 .game-header {

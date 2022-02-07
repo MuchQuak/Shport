@@ -1,43 +1,33 @@
-.container {
+.content {
     margin: 0 auto;
+    padding: 20px 0 0;
     width: 100%;
     min-height: 100vh;
     height: 100%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: flex-start;
-    align-content: space-around;
-    background-color: #f5f5f5;
+    background-color: inherit;
     text-align: center;
 }
 
-.header {
-    margin: 0 auto 10px;
-    width: 100%;
-    text-align: left;
-    padding: 10px;
-    background-color: #5259FF;
-    color: #ffffff;
-    box-shadow: 0px 4px #dbdbdb;
-}
-
 .third {
+    margin: 0 0 20px;
     flex-shrink: 0;
-    width: 33.33%;
+    width: 30%;
     min-width: 400px;
-    margin-bottom: 10px;
 }
 
 .items {
     margin: auto;
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 5px;
+    gap: 20px;
     text-align: center;
 }
 
@@ -49,27 +39,63 @@
     max-height: 100%;
     height: auto;
     color: #d1d1d1;
-    border-radius: 20px;
-    border: 2px solid #5259FF;
+    border-radius: 8px;
+    border: 0px solid #5259FF;
     overflow: hidden;
 }
 
+.item-body {
+    margin: 5px 0 0;
+    padding: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #cfcfe3;
+    color: #212121;
+    box-shadow:inset 0px 0px 8px 2px #c3c3d6;
+}
+
 .item-title {
+    width: 100%;
+    height: auto;
     margin: 0;
-    padding: 2px;
+    padding: 5px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
     background-color: #5259FF;
-    text-align: center;
+    box-shadow:inset 0px 0px 2px 1px #4146cc;
+}
+
+.item-title p {
+    width: 100%;
+    margin: 0;
     font-weight: bold;
     color: #ffffff;
 }
 
-.item-body {
-    margin: 0;
-    padding: 2px;
+.leftSpace {
+    height: 100%;
+    flex-basis: 10%;
+}
+
+.rightSpace {
+    height: 100%;
+    flex-basis: 10%;
     display: flex;
-    flex-flow: column nowrap;
-    background-color: #dedeff;
-    color: #212121;
+    flex-flow: row nowrap;
+    align-content: flex-end;
+    align-items: center;
+}
+
+.closeButton {
+    margin: 0 auto;
+    height: 10px;
+    width: 10px;
+}
+
+.middleSpace {
+    height: 100%;
+    flex-basis: 80%;
 }
 
 .data {
@@ -82,4 +108,28 @@
     margin: 0 auto;
     padding: 1px;
     border-radius: 25%;
+}
+
+.article {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
+}
+
+.article-date {
+    margin: 0 0 2px;
+    width: 100%;
+    flex-basis: 100%;
+    font-weight: bold;
+}
+
+.article-body {
+    margin: 0;
+    width: 100%;
+    flex-basis: 100%;
 }

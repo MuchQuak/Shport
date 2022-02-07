@@ -21,6 +21,8 @@ const teamSchema = new mongoose.Schema({
   },
 }, {collection : 'team_list'});
 
+const host = 'data.nba.net'
+
 function getDbConnection() {
     const url = "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
     if (!dbConnection) {
@@ -49,7 +51,7 @@ async function getGames(req, res) {
   var today = new Date();
     var currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
     var options = {
-        host: 'data.nba.net',
+        host: host,
         path: '/10s/prod/v1/' + currentDate + '/scoreboard.json',
         method: 'GET'
     }
@@ -95,18 +97,18 @@ function formatGamesData(responseData) {
 async function getTeams(req, res) {
   const id = req.params['id'];
   const year = (new Date().getFullYear() - 1).toString().trim()
-  var options = {
-      host: 'data.nba.net',
+  let options = {
+      host: host,
       path: '/10s/prod/v2/' + year + '/teams.json',
       method: 'GET'
   }
   http.request(options, function (response) {
-      var body = '';
+      let body = '';
       response.on('data', function (data) {
           body += data;
       });
       response.on('end', function () {
-        if(id === undefined)
+        if (id === undefined)
           res.send(formatTeamsData(body));
         else {
           res.send(formatTeamsData(body)[id]);
@@ -116,70 +118,73 @@ async function getTeams(req, res) {
 }
 
 function formatTeamsData(responseData) {
-  var old_teams = JSON.parse(responseData).league.standard;
-  var teams = {};
-  for (var i = 0; i < old_teams.length; i++) {
-      var team = old_teams[i];
-      var new_team = {}
-      new_team.code = team.tricode
-      new_team.name = team.nickname
-      new_team.full_name = team.fullName
-      new_team.city = team.city
-      teams[team.tricode] = new_team;
-  }
-  return teams;
+    const old_teams = JSON.parse(responseData)['league']['standard'];
+    const teams = {};
+    for (let i = 0; i < old_teams.length; i++) {
+        const team = old_teams[i];
+        const new_team = {};
+        const code = team['tricode'];
+        new_team.code = code;
+        new_team.name = team['nickname'];
+        new_team.full_name = team['fullName'];
+        new_team.city = team['city'];
+        teams[code] = new_team;
+    }
+    return {teams: teams};
 }
 
 function formatStandingsData(responseData) {
-  var east = JSON.parse(responseData).league.standard.conference.east;
-  var west = JSON.parse(responseData).league.standard.conference.west;
-  var new_teams = {}
-  for (var i = 0; i < east.length; i++) {
-      var team = east[i];
-      var new_team = {}
-      new_team.code = team.teamSitesOnly.teamTricode
-      new_team.name = team.teamSitesOnly.teamNickname
-      new_team.city = team.teamSitesOnly.teamName
-      new_team.conference = 'east'
-      new_team.rank = team.confRank;
-      new_team.wins = team.win;
-      new_team.losses = team.loss;
-      new_teams[team.teamSitesOnly.teamTricode] = new_team;
-  }
-  for (var i = 0; i < west.length; i++) {
-      var team = west[i];
-      var new_team = {}
-      new_team.code = team.teamSitesOnly.teamTricode
-      new_team.name = team.teamSitesOnly.teamNickname
-      new_team.city = team.teamSitesOnly.teamName
-      new_team.conference = 'west'
-      new_team.rank = team.confRank;
-      new_team.wins = team.win;
-      new_team.losses = team.loss;
-      new_teams[team.teamSitesOnly.teamTricode] = new_team;
-  }
-  return new_teams;
+    const east = JSON.parse(responseData)['league']['standard']['conference']['east'];
+    const west = JSON.parse(responseData)['league']['standard']['conference']['west'];
+    const new_teams = {};
+    for (let i = 0; i < east.length; i++) {
+        const team = east[i];
+        const new_team = {};
+        const code = team['teamSitesOnly']['teamTricode'];
+        new_team.code = code;
+        new_team.name = team['teamSitesOnly']['teamNickname'];
+        new_team.city = team['teamSitesOnly']['teamName'];
+        new_team.conference = 'east';
+        new_team.rank = team['confRank'];
+        new_team.wins = team['win'];
+        new_team.losses = team['loss'];
+        new_teams[code] = new_team;
+    }
+    for (let i = 0; i < west.length; i++) {
+        const team = west[i];
+        const new_team = {};
+        const code = team['teamSitesOnly']['teamTricode'];
+        new_team.code = code;
+        new_team.name = team['teamSitesOnly']['teamNickname'];
+        new_team.city = team['teamSitesOnly']['teamName'];
+        new_team.conference = 'west';
+        new_team.rank = team['confRank'];
+        new_team.wins = team['win'];
+        new_team.losses = team['loss'];
+        new_teams[code] = new_team;
+    }
+    return {teams: new_teams};
 }
 
 async function getStandings(req, res){
   const id = req.params['id'];
-    var options = {
-        host: 'data.nba.net',
-        path: '/10s/prod/v1/current/standings_conference.json',
-        method: 'GET'
-    }
-    http.request(options, function (response) {
-        var body = '';
-        response.on('data', function (data) {
-            body += data;
-        });
-        response.on('end', function () {
-            if(id === undefined)
-                res.send(formatStandingsData(body));
-            else
-                res.send(formatStandingsData(body)[id]);
-        });
-    }).end();
+  const options = {
+    host: host,
+    path: '/10s/prod/v1/current/standings_conference.json',
+    method: 'GET'
+  }
+  http.request(options, function (response) {
+    let body = '';
+    response.on('data', function (data) {
+        body += data;
+    });
+    response.on('end', function () {
+        if(id === undefined)
+            res.send(formatStandingsData(body));
+        else
+            res.send(formatStandingsData(body)['teams'][id]);
+    });
+  }).end();
 }
 
 exports.getTeamStandings = getTeamStandings;
