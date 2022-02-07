@@ -1,6 +1,5 @@
 .header {
-  margin: 0 auto 45px;
-  height: 80px;
+  margin: 0 auto;
   width: 100%;
   text-align: left;
   background-color: #5259FF;
@@ -9,8 +8,20 @@
 }
 
 .header-text {
+  font-family: "Source Sans Pro", sans-serif;
   margin: 0 auto;
   padding-left: 20px;
-  line-height: 80px;
-  color: #ffffff;
+  line-height: 60px;
+  color: #FFFFFF;
+  text-shadow: 0px 1px 3px #31318f;
+}
+
+.header-nav {
+  padding: 5px;
+}
+
+.header-link {
+  margin: 0;
+  padding: 4px;
+  color: #FFFFFF;
 }

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 import axios from 'axios';
+import './App.css';
 import Table from './Table';
 import Schedule from './Schedule';
 import Article from './Article';
-import './App.css';
 import NavBar from './NavBar';
 import TeamOverview from "./TeamOverview";
 import CloseableItem from "./CloseableItem";
