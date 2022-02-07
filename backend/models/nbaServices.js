@@ -97,18 +97,18 @@ function formatGamesData(responseData) {
 async function getTeams(req, res) {
   const id = req.params['id'];
   const year = (new Date().getFullYear() - 1).toString().trim()
-  var options = {
+  let options = {
       host: host,
       path: '/10s/prod/v2/' + year + '/teams.json',
       method: 'GET'
   }
   http.request(options, function (response) {
-      var body = '';
+      let body = '';
       response.on('data', function (data) {
           body += data;
       });
       response.on('end', function () {
-        if(id === undefined)
+        if (id === undefined)
           res.send(formatTeamsData(body));
         else {
           res.send(formatTeamsData(body)[id]);
@@ -168,23 +168,23 @@ function formatStandingsData(responseData) {
 
 async function getStandings(req, res){
   const id = req.params['id'];
-    var options = {
-        host: host,
-        path: '/10s/prod/v1/current/standings_conference.json',
-        method: 'GET'
-    }
-    http.request(options, function (response) {
-        var body = '';
-        response.on('data', function (data) {
-            body += data;
-        });
-        response.on('end', function () {
-            if(id === undefined)
-                res.send(formatStandingsData(body));
-            else
-                res.send(formatStandingsData(body)['teams'][id]);
-        });
-    }).end();
+  const options = {
+    host: host,
+    path: '/10s/prod/v1/current/standings_conference.json',
+    method: 'GET'
+  }
+  http.request(options, function (response) {
+    let body = '';
+    response.on('data', function (data) {
+        body += data;
+    });
+    response.on('end', function () {
+        if(id === undefined)
+            res.send(formatStandingsData(body));
+        else
+            res.send(formatStandingsData(body)['teams'][id]);
+    });
+  }).end();
 }
 
 exports.getTeamStandings = getTeamStandings;
