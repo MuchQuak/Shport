@@ -7,7 +7,7 @@ import './Login.css';
 
 
 export default function Login(props) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -23,15 +23,15 @@ export default function Login(props) {
   };
 
   function validateForm() {
-    return validateEmail() && validatePassword();
+    return validateUsername() && validatePassword();
   }
 
   function validatePassword(){
     return password.length > 0;
   }
 
-  function validateEmail(){
-    return email.length > 0;
+  function validateUsername(){
+    return username.length > 0;
   }
 
   function handleSubmit(event) {
@@ -41,13 +41,13 @@ export default function Login(props) {
       navigate('../', {replace:true, state:testUser1}); // This passes the dummyUser info and navigates back to the landing page
     }
     else{
-      alert("Not valid email or password\nHINT: Look at the dummy user in Login.js");
+      alert("Not valid username or password\nHINT: Look at the dummy user in Login.js");
     }
   }
 
   // Simple test for the user input and the dummy user
   function testDummyUser(){
-    return (testUser1["email"] === email  && testUser1["password"] === password );
+    return (testUser1["username"] === username  && testUser1["password"] === password );
   }
 
   return (
@@ -56,9 +56,9 @@ export default function Login(props) {
           <div className="login">
               <h1 className="websiteName">Log In</h1>
               <Form onSubmit={handleSubmit}>
-                  <Form.Group className="emailForm" size="lg" controlId="email">
-                      <Form.Label>Username / Email</Form.Label>
-                      <Form.Control autoFocus type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                  <Form.Group className="usernameForm" size="lg" controlId="username">
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                   </Form.Group>
                   <Form.Group className="passwordForm" size="lg" controlId="password">
                       <Form.Label>Password</Form.Label>
