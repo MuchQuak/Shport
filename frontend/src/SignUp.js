@@ -9,6 +9,13 @@ export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  // preferences
+  const [no_pref, setNo_pref] = useState(false);
+  const [nba_pref, setNba_pref] = useState(false);
+  const [nfl_pref, setNfl_pref] = useState(false);
+  const [mlb_pref, setMlb_pref] = useState(false);
+
+
   const navigate = useNavigate();
 
 
@@ -37,10 +44,10 @@ export default function SignUp(props) {
         "email": email,
         "username":username,
         "password": password,
-        "no_preferences":true,
-        "nba":false,
-        "nfl":false,
-        "mlb":false
+        "no_preferences":no_pref,
+        "nba":nba_pref,
+        "nfl":nfl_pref,
+        "mlb":mlb_pref
       };
 
       navigate('../', {replace:true, state: newUser});
@@ -54,6 +61,51 @@ export default function SignUp(props) {
     // allow duplicates for now
     // In our case we look if that username or email have been entered in the database.
     return true;
+  }
+
+  function checkPref(e){
+    if(e.target.checked == true){
+      setNo_pref(true);
+      disableSportOptions();
+    }
+    else{
+      setNo_pref(false);
+      enableSportOptions();
+    }
+  }
+
+  
+  function checkSportOption(e){
+    if(e.target.checked == true){
+      setNo_pref(true);
+      disablePrefOptions();
+    }
+    else{
+      setNo_pref(false);
+      enablePrefOptions();
+
+    }
+  }
+
+  
+  function disableSportOptions(){
+    document.getElementById('1').disabled = true;
+    document.getElementById('2').disabled = true;
+    document.getElementById('3').disabled = true;
+  }
+
+  function enableSportOptions(){
+    document.getElementById('1').disabled = false;
+    document.getElementById('2').disabled = false;
+    document.getElementById('3').disabled = false;
+  }
+
+  function disablePrefOptions(){
+    document.getElementById('0').disabled = true;
+  }
+
+  function enablePrefOptions(){
+    document.getElementById('0').disabled = false;
   }
 
   return (
@@ -74,14 +126,30 @@ export default function SignUp(props) {
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
                     <p className="preferences">Preferences</p>
+                    
                     {['checkbox'].map((type) => (
                       <div key={`default-${type}`} className="mb-3">
-                          <Form.Check type={type} label={`No Preferences`} id={`0`}/>
-                          <Form.Check type={type} label={`NBA`} id={`1`}/>
-                          <Form.Check disabled type={type} label={`NFL`} id={`2`}/>
-                          <Form.Check disabled type={type} label={`MLB`} id={`3`}/>
+
+                          <Form.Check type={type} label={`No Preferences`} id={`0`} onChange={(e) => checkPref(e)}/>
+                          <Form.Check type={type} label={`NBA`} id={`1`} onChange={(e) => {
+                              setNba_pref(e.target.checked);
+                              checkSportOption(e);
+                            }
+                          }/>
+                          <Form.Check type={type} label={`NFL`} id={`2`} onChange={(e) => {
+                              setNfl_pref(e.target.checked);
+                              checkSportOption(e);
+                            }
+                          }/>
+                          <Form.Check type={type} label={`MLB`} id={`3`} onChange={(e) => {
+                              setMlb_pref(e.target.checked);
+                              checkSportOption(e);
+                            }
+                          }/>
+                      
                       </div>
                     ))}
+
                     <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
                     
                     <Link to="/Login">

@@ -2,6 +2,15 @@ import React from 'react';
 import './App.css';
 import './GameSchedule.css';
 
+function logo(abbreviation) {
+    const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
+}
+
+function name_record(team, record) {
+    return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
+}
+
 function NBAGame(props) {
     const game = props.game;
     const clock_data = game.clock.toString().trim();
@@ -47,13 +56,6 @@ function NBAGame(props) {
             return null;
         }
         return (<p className='score'>{score_info}</p>)
-    }
-    function logo(abbreviation) {
-        const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-        return (<div className='logo-container'><img src={url} alt='logo'/></div>)
-    }
-    function name_record(team, record) {
-        return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
     }
     return (
         <div className='game'>
