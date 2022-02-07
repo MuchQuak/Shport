@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import CloseButton from "react-bootstrap/CloseButton";
 
 function CloseableItem(props) {
@@ -8,27 +7,29 @@ function CloseableItem(props) {
         setItemVisible(false);
     };
     function title() {
-        if (props.title) {
-            return props.title
-        }
-        return 'Untitled Item'
+        return props.title ? props.title : 'Untitled Item';
+    }
+    function logo() {
+        return props.logo ? props.logo : null;
     }
     if (itemVisible) {
         return (
-            <div className='item'>
-                <div className='item-title'>
-                    <div className='leftSpace'/>
-                    <div className='middleSpace'>
-                        <p>{title()}</p>
-                    </div>
-                    <div className='rightSpace'>
-                        <CloseButton className='closeButton' variant='white' aria-label='Hide' onClick={setInvisible}/>
-                    </div>
-                </div>
-                <div className='item-body'>
-                    {props.children}
-                </div>
+          <div className='item'>
+            <div className='item-title'>
+              <div className='leftSpace'>
+                {logo()}
+              </div>
+              <div className='middleSpace'>
+                <p>{title()}</p>
+              </div>
+              <div className='rightSpace'>
+                <CloseButton className='closeButton' variant='white' aria-label='Hide' onClick={setInvisible}/>
+              </div>
             </div>
+            <div className='item-body'>
+              {props.children}
+            </div>
+          </div>
         );
     }
     return null;

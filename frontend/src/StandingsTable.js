@@ -1,12 +1,13 @@
 import React from 'react';
 
+function logo(abbreviation) {
+    const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
+}
+
 function StandingsTable(props) {
     if (!props.stats) {
         return null;
-    }
-    function logo(abbreviation) {
-        const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-        return (<div className='logo-container'><img src={url} alt='logo'/></div>)
     }
     function get_teams(conference) {
         const team_stats = [];
