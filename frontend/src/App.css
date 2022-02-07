@@ -1,6 +1,6 @@
 .content {
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 20px 0 0;
     width: 100%;
     min-height: 100vh;
     height: 100%;
@@ -13,10 +13,10 @@
 }
 
 .third {
+    margin: 0 0 20px;
     flex-shrink: 0;
     width: 30%;
     min-width: 400px;
-    margin-bottom: 10px;
 }
 
 .items {
@@ -27,7 +27,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 15px;
+    gap: 20px;
     text-align: center;
 }
 
