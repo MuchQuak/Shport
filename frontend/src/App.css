@@ -44,6 +44,16 @@
     overflow: hidden;
 }
 
+.item-body {
+    margin: 5px 0 0;
+    padding: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #cfcfe3;
+    color: #212121;
+    box-shadow:inset 0px 0px 8px 2px #c3c3d6;
+}
+
 .item-title {
     width: 100%;
     height: auto;
@@ -88,16 +98,6 @@
     flex-basis: 80%;
 }
 
-.item-body {
-    margin: 5px 0 0;
-    padding: 2px;
-    display: flex;
-    flex-flow: column nowrap;
-    background-color: #cfcfe3;
-    color: #212121;
-    box-shadow:inset 0px 0px 8px 2px #c3c3d6;
-}
-
 .data {
     margin: 0 auto;
     width: 100%;
@@ -112,7 +112,6 @@
 
 .article {
     margin: 0 auto;
-    padding: 5px;
     width: 100%;
     display: flex;
     flex-flow: column wrap;

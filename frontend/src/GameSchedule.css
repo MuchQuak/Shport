@@ -1,7 +1,5 @@
 .schedule {
     margin: 0 auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
     width: 100%;
     display: flex;
     flex-flow: column nowrap;
@@ -10,7 +8,7 @@
 .game {
     margin: 5px auto;
     padding: 5px;
-    width: 85%;
+    width: 90%;
     display: flex;
     border-radius: 8px;
     flex-flow: column nowrap;
