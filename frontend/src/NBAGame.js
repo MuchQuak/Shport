@@ -3,8 +3,8 @@ import './App.css';
 import './GameSchedule.css';
 
 function NBAGame(props) {
-    var game = props.game;
-    var clock_data = game.clock.toString().trim();
+    const game = props.game;
+    const clock_data = game.clock.toString().trim();
     function ready(data) {
         return data !== "";
     }
@@ -30,7 +30,7 @@ function NBAGame(props) {
         return date.toTimeString().substr(0, 5) + ' ' +
             date.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
     }
-    const clock = function() {
+    function clock() {
         if (over()) {
             return (<p>Final Score</p>)
         }
@@ -42,17 +42,17 @@ function NBAGame(props) {
         }
         return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>)
     }
-    const score = function(score) {
-        if (score === "" || game.status <= 1) {
-            return (null);
+    function score(score_info) {
+        if (score_info === "" || game.status <= 1) {
+            return null;
         }
-        return (<p className='score'>{score}</p>)
+        return (<p className='score'>{score_info}</p>)
     }
-    const logo = function(abbreviation) {
-        var logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-        return (<div className='logo-container'><img src={logo} alt='logo'/></div>)
+    function logo(abbreviation) {
+        const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+        return (<div className='logo-container'><img src={url} alt='logo'/></div>)
     }
-    const name_record = function (team, record) {
+    function name_record(team, record) {
         return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
     }
     return (

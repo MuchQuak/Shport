@@ -4,6 +4,10 @@ function StandingsTable(props) {
     if (!props.stats) {
         return null;
     }
+    function logo(abbreviation) {
+        const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+        return (<div className='logo-container'><img src={url} alt='logo'/></div>)
+    }
     function get_teams(conference) {
         const team_stats = [];
         for (let team in props.stats) {
@@ -14,46 +18,30 @@ function StandingsTable(props) {
                 new_team.name = stat['name'];
                 new_team.wins = stat['wins'];
                 new_team.losses = stat['losses'];
+                new_team.code = stat['code'];
                 team_stats.push(new_team)
             }
         }
         return team_stats;
     }
-    const west = get_teams('west').map((row, index) => {
-        return (
-            <tr key={index}>
-                <td>{row.rank}</td>
-                <td>{row.name}</td>
-                <td>{row.wins}</td>
-                <td>{row.losses}</td>
-            </tr>
-        );
-    });
-    const east = get_teams('east').map((row, index) => {
-        return (
-            <tr key={index}>
-                <td>{row.rank}</td>
-                <td>{row.name}</td>
-                <td>{row.wins}</td>
-                <td>{row.losses}</td>
-            </tr>
-        );
-    });
+    function conf(conference) {
+        return get_teams(conference).map((row, index) => {
+            return (
+                <tr key={index}>
+                    <td>{row.rank}</td>
+                    <td><div className='logo-name-record'>{logo(row.code)}{row.name}</div></td>
+                    <td>{row.wins}-{row.losses}</td>
+                </tr>
+            );
+        });
+    }
     return (
-        <table className='data'>
-            <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Team</th>
-                <th>Wins</th>
-                <th>Losses</th>
-            </tr>
-            </thead>
-            <tbody>
-              {west}
-              <br />
-              {east}
-            </tbody>
+        <table className='standings-data'>
+          <tbody className='standings-body'>
+            {conf('west')}
+            <br />
+            {conf('east')}
+          </tbody>
         </table>
     );
 }
