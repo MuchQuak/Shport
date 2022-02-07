@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import './App.css';
+import React from 'react';
 import './TeamOverview.css';
 
 function capitalizeFirstLetter(string) {
@@ -21,43 +20,37 @@ function suffix(i) {
 }
 
 function logo(abbreviation) {
-    var logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-    return (<div className='logo-container' id='overview-logo'><img src={logo} alt='logo'/></div>)
+    const logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+    return (<div className='logo-container' id='overview-logo'><img className='logo' src={logo} alt='logo'/></div>)
 }
 
-export default class TeamOverview extends Component {
-    constructor(props) {
-        super(props)
+export default function TeamOverview(props) {
+    if (!(props.teams && props.stats)) {
+        return null;
     }
-
-    render() {
-        if (!(this.props.teams && this.props.stats)) {
+    const stats = props.stats;
+    const overviews = props.teams.map((team, index) => {
+        const code = String(team).trim().toUpperCase();
+        if (!(stats && stats[code])) {
             return null;
         }
-        const stats = this.props.stats;
-        const overviews = this.props.teams.map((team, index) => {
-            const code = String(team).trim().toUpperCase();
-            if (!(stats && stats[code])) {
-                return null;
-            }
-            const stat = stats[code];
-            const rank = suffix(stat['rank']);
-            const wins = stat['wins'];
-            const losses = stat['losses'];
-            const name = stat['city'] + ' ' + stat['name'];
-            const conference = capitalizeFirstLetter(stat['conference']);
-            return (
-                <div className='overview' key={index}>
-                    {logo(code)}
-                    <div className='overview-header'>
-                        <div><p className='overview-team-name'>{name}</p></div>
-                        <div className='break'></div>
-                        <div><p className='overview-stats'>{rank} in the {conference}</p></div>
-                        <div><p className='overview-stats'>{wins}-{losses}</p></div>
-                    </div>
+        const stat = stats[code];
+        const rank = suffix(stat['rank']);
+        const wins = stat['wins'];
+        const losses = stat['losses'];
+        const name = stat['city'] + ' ' + stat['name'];
+        const conference = capitalizeFirstLetter(stat['conference']);
+        return (
+            <div className='overview' key={index}>
+                {logo(code)}
+                <div className='overview-header'>
+                    <div><p className='overview-team-name'>{name}</p></div>
+                    <div className='break'></div>
+                    <div><p className='overview-stats'>{rank} in the {conference}</p></div>
+                    <div><p className='overview-stats'>{wins}-{losses}</p></div>
                 </div>
-            );
-        });
-        return <>{overviews}</>;
-    }
+            </div>
+        );
+    });
+    return <>{overviews}</>;
 }
