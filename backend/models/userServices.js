@@ -45,9 +45,9 @@ async function signUpUser(user){
     }       
 }
 
-async function findUserByName(name){
+async function findUserByUsername(name){
     const userModel = getDbConnection().model("User", UserSchema);
-    return await userModel.find({'name':name});
+    return await userModel.find({'username':name});
 }
 
 exports.signUpUser = signUpUser;
