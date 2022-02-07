@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
 import './TeamOverview.css';
-import axios from "axios";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -9,13 +8,13 @@ function capitalizeFirstLetter(string) {
 
 function suffix(i) {
     const j = i % 10, k = i % 100;
-    if (j == 1 && k != 11) {
+    if (j === 1 && k !== 11) {
         return i + "st";
     }
-    if (j == 2 && k != 12) {
+    if (j === 2 && k !== 12) {
         return i + "nd";
     }
-    if (j == 3 && k != 13) {
+    if (j === 3 && k !== 13) {
         return i + "rd";
     }
     return i + "th";
@@ -42,17 +41,17 @@ export default class TeamOverview extends Component {
                 return null;
             }
             const stat = stats[code];
-            const rank = suffix(stat["rank"]);
-            const wins = stat["wins"];
-            const losses = stat["losses"];
-            const name = stat["full_name"];
-            const conference = capitalizeFirstLetter(stat["conference"]);
+            const rank = suffix(stat['rank']);
+            const wins = stat['wins'];
+            const losses = stat['losses'];
+            const name = stat['city'] + ' ' + stat['name'];
+            const conference = capitalizeFirstLetter(stat['conference']);
             return (
                 <div className='overview' key={index}>
                     {logo(code)}
                     <div className='overview-header'>
                         <div><p className='overview-team-name'>{name}</p></div>
-                        <p className='break'></p>
+                        <div className='break'></div>
                         <div><p className='overview-stats'>{rank} in the {conference}</p></div>
                         <div><p className='overview-stats'>{wins}-{losses}</p></div>
                     </div>

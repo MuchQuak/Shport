@@ -5,7 +5,6 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-const http = require('http');
 const nba = require('./models/nbaServices');
 
 app.get('/', (req, res) => {
@@ -17,10 +16,10 @@ app.get('/teams', async (req, res) => {
     try {
         const result = await nba.getTeamStandings(team);
         console.log(result);
-        res.send({team_list: result});
+        res.send({teams: result});
     } catch (error) {
         console.log(error);
-        res.status(500).send('An error ocurred in the server.');
+        res.status(500).send('An error occurred in the server.');
     }
 });
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
-import Table from './Table';
+import StandingsTable from './StandingsTable';
 import Schedule from './Schedule';
 import Article from './Article';
 import NavBar from './NavBar';
@@ -38,7 +38,7 @@ function App() {
     async function fetchTeams(){
         try {
             const response = await axios.get('http://localhost:5000/teams');
-            return response.data.team_list;
+            return response.data.teams;
         }
         catch (error){
             console.log(error);
@@ -73,13 +73,13 @@ function App() {
                   <CloseableItem title='NBA Schedule'><Schedule className='nbaSchedule' games={games} /></CloseableItem>
               </ThirdContent>
               <ThirdContent>
-                  <CloseableItem title='Team Overview'><TeamOverview teams={["SAC", "GSW", "CHI"]} stats={stats}/></CloseableItem>
-              </ThirdContent>
-              <ThirdContent>
-                  <CloseableItem title='NBA Standings'><Table teams={teams} /></CloseableItem>
+                  <CloseableItem title='NBA Teams'><TeamOverview teams={["SAC", "GSW", "CHI"]} stats={stats}/></CloseableItem>
                   <CloseableItem title='News Article 1'>
                       <Article date='2022-02-03' about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
                   </CloseableItem>
+              </ThirdContent>
+              <ThirdContent>
+                  <CloseableItem title='NBA Standings'><StandingsTable stats={stats} /></CloseableItem>
                   <CloseableItem title='News Article 2'>
                       <Article date='2022-02-03' about='test number 2'/>
                   </CloseableItem>
