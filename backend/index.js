@@ -11,18 +11,7 @@ app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
 
-app.get('/teams', async (req, res) => {
-    const team = req.query.team;
-    try {
-        const result = await nba.getTeamStandings(team);
-        console.log(result);
-        res.send({teams: result});
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('An error occurred in the server.');
-    }
-});
-
+//NBA api Calls
 app.get('/nba', async (req, res) =>{await nba.getGames(req, res)});
 app.get('/nba/teams', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/nba/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
