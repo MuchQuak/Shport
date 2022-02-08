@@ -13,19 +13,19 @@ import ThirdContent from "./ThirdContent";
 function App() {
     // -- See input from login or sign up --
     const location = useLocation();
-    if(location.state != null){
+    if (location.state != null){
         alert("User landing page\n\nusername:\t" + location.state.username +"\nemail:\t\t" + location.state.email + "\npassword:\t" + location.state.password);
     }
 
-    const [teams, setTeams] = useState([]);
+    //const [teams, setTeams] = useState([]);
     const [games, setGames] = useState([]);
     const [stats, setStats] = useState({});
 
     useEffect(() => {
-        fetchTeams().then( result => {
+        /*fetchTeams().then( result => {
             if (result)
                 setTeams(result);
-        });
+        });*/
         fetchGames().then( result => {
             if (result)
                 setGames(result);
@@ -35,7 +35,7 @@ function App() {
                 setStats(result);
         });
     }, [] );
-    async function fetchTeams(){
+    /*async function fetchTeams(){
         try {
             const response = await axios.get('http://localhost:5000/teams');
             return response.data.teams;
@@ -44,7 +44,7 @@ function App() {
             console.log(error);
             return false;
         }
-    }
+    }*/
     async function fetchGames(){
         try {
             const response = await axios.get('http://localhost:5000/nba');

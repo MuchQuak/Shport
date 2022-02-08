@@ -64,7 +64,7 @@ export default function SignUp(props) {
   }
 
   function checkPref(e){
-    if(e.target.checked == true){
+    if(e.target.checked === true){
       setNo_pref(true);
       disableSportOptions();
     }
@@ -76,7 +76,7 @@ export default function SignUp(props) {
 
   
   function checkSportOption(e){
-    if(e.target.checked == true){
+    if(e.target.checked === true){
       setNo_pref(true);
       disablePrefOptions();
     }
