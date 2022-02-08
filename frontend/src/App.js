@@ -75,17 +75,17 @@ function App() {
               </ThirdContent>
               <ThirdContent>
                   <CloseableItem title='Teams' logo={nbaLogo}><TeamOverview teams={["SAC", "GSW", "CHI"]} stats={stats}/></CloseableItem>
-                  <CloseableItem title='News Article 1'>
-                      <Article date='2022-02-02' about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ante nisl. Vestibulum porttitor sed purus ac facilisis. Proin pharetra tellus sem, venenatis interdum mauris iaculis non. In id velit at ligula fermentum aliquet. Aenean tincidunt ac nisl nec feugiat. Vestibulum sodales elit lectus, non tristique tortor ullamcorper eu. Fusce pharetra pulvinar diam ut faucibus. Etiam vestibulum fermentum mauris, quis dapibus nibh tempus ut.'/>
+                  <CloseableItem title='Kings Trade for Sabonis' logo={nbaLogo}>
+                      <Article date='8 February 2022' body='The Sacramento Kings have traded away Tyrese Haliburton, Buddy Hield, and Tristan Thompson in a shocking move early this Tuesday. In return, they received Indiana Pacers center Domantas Sabonis, along with players Jeremy Lamb and Justin Holiday.'/>
                   </CloseableItem>
-                  <CloseableItem title='News Article 2'>
-                      <Article date='2022-02-03' about='test number 2'/>
+                  <CloseableItem title='News Article'>
+                      <Article date='3 February 2022' body='test number 2'/>
                   </CloseableItem>
               </ThirdContent>
               <ThirdContent>
                   <CloseableItem title='Standings' logo={nbaLogo}><StandingsTable stats={stats} /></CloseableItem>
                   <CloseableItem title='News Article 3'>
-                      <Article date='2022-02-04' about='test number 3'/>
+                      <Article date='9 February 2022' body='test number 3'/>
                   </CloseableItem>
               </ThirdContent>
           </div>

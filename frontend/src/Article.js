@@ -5,7 +5,7 @@ function Article(props) {
     return (
         <div className='article'>
             <p className='article-date'>{props.date}</p>
-            <p className='article-body'>Article about {props.about}</p>
+            <p className='article-body'>{props.body}</p>
         </div>
     );
 }
