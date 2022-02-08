@@ -41,21 +41,27 @@ function NBAGame(props) {
     }
     function clock() {
         if (over()) {
-            return (<p>Final Score</p>)
+            return (<p>Final Score</p>);
         }
         if (halftime()) {
-            return (<p><b>Halftime</b></p>)
+            return (<p><b>Halftime</b></p>);
         }
         if (!ready(clock_data) || !game.activated){
             return (<p>{starttime()}</p>);
         }
-        return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>)
+        return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>);
     }
     function score(score_info) {
         if (score_info === "" || game.status <= 1) {
             return null;
         }
-        return (<p className='score'>{score_info}</p>)
+        return (<p className='score'>{score_info}</p>);
+    }
+    function live() {
+        if (game.status !== 2) {
+            return null;
+        }
+        return (<p className='live-status'>LIVE</p>)
     }
     return (
         <div className='game'>
@@ -67,6 +73,9 @@ function NBAGame(props) {
                     {logo(game.home)}
                     {name_record(game.home, game.home_record)}
                     {score(game.home_score)}
+                </div>
+                <div className='game-center'>
+                    {live()}
                 </div>
                 <div className='game-right'>
                     {logo(game.away)}
