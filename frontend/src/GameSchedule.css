@@ -1,9 +1,11 @@
 .schedule {
     margin: 0 auto;
+    padding: 0;
     width: 100%;
     display: flex;
-    gap: 8px;
     flex-flow: column nowrap;
+    align-items: center;
+    gap: 8px;
 }
 
 .logo-container img {

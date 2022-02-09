@@ -51,5 +51,5 @@ export default function TeamOverview(props) {
             </div>
         );
     });
-    return <>{overviews}</>;
+    return <div className='overviews'>{overviews}</div>;
 }

@@ -1,10 +1,24 @@
-.overview {
-    margin: 0 auto;
+.overviews {
+    margin: 0;
+    padding: 0;
     width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.overview {
+    margin: 0 auto 3px;
+    padding: 5px;
+    width: 95%;
     display: flex;
     flex-flow: row wrap;
     text-align: left;
-    padding: 5px;
+    border-radius: 8px;
+    background-color: #5259FF;
+    color: #FFFFFF;
+    box-shadow: inset 0px 0px 2px 1px #4146cc, 0px 3px #31318F;
 }
 
 #overview-logo {
@@ -20,12 +34,10 @@
 }
 
 .overview-team-name {
-    color: #1f1f1f;
     font-size: 23px;
 }
 
 .overview-stats {
-    color: #1f1f1f;
     font-size: 18px;
 }
 
