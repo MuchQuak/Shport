@@ -1,5 +1,5 @@
 .header {
-  margin: 0 auto;
+  margin: 0 auto 5px;
   width: 100%;
   text-align: left;
   background-color: #5259FF;
@@ -17,11 +17,32 @@
 }
 
 .header-nav {
-  padding: 5px 5px 5px 20px;
+  margin: 0;
+  padding: 5px 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
 }
 
 .header-link {
   margin: 0;
   padding: 4px;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #5259FF;
+  font-weight: bold;
+  font-style: normal;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+#header-login {
+  justify-self: flex-start;
+}
+
+#header-about {
+  justify-self: flex-end;
+}
+
+#header-team {
+  justify-self: flex-end;
 }

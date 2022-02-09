@@ -6,9 +6,9 @@ export default function NavBar() {
       <div className="header">
         <h1 className="header-text">Dashboard</h1>
           <div className="header-nav">
-            <Link className="header-link" to="/About">About Us</Link> | {" "}
-            <Link className="header-link" to="/ProjectTeam">Our Team</Link> | {" "}
-            <Link className="header-link" to="/Login">Login</Link>
+            <Link className="header-link" to="/Login" id='header-login'>Login</Link>
+            <Link className="header-link" to="/About" id='header-about'>About Us</Link>
+            <Link className="header-link" to="/ProjectTeam" id='header-team'>Our Team</Link>
           </div>
       </div>
     );
