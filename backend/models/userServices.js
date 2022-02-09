@@ -12,9 +12,7 @@ const userSchema = new mongoose.Schema({
       required: true,
       trim: true,
     },
-    pref: [{
-        type: String
-    }],
+    pref: [String],
   }, {collection : 'users'});
 
 function getDbConnection() {
