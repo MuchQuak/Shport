@@ -8,7 +8,6 @@ app.use(express.json());
 const nba = require('./models/nbaServices');
 const userServices = require('./models/userServices');
 
-
 app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
@@ -19,6 +18,25 @@ app.post('/users', async (req, res) => {
     const savedUser = await userServices.signUpUser(user);
     if (savedUser)
         res.status(201).send();
+    else
+        res.status(500).end();
+});
+
+//Currently just uses name to look up but would like to change this
+app.get('/users/:name/pref', async (req, res) => {
+    const name = req.params.name;
+    const pref = await userServices.getUserPreferences(name);
+    if (pref)
+        res.status(201).send(pref);
+    else
+        res.status(500).end();
+});
+
+//FOR TESTING ONLY
+app.get('/users', async (req, res) => {
+    const pref = await userServices.TESTGetUsers();
+    if (pref)
+        res.status(201).send(pref);
     else
         res.status(500).end();
 });

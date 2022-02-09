@@ -43,9 +43,33 @@ async function signUpUser(user){
     }       
 }
 
+async function getUserPreferences(name) {
+    const userModel = getDbConnection().model("user", userSchema);
+    try {
+        var query = userModel.find({'username':name});
+        return query.select('pref');
+    } catch(error) {
+        console.log(error);
+        return false;
+    }   
+}
+
+//just for testing
+async function getUsers() {
+    const userModel = getDbConnection().model("user", userSchema);
+    try {
+        return userModel.find();
+    } catch(error) {
+        console.log(error);
+        return false;
+    }   
+}
+
 async function findUserByUsername(name){
     const userModel = getDbConnection().model("User", UserSchema);
     return await userModel.find({'username':name});
 }
 
 exports.signUpUser = signUpUser;
+exports.getUserPreferences = getUserPreferences;
+exports.TESTGetUsers = getUsers;
