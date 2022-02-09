@@ -1,5 +1,7 @@
 .header {
   margin: 0 auto 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   width: 100%;
   text-align: left;
   background-color: #5259FF;
@@ -9,7 +11,6 @@
 .header-text {
   font-family: "Source Sans Pro", sans-serif;
   margin: 0 auto;
-  padding-left: 20px;
   line-height: 60px;
   color: #FFFFFF;
   text-shadow: 0px 1px 3px #31318f;
@@ -23,13 +24,11 @@
 
 .header-nav {
   margin: 0;
-  padding: 5px 20px;
   display: flex;
   flex-flow: row nowrap;
 }
 
 .header-link {
-  height: auto;
   margin: 0;
   padding: 4px;
   background-color: #FFFFFF;
@@ -46,7 +45,7 @@
 
 .header-left {
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 20px;
   flex-basis: 50%;
   display: flex;
   flex-flow: row nowrap;
@@ -55,7 +54,7 @@
 
 .header-right {
   margin: 0;
-  padding: 0;
+  padding: 0 20px 0 0;
   flex-basis: 50%;
   display: flex;
   flex-flow: row nowrap;
