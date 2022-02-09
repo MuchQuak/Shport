@@ -4,7 +4,6 @@
   text-align: left;
   background-color: #5259FF;
   box-shadow: 0px 5px #31318f;
-  align-self: flex-start;
 }
 
 .header-text {
@@ -14,6 +13,12 @@
   line-height: 60px;
   color: #FFFFFF;
   text-shadow: 0px 1px 3px #31318f;
+  text-decoration: underline;
+  text-decoration-color: #FFFFFF;
+}
+
+.header-text:hover {
+  text-decoration-color: #31318f;
 }
 
 .header-nav {
@@ -21,10 +26,10 @@
   padding: 5px 20px;
   display: flex;
   flex-flow: row nowrap;
-  gap: 10px;
 }
 
 .header-link {
+  height: auto;
   margin: 0;
   padding: 4px;
   background-color: #FFFFFF;
@@ -35,14 +40,26 @@
   border-radius: 4px;
 }
 
-#header-login {
-  justify-self: flex-start;
+.header-link:hover {
+  color: #31318f;
 }
 
-#header-about {
-  justify-self: flex-end;
+.header-left {
+  margin: 0;
+  padding: 0;
+  flex-basis: 50%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
 }
 
-#header-team {
-  justify-self: flex-end;
+.header-right {
+  margin: 0;
+  padding: 0;
+  flex-basis: 50%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
 }
