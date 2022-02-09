@@ -15,12 +15,6 @@ function score(game, score_info) {
     }
     return (<p className='score'>{score_info}</p>);
 }
-function live(game) {
-    if (game.status !== 2) {
-        return null;
-    }
-    return (<p className='live-status'>LIVE</p>)
-}
 
 export default function NBAGame(props) {
     const game = props.game;
@@ -57,13 +51,15 @@ export default function NBAGame(props) {
         if (clock_data === "" || !game.activated){
             return (<p>{starttime()}</p>);
         }
-        return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>);
+        return (
+            <>
+                <p><b>{clock_data}</b></p>
+                <p><b>{game.currentQtr} of {game.maxQtr}</b></p>
+            </>
+        );
     }
     return (
         <div className='game'>
-            <div className='game-header'>
-                {clock()}
-            </div>
             <div className='game-data'>
                 <div className='game-left'>
                     {logo(game.home)}
@@ -71,7 +67,8 @@ export default function NBAGame(props) {
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
-                    {live(game)}
+                    {clock()}
+                    <p className='game-footer'>{game.arena}</p>
                 </div>
                 <div className='game-right'>
                     {logo(game.away)}
@@ -79,7 +76,6 @@ export default function NBAGame(props) {
                     {score(game, game.away_score)}
                 </div>
             </div>
-            <p className='game-footer'>{game.arena}</p>
         </div>
     );
 }

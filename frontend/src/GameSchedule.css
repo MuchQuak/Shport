@@ -6,10 +6,17 @@
     flex-flow: column nowrap;
 }
 
-.game {
+.logo-container img {
     margin: 0 auto;
+    padding: 1px;
+    width: 40px;
+    height: 40px;
+}
+
+.game {
+    margin: 0 auto 3px;
     padding: 5px;
-    width: 90%;
+    width: 95%;
     display: flex;
     border-radius: 8px;
     flex-flow: column nowrap;
@@ -18,30 +25,10 @@
     box-shadow: inset 0px 0px 2px 1px #4146cc, 0px 3px #31318F;
 }
 
-.game-header {
-    margin: 0 auto 5px;
-    width: 100%;
-    border-radius: 15px;
-    display: block;
-}
-
-.game-header p {
-    margin: 0 auto;
-    padding: 1px;
-}
-
 .game-data {
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    font-weight: bold;
-}
-
-.logo-container img {
-    margin: 0 auto;
-    padding: 1px;
-    width: 40px;
-    height: 40px;
 }
 
 .game-left {
@@ -49,15 +36,17 @@
     width: 35%;
     display: flex;
     flex-flow: column nowrap;
+    justify-content: space-evenly;
     flex-basis: 35%;
     text-align: center;
+    font-weight: bold;
 }
 
 .game-center {
     width: 30%;
     display: flex;
     flex-flow: column wrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     align-content: center;
     flex-basis: 30%;
@@ -69,8 +58,10 @@
     width: 35%;
     display: flex;
     flex-flow: column nowrap;
+    justify-content: space-evenly;
     flex-basis: 35%;
     text-align: center;
+    font-weight: bold;
 }
 
 .game-name-record {
@@ -91,14 +82,14 @@
 
 .game-record {
     margin: 0;
-    padding-left: 5px;
-    font-size: 75%;
+    padding-left: 4px;
+    font-size: 65%;
 }
 
 .score {
     margin: 0 auto;
     padding: 1px;
-    font-size: 120%;
+    font-size: 130%;
 }
 
 .game-footer {
