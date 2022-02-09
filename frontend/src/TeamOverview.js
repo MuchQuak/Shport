@@ -1,4 +1,3 @@
-import React from 'react';
 import './TeamOverview.css';
 
 function capitalizeFirstLetter(string) {

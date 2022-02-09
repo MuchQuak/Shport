@@ -10,7 +10,7 @@ import TeamOverview from "./TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
 
-function App() {
+export default function App() {
     // -- See input from login or sign up --
     const location = useLocation();
     if (location.state != null){
@@ -92,5 +92,3 @@ function App() {
       </>
   );
 }
-
-export default App;

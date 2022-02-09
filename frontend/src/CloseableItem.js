@@ -1,8 +1,11 @@
 import React from 'react';
 import CloseButton from "react-bootstrap/CloseButton";
 
-function CloseableItem(props) {
+export default function CloseableItem(props) {
     const [itemVisible, setItemVisible] = React.useState(true);
+    if (!props) {
+        return null;
+    }
     const setInvisible = () => {
         setItemVisible(false);
     };
@@ -34,5 +37,3 @@ function CloseableItem(props) {
     }
     return null;
 }
-
-export default CloseableItem;

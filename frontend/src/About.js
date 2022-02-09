@@ -9,4 +9,4 @@ export default function About() {
         <h3>Our Mission</h3>
       </main>
     );
-  }
+}

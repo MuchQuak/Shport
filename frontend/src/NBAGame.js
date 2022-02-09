@@ -1,5 +1,3 @@
-import React from 'react';
-import './App.css';
 import './GameSchedule.css';
 
 function logo(abbreviation) {
@@ -11,17 +9,27 @@ function name_record(team, record) {
     return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
 }
 
-function NBAGame(props) {
+function score(game, score_info) {
+    if (score_info === "" || game.status <= 1) {
+        return null;
+    }
+    return (<p className='score'>{score_info}</p>);
+}
+function live(game) {
+    if (game.status !== 2) {
+        return null;
+    }
+    return (<p className='live-status'>LIVE</p>)
+}
+
+export default function NBAGame(props) {
     const game = props.game;
     const clock_data = game.clock.toString().trim();
-    function ready(data) {
-        return data !== "";
-    }
-    function over() {
+    /*function over() {
         return game.status > 2 || (!game.halftime && !ready(clock_data) && game.currentQtr === 4 && game.endPeriod)
-    }
+    }*/
     function halftime() {
-        return game.halftime || (!ready(clock_data) && game.currentQtr === 2 && game.endPeriod && game.activated)
+        return game.halftime || (clock_data === "" && game.currentQtr === 2 && game.endPeriod && game.activated)
     }
     function starttime() {
         const today = new Date();
@@ -40,28 +48,16 @@ function NBAGame(props) {
             date.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
     }
     function clock() {
-        if (over()) {
+        if (game.status > 2) {
             return (<p>Final Score</p>);
         }
         if (halftime()) {
             return (<p><b>Halftime</b></p>);
         }
-        if (!ready(clock_data) || !game.activated){
+        if (clock_data === "" || !game.activated){
             return (<p>{starttime()}</p>);
         }
         return (<p><b>{clock_data} - {game.currentQtr} of {game.maxQtr}</b></p>);
-    }
-    function score(score_info) {
-        if (score_info === "" || game.status <= 1) {
-            return null;
-        }
-        return (<p className='score'>{score_info}</p>);
-    }
-    function live() {
-        if (game.status !== 2) {
-            return null;
-        }
-        return (<p className='live-status'>LIVE</p>)
     }
     return (
         <div className='game'>
@@ -72,20 +68,18 @@ function NBAGame(props) {
                 <div className='game-left'>
                     {logo(game.home)}
                     {name_record(game.home, game.home_record)}
-                    {score(game.home_score)}
+                    {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
-                    {live()}
+                    {live(game)}
                 </div>
                 <div className='game-right'>
                     {logo(game.away)}
                     {name_record(game.away, game.away_record)}
-                    {score(game.away_score)}
+                    {score(game, game.away_score)}
                 </div>
             </div>
             <p className='game-footer'>{game.arena}</p>
         </div>
     );
 }
-
-export default NBAGame;

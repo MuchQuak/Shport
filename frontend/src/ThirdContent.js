@@ -1,7 +1,4 @@
-import React from 'react';
-import './App.css';
-
-function ThirdContent(props) {
+export default function ThirdContent(props) {
     return (
         <div className='third'>
             <div className='items'>
@@ -10,5 +7,3 @@ function ThirdContent(props) {
         </div>
     );
 }
-
-export default ThirdContent;

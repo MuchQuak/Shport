@@ -1,7 +1,4 @@
-import React from 'react';
-import './App.css';
-
-function Article(props) {
+export default function Article(props) {
     return (
         <div className='article'>
             <p className='article-date'>{props.date}</p>
@@ -9,5 +6,3 @@ function Article(props) {
         </div>
     );
 }
-
-export default Article;

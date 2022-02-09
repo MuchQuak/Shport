@@ -1,10 +1,7 @@
-import React from 'react';
-import './App.css';
 import './GameSchedule.css';
-import './NBAGame.js'
 import NBAGame from "./NBAGame";
 
-function Schedule(props) {
+export default function Schedule(props) {
     if (!props.games) {
         return null;
     }
@@ -15,5 +12,3 @@ function Schedule(props) {
         <div className='schedule'>{games}</div>
     );
 }
-
-export default Schedule;

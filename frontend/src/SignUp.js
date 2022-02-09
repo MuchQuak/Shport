@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
 import './SignUp.css';
 
-
 export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,9 +14,7 @@ export default function SignUp(props) {
   const [nfl_pref, setNfl_pref] = useState(false);
   const [mlb_pref, setMlb_pref] = useState(false);
 
-
   const navigate = useNavigate();
-
 
   function validateForm() {
     return validateUsername() && validateEmail() && validatePassword();
