@@ -1,32 +1,31 @@
 const http = require('http');
-
 const host = 'data.nba.net'
 
 async function getGames(req, res) {
-  var today = new Date();
-    var currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
-    var options = {
-        host: host,
-        path: '/10s/prod/v1/' + currentDate + '/scoreboard.json',
-        method: 'GET'
-    }
-    http.request(options, function (response) {
-        var body = '';
-        response.on('data', function (data) {
-            body += data;
-        });
-        response.on('end', function () {
-            res.send(formatGamesData(body));
-        });
-    }).end();
+  const today = new Date();
+  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+  const options = {
+    host: host,
+    path: '/10s/prod/v1/' + currentDate + '/scoreboard.json',
+    method: 'GET'
+  }
+  http.request(options, function (response) {
+    let body = '';
+    response.on('data', function (data) {
+        body += data;
+    });
+    response.on('end', function () {
+        res.send(formatGamesData(body));
+    });
+  }).end();
 }
 
 function formatGamesData(responseData) {
-  var games = JSON.parse(responseData).games;
-  var new_games = [];
-  for (var i = 0; i < games.length; i++) {
-      var game = games[i];
-      var new_game = {}
+  const games = JSON.parse(responseData).games;
+  const new_games = [];
+  for (let i = 0; i < games.length; i++) {
+      const game = games[i];
+      const new_game = {}
       new_game.status = game.statusNum;
       new_game.activated = game.isGameActivated;
       new_game.endPeriod = game.period.isEndOfPeriod;
@@ -134,7 +133,7 @@ async function getStandings(req, res){
         body += data;
     });
     response.on('end', function () {
-        if(id === undefined)
+        if (id === undefined)
             res.send(formatStandingsData(body));
         else
             res.send(formatStandingsData(body)['teams'][id]);
