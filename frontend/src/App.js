@@ -75,7 +75,7 @@ export default function App() {
                   <CloseableItem title='Schedule' logo={nbaLogo}><Schedule className='nbaSchedule' games={games} /></CloseableItem>
               </ThirdContent>
               <ThirdContent>
-                  <CloseableItem title='Teams' logo={nbaLogo}><TeamOverview teams={["SAC", "GSW", "CHI"]} stats={stats}/></CloseableItem>
+                  <CloseableItem title='Teams' logo={nbaLogo}><TeamOverview teams={["LAL", "CHA", "CHI"]} stats={stats}/></CloseableItem>
                   <CloseableItem title='Kings Trade for Sabonis' logo={nbaLogo}>
                       <Article date='8 February 2022' body='The Sacramento Kings have traded away Tyrese Haliburton, Buddy Hield, and Tristan Thompson in a shocking move early this Tuesday. In return, they received Indiana Pacers center Domantas Sabonis, along with players Jeremy Lamb and Justin Holiday.'/>
                   </CloseableItem>

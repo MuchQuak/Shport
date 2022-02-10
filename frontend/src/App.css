@@ -197,3 +197,9 @@
     width: 100%;
     flex-basis: 100%;
 }
+
+.noselect {
+    user-select: none;
+    -webkit-user-select: none; /*Safari*/
+    -moz-user-select: none; /*Firefox*/
+}

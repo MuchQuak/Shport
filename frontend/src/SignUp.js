@@ -31,7 +31,7 @@ export default function SignUp(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if(testNewUser()){ // looks for duplicates in the database
+    if (testNewUser()){ // looks for duplicates in the database
       //  create new user object --- hardcoded for now for now ---
       //  currently preferences dont work
       const newUser = {
@@ -41,8 +41,7 @@ export default function SignUp(props) {
         "preferences": preferences  
       }
       navigate('../', {replace:true, state: newUser});
-    }
-    else{
+    } else {
       alert("Duplicate!!!");
     }
   }
@@ -54,19 +53,16 @@ export default function SignUp(props) {
   }
 
   function checkPref(e){
-
-    if(e.target.checked === true){
+    if (e.target.checked === true){
       disableSportOptions();
 
-      if(preferences.length > 0){ // NOTE: Unsure if needed check back later me -- HR
+      if (preferences.length > 0){ // NOTE: Unsure if needed check back later me -- HR
         removeAllTokens();
         document.getElementById('1').checked = false;
         document.getElementById('2').checked = false;
         document.getElementById('3').checked = false;
       }
-
-    }
-    else{
+    } else {
       enableSportOptions();
     }
   }
@@ -88,11 +84,10 @@ export default function SignUp(props) {
   }
 
   function checkSportOption(e, token){
-    if(e.target.checked === true){
+    if (e.target.checked === true){
       addTokenF(token);
       disablePrefOptions();
-    }
-    else{
+    } else {
       removeToken(token);
       enablePrefOptions();
     }
@@ -135,20 +130,17 @@ export default function SignUp(props) {
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
                     <p className="preferences">Preferences</p>
-                    
                     {['checkbox'].map((type) => (
                       <div key={`default-${type}`} className="mb-3">
-                          <Form.Check type={type} label={`No Preferences`} id={`0`} onChange={(e) => checkPref(e)}/>
-                          <Form.Check type={type} label={`NBA`} id={`1`} onChange={(e) => checkSportOption(e,"NBA")}/>
-                          <Form.Check type={type} label={`NFL`} id={`2`} onChange={(e) => checkSportOption(e,"NFL")}/>
-                          <Form.Check type={type} label={`MLB`} id={`3`} onChange={(e) => checkSportOption(e,"MLB")}/>
+                          <Form.Check className='noselect' type={type} label={`No Preferences`} id={`0`} onChange={(e) => checkPref(e)}/>
+                          <Form.Check className='noselect' type={type} label={`NBA`} id={`1`} onChange={(e) => checkSportOption(e,"NBA")}/>
+                          <Form.Check className='noselect' type={type} label={`NFL`} id={`2`} onChange={(e) => checkSportOption(e,"NFL")}/>
+                          <Form.Check className='noselect' type={type} label={`MLB`} id={`3`} onChange={(e) => checkSportOption(e,"MLB")}/>
                       </div>
                     ))}
-
                     <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Sign Up</Button>
-                    
                     <Link to="/Login">
-                        <p className="have-account">Already registered? Sign in</p>
+                        <p className="have-account noselect">Already registered? Sign in</p>
                     </Link>
                 </Form>
             </div>
