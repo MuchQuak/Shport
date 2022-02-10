@@ -30,18 +30,18 @@ export default function StandingsTable(props) {
     function conf(conference) {
         return get_teams(props.stats, conference).map((row, index) => {
             return (
-                <div className='standing' id={index}>
-                    <p>{row.rank}</p>
-                    <div><div className='logo-name-record'>{logo(row.code)}{row.name}</div></div>
+                <div className='standing' id={index} key={index}>
+                    <p className='standing-rank'>{row.rank}</p>
+                    <div className='logo-name-record'>{logo(row.code)}{row.name}</div>
                     <p>{row.wins}-{row.losses}</p>
                 </div>
             );
         });
     }
     return (
-        <Tabbed>
-            <Tab title='West'>{conf('west')}</Tab>
-            <Tab title='East'>{conf('east')}</Tab>
+        <Tabbed titles={['West', 'East']}>
+            <Tab><div className='conference'>{conf('west')}</div></Tab>
+            <Tab><div className='conference'>{conf('east')}</div></Tab>
         </Tabbed>
     );
 }
