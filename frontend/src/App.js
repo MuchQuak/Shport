@@ -15,6 +15,7 @@ export default function App() {
     const location = useLocation();
     if (location.state != null){
         alert("User landing page\n\nusername:\t" + location.state.username +"\nemail:\t\t" + location.state.email + "\npassword:\t" + location.state.password);
+        alert("Preferences: " + location.state.preferences)
     }
 
     //const [teams, setTeams] = useState([]);

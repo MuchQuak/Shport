@@ -8,11 +8,8 @@ export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  // preferences
-  const [no_pref, setNo_pref] = useState(false);
-  const [nba_pref, setNba_pref] = useState(false);
-  const [nfl_pref, setNfl_pref] = useState(false);
-  const [mlb_pref, setMlb_pref] = useState(false);
+  const [preferences, setPreferences]= useState([]);
+
 
   const navigate = useNavigate();
 
@@ -37,16 +34,12 @@ export default function SignUp(props) {
     if(testNewUser()){ // looks for duplicates in the database
       //  create new user object --- hardcoded for now for now ---
       //  currently preferences dont work
-      const newUser = { // ------------ User schema?
+      const newUser = {
         "email": email,
         "username":username,
         "password": password,
-        "no_preferences":no_pref,
-        "nba":nba_pref,
-        "nfl":nfl_pref,
-        "mlb":mlb_pref
-      };
-
+        "preferences": preferences  
+      }
       navigate('../', {replace:true, state: newUser});
     }
     else{
@@ -61,29 +54,26 @@ export default function SignUp(props) {
   }
 
   function checkPref(e){
+
     if(e.target.checked === true){
-      setNo_pref(true);
       disableSportOptions();
+
+      if(preferences.length > 0){ // NOTE: Unsure if needed check back later me -- HR
+        removeAllTokens();
+        document.getElementById('1').checked = false;
+        document.getElementById('2').checked = false;
+        document.getElementById('3').checked = false;
+      }
+
     }
     else{
-      setNo_pref(false);
       enableSportOptions();
     }
   }
 
-  
-  function checkSportOption(e){
-    if(e.target.checked === true){
-      setNo_pref(true);
-      disablePrefOptions();
-    }
-    else{
-      setNo_pref(false);
-      enablePrefOptions();
-
-    }
+  function removeAllTokens(){
+    setPreferences([]);
   }
-
   
   function disableSportOptions(){
     document.getElementById('1').disabled = true;
@@ -97,12 +87,34 @@ export default function SignUp(props) {
     document.getElementById('3').disabled = false;
   }
 
+  function checkSportOption(e, token){
+    if(e.target.checked === true){
+      addTokenF(token);
+      disablePrefOptions();
+    }
+    else{
+      removeToken(token);
+      enablePrefOptions();
+    }
+  }
+
   function disablePrefOptions(){
     document.getElementById('0').disabled = true;
   }
 
   function enablePrefOptions(){
-    document.getElementById('0').disabled = false;
+    if(preferences.length === 1){
+      document.getElementById('0').disabled = false;
+    }
+  }
+
+  function addTokenF(token){
+    setPreferences(oldArray => [...oldArray, token]);
+  }
+
+  function removeToken(token){
+    setPreferences(preferences.filter(tk => tk !== token));
+    
   }
 
   return (
@@ -126,24 +138,10 @@ export default function SignUp(props) {
                     
                     {['checkbox'].map((type) => (
                       <div key={`default-${type}`} className="mb-3">
-
                           <Form.Check type={type} label={`No Preferences`} id={`0`} onChange={(e) => checkPref(e)}/>
-                          <Form.Check type={type} label={`NBA`} id={`1`} onChange={(e) => {
-                              setNba_pref(e.target.checked);
-                              checkSportOption(e);
-                            }
-                          }/>
-                          <Form.Check type={type} label={`NFL`} id={`2`} onChange={(e) => {
-                              setNfl_pref(e.target.checked);
-                              checkSportOption(e);
-                            }
-                          }/>
-                          <Form.Check type={type} label={`MLB`} id={`3`} onChange={(e) => {
-                              setMlb_pref(e.target.checked);
-                              checkSportOption(e);
-                            }
-                          }/>
-                      
+                          <Form.Check type={type} label={`NBA`} id={`1`} onChange={(e) => checkSportOption(e,"NBA")}/>
+                          <Form.Check type={type} label={`NFL`} id={`2`} onChange={(e) => checkSportOption(e,"NFL")}/>
+                          <Form.Check type={type} label={`MLB`} id={`3`} onChange={(e) => checkSportOption(e,"MLB")}/>
                       </div>
                     ))}
 
