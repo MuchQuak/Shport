@@ -23,7 +23,6 @@ export default function SignUp(props) {
         "email": email,
         "username":username,
         "password": password,
-        "preferences": []  
       }
       navigate('/Preferences', {replace:true, state: newUser});
     }
@@ -59,7 +58,7 @@ export default function SignUp(props) {
                     <Button className="submit-button" id="signup-button" block size="lg" type="submit" disabled={!validateForm()}>Next</Button>
                     
                     <Link to="/Login">
-                        <p className="have-account">Already registered? Sign in</p>
+                        <p className="have-account noselect">Already registered? Sign in</p>
                     </Link>
                 </Form>
             </div>
