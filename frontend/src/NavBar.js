@@ -19,11 +19,9 @@ export default function NavBar() {
           <div className="header-right">
             <Link className="header-link" to="/About" id='header-about'>About Us</Link>
             <Link className="header-link" to="/ProjectTeam" id='header-team'>Our Team</Link>
-          {/* <Link className="header-link" to="/Login" id='header-login'>Sign Out</Link>  */}
             <Dropdown>
               <Dropdown.Toggle className="header-link" id="dropdown-basic" />
               <Dropdown.Menu>
-                {/*  Doesn't currently work*/}
                 <Dropdown>Hello, {location.state.username}</Dropdown>
                 <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
                 <Dropdown.Item href="/Login">Sign Out</Dropdown.Item>
