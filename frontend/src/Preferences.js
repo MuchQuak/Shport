@@ -4,7 +4,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import './SignUp.css';
-import App from "./App";
 
 export default function Preferences(){
   const allTokens = ["NBA","NFL", "MLB"];

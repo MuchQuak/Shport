@@ -6,6 +6,9 @@ export default function CloseableItem(props) {
     if (!props) {
         return null;
     }
+    if (!props.prefs) {
+        props.prefs = [];
+    }
     const setInvisible = () => {
         setItemVisible(false);
     };
@@ -30,7 +33,7 @@ export default function CloseableItem(props) {
               </div>
             </div>
             <div className='item-body'>
-              {props.children}
+                {React.cloneElement(props.children, { prefs: props.prefs })}
             </div>
           </div>
         );
