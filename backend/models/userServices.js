@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
       required: true,
       trim: true,
     },
+    email: {
+        type: String,
+        trim: true,
+    },
     pref: [String],
   }, {collection : 'users'});
 
@@ -28,6 +32,8 @@ function getDbConnection() {
 
 async function verifyLogin(user) {
     const userModel = getDbConnection().model("user", userSchema);
+    
+    return true;
 }
 
 async function signUpUser(user){
