@@ -5,31 +5,42 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import './SignUp.css';
 
 export default function Preferences(){
+  const allTokens = ["NBA","NFL", "MLB"];
   const [preferences, setPreferences] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
     
   function handleSubmit(event) {
     event.preventDefault();
+    let prefList = [];
 
     if(preferences.length === 0){
-      const allTokens = ["NBA","NFL", "MLB"];
-
-      allTokens.forEach(element => {
-        setPreferences(oldArray => [...oldArray, element]);
-      });
+      prefList = allTokens
+    }
+    else{
+      prefList = preferences;
     }
 
       const newUser = {
         "email": location.state.email,
         "username": location.state.username,
         "password": location.state.password,
-        "preferences": preferences 
+        "preferences": prefList
       }
 
 
       navigate('/', {replace:true, state: newUser});
     }
+
+  /*
+  DOESNT WORK
+  function addAllPref(){
+    const allTokens = ["NBA","NFL", "MLB"];
+
+    for(let i = 0; i < allTokens.length; i++ ){
+      setPreferences(oldArray => [...oldArray, allTokens[i]]);
+    }
+  }*/
 
   function checkPref(e){
 
