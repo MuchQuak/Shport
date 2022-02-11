@@ -79,3 +79,4 @@ async function findUserByUsername(name){
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
+exports.verifyLogin = verifyLogin;
