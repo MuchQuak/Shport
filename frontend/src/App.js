@@ -11,6 +11,7 @@ import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
 import NBAItem from "./NBAItem";
 import NFLItem from "./NFLItem";
+import MLBItem from "./MLBItem";
 
 export default function App() {
     //const [teams, setTeams] = useState([]);
@@ -81,6 +82,9 @@ export default function App() {
                   <NFLItem prefs={prefs}>
                       <CloseableItem title='Schedule'><p>NFL!</p></CloseableItem>
                   </NFLItem>
+                  <MLBItem prefs={prefs}>
+                      <CloseableItem title='Schedule'><p>MLB!</p></CloseableItem>
+                  </MLBItem>
               </ThirdContent>
               <ThirdContent>
                   <CloseableItem title='Teams' logo={nbaLogo} prefs={prefs}><TeamOverview teams={["LAL", "CHA", "CHI"]} stats={stats}/></CloseableItem>
