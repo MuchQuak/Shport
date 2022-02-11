@@ -1,8 +1,19 @@
 import './NavBar.css';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 
-export default function NavBar() { 
+export default function NavBar(props) { 
+  const location = useLocation();
+  
+  if (location.state != null){
+      alert("User landing page\n\nusername:\t" + location.state.username +"\nemail:\t\t" + location.state.email + "\npassword:\t" + location.state.password);
+      alert("Preferences: " + location.state.preferences)
+  }
+  else{
+    location.state = {};
+    location.state.username = "[ Username ]";
+  }
+
     return (
       <div className="header">
           <div className="header-nav">
@@ -19,7 +30,7 @@ export default function NavBar() {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   {/*  Doesn't currently work*/}
-                  <Dropdown>Hello, [Username]</Dropdown>           
+                  <Dropdown>Hello, {location.state.username}</Dropdown>           
                   <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
                   <Dropdown.Item href="/Login">Sign Out</Dropdown.Item>
                 </Dropdown.Menu>

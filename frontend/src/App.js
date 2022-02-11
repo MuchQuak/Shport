@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom'; // Might need again for later
 import axios from 'axios';
 import './App.css';
 import StandingsTable from './StandingsTable';
@@ -11,13 +11,6 @@ import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
 
 export default function App() {
-    // -- See input from login or sign up --
-    const location = useLocation();
-    if (location.state != null){
-        alert("User landing page\n\nusername:\t" + location.state.username +"\nemail:\t\t" + location.state.email + "\npassword:\t" + location.state.password);
-        alert("Preferences: " + location.state.preferences)
-    }
-
     //const [teams, setTeams] = useState([]);
     const [games, setGames] = useState([]);
     const [stats, setStats] = useState({});
