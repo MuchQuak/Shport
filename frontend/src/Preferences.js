@@ -1,15 +1,28 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import './SignUp.css';
+import App from "./App";
 
 export default function Preferences(){
   const allTokens = ["NBA","NFL", "MLB"];
   const [preferences, setPreferences] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-    
+
+  async function addUser(user){
+    try {
+        const response = await axios.post('http://localhost:5000/users',user);
+        return response;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     let prefList = [];
@@ -22,12 +35,13 @@ export default function Preferences(){
     }
 
       const newUser = {
-        "email": location.state.email,
         "username": location.state.username,
         "password": location.state.password,
-        "preferences": prefList
+        //"email": location.state.email,
+        "pref": prefList
       }
 
+      addUser(newUser);
 
       navigate('/', {replace:true, state: newUser});
     }

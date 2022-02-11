@@ -14,10 +14,7 @@ export default function Login(props) {
     "email": "test@g.com",
     "username":"testUSER",
     "password": "123",
-    "no_preferences":true, 
-    "nba":false,
-    "nfl":false,
-    "mlb":false
+    "pref": ["NBA","NFL","MLB"]
   };
 
   function validateForm() {
