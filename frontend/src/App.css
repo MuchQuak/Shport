@@ -156,8 +156,15 @@
     background-color: #4146cc;
 }
 
+.conference {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
 .standing {
-    margin: 0 0 4px;
     padding-left: 10px;
     padding-right: 10px;
     width: 100%;
@@ -165,10 +172,31 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    gap: 20px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.standing-left {
+    flex-basis: 80%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.standing-right {
+    flex-basis: 20%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .standing-rank {
+    margin: 0;
+    height: 100%;
+    font-size: 100%;
     font-weight: bold;
 }
 

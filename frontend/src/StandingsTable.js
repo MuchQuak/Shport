@@ -13,7 +13,7 @@ function get_teams(stats, conference) {
         if (stat['conference'] === conference) {
             const new_team = {};
             new_team.rank = stat['rank'];
-            new_team.name = stat['name'];
+            new_team.name = stat['city'] + ' ' + stat['name'];
             new_team.wins = stat['wins'];
             new_team.losses = stat['losses'];
             new_team.code = stat['code'];
@@ -31,9 +31,13 @@ export default function StandingsTable(props) {
         return get_teams(props.stats, conference).map((row, index) => {
             return (
                 <div className='standing' id={index} key={index}>
-                    <p className='standing-rank'>{row.rank}</p>
-                    <div className='logo-name-record'>{logo(row.code)}{row.name}</div>
-                    <p>{row.wins}-{row.losses}</p>
+                    <div className='standing-left'>
+                        <pre className='standing-rank'>{row.rank.toString().padEnd(2, ' ')}</pre>
+                        <div className='logo-name-record'>{logo(row.code)}{row.name}</div>
+                    </div>
+                    <div className='standing-right'>
+                        <p>{row.wins}-{row.losses}</p>
+                    </div>
                 </div>
             );
         });
