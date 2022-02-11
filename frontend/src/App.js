@@ -9,6 +9,8 @@ import NavBar from './NavBar';
 import TeamOverview from "./TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
+import NBAItem from "./NBAItem";
+import NFLItem from "./NFLItem";
 
 export default function App() {
     //const [teams, setTeams] = useState([]);
@@ -42,7 +44,7 @@ export default function App() {
     }*/
     async function fetchGames(){
         try {
-            const response = await axios.get('http://localhost:5000/nba');
+            const response = await axios.get('http://localhost:5000/NBA');
             return response.data.games;
         }
         catch (error){
@@ -52,7 +54,7 @@ export default function App() {
     }
     async function fetchStats(){
         try {
-            const response = await axios.get('http://localhost:5000/nba/standings');
+            const response = await axios.get('http://localhost:5000/NBA/standings');
             return response.data.teams;
         }
         catch (error){
@@ -73,7 +75,12 @@ export default function App() {
           <NavBar/>
           <div className='content'>
               <ThirdContent>
-                  <CloseableItem title='Schedule' logo={nbaLogo} prefs={prefs}><Schedule className='nbaSchedule' games={games} /></CloseableItem>
+                  <NBAItem prefs={prefs}>
+                      <CloseableItem title='Schedule'><Schedule className='nbaSchedule' games={games} /></CloseableItem>
+                  </NBAItem>
+                  <NFLItem prefs={prefs}>
+                      <CloseableItem title='Schedule'><p>NFL!</p></CloseableItem>
+                  </NFLItem>
               </ThirdContent>
               <ThirdContent>
                   <CloseableItem title='Teams' logo={nbaLogo} prefs={prefs}><TeamOverview teams={["LAL", "CHA", "CHI"]} stats={stats}/></CloseableItem>

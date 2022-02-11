@@ -42,11 +42,11 @@ app.get('/users', async (req, res) => {
 });
 
 //NBA api Calls
-app.get('/nba', async (req, res) =>{await nba.getGames(req, res)});
-app.get('/nba/teams', async (req, res) => {await nba.getTeams(req, res)});
-app.get('/nba/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
-app.get('/nba/standings', async (req, res) => {await nba.getStandings(req, res)});
-app.get('/nba/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
+app.get('/NBA', async (req, res) =>{await nba.getGames(req, res)});
+app.get('/NBA/teams', async (req, res) => {await nba.getTeams(req, res)});
+app.get('/NBA/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
+app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
+app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
 
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
