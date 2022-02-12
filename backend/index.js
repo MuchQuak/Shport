@@ -38,22 +38,17 @@ app.get('/users', async (req, res) => {
     const username = req.query.username;
     const password = req.query.password;
 
-
     if (username != undefined && password == undefined){
         let result = await userServices.findUserByUsername(username)
         res.status(201).send(result);
-    }
-    else if(username != undefined && password != undefined){ // Used by login screen
+    } else if (username != undefined && password != undefined){ // Used by login screen
         let result = await userServices.findUserByUsername(username);
-        
-        if(result[0] !== undefined && password === result[0]["password"]){
+        if (result[0] !== undefined && password === result[0]["password"]){
             res.status(201).send(result);
-        }
-        else{
+        } else {
             res.status(500).end();
         }
-    }
-    else{
+    } else {
         const allUsers = await userServices.TESTGetUsers();
         res.status(201).send(allUsers);
     }

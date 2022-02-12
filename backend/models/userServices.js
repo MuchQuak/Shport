@@ -52,7 +52,7 @@ async function signUpUser(user){
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", userSchema);
     try {
-        var query = userModel.find({'username':name});
+        const query = userModel.find({'username':name});
         return query.select('pref');
     } catch(error) {
         console.log(error);

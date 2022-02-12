@@ -115,6 +115,7 @@ function formatStandingsData(responseData) {
         new_team.rank = team['confRank'];
         new_team.wins = team['win'];
         new_team.losses = team['loss'];
+        new_team.win
         new_teams[code] = new_team;
     }
     return {teams: new_teams};
