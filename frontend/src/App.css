@@ -141,7 +141,6 @@
 .tab-title {
     margin: 0 auto 5px;
     padding: 4px;
-    background-color: #5259FF;
     color: #FFFFFF;
     border-radius: 3px;
     flex-basis: 100%;
@@ -152,8 +151,12 @@
     background-color: #4146cc;
 }
 
-.tab-title:focus {
+.tab-active {
     background-color: #4146cc;
+}
+
+.tab-inactive {
+    background-color: #5259FF;
 }
 
 .conference {

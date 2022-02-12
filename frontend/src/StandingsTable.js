@@ -1,5 +1,4 @@
 import Tabbed from "./Tabbed";
-import Tab from "./Tab";
 
 function logo(abbreviation) {
     const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
@@ -44,8 +43,8 @@ export default function StandingsTable(props) {
     }
     return (
         <Tabbed titles={['West', 'East']}>
-            <Tab><div className='conference'>{conf('west')}</div></Tab>
-            <Tab><div className='conference'>{conf('east')}</div></Tab>
+            <div className='conference'>{conf('west')}</div>
+            <div className='conference'>{conf('east')}</div>
         </Tabbed>
     );
 }

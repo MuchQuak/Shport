@@ -1,9 +1,9 @@
 const http = require('http');
 const host = 'data.nba.net'
 
-async function getGames(req, res) {
+async function getGames(req, res, dayOffset) {
   const today = new Date();
-  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(parseInt(today.getDate()) + dayOffset).padStart(2, '0');
   const options = {
     host: host,
     path: '/10s/prod/v1/' + currentDate + '/scoreboard.json',

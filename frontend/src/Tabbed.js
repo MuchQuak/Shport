@@ -1,26 +1,32 @@
 import React from 'react';
+import Tab from "./Tab";
 
 export default function Tabbed(props) {
     const [currentTab, setCurrentTab] = React.useState(0);
     if (!props || !props.children || !props.titles) {
         return null;
     }
+    const tabs = props.titles.map((title, index) => {
+        return (
+            <Tab active={currentTab === index} title={title} key={index} click={() => setTab(index)}/>
+        );
+    })
+    const pages = props.children.map((child, index) => {
+        return (
+            <div className='tab-content' key={index}>
+                {child}
+            </div>
+        )
+    });
     function setTab(index) {
         setCurrentTab(index);
     }
-    function titles() {
-        return (
-            <div className='tabs'>
-                {props.titles.map((title, index) => {
-                    return (<p className='tab-title' id={index} tabIndex={index} onClick={() => setTab(index)}>{title}</p>);
-                })}
-            </div>
-        )
-    }
     return (
         <div className='tab-group'>
-            {titles()}
-            {props.children[currentTab]}
+            <div className='tabs'>
+                {tabs}
+            </div>
+            {pages[currentTab]}
         </div>
     );
 }

@@ -68,7 +68,9 @@ app.get('/users', async (req, res) => {
 
 
 //NBA api Calls
-app.get('/NBA', async (req, res) =>{await nba.getGames(req, res)});
+app.get('/NBA', async (req, res) =>{await nba.getGames(req, res, 0)});
+app.get('/NBA/yesterday', async (req, res) =>{await nba.getGames(req, res, -1)});
+app.get('/NBA/tomorrow', async (req, res) =>{await nba.getGames(req, res, 1)});
 app.get('/NBA/teams', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/NBA/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});

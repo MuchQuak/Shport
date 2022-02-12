@@ -1,7 +1,11 @@
 export default function Tab(props) {
+    if (!props || !props.title || !props.click) {
+        return null;
+    }
+    function className() {
+        return 'tab-title' + (props.active === true ? ' tab-active' : ' tab-inactive');
+    }
     return (
-        <div className='tab-content'>
-            {props.children}
-        </div>
+        <p className={className()} onClick={props.click}>{props.title}</p>
     );
 }
