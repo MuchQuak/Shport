@@ -1,14 +1,25 @@
 import './GameSchedule.css';
 import NBAGame from "./NBAGame";
+import Tabbed from "./Tabbed";
 
 export default function Schedule(props) {
-    if (!props || !props.games || !props.prefs) {
+    if (!props || !props.prefs || !props.today || !props.yesterday || !props.tomorrow) {
         return null;
     }
-    const games = props.games.map((game, index) => {
+    const yesterday_games = props.yesterday.map((game, index) => {
+        return (<NBAGame game={game} key={index} />);
+    });
+    const today_games = props.today.map((game, index) => {
+        return (<NBAGame game={game} key={index} />);
+    });
+    const tomorrow_games = props.tomorrow.map((game, index) => {
         return (<NBAGame game={game} key={index} />);
     });
     return (
-        <div className='schedule'>{games}</div>
+        <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1}>
+            <div className='schedule'>{yesterday_games}</div>
+            <div className='schedule'>{today_games}</div>
+            <div className='schedule'>{tomorrow_games}</div>
+        </Tabbed>
     );
 }

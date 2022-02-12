@@ -15,7 +15,9 @@ import MLBItem from "./MLBItem";
 
 export default function App() {
     //const [teams, setTeams] = useState([]);
-    const [games, setGames] = useState([]);
+    const [todayNBAGames, setTodayNBAGames] = useState([]);
+    const [yesterdayNBAGames, setYesterdayNBAGames] = useState([]);
+    const [tomorrowNBAGames, setTomorrowNBAGames] = useState([]);
     const [stats, setStats] = useState({});
     const location = useLocation();
 
@@ -24,9 +26,17 @@ export default function App() {
             if (result)
                 setTeams(result);
         });*/
-        fetchGames().then( result => {
+        fetchTodayNBAGames().then( result => {
             if (result)
-                setGames(result);
+                setTodayNBAGames(result);
+        });
+        fetchYesterdayNBAGames().then( result => {
+            if (result)
+                setYesterdayNBAGames(result);
+        });
+        fetchTomorrowNBAGames().then( result => {
+            if (result)
+                setTomorrowNBAGames(result);
         });
         fetchStats().then( result => {
             if (result)
@@ -43,9 +53,29 @@ export default function App() {
             return false;
         }
     }*/
-    async function fetchGames(){
+    async function fetchTodayNBAGames(){
         try {
             const response = await axios.get('http://localhost:5000/NBA');
+            return response.data.games;
+        }
+        catch (error){
+            console.log(error);
+            return false;
+        }
+    }
+    async function fetchYesterdayNBAGames(){
+        try {
+            const response = await axios.get('http://localhost:5000/NBA/yesterday');
+            return response.data.games;
+        }
+        catch (error){
+            console.log(error);
+            return false;
+        }
+    }
+    async function fetchTomorrowNBAGames(){
+        try {
+            const response = await axios.get('http://localhost:5000/NBA/tomorrow');
             return response.data.games;
         }
         catch (error){
@@ -80,7 +110,7 @@ export default function App() {
           <div className='content'>
               <ThirdContent>
                   <NBAItem prefs={prefs}>
-                      <CloseableItem title='Schedule'><Schedule className='nbaSchedule' games={games} /></CloseableItem>
+                      <CloseableItem title='Schedule'><Schedule className='nbaSchedule' today={todayNBAGames} yesterday={yesterdayNBAGames} tomorrow={tomorrowNBAGames} /></CloseableItem>
                   </NBAItem>
                   <NFLItem prefs={prefs}>
                       <CloseableItem title='Schedule'><p>NFL!</p></CloseableItem>

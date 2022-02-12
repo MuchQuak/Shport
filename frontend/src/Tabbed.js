@@ -2,7 +2,7 @@ import React from 'react';
 import Tab from "./Tab";
 
 export default function Tabbed(props) {
-    const [currentTab, setCurrentTab] = React.useState(0);
+    const [currentTab, setCurrentTab] = React.useState(props.default ? props.default : 0);
     if (!props || !props.children || !props.titles) {
         return null;
     }

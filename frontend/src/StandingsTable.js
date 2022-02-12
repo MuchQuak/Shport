@@ -42,7 +42,7 @@ export default function StandingsTable(props) {
         });
     }
     return (
-        <Tabbed titles={['West', 'East']}>
+        <Tabbed titles={['West', 'East']} default={0}>
             <div className='conference'>{conf('west')}</div>
             <div className='conference'>{conf('east')}</div>
         </Tabbed>
