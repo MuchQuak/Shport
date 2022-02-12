@@ -18,16 +18,13 @@ export default function SignUp(props) {
   function handleSubmit(event) {
     event.preventDefault();
     if(testNewUser()){
-      //  create new user object --- hardcoded for now for now ---
+
       const newUser = {
         "email": email,
         "username":username,
         "password": password,
       }
       navigate('/Preferences', {replace: true, state: newUser});
-    }
-    else{
-      alert("Duplicate!!!");
     }
   }
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -9,40 +10,35 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // ---  HARDCODED dummy user  ---
-  const testUser1 = { // ------------ User schema?
-    "email": "test@g.com",
-    "username":"testUSER",
-    "password": "123",
-    "pref": ["NBA","NFL","MLB"]
-  };
-
   function validateForm() {
-    return validateUsername() && validatePassword();
+    return username.length > 0 && password.length > 0;
   }
 
-  function validatePassword(){
-    return password.length > 0;
+  async function validateLogin(){
+    try {
+        const response = await axios.get('http://localhost:5000/users?username=' + username + "&" + "password=" + password );
+
+        if(response.status === 201){          
+          return true;
+        }
+        
+        return false;  
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
   }
 
-  function validateUsername(){
-    return username.length > 0;
-  }
+
 
   function handleSubmit(event) {
     event.preventDefault();
-    // Tests the hardcored dummy user 
-    if(testDummyUser()){
-      navigate('../', {replace:true, state:testUser1}); // This passes the dummyUser info and navigates back to the landing page
-    }
-    else{
-      alert("Not valid username or password\nHINT: Look at the dummy user in Login.js");
-    }
-  }
 
-  // Simple test for the user input and the dummy user
-  function testDummyUser(){
-    return (testUser1["username"] === username  && testUser1["password"] === password );
+    if(validateLogin()){
+      navigate('../', {replace:true, state:{username}});
+    }
+
   }
 
   return (

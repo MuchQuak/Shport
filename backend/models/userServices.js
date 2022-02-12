@@ -72,7 +72,7 @@ async function getUsers() {
 }
 
 async function findUserByUsername(name){
-    const userModel = getDbConnection().model("User", UserSchema);
+    const userModel = getDbConnection().model("User", userSchema);
     return await userModel.find({'username':name});
 }
 
@@ -80,3 +80,4 @@ exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.verifyLogin = verifyLogin;
+exports.findUserByUsername = findUserByUsername;

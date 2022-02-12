@@ -32,6 +32,35 @@ app.get('/users/:name/pref', async (req, res) => {
         res.status(500).end();
 });
 
+
+// Getting username and password from user
+app.get('/users', async (req, res) => {
+    const username = req.query.username;
+    const password = req.query.password;
+
+
+    if (username != undefined && password == undefined){
+        let result = await userServices.findUserByUsername(username)
+        res.status(201).send(result);
+    }
+    else if(username != undefined && password != undefined){ // Used by login screen
+        let result = await userServices.findUserByUsername(username);
+        
+        if(password === result[0]["password"]){
+            res.status(201).send(result);
+        }
+        else{
+            res.status(500).end();
+        }
+    }
+    else{
+        const allUsers = await userServices.TESTGetUsers();
+        res.status(201).send(allUsers);
+    }
+});
+
+
+/*
 //FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const pref = await userServices.TESTGetUsers();
@@ -39,7 +68,9 @@ app.get('/users', async (req, res) => {
         res.status(201).send(pref);
     else
         res.status(500).end();
-});
+});*/
+
+
 
 //NBA api Calls
 app.get('/NBA', async (req, res) =>{await nba.getGames(req, res)});

@@ -70,6 +70,9 @@ export default function App() {
         location.state.username = "[ Username ]";
         location.state.preferences = [];
     }
+    else{
+        location.state.preferences = [];
+    }
     const prefs = location.state.preferences;
     return (
       <>
