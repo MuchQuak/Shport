@@ -46,7 +46,7 @@ app.get('/users', async (req, res) => {
     else if(username != undefined && password != undefined){ // Used by login screen
         let result = await userServices.findUserByUsername(username);
         
-        if(password === result[0]["password"]){
+        if(result[0] !== undefined && password === result[0]["password"]){
             res.status(201).send(result);
         }
         else{

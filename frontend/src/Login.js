@@ -18,7 +18,8 @@ export default function Login(props) {
     try {
         const response = await axios.get('http://localhost:5000/users?username=' + username + "&" + "password=" + password );
 
-        if(response.status === 201){          
+        if(response.status === 201){ 
+          navigate('../', {replace:true, state:{username}});         
           return true;
         }
         
@@ -34,11 +35,7 @@ export default function Login(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    if(validateLogin()){
-      navigate('../', {replace:true, state:{username}});
-    }
-
+    validateLogin();
   }
 
   return (
