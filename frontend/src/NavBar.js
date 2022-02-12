@@ -14,7 +14,7 @@ export default function NavBar() {
     <div className="header">
         <div className="header-nav">
           <div className="header-left">
-            <Link to="/"><h1 className="header-text">Dashboard</h1></Link>
+            <Link to="/" className="header-text-link"><h1 className="header-text">DASHBOARD</h1></Link>
           </div>
           <div className="header-right">
             <Link className="header-link" to="/About" id='header-about'>About Us</Link>
