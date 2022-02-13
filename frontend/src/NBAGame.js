@@ -5,10 +5,6 @@ function logo(abbreviation) {
     return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
 }
 
-function name_record(team, record) {
-    return (<div className='game-name-record'><p className='game-team-name'>{team}</p><p className='game-record'>{record}</p></div>)
-}
-
 function score(game, score_info) {
     if (score_info === "" || game.status <= 1) {
         return null;
@@ -27,9 +23,6 @@ export default function NBAGame(props) {
         return null;
     }
     const clock_data = game.clock.toString().trim();
-    /*function over() {
-        return game.status > 2 || (!game.halftime && !ready(clock_data) && game.currentQtr === 4 && game.endPeriod)
-    }*/
     function halftime() {
         return game.halftime || (clock_data === "" && game.currentQtr === 2 && game.endPeriod && game.activated)
     }
@@ -71,7 +64,7 @@ export default function NBAGame(props) {
             <div className='game-data'>
                 <div className='game-left'>
                     {logo(game.home)}
-                    {name_record(homeStats['name'], game.home_record)}
+                    <p className='game-team-name'>{homeStats['name']}</p>
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
@@ -80,7 +73,7 @@ export default function NBAGame(props) {
                 </div>
                 <div className='game-right'>
                     {logo(game.away)}
-                    {name_record(awayStats['name'], game.away_record)}
+                    <p className='game-team-name'>{awayStats['name']}</p>
                     {score(game, game.away_score)}
                 </div>
             </div>

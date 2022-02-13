@@ -66,26 +66,9 @@
     font-weight: bold;
 }
 
-.game-name-record {
-    margin: 0 auto;
-    width: auto;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    text-align: left;
-    align-content: flex-start;
-}
-
 .game-team-name {
     margin: 0;
     padding: 0;
-}
-
-.game-record {
-    margin: 0;
-    padding-left: 4px;
-    font-size: 65%;
 }
 
 .score {
