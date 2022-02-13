@@ -11,7 +11,7 @@
 .overview {
     margin: 0 auto 3px;
     padding: 5px;
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
     text-align: left;

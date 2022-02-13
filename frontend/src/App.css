@@ -260,6 +260,11 @@
     -moz-user-select: none; /*Firefox*/
 }
 
+.nomargin {
+    margin: 0;
+    padding: 0;
+}
+
 .icon-text {
     margin: 0;
     width: auto;

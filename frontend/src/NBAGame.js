@@ -17,7 +17,15 @@ function score(game, score_info) {
 }
 
 export default function NBAGame(props) {
+    if (!props || !props.game || !props.stats) {
+        return null;
+    }
     const game = props.game;
+    const homeStats = props.stats[String(game.home).trim()];
+    const awayStats = props.stats[String(game.away).trim()];
+    if (!homeStats || !awayStats || !homeStats['name'] || !awayStats['name']) {
+        return null;
+    }
     const clock_data = game.clock.toString().trim();
     /*function over() {
         return game.status > 2 || (!game.halftime && !ready(clock_data) && game.currentQtr === 4 && game.endPeriod)
@@ -63,7 +71,7 @@ export default function NBAGame(props) {
             <div className='game-data'>
                 <div className='game-left'>
                     {logo(game.home)}
-                    {name_record(game.home, game.home_record)}
+                    {name_record(homeStats['name'], game.home_record)}
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
@@ -72,7 +80,7 @@ export default function NBAGame(props) {
                 </div>
                 <div className='game-right'>
                     {logo(game.away)}
-                    {name_record(game.away, game.away_record)}
+                    {name_record(awayStats['name'], game.away_record)}
                     {score(game, game.away_score)}
                 </div>
             </div>

@@ -16,7 +16,8 @@ export default function Login(props) {
 
   async function validateLogin(){
     try {
-        const response = await axios.get('http://localhost:5000/users?username=' + username + "&" + "password=" + password );
+        const url = 'http://localhost:5000/users?username=' + username + '&password=' + password;
+        const response = await axios.get(url);
         if (response.status === 201){
           navigate('../', {replace:true, state:{username}});         
           return true;

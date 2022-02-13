@@ -110,13 +110,13 @@ export default function App() {
           <div className='content'>
               <ThirdContent>
                   <NBAItem prefs={prefs}>
-                      <CloseableItem title='Schedule'><Schedule className='nbaSchedule' today={todayNBAGames} yesterday={yesterdayNBAGames} tomorrow={tomorrowNBAGames} /></CloseableItem>
+                      <CloseableItem title='Schedule'><Schedule className='nbaSchedule' today={todayNBAGames} yesterday={yesterdayNBAGames} tomorrow={tomorrowNBAGames} stats={stats} /></CloseableItem>
                   </NBAItem>
                   <NFLItem prefs={prefs}>
-                      <CloseableItem title='Schedule'><p>NFL!</p></CloseableItem>
+                      <CloseableItem title='Schedule'><p className='nomargin'>NFL!</p></CloseableItem>
                   </NFLItem>
                   <MLBItem prefs={prefs}>
-                      <CloseableItem title='Schedule'><p>MLB!</p></CloseableItem>
+                      <CloseableItem title='Schedule'><p className='nomargin'>MLB!</p></CloseableItem>
                   </MLBItem>
               </ThirdContent>
               <ThirdContent>
