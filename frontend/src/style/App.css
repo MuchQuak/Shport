@@ -1,0 +1,66 @@
+.content {
+    margin: 0;
+    padding: 0;
+}
+
+.third {
+    margin: 0 0 30px;
+    flex-shrink: 0;
+    width: 30%;
+    min-width: 400px;
+}
+
+.items {
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 20px;
+    text-align: center;
+}
+
+.noselect {
+    user-select: none;
+    -webkit-user-select: none; /*Safari*/
+    -moz-user-select: none; /*Firefox*/
+}
+
+.nomargin {
+    margin: 0;
+    padding: 0;
+}
+
+.icon-text {
+    margin: 0;
+    width: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+.logo-name-record {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+}
+
+.logo-container {
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 25%;
+}
+
+#sport-logo {
+    margin: 0;
+    padding: 0;
+    height: 1.5em;
+}

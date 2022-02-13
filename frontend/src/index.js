@@ -5,7 +5,7 @@ import {
    Route
  } from "react-router-dom";// Keeps track of
 
-import './index.css';
+import './style/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import About from './About';

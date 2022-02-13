@@ -1,4 +1,4 @@
-import './GameSchedule.css';
+import './style/GameSchedule.css';
 import NBAGame from "./NBAGame";
 import Tabbed from "./Tabbed";
 

@@ -1,3 +1,5 @@
+import './style/Article.css';
+
 export default function Article(props) {
     return (
         <div className='article'>

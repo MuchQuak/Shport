@@ -1,3 +1,5 @@
+import "./style/Tab.css";
+
 export default function Tab(props) {
     if (!props || !props.title || !props.click) {
         return null;

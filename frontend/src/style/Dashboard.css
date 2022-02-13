@@ -1,0 +1,12 @@
+.dashboard {
+    margin: 0 auto;
+    padding: 30px 0 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    background-color: inherit;
+    text-align: center;
+}

@@ -1,3 +1,4 @@
+import "./style/Standings.css";
 import Tabbed from "./Tabbed";
 
 function logo(abbreviation) {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
-import './SignUp.css';
+import './style/SignUp.css';
 
 export default function SignUp(props) {
   const [email, setEmail] = useState("");

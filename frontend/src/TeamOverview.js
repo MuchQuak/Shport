@@ -1,4 +1,4 @@
-import './TeamOverview.css';
+import './style/TeamOverview.css';
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

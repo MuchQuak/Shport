@@ -1,3 +1,4 @@
+import "./style/Tab.css";
 import React from 'react';
 import Tab from "./Tab";
 

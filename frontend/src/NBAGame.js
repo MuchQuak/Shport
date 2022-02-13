@@ -1,4 +1,4 @@
-import './GameSchedule.css';
+import './style/GameSchedule.css';
 
 function logo(abbreviation) {
     const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
