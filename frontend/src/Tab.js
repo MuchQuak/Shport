@@ -3,7 +3,7 @@ export default function Tab(props) {
         return null;
     }
     function className() {
-        return 'tab-title' + (props.active === true ? ' tab-active' : ' tab-inactive');
+        return 'tab-title noselect ' + (props.active === true ? 'tab-active' : 'tab-inactive');
     }
     return (
         <p className={className()} onClick={props.click}>{props.title}</p>

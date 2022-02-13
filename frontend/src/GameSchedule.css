@@ -99,3 +99,9 @@
     padding: 1px;
     font-size: 75%;
 }
+
+.game-empty {
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+}

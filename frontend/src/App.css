@@ -145,6 +145,7 @@
     border-radius: 3px;
     flex-basis: 100%;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .tab-title:hover {
@@ -153,6 +154,8 @@
 
 .tab-active {
     background-color: #4146cc;
+    text-decoration: underline;
+    text-decoration-color: #FFFFFF;
 }
 
 .tab-inactive {
@@ -175,7 +178,9 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #7a8cff;
+    color: #FFFFFF;
+    font-weight: bold;
     border-radius: 5px;
 }
 
