@@ -17,12 +17,10 @@ export default function Login(props) {
   async function validateLogin(){
     try {
         const response = await axios.get('http://localhost:5000/users?username=' + username + "&" + "password=" + password );
-
-        if(response.status === 201){ 
+        if (response.status === 201){
           navigate('../', {replace:true, state:{username}});         
           return true;
         }
-        
         return false;  
     }
     catch (error){
@@ -30,8 +28,6 @@ export default function Login(props) {
         return false;
     }
   }
-
-
 
   function handleSubmit(event) {
     event.preventDefault();

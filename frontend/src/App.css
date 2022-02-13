@@ -259,3 +259,13 @@
     -webkit-user-select: none; /*Safari*/
     -moz-user-select: none; /*Firefox*/
 }
+
+.icon-text {
+    margin: 0;
+    width: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
