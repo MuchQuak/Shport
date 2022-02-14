@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 let dbConnection;
 
+/*
+   Retrieve all sports followed by user
+   For each sport (regardless of sport following), retrieve all leagues followed
+   For each league (regardless of league following), retrieve all teams followed
+   Retrieve everything
+*/
+
 const userSchema = new mongoose.Schema({
     username: {
       type: String,
@@ -16,7 +23,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    pref: [String],
+    pref: [],
   }, {collection : 'users'});
 
 function getDbConnection() {
