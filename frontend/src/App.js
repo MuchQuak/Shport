@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom'; // Might need again for later
-import axios from 'axios';
 import './style/App.css';
 import NavBar from './NavBar';
 import Dashboard from "./Dashboard";
