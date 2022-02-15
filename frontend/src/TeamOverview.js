@@ -1,4 +1,6 @@
 import './style/TeamOverview.css';
+import {all_prefs, getSportsFollowed, getTeamsFollowedForSport} from "./PrefHandler";
+import Tabbed from "./Tabbed";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -24,11 +26,15 @@ function logo(abbreviation) {
 }
 
 export default function TeamOverview(props) {
-    if (!(props.teams && props.stats)) {
+    if (!props.stats || !props.prefs) {
         return null;
     }
     const stats = props.stats;
-    const overviews = props.teams.map((team, index) => {
+    //const prefs = props.prefs;    // bring this back later, when prefs are working.
+    const prefs = all_prefs;
+    const leaguesFollowed = getSportsFollowed(prefs); // should be replaced with user's prefs whjen those are fixed.
+    const nba_teams = getTeamsFollowedForSport(prefs, "NBA"); // can be made dynamic in the future
+    const nba_overviews = nba_teams.map((team, index) => {
         const code = String(team).trim().toUpperCase();
         if (!(stats && stats[code])) {
             return null;
@@ -51,5 +57,14 @@ export default function TeamOverview(props) {
             </div>
         );
     });
-    return <div className='overviews'>{overviews}</div>;
+    return (
+        <Tabbed titles={leaguesFollowed} default={0}>
+            <div className='overviews'>
+                {nba_overviews}
+            </div>
+            <p className='nomargin'>No Overview</p>
+            <p className='nomargin'>No Overview</p>
+            <p className='nomargin'>No Overview</p>
+        </Tabbed>
+    );
 }

@@ -110,8 +110,9 @@ export default function Dashboard(props) {
                         </MLBItem>
                     </ThirdContent>
                     <ThirdContent>
-                        <CloseableItem title='Teams' logo={nbaLogo} prefs={prefs}><TeamOverview
-                            teams={["LAL", "CHA", "CHI"]} stats={stats}/></CloseableItem>
+                        <CloseableItem title='Teams' logo={nbaLogo} prefs={prefs}>
+                            <TeamOverview stats={stats}/>
+                        </CloseableItem>
                         <CloseableItem title='Kings Trade for Sabonis' logo={nbaLogo} prefs={prefs}>
                             <Article date='8 February 2022'
                                      body='The Sacramento Kings have traded away Tyrese Haliburton, Buddy Hield, and Tristan Thompson in a shocking move early this Tuesday. In return, they received Indiana Pacers center Domantas Sabonis, along with players Jeremy Lamb and Justin Holiday.'/>
