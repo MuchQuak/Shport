@@ -22,6 +22,16 @@ app.post('/users', async (req, res) => {
         res.status(500).end();
 });
 
+//Test user sign up call
+    app.post('/testusers', async (req, res) => {
+    const user = req.body;
+    const savedUser = await userServices.signUpTestUser(user);
+    if (savedUser)
+        res.status(201).send();
+    else
+        res.status(500).end();
+});
+
 //Currently just uses name to look up but would like to change this
 app.get('/users/:name/pref', async (req, res) => {
     const name = req.params.name;

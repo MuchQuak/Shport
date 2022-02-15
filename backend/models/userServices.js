@@ -1,13 +1,7 @@
 const mongoose = require('mongoose');
 let dbConnection;
 
-/*
-   Retrieve all sports followed by user
-   For each sport (regardless of sport following), retrieve all leagues followed
-   For each league (regardless of league following), retrieve all teams followed
-   Retrieve everything
-*/
-
+// OLD
 const userSchema = new mongoose.Schema({
     username: {
       type: String,
@@ -25,6 +19,77 @@ const userSchema = new mongoose.Schema({
     },
     pref: [],
   }, {collection : 'users'});
+
+// NEW PREFS
+const prefsSchema = new mongoose.Schema(
+    {
+        sports: {
+            following: {
+                type: Boolean,
+                required: false,
+                trim: true,
+            },
+            NBA: {
+                following: {
+                    type: Boolean,
+                    required: false,
+                    trim: true,
+                },
+                teams: []
+            },
+            NFL: {
+                following: {
+                    type: Boolean,
+                    required: false,
+                    trim: true,
+                },
+                teams: []
+            },
+            NHL: {
+                following: {
+                    type: Boolean,
+                    required: false,
+                    trim: true,
+                },
+                teams: []
+            },
+            MLB: {
+                following: {
+                    type: Boolean,
+                    required: false,
+                    trim: true,
+                },
+                teams: []
+            }
+        }
+    },
+    {
+        collection : 'prefs'
+    }
+);
+
+// NEW USER
+const testUserSchema = new mongoose.Schema(
+    {
+        username: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        password: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        prefs: {
+            type: prefsSchema,
+            required: true
+        },
+    },
+    {
+        collection : 'test_users'
+    }
+);
 
 function getDbConnection() {
     const url = "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
@@ -56,10 +121,23 @@ async function signUpUser(user){
     }       
 }
 
+// for testing
+async function signUpTestUser(user) {
+    const userModel = getDbConnection().model("user", testUserSchema);
+    try {
+        const userToAdd = new userModel(user);
+        const savedUser = await userToAdd.save()
+        return savedUser;
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
+}
+
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", userSchema);
     try {
-        const query = userModel.find({'username':name});
+        const query = userModel.find({'username': name});
         return query.select('pref');
     } catch(error) {
         console.log(error);
@@ -80,10 +158,11 @@ async function getUsers() {
 
 async function findUserByUsername(name){
     const userModel = getDbConnection().model("User", userSchema);
-    return await userModel.find({'username':name});
+    return await userModel.find({'username': name});
 }
 
 exports.signUpUser = signUpUser;
+exports.signUpTestUser = signUpTestUser;
 exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.verifyLogin = verifyLogin;
