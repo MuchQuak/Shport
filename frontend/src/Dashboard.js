@@ -3,9 +3,6 @@ import './style/Dashboard.css';
 import TeamOverview from "./TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
-import NBAItem from "./NBAItem";
-import NFLItem from "./NFLItem";
-import MLBItem from "./MLBItem";
 import StandingsTable from './StandingsTable';
 import Schedule from './Schedule';
 import Article from './Article';
@@ -89,31 +86,28 @@ export default function Dashboard(props) {
             return false;
         }
     }
-    const nbaLogo = <div className='logo-container'><img className='logo' id='sport-logo' src='https://cdn.nba.com/logos/nba/nba-logoman.svg' alt='nba-logo'/></div>;
+    // const nbaLogo = <div className='logo-container'><img className='logo' id='sport-logo' src='https://cdn.nba.com/logos/nba/nba-logoman.svg' alt='nba-logo'/></div>;
     if (props) {
         if (props.prefs) {
             const prefs = props.prefs;
             return (
                 <div className='dashboard'>
                     <ThirdContent>
-                        <NBAItem prefs={prefs}>
-                            <CloseableItem title='Schedule'><Schedule className='nbaSchedule' today={todayNBAGames}
-                                                                      yesterday={yesterdayNBAGames}
-                                                                      tomorrow={tomorrowNBAGames}
-                                                                      stats={stats}/></CloseableItem>
-                        </NBAItem>
-                        <NFLItem prefs={prefs}>
-                            <CloseableItem title='Schedule'><p className='nomargin'>NFL!</p></CloseableItem>
-                        </NFLItem>
-                        <MLBItem prefs={prefs}>
-                            <CloseableItem title='Schedule'><p className='nomargin'>MLB!</p></CloseableItem>
-                        </MLBItem>
+                        <CloseableItem title='Schedule'>
+                            <Schedule className='nbaSchedule'
+                                      today={todayNBAGames}
+                                      yesterday={yesterdayNBAGames}
+                                      tomorrow={tomorrowNBAGames}
+                                      stats={stats} />
+                        </CloseableItem>
+                        <CloseableItem title='Schedule'><p className='nomargin'>NFL!</p></CloseableItem>
+                        <CloseableItem title='Schedule'><p className='nomargin'>MLB!</p></CloseableItem>
                     </ThirdContent>
                     <ThirdContent>
-                        <CloseableItem title='Teams' logo={nbaLogo} prefs={prefs}>
+                        <CloseableItem title='Teams' prefs={prefs}>
                             <TeamOverview stats={stats}/>
                         </CloseableItem>
-                        <CloseableItem title='Kings Trade for Sabonis' logo={nbaLogo} prefs={prefs}>
+                        <CloseableItem title='Kings Trade for Sabonis' prefs={prefs}>
                             <Article date='8 February 2022'
                                      body='The Sacramento Kings have traded away Tyrese Haliburton, Buddy Hield, and Tristan Thompson in a shocking move early this Tuesday. In return, they received Indiana Pacers center Domantas Sabonis, along with players Jeremy Lamb and Justin Holiday.'/>
                         </CloseableItem>
@@ -122,8 +116,9 @@ export default function Dashboard(props) {
                         </CloseableItem>
                     </ThirdContent>
                     <ThirdContent>
-                        <CloseableItem title='Standings' logo={nbaLogo} prefs={prefs}><StandingsTable
-                            stats={stats}/></CloseableItem>
+                        <CloseableItem title='Standings' prefs={prefs}>
+                            <StandingsTable stats={stats}/>
+                        </CloseableItem>
                         <CloseableItem title='News Article 3' prefs={prefs}>
                             <Article date='9 February 2022' body='test number 3'/>
                         </CloseableItem>

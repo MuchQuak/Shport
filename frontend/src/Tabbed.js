@@ -7,6 +7,7 @@ export default function Tabbed(props) {
     if (!props || !props.children || !props.titles) {
         return null;
     }
+    // const icons = props.icons ? props.icons : [];
     const tabs = props.titles.map((title, index) => {
         return (
             <Tab active={currentTab === index} title={title} key={index} click={() => setTab(index)}/>

@@ -7,8 +7,9 @@ export default function CloseableItem(props) {
     if (!props) {
         return null;
     }
-    if (!props.prefs) {
-        props.prefs = [];
+    let prefs = [];
+    if (props.prefs) {
+        prefs = props.prefs;
     }
     const setInvisible = () => {
         setItemVisible(false);
@@ -20,7 +21,7 @@ export default function CloseableItem(props) {
         return props.logo ? props.logo : null;
     }
     function children() {
-        return props.children ? React.cloneElement(props.children, { prefs: props.prefs }) : null;
+        return props.children ? React.cloneElement(props.children, { prefs: prefs }) : null;
     }
     if (itemVisible) {
         return (
