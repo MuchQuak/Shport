@@ -86,6 +86,28 @@ export async function fetchTodayNHLGames(){
     }
 }
 
+export async function fetchYesterdayNHLGames(){
+    try {
+        const response = await axios.get('http://localhost:5000/NHL/yesterday');
+        return response.data.games;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+}
+
+export async function fetchTomorrowNHLGames(){
+    try {
+        const response = await axios.get('http://localhost:5000/NHL/tomorrow');
+        return response.data.games;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+}
+
 // Retrieves a sport by its code (ex: "NBA", "NFL")
 // sports is a sports object, like one retrieved by fetchSports() within a Component
 export function byCode(sports, code) {
@@ -98,4 +120,14 @@ export function byCode(sports, code) {
     });
     } catch (error) {}
     return found;
+}
+
+export function UTCtoLocal(UTC) {
+    const today = new Date(UTC);
+    let hours = today.getHours();
+    const period = hours > 12 ? "PM" : "AM";
+    if (hours > 12) {
+        hours -= 12;
+    }
+    return hours + ":" + String(today.getMinutes()).padStart(2, '0') + " " + period;
 }

@@ -1,5 +1,5 @@
 import './style/GameSchedule.css';
-import {NBA_logo} from "./SportHandler";
+import {NBA_logo, UTCtoLocal} from "./SportHandler";
 
 function score(game, score_info) {
     if (score_info === "" || game.status <= 1) {
@@ -22,22 +22,6 @@ export default function NBAGame(props) {
     function halftime() {
         return game.halftime || (clock_data === "" && game.currentQtr === 2 && game.endPeriod && game.activated)
     }
-    function starttime() {
-        const today = new Date();
-        const currentDate = today.getFullYear() + "-" +
-            String(today.getMonth() + 1).padStart(2, '0') + "-" +
-            String(today.getDate()).padStart(2, '0');
-        const startTime = String(game.startTimeEST)
-            .replace(' ', '')
-            .replace('PM', '')
-            .replace('AM', '')
-            .replace('ET', '')
-            .trim().padStart(5, '0');
-        const dateString = currentDate + 'T' + startTime + ':00.000-05:00';
-        const date = new Date(dateString);
-        return date.toTimeString().substr(0, 5) + ' ' +
-            date.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
-    }
     function clock() {
         if (game.status > 2) {
             return (<p>Final Score</p>);
@@ -46,7 +30,7 @@ export default function NBAGame(props) {
             return (<p><b>Halftime</b></p>);
         }
         if (clock_data === "" || !game.activated){
-            return (<p>{starttime()}</p>);
+            return (<p>{UTCtoLocal(game.startTimeUTC)}</p>);
         }
         return (
             <>

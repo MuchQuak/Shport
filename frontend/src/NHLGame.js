@@ -1,5 +1,5 @@
 import './style/GameSchedule.css';
-import {NHL_logo} from "./SportHandler";
+import {NHL_logo, UTCtoLocal} from "./SportHandler";
 
 function score(game, score_info) {
     if (score_info === "" || game.status <= 1) {
@@ -41,7 +41,7 @@ export default function NBAGame(props) {
             return (<p><b>Halftime</b></p>);
         }
         if (clock_data === "" || !game.activated){
-            return (<p>{starttime()}</p>);
+            return (<p>{UTCtoLocal(game.startTimeUTC)}</p>);
         }
         return (
             <>

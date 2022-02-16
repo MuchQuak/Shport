@@ -4,13 +4,21 @@ import NHLGame from "./NHLGame";
 import Tabbed from "./Tabbed";
 import {all_prefs, getSportsFollowed} from "./PrefHandler";
 import {useEffect, useState} from "react";
-import {fetchTodayNBAGames, fetchTomorrowNBAGames, fetchYesterdayNBAGames, fetchTodayNHLGames} from "./SportHandler";
+import {
+    fetchTodayNBAGames,
+    fetchTomorrowNBAGames,
+    fetchYesterdayNBAGames,
+    fetchTodayNHLGames,
+    fetchYesterdayNHLGames, fetchTomorrowNHLGames
+} from "./SportHandler";
 
 export default function Schedule(props) {
     const [todayNBAGames, setTodayNBAGames] = useState([]);
     const [yesterdayNBAGames, setYesterdayNBAGames] = useState([]);
     const [tomorrowNBAGames, setTomorrowNBAGames] = useState([]);
     const [todayNHLGames, setTodayNHLGames] = useState([]);
+    const [yesterdayNHLGames, setYesterdayNHLGames] = useState([]);
+    const [tomorrowNHLGames, setTomorrowNHLGames] = useState([]);
 
     useEffect(() => {
         fetchTodayNBAGames().then(result => {
@@ -28,6 +36,14 @@ export default function Schedule(props) {
         fetchTodayNHLGames().then(result => {
             if (result)
                 setTodayNHLGames(result);
+        });
+        fetchYesterdayNHLGames().then(result => {
+            if (result)
+                setYesterdayNHLGames(result);
+        });
+        fetchTomorrowNHLGames().then(result => {
+            if (result)
+                setTomorrowNHLGames(result);
         });
     }, [] );
 
@@ -72,9 +88,9 @@ export default function Schedule(props) {
         } else if (league === "NHL") {
             return (
                 <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1} key={index}>
+                    <div className='schedule'>{NHLGames(yesterdayNHLGames)}</div>
                     <div className='schedule'>{NHLGames(todayNHLGames)}</div>
-                    <div className='schedule'>{NHLGames(todayNHLGames)}</div>
-                    <div className='schedule'>{NHLGames(todayNHLGames)}</div>
+                    <div className='schedule'>{NHLGames(tomorrowNHLGames)}</div>
                 </Tabbed>
             )
         }
