@@ -76,6 +76,7 @@ app.get('/users', async (req, res) => {
 });*/
 
 // Sport Calls
+app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});
 app.get('/sport/:sport', async (req, res) => {await sportInfoServices.getSportRequest(req, res)});
 app.get('/sport/:sport/teams', async (req, res) => {await sportInfoServices.getTeamsRequest(req, res)});
 

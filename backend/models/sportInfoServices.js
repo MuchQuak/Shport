@@ -11,7 +11,7 @@ const sportSchema = new mongoose.Schema(
         teams: []
     },
     {
-        collection : 'teams'
+        collection : "sports"
     }
 );
 
@@ -26,10 +26,20 @@ function getDbConnection() {
     return dbConnection;
 }
 
-async function getSport(sport) {
-    const userModel = getDbConnection().model("team", sportSchema);
+async function getSports() {
+    const sportModel = getDbConnection().model("sport", sportSchema);
     try {
-        return userModel.findOne({"sport": String(sport).trim().toUpperCase()});
+        return sportModel.find();
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function getSport(sport) {
+    const sportModel = getDbConnection().model("sport", sportSchema);
+    try {
+        return sportModel.findOne({"sport": String(sport).trim().toUpperCase()});
     } catch(error) {
         console.log(error);
         return false;
@@ -44,6 +54,14 @@ async function getTeams(sport) {
         console.log(error);
         return false;
     }
+}
+
+async function getSportsRequest(req, res) {
+    const sports = await getSports();
+    if (sports)
+        res.status(200).send(sports);
+    else
+        res.status(500).end();
 }
 
 async function getSportRequest(req, res) {
@@ -64,7 +82,9 @@ async function getTeamsRequest(req, res) {
         res.status(500).end();
 }
 
+exports.getSports = getSports;
 exports.getSport = getSport;
 exports.getTeams = getTeams;
+exports.getSportsRequest = getSportsRequest;
 exports.getSportRequest = getSportRequest;
 exports.getTeamsRequest = getTeamsRequest;

@@ -13,6 +13,7 @@ export default function Dashboard(props) {
     const [yesterdayNBAGames, setYesterdayNBAGames] = useState([]);
     const [tomorrowNBAGames, setTomorrowNBAGames] = useState([]);
     const [stats, setStats] = useState({});
+    const [sports, setSports] = useState([]);
 
     useEffect(() => {
         /*fetchTeams().then( result => {
@@ -34,6 +35,10 @@ export default function Dashboard(props) {
         fetchStats().then( result => {
             if (result)
                 setStats(result);
+        });
+        fetchSports().then( result => {
+            if (result)
+                setSports(result);
         });
     }, [] );
     /*async function fetchTeams(){
@@ -86,6 +91,16 @@ export default function Dashboard(props) {
             return false;
         }
     }
+    async function fetchSports(){
+        try {
+            const response = await axios.get('http://localhost:5000/sport');
+            return response.data;
+        }
+        catch (error){
+            console.log(error);
+            return false;
+        }
+    }
     // const nbaLogo = <div className='logo-container'><img className='logo' id='sport-logo' src='https://cdn.nba.com/logos/nba/nba-logoman.svg' alt='nba-logo'/></div>;
     if (props) {
         if (props.prefs) {
@@ -93,7 +108,7 @@ export default function Dashboard(props) {
             return (
                 <div className='dashboard'>
                     <ThirdContent>
-                        <CloseableItem title='Schedule'>
+                        <CloseableItem title='Schedule' prefs={prefs} sports={sports}>
                             <Schedule className='nbaSchedule'
                                       today={todayNBAGames}
                                       yesterday={yesterdayNBAGames}
@@ -116,7 +131,7 @@ export default function Dashboard(props) {
                         </CloseableItem>
                     </ThirdContent>
                     <ThirdContent>
-                        <CloseableItem title='Standings' prefs={prefs}>
+                        <CloseableItem title='Standings' prefs={prefs} sports={sports}>
                             <StandingsTable stats={stats}/>
                         </CloseableItem>
                         <CloseableItem title='News Article 3' prefs={prefs}>

@@ -4,7 +4,7 @@ import Tabbed from "./Tabbed";
 import {all_prefs, getSportsFollowed} from "./PrefHandler";
 
 export default function Schedule(props) {
-    if (!props || !props.prefs || !props.today || !props.yesterday || !props.tomorrow || !props.stats) {
+    if (!props || !props.prefs || !props.sports || !props.today || !props.yesterday || !props.tomorrow || !props.stats) {
         return null;
     }
     const noGames = (
@@ -18,6 +18,9 @@ export default function Schedule(props) {
             return (<NBAGame game={game} key={index} stats={props.stats} />);
         });
     }
+    const sports = props.sports.map((sport) => {
+        return sport["sport"];
+    });
     const leaguesFollowed = getSportsFollowed(all_prefs); // should be replaced with user's prefs when those are fixed...
     // const teamsFollowed = getTeamsFollowedForSport(all_prefs, 'NBA'); // This check will go inside individual game code instead...
     // Code below is not dynamic yet, but leaguesFollowed will need to be map()ed to provide each page.

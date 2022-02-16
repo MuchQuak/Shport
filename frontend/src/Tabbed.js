@@ -13,13 +13,22 @@ export default function Tabbed(props) {
             <Tab active={currentTab === index} title={title} key={index} click={() => setTab(index)}/>
         );
     })
-    const pages = props.children.map((child, index) => {
-        return (
-            <div className='tab-content' key={index}>
-                {child}
+    let pages;
+    try {
+        pages = props.children.map((child, index) => {
+            return (
+                <div className='tab-content' key={index}>
+                    {child}
+                </div>
+            )
+        });
+    } catch(error) {
+        pages = [(
+            <div className='tab-content'>
+                {props.children}
             </div>
-        )
-    });
+        )]
+    }
     function setTab(index) {
         setCurrentTab(index);
     }

@@ -1,5 +1,7 @@
 import "./style/Standings.css";
 import Tabbed from "./Tabbed";
+import {all_prefs, getSportsFollowed} from "./PrefHandler";
+import {byCode} from "./SportHandler";
 
 function logo(abbreviation) {
     const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
@@ -24,7 +26,7 @@ function get_teams(stats, conference) {
 }
 
 export default function StandingsTable(props) {
-    if (!props.stats) {
+    if (!props || !props.stats || !props.prefs || !props.sports) {
         return null;
     }
     function conf(conference) {
@@ -42,10 +44,30 @@ export default function StandingsTable(props) {
             );
         });
     }
+    const leaguesFollowed = getSportsFollowed(all_prefs); // should be replaced with user's prefs when those are fixed...
+    const tabs = leaguesFollowed.map((league, index) => {
+        const sportInfo = byCode(props.sports, league);
+        if (sportInfo.length === 0 || !sportInfo["divisions"]) {
+            return null;
+        }
+        const divs = sportInfo["divisions"];
+        const data = divs.map((div) => {
+            if (league !== "NBA") {
+                return <p className='nomargin'>No data supported.</p>
+            }
+            return (
+                <div className='conference'>{conf(String(div).toLowerCase())}</div>
+            );
+        });
+        return (
+            <Tabbed titles={divs} default={0} key={index}>
+                {data}
+            </Tabbed>
+        );
+    });
     return (
-        <Tabbed titles={['West', 'East']} default={0}>
-            <div className='conference'>{conf('west')}</div>
-            <div className='conference'>{conf('east')}</div>
+        <Tabbed titles={leaguesFollowed} default={0}>
+            {tabs}
         </Tabbed>
     );
 }
