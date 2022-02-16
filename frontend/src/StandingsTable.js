@@ -1,18 +1,14 @@
 import "./style/Standings.css";
 import Tabbed from "./Tabbed";
 import {all_prefs, getSportsFollowed} from "./PrefHandler";
-import {byCode} from "./SportHandler";
+import {byCode, fetchNBAStandings, fetchNHLStandings, NBA_logo, NHL_logo} from "./SportHandler";
+import {useEffect, useState} from "react";
 
-function logo(abbreviation) {
-    const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
-}
-
-function get_teams(stats, conference) {
+function get_teams(standings, conference) {
     const team_stats = [];
-    for (let team in stats) {
-        const stat = stats[team];
-        if (stat['conference'] === conference) {
+    for (let team in standings) {
+        const stat = standings[team];
+        if (String(stat['conference']).toLowerCase() === conference.toLowerCase()) {
             const new_team = {};
             new_team.rank = stat['rank'];
             new_team.name = stat['city'] + ' ' + stat['name'];
@@ -22,20 +18,51 @@ function get_teams(stats, conference) {
             team_stats.push(new_team)
         }
     }
-    return team_stats;
+    return team_stats.sort(function (team, other) {
+        return team.rank.localeCompare(other.rank);
+    });
 }
 
 export default function StandingsTable(props) {
-    if (!props || !props.stats || !props.prefs || !props.sports) {
+    const [NBAStandings, setNBAStandings] = useState({});
+    const [NHLStandings, setNHLStandings] = useState({});
+
+    useEffect(() => {
+        fetchNBAStandings().then( result => {
+            if (result)
+                setNBAStandings(result);
+        });
+        fetchNHLStandings().then( result => {
+            if (result)
+                setNHLStandings(result);
+        });
+    }, [] );
+
+    if (!props || !props.prefs || !props.sports) {
         return null;
     }
-    function conf(conference) {
-        return get_teams(props.stats, conference).map((row, index) => {
+    function NBAConf(conference) {
+        return get_teams(NBAStandings, conference).map((row, index) => {
             return (
                 <div className='standing' id={index} key={index}>
                     <div className='standing-left'>
                         <pre className='standing-rank'>{row.rank.toString().padEnd(2, ' ')}</pre>
-                        <div className='logo-name-record'>{logo(row.code)}{row.name}</div>
+                        <div className='logo-name-record'>{NBA_logo(row.code)}{row.name}</div>
+                    </div>
+                    <div className='standing-right'>
+                        <p>{row.wins}-{row.losses}</p>
+                    </div>
+                </div>
+            );
+        });
+    }
+    function NHLConf(conference) {
+        return get_teams(NHLStandings, conference).map((row, index) => {
+            return (
+                <div className='standing' id={index} key={index}>
+                    <div className='standing-left'>
+                        <pre className='standing-rank'>{row.rank.toString().padEnd(2, ' ')}</pre>
+                        <div className='logo-name-record'>{NHL_logo(row.code)}{row.name}</div>
                     </div>
                     <div className='standing-right'>
                         <p>{row.wins}-{row.losses}</p>
@@ -52,12 +79,12 @@ export default function StandingsTable(props) {
         }
         const divs = sportInfo["divisions"];
         const data = divs.map((div, index) => {
-            if (league !== "NBA") {
-                return <p className='nomargin' key={index}>No {league} content.</p>
+            if (league === "NBA") {
+                return <div className='conference' key={index}>{NBAConf(String(div).toLowerCase())}</div>;
+            } else if (league === "NHL") {
+                return <div className='conference' key={index}>{NHLConf(String(div).toLowerCase())}</div>;
             }
-            return (
-                <div className='conference' key={index}>{conf(String(div).toLowerCase())}</div>
-            );
+            return <p className='nomargin' key={index}>No {league} content.</p>;
         });
         return (
             <Tabbed titles={divs} default={0} key={index}>
@@ -66,7 +93,7 @@ export default function StandingsTable(props) {
         );
     });
     return (
-        <Tabbed titles={leaguesFollowed} default={0}>
+        <Tabbed titles={leaguesFollowed} default={2}>
             {tabs}
         </Tabbed>
     );

@@ -91,6 +91,8 @@ app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, r
 
 //NHL api Calls
 app.get('/NHL', async (req, res) => {await nhl.getGames(req, res, 0)});
+app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)});
+app.get('/NHL/standings/:id', async (req, res) => {await nhl.getStandings(req, res)});
 
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);

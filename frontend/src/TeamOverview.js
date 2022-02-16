@@ -62,7 +62,7 @@ export default function TeamOverview(props) {
             return (<p className='nomargin' key={index}>No {league} content.</p>);
         }
         return (
-            <div className='overviews'>
+            <div className='overviews' key={index}>
                 {nba_overviews}
             </div>
         );

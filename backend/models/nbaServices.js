@@ -106,37 +106,27 @@ function formatTeamsData(responseData) {
 }
 
 function formatStandingsData(responseData) {
-    const east = JSON.parse(responseData)['league']['standard']['conference']['east'];
-    const west = JSON.parse(responseData)['league']['standard']['conference']['west'];
-    const new_teams = {};
-    for (let i = 0; i < east.length; i++) {
-        const team = east[i];
-        const new_team = {};
-        const code = team['teamSitesOnly']['teamTricode'];
-        new_team.code = code;
-        new_team.name = team['teamSitesOnly']['teamNickname'];
-        new_team.city = team['teamSitesOnly']['teamName'];
-        new_team.conference = 'east';
-        new_team.rank = team['confRank'];
-        new_team.wins = team['win'];
-        new_team.losses = team['loss'];
-        new_teams[code] = new_team;
+    const all_data = {};
+    const object_data = JSON.parse(responseData)['league']['standard']['conference'];
+    for (const conf of Object.keys(object_data)) {
+        const data = object_data[conf];
+        data.forEach((division_data, index) => {
+            const div_name = String(conf);
+            const new_team_data = {};
+            const code = String(division_data['teamSitesOnly']['teamTricode']);
+            new_team_data.code = code;
+            new_team_data.name = division_data['teamSitesOnly']['teamNickname'];
+            new_team_data.city = division_data['teamSitesOnly']['teamName'];
+            new_team_data.conference = div_name;
+            new_team_data.rank = String(division_data['confRank']);
+            new_team_data.wins = String(division_data['win']);
+            new_team_data.losses = String(division_data['loss']);
+            all_data[code] = new_team_data;
+        });
     }
-    for (let i = 0; i < west.length; i++) {
-        const team = west[i];
-        const new_team = {};
-        const code = team['teamSitesOnly']['teamTricode'];
-        new_team.code = code;
-        new_team.name = team['teamSitesOnly']['teamNickname'];
-        new_team.city = team['teamSitesOnly']['teamName'];
-        new_team.conference = 'west';
-        new_team.rank = team['confRank'];
-        new_team.wins = team['win'];
-        new_team.losses = team['loss'];
-        new_team.win
-        new_teams[code] = new_team;
-    }
-    return {teams: new_teams};
+    return {
+        teams: all_data
+    };
 }
 
 async function getStandings(req, res){

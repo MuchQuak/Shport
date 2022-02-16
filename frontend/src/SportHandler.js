@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function fetchNBAStats(){
+export async function fetchNBAStandings(){
     try {
         const response = await axios.get('http://localhost:5000/NBA/standings');
         return response.data.teams;
@@ -9,6 +9,27 @@ export async function fetchNBAStats(){
         console.log(error);
         return false;
     }
+}
+
+export function NBA_logo(abbreviation) {
+    const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
+    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
+}
+
+export async function fetchNHLStandings(){
+    try {
+        const response = await axios.get('http://localhost:5000/NHL/standings');
+        return response.data.teams;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+}
+
+export function NHL_logo(id) {
+    const url = 'https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/' + String(id) + '.svg';
+    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
 }
 
 export async function fetchSports(){
