@@ -81,7 +81,7 @@ export default function Schedule(props) {
         return <p className='nomargin' key={index}>No {league} content.</p>;
     });
     return (
-        <Tabbed titles={leaguesFollowed} default={0}>
+        <Tabbed titles={leaguesFollowed} default={2}>
             {tabs}
         </Tabbed>
     );
