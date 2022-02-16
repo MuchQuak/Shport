@@ -51,12 +51,12 @@ export default function StandingsTable(props) {
             return null;
         }
         const divs = sportInfo["divisions"];
-        const data = divs.map((div) => {
+        const data = divs.map((div, index) => {
             if (league !== "NBA") {
-                return <p className='nomargin'>No data supported.</p>
+                return <p className='nomargin' key={index}>No data supported.</p>
             }
             return (
-                <div className='conference'>{conf(String(div).toLowerCase())}</div>
+                <div className='conference' key={index}>{conf(String(div).toLowerCase())}</div>
             );
         });
         return (
