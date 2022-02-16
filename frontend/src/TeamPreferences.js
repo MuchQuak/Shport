@@ -7,20 +7,60 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
 
 
-export default function TeamPreferences(){ 
-const [items, setItems] = useState([]); 
+export default function TeamPreferences(){
+  const location = useLocation(); 
+  const [items, setItems] = useState([]); 
+  const [selectedTeams, setSelectedTeams] = useState([]);
 
+  // TESTING 
+  if (location.state === null) {
+    location.state = {};
+    location.state.username = "[ Username ]";
+    location.state.pref = ["NBA", "NHL"];
+  }
+
+  // Goes through the entire preference list and reformats the teams
   useEffect(() => {
-    fetchTeams("NBA").then( result => {
-        if (result){
-            setItems(result);
-        }
-    });
+    if(location.state.pref.length > 0){
+      for(let i = 0; i < location.state.pref.length; i++){
+        fetchTeams(location.state.pref[i]).then( result => {
+          if (result){
+            for(let j = 0; j < result.length;j++){
+              result[j].league = location.state.pref[i];
+            }
+            
+            result.forEach(element => {
+              setItems(oldArray => [...oldArray, element]);
+            });
+
+          }
+        });
+      }
+
+    }
+    else{
+      fetchAllTeams().then( result => {
+
+
+
+      });
+    }
+
   }, [] );
 
   async function fetchTeams(sport){
     try {
         const response = await axios.get('http://localhost:5000/sport/' + sport + '/teams');
+        return response.data;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+  }
+  async function fetchAllTeams(){
+    try {
+        const response = await axios.get('http://localhost:5000/sport');
         return response.data;
     }
     catch (error){
@@ -54,7 +94,7 @@ const [items, setItems] = useState([]);
     return (
       <>
         <span style={{ display: 'block', textAlign: 'left' }}>{item.name}</span>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.city}</span>
+        <span style={{ display: 'block', textAlign: 'left' }}>{item.league}</span>
       </>
     )
   }
@@ -75,7 +115,7 @@ const [items, setItems] = useState([]);
                                   items={items}
                                   onSearch={handleOnSearch}
                                   fuseOptions={{ 
-                                    keys: ["name", "city"],
+                                    keys: ["city", "name"],
                                     threshold: 0.3,  
                                     maxPatternLength: 32,
                                     minMatchCharLength: 1 }}

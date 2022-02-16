@@ -6,7 +6,6 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
 
 export default function LeaguePreferences(){
-  const allTokens = ["NBA","NFL", "MLB"];
   const [preferences, setPreferences] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,20 +23,12 @@ export default function LeaguePreferences(){
 
   function handleSubmit(event) {
     event.preventDefault();
-    let prefList = [];
-
-    if(preferences.length === 0){
-      prefList = allTokens
-    }
-    else{
-      prefList = preferences;
-    }
-
-      const newUser = {
+    
+    const newUser = {
         "username": location.state.username,
         "password": location.state.password,
-        //"email": location.state.email,
-        "pref": prefList
+        "email": location.state.email,
+        "pref": preferences
       }
 
       //addUser(newUser);

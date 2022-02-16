@@ -1,26 +1,14 @@
-/*  Master List (for supplying ALL options to user)
-sports: {
-    NBA: {
-        "LAL": {..},
-        "SAC": {..}
-    }
-    NHL: {
-        "SJS": {..}
-    }
-}
-*/
-
 /*  Per User (supplied to each React component)
-preferences: {
+prefs: {
   sports: {
       following: false,
       NBA: {
           following: true,
-          teams: ["LAL"]
+          teams: ["LAL"] // Just codes from the sports
       },
       NHL: {
           following: false
-          teams: ["SJS"]
+          teams: [""] //convert to string
       },
    }
 }
