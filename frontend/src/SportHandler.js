@@ -10,6 +10,7 @@ export async function fetchNBAStats(){
         return false;
     }
 }
+
 export async function fetchSports(){
     try {
         const response = await axios.get('http://localhost:5000/sport');
@@ -54,6 +55,7 @@ export async function fetchTomorrowNBAGames(){
 }
 
 // Retrieves a sport by its code (ex: "NBA", "NFL")
+// sports is a sports object, like one retrieved by fetchSports() within a Component
 export function byCode(sports, code) {
     let found = {};
     try {
