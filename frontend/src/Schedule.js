@@ -46,16 +46,21 @@ export default function Schedule(props) {
     const leaguesFollowed = getSportsFollowed(all_prefs); // should be replaced with user's prefs when those are fixed...
     // const teamsFollowed = getTeamsFollowedForSport(all_prefs, 'NBA'); // This check will go inside individual game code instead...
     // Code below is not dynamic yet, but leaguesFollowed will need to be map()ed to provide each page.
-    return (
-        <Tabbed titles={leaguesFollowed} default={0}>
-            <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1}>
+    const tabs = leaguesFollowed.map((league, index) => {
+        if (league !== "NBA") {
+            return (<p className='nomargin' key={index}>No {league} content.</p>);
+        }
+        return (
+            <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1} key={index}>
                 <div className='schedule'>{games(yesterdayNBAGames)}</div>
                 <div className='schedule'>{games(todayNBAGames)}</div>
                 <div className='schedule'>{games(tomorrowNBAGames)}</div>
             </Tabbed>
-            <p className='nomargin'>NFL</p>
-            <p className='nomargin'>NHL</p>
-            <p className='nomargin'>MLB</p>
+        );
+    });
+    return (
+        <Tabbed titles={leaguesFollowed} default={0}>
+            {tabs}
         </Tabbed>
     );
 }
