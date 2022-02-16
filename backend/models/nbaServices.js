@@ -1,6 +1,16 @@
 const http = require('http');
-const { off } = require('process');
 const host = 'data.nba.net'
+
+function ESTtoUTC(time) {
+    const timeParts = time.split(' ');
+    const pmAm = timeParts[1];
+    const newtime = timeParts[0].split(':');
+    const offset = pmAm[0] === 'A' ? 0: 12;
+    const hour = parseInt(newtime[0]) + 5 + offset;
+    const min = parseInt(newtime[1]);
+    const t = new Date();
+    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
+}
 
 async function getGames(req, res, dayOffset) {
   const today = new Date();
@@ -21,21 +31,6 @@ async function getGames(req, res, dayOffset) {
   }).end();
 }
 
-function timeToUtc(time) {
-  var timeParts = time.split(' ');
-  var pmAm = timeParts[1];
-  var time = timeParts[0].split(':');
-  
-  offset = pmAm[0] === 'A' ? 0: 12;
-  
-  const hour = parseInt(time[0]) + 5 + offset;
-  const min = parseInt(time[1]);
-  
-  var t = new Date();
-  
-  return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
-}
-
 function formatGamesData(responseData) {
   const games = JSON.parse(responseData).games;
   const new_games = [];
@@ -48,7 +43,6 @@ function formatGamesData(responseData) {
       new_game.clock = game.clock;
       new_game.halftime = game.period.isHalftime;
       new_game.arena = game.arena.name;
-      new_game.startTimeEST = game.startTimeEastern;
       new_game.currentQtr = game.period.current;
       new_game.maxQtr = game.period.maxRegular;
       new_game.home = game.hTeam.triCode;
@@ -57,8 +51,7 @@ function formatGamesData(responseData) {
       new_game.away = game.vTeam.triCode;
       new_game.away_score = game.vTeam.score;
       new_game.away_record = game.vTeam.win + "-" + game.vTeam.loss;
-      //Made new time cause don't know what you want to do with it but this is proof it works (Logan)
-      new_game.startTimeUTC = timeToUtc(game.startTimeEastern);
+      new_game.startTimeUTC = ESTtoUTC(game.startTimeEastern);
       new_games.push(new_game);
   }
   return {
@@ -106,37 +99,27 @@ function formatTeamsData(responseData) {
 }
 
 function formatStandingsData(responseData) {
-    const east = JSON.parse(responseData)['league']['standard']['conference']['east'];
-    const west = JSON.parse(responseData)['league']['standard']['conference']['west'];
-    const new_teams = {};
-    for (let i = 0; i < east.length; i++) {
-        const team = east[i];
-        const new_team = {};
-        const code = team['teamSitesOnly']['teamTricode'];
-        new_team.code = code;
-        new_team.name = team['teamSitesOnly']['teamNickname'];
-        new_team.city = team['teamSitesOnly']['teamName'];
-        new_team.conference = 'east';
-        new_team.rank = team['confRank'];
-        new_team.wins = team['win'];
-        new_team.losses = team['loss'];
-        new_teams[code] = new_team;
+    const all_data = {};
+    const object_data = JSON.parse(responseData)['league']['standard']['conference'];
+    for (const conf of Object.keys(object_data)) {
+        const data = object_data[conf];
+        data.forEach((division_data, index) => {
+            const div_name = String(conf);
+            const new_team_data = {};
+            const code = String(division_data['teamSitesOnly']['teamTricode']);
+            new_team_data.code = code;
+            new_team_data.name = division_data['teamSitesOnly']['teamNickname'];
+            new_team_data.city = division_data['teamSitesOnly']['teamName'];
+            new_team_data.conference = div_name;
+            new_team_data.rank = String(division_data['confRank']);
+            new_team_data.wins = String(division_data['win']);
+            new_team_data.losses = String(division_data['loss']);
+            all_data[code] = new_team_data;
+        });
     }
-    for (let i = 0; i < west.length; i++) {
-        const team = west[i];
-        const new_team = {};
-        const code = team['teamSitesOnly']['teamTricode'];
-        new_team.code = code;
-        new_team.name = team['teamSitesOnly']['teamNickname'];
-        new_team.city = team['teamSitesOnly']['teamName'];
-        new_team.conference = 'west';
-        new_team.rank = team['confRank'];
-        new_team.wins = team['win'];
-        new_team.losses = team['loss'];
-        new_team.win
-        new_teams[code] = new_team;
-    }
-    return {teams: new_teams};
+    return {
+        teams: all_data
+    };
 }
 
 async function getStandings(req, res){

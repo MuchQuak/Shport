@@ -1,9 +1,5 @@
 import './style/GameSchedule.css';
-
-function logo(id) {
-    const url = 'https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/' + String(id) + '.svg';
-    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
-}
+import {NHL_logo, UTCtoLocal} from "./SportHandler";
 
 function score(game, score_info) {
     if (score_info === "" || game.status <= 1) {
@@ -45,7 +41,7 @@ export default function NBAGame(props) {
             return (<p><b>Halftime</b></p>);
         }
         if (clock_data === "" || !game.activated){
-            return (<p>{starttime()}</p>);
+            return (<p>{UTCtoLocal(game.startTimeUTC)}</p>);
         }
         return (
             <>
@@ -58,7 +54,7 @@ export default function NBAGame(props) {
         <div className='game'>
             <div className='game-data'>
                 <div className='game-left'>
-                    {logo(game.home_id)}
+                    {NHL_logo(game.home_id)}
                     <p className='game-team-name'>{game.home}</p>
                     {score(game, game.home_score)}
                 </div>
@@ -67,7 +63,7 @@ export default function NBAGame(props) {
                     <p className='game-footer'>{game.arena}</p>
                 </div>
                 <div className='game-right'>
-                    {logo(game.away_id)}
+                    {NHL_logo(game.away_id)}
                     <p className='game-team-name'>{game.away}</p>
                     {score(game, game.away_score)}
                 </div>
