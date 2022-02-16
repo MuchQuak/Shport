@@ -72,10 +72,10 @@ export default function Dashboard(props) {
     }, [] );
     if (props) {
         if (props.prefs) {
-            const thirds = partitionItems(default_items(props.prefs, sports, stats).concat(article_items(props.prefs)));
+            const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs));
             return (
                 <div className='dashboard'>
-                    {thirds}
+                    {partitionItems(all_items)}
                 </div>
             );
         }
