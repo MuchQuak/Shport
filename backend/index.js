@@ -44,7 +44,6 @@ app.get('/users/:name/pref', async (req, res) => {
         res.status(500).end();
 });
 
-
 // Getting username and password from user
 app.get('/users', async (req, res) => {
     const username = req.query.username;
@@ -67,7 +66,6 @@ app.get('/users', async (req, res) => {
 });
 
 
-/*
 //FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const pref = await userServices.TESTGetUsers();
@@ -75,7 +73,7 @@ app.get('/users', async (req, res) => {
         res.status(201).send(pref);
     else
         res.status(500).end();
-});*/
+});
 
 // Sport Calls
 app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});

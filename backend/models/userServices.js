@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+//dotenv.config({ path: __dirname + `/.env` }); 
+dotenv.config();
 let dbConnection;
 
 // OLD
@@ -131,9 +134,9 @@ const testUserSchema = new mongoose.Schema(
 );
 
 function getDbConnection() {
-    const url = "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
+    
     if (!dbConnection) {
-        dbConnection = mongoose.createConnection(url, {
+        dbConnection = mongoose.createConnection(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

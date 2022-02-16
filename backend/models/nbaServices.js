@@ -2,8 +2,6 @@ const http = require('http');
 const { off } = require('process');
 const host = 'data.nba.net'
 
-//data.nba.net/10s/prod/v1/scoreboard.json
-
 async function getGames(req, res, dayOffset) {
   const today = new Date();
   const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(parseInt(today.getDate()) + dayOffset).padStart(2, '0');
