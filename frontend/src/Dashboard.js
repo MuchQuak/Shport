@@ -35,21 +35,25 @@ function article_items(prefs) {
 }
 
 function partitionItems(items) {
-    const thirds = {
-        1: [],
-        2: [],
-        3: []
-    };
+    const one = [];
+    const two = [];
+    const three = [];
     items.forEach((item, index) => {
         if (index % 3 === 0){
-            thirds[1].push(item);
+            one.push(item);
         } else if (index % 3 === 1) {
-            thirds[2].push(item);
+            two.push(item);
         } else if (index % 3 === 2) {
-            thirds[3].push(item);
+            three.push(item);
         }
     });
-    return thirds;
+    return (
+        <>
+            <ThirdContent>{one}</ThirdContent>
+            <ThirdContent>{two}</ThirdContent>
+            <ThirdContent>{three}</ThirdContent>
+        </>
+    );
 }
 
 export default function Dashboard(props) {
@@ -68,13 +72,10 @@ export default function Dashboard(props) {
     }, [] );
     if (props) {
         if (props.prefs) {
-            const prefs = props.prefs;
-            const thirds = partitionItems(default_items(prefs, sports, stats).concat(article_items(prefs)));
+            const thirds = partitionItems(default_items(props.prefs, sports, stats).concat(article_items(props.prefs)));
             return (
                 <div className='dashboard'>
-                    <ThirdContent>{thirds[1]}</ThirdContent>
-                    <ThirdContent>{thirds[2]}</ThirdContent>
-                    <ThirdContent>{thirds[3]}</ThirdContent>
+                    {thirds}
                 </div>
             );
         }
