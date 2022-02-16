@@ -1,5 +1,8 @@
 const http = require('http');
+const { off } = require('process');
 const host = 'data.nba.net'
+
+//data.nba.net/10s/prod/v1/scoreboard.json
 
 async function getGames(req, res, dayOffset) {
   const today = new Date();
@@ -18,6 +21,21 @@ async function getGames(req, res, dayOffset) {
         res.send(formatGamesData(body));
     });
   }).end();
+}
+
+function timeToUtc(time) {
+  var timeParts = time.split(' ');
+  var pmAm = timeParts[1];
+  var time = timeParts[0].split(':');
+  
+  offset = pmAm[0] === 'A' ? 0: 12;
+  
+  const hour = parseInt(time[0]) + 5 + offset;
+  const min = parseInt(time[1]);
+  
+  var t = new Date();
+  
+  return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
 }
 
 function formatGamesData(responseData) {
@@ -41,6 +59,8 @@ function formatGamesData(responseData) {
       new_game.away = game.vTeam.triCode;
       new_game.away_score = game.vTeam.score;
       new_game.away_record = game.vTeam.win + "-" + game.vTeam.loss;
+      //Made new time cause don't know what you want to do with it but this is proof it works (Logan)
+      new_game.startTimeUTC = timeToUtc(game.startTimeEastern);
       new_games.push(new_game);
   }
   return {
