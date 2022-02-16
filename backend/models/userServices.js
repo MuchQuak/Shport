@@ -26,6 +26,46 @@ const userSchema = new mongoose.Schema({
     pref: [],
   }, {collection : 'users'});
 
+  const sportsSchema = new mongoose.Schema({
+    sport: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    type: {
+        type: String,
+        required: true,
+        trim: true,
+      },   
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    divisions: [],
+    teams: [
+        {
+            code: {
+                type: String,
+                required: true,
+                trim: true,
+              },
+            city: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+            name: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+        },
+    ],},
+    {collection: 'sports'});
+
+
+
 function getDbConnection() {
     const url = "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
     if (!dbConnection) {
@@ -78,6 +118,21 @@ async function getUsers() {
     }   
 }
 
+async function getSport(sport) {
+    const sportModel = getDbConnection().model("sports", sportsSchema);
+    try {
+        if(sport != undefined){
+            return sportModel.find({"sport":sport});
+        }
+        else{
+            return sportModel.find();
+        }
+    } catch(error) {
+        console.log(error);
+        return false;
+    }   
+}
+
 async function findUserByUsername(name){
     const userModel = getDbConnection().model("User", userSchema);
     return await userModel.find({'username':name});
@@ -88,3 +143,4 @@ exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.verifyLogin = verifyLogin;
 exports.findUserByUsername = findUserByUsername;
+exports.getSport = getSport;

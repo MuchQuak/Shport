@@ -55,6 +55,22 @@ app.get('/users', async (req, res) => {
 });
 
 
+// Getting sport information from the database
+app.get('/sports', async (req, res) => {
+    const sport = req.query.username;
+
+    if(sport != undefined){
+        let result = await userServices.getSport(sport);
+        res.status(201).send(result);
+    }
+    else{
+        let result = await userServices.getSport();
+        res.status(201).send(result);
+    }
+
+
+});
+
 /*
 //FOR TESTING ONLY
 app.get('/users', async (req, res) => {
