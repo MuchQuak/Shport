@@ -7,6 +7,7 @@ app.use(express.json());
 
 const nba = require('./models/nbaServices');
 const userServices = require('./models/userServices');
+const sportInfoServices = require("./models/sportInfoServices");
 
 app.get('/', (req, res) => {
     res.send("Backend Landing");
@@ -37,7 +38,7 @@ app.get('/users/:name/pref', async (req, res) => {
     const name = req.params.name;
     const pref = await userServices.getUserPreferences(name);
     if (pref)
-        res.status(201).send(pref);
+        res.status(200).send(pref);
     else
         res.status(500).end();
 });
@@ -50,20 +51,19 @@ app.get('/users', async (req, res) => {
 
     if (username != undefined && password == undefined){
         let result = await userServices.findUserByUsername(username)
-        res.status(201).send(result);
+        res.status(200).send(result);
     } else if (username != undefined && password != undefined){ // Used by login screen
         let result = await userServices.findUserByUsername(username);
         if (result[0] !== undefined && password === result[0]["password"]){
-            res.status(201).send(result);
+            res.status(200).send(result);
         } else {
             res.status(500).end();
         }
     } else {
         const allUsers = await userServices.TESTGetUsers();
-        res.status(201).send(allUsers);
+        res.status(200).send(allUsers);
     }
 });
-
 
 /*
 //FOR TESTING ONLY
@@ -75,12 +75,14 @@ app.get('/users', async (req, res) => {
         res.status(500).end();
 });*/
 
-
+// Sport Calls
+app.get('/sport/:sport', async (req, res) => {await sportInfoServices.getSportRequest(req, res)});
+app.get('/sport/:sport/teams', async (req, res) => {await sportInfoServices.getTeamsRequest(req, res)});
 
 //NBA api Calls
-app.get('/NBA', async (req, res) =>{await nba.getGames(req, res, 0)});
-app.get('/NBA/yesterday', async (req, res) =>{await nba.getGames(req, res, -1)});
-app.get('/NBA/tomorrow', async (req, res) =>{await nba.getGames(req, res, 1)});
+app.get('/NBA', async (req, res) => {await nba.getGames(req, res, 0)});
+app.get('/NBA/yesterday', async (req, res) => {await nba.getGames(req, res, -1)});
+app.get('/NBA/tomorrow', async (req, res) => {await nba.getGames(req, res, 1)});
 app.get('/NBA/teams', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/NBA/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
