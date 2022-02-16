@@ -54,6 +54,17 @@ export async function fetchTomorrowNBAGames(){
     }
 }
 
+export async function fetchTodayNHLGames(){
+    try {
+        const response = await axios.get('http://localhost:5000/NHL');
+        return response.data.games;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+}
+
 // Retrieves a sport by its code (ex: "NBA", "NFL")
 // sports is a sports object, like one retrieved by fetchSports() within a Component
 export function byCode(sports, code) {

@@ -5,6 +5,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
+const nhl = require('./models/nhlServices');
 const nba = require('./models/nbaServices');
 const userServices = require('./models/userServices');
 const sportInfoServices = require("./models/sportInfoServices");
@@ -89,6 +90,9 @@ app.get('/NBA/teams', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/NBA/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
 app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
+
+//NHL api Calls
+app.get('/NHL', async (req, res) => {await nhl.getGames(req, res, 0)});
 
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
