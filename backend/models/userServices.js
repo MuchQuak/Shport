@@ -206,4 +206,3 @@ exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.verifyLogin = verifyLogin;
 exports.findUserByUsername = findUserByUsername;
-exports.getSport = getSport;
