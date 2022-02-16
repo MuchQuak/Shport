@@ -11,6 +11,10 @@ export default function CloseableItem(props) {
     if (props.prefs) {
         prefs = props.prefs;
     }
+    let sports = [];
+    if (props.sports) {
+        sports = props.sports;
+    }
     const setInvisible = () => {
         setItemVisible(false);
     };
@@ -21,7 +25,7 @@ export default function CloseableItem(props) {
         return props.logo ? props.logo : null;
     }
     function children() {
-        return props.children ? React.cloneElement(props.children, { prefs: prefs }) : null;
+        return props.children ? React.cloneElement(props.children, { prefs: prefs, sports: sports }) : null;
     }
     if (itemVisible) {
         return (

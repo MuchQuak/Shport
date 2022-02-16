@@ -57,14 +57,19 @@ export default function TeamOverview(props) {
             </div>
         );
     });
-    return (
-        <Tabbed titles={leaguesFollowed} default={0}>
+    const tabs = leaguesFollowed.map((league, index) => {
+        if (league !== "NBA") {
+            return (<p className='nomargin' key={index}>No {league} content.</p>);
+        }
+        return (
             <div className='overviews'>
                 {nba_overviews}
             </div>
-            <p className='nomargin'>No Overview</p>
-            <p className='nomargin'>No Overview</p>
-            <p className='nomargin'>No Overview</p>
+        );
+    });
+    return (
+        <Tabbed titles={leaguesFollowed} default={0}>
+            {tabs}
         </Tabbed>
     );
 }

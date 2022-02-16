@@ -12,7 +12,8 @@ import About from './About';
 import ProjectTeam from './ProjectTeam';
 import Login from './Login';
 import SignUp from './SignUp';
-import Preferences from './Preferences';
+import LeaguePreferences from './LeaguePreferences';
+import TeamPreferences from './TeamPreferences';
 
 ReactDOM.render(
    <BrowserRouter>
@@ -22,8 +23,7 @@ ReactDOM.render(
      <Route path="ProjectTeam" element={<ProjectTeam />} />
      <Route path="Login" element={<Login />} />
      <Route path="SignUp" element={<SignUp />} />
-     <Route path="Preferences" element={<Preferences />} />
-
+     <Route path="Preferences" element={<LeaguePreferences />} />
    </Routes>
  </BrowserRouter>, 
    document.getElementById('root'
