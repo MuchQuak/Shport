@@ -2,11 +2,33 @@ import './style/GameSchedule.css';
 import NBAGame from "./NBAGame";
 import Tabbed from "./Tabbed";
 import {all_prefs, getSportsFollowed} from "./PrefHandler";
+import {useEffect, useState} from "react";
+import {fetchTodayNBAGames, fetchTomorrowNBAGames, fetchYesterdayNBAGames} from "./SportHandler";
 
 export default function Schedule(props) {
-    if (!props || !props.prefs || !props.sports || !props.today || !props.yesterday || !props.tomorrow || !props.stats) {
+    const [todayNBAGames, setTodayNBAGames] = useState([]);
+    const [yesterdayNBAGames, setYesterdayNBAGames] = useState([]);
+    const [tomorrowNBAGames, setTomorrowNBAGames] = useState([]);
+
+    useEffect(() => {
+        fetchTodayNBAGames().then(result => {
+            if (result)
+                setTodayNBAGames(result);
+        });
+        fetchYesterdayNBAGames().then(result => {
+            if (result)
+                setYesterdayNBAGames(result);
+        });
+        fetchTomorrowNBAGames().then(result => {
+            if (result)
+                setTomorrowNBAGames(result);
+        });
+    }, [] );
+
+    if (!props || !props.prefs || !props.sports || !props.stats) {
         return null;
     }
+
     const noGames = (
         <p className='game-empty nomargin'>No Games</p>
     );
@@ -27,9 +49,9 @@ export default function Schedule(props) {
     return (
         <Tabbed titles={leaguesFollowed} default={0}>
             <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1}>
-                <div className='schedule'>{games(props.yesterday)}</div>
-                <div className='schedule'>{games(props.today)}</div>
-                <div className='schedule'>{games(props.tomorrow)}</div>
+                <div className='schedule'>{games(yesterdayNBAGames)}</div>
+                <div className='schedule'>{games(todayNBAGames)}</div>
+                <div className='schedule'>{games(tomorrowNBAGames)}</div>
             </Tabbed>
             <p className='nomargin'>NFL</p>
             <p className='nomargin'>NHL</p>
