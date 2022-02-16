@@ -19,7 +19,7 @@ function get_teams(standings, conference) {
         }
     }
     return team_stats.sort(function (team, other) {
-        return team.rank.localeCompare(other.rank);
+        return team.rank.localeCompare(other.rank, 'en', {numeric: true});
     });
 }
 
