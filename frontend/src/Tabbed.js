@@ -7,10 +7,12 @@ export default function Tabbed(props) {
     if (!props || !props.children || !props.titles) {
         return null;
     }
-    // const icons = props.icons ? props.icons : [];
+    const icons = props.icons ? props.icons : [];
+    console.log(icons);
     const tabs = props.titles.map((title, index) => {
+        const icon = icons[index] != null ? icons[index] : null;
         return (
-            <Tab active={currentTab === index} title={title} key={index} click={() => setTab(index)}/>
+            <Tab active={currentTab === index} icon={icon} title={title} key={index} click={() => setTab(index)}/>
         );
     })
     let pages;

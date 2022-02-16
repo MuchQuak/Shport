@@ -9,7 +9,7 @@ import {
     fetchTomorrowNBAGames,
     fetchYesterdayNBAGames,
     fetchTodayNHLGames,
-    fetchYesterdayNHLGames, fetchTomorrowNHLGames
+    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo
 } from "./SportHandler";
 
 export default function Schedule(props) {
@@ -96,8 +96,11 @@ export default function Schedule(props) {
         }
         return <p className='nomargin' key={index}>No {league} content.</p>;
     });
+    const icons = leaguesFollowed.map((league, index) => {
+        return getLeagueLogo(String(league));
+    });
     return (
-        <Tabbed titles={leaguesFollowed} default={2}>
+        <Tabbed titles={leaguesFollowed} icons={icons} default={2}>
             {tabs}
         </Tabbed>
     );

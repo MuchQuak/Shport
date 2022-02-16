@@ -12,6 +12,13 @@ export async function fetchNBAStandings(){
 }
 
 export function NBA_logo(abbreviation) {
+    if (abbreviation === "" || abbreviation === "NBA") {
+        return (
+            <div className='logo-container'>
+                <img className='logo' id='sport-logo' src='https://cdn.nba.com/logos/nba/nba-logoman.svg' alt='logo'/>
+            </div>
+        )
+    }
     const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
     return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
 }
@@ -28,8 +35,15 @@ export async function fetchNHLStandings(){
 }
 
 export function NHL_logo(id) {
+    if (id === "") {
+        return (
+            <div className='logo-container'>
+                <img className='logo' id='sport-logo' src='https://www-league.nhlstatic.com/images/logos/league-dark/133-flat.svg' alt='logo'/>
+            </div>
+        )
+    }
     const url = 'https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/' + String(id) + '.svg';
-    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
+    return <div className='logo-container'><img className='logo' src={url} alt='logo'/></div>;
 }
 
 export async function fetchSports(){
@@ -130,4 +144,12 @@ export function UTCtoLocal(UTC) {
         hours -= 12;
     }
     return hours + ":" + String(today.getMinutes()).padStart(2, '0') + " " + period;
+}
+
+export function getLeagueLogo(league) {
+    switch (league) {
+        case "NBA": return NBA_logo("");
+        case "NHL": return NHL_logo("");
+        default: return null;
+    }
 }
