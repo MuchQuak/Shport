@@ -1,9 +1,5 @@
 import './style/GameSchedule.css';
-
-function logo(abbreviation) {
-    const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
-}
+import {NBA_logo} from "./SportHandler";
 
 function score(game, score_info) {
     if (score_info === "" || game.status <= 1) {
@@ -63,7 +59,7 @@ export default function NBAGame(props) {
         <div className='game'>
             <div className='game-data'>
                 <div className='game-left'>
-                    {logo(game.home)}
+                    {NBA_logo(game.home)}
                     <p className='game-team-name'>{homeStats['city']} {homeStats['name']}</p>
                     {score(game, game.home_score)}
                 </div>
@@ -72,7 +68,7 @@ export default function NBAGame(props) {
                     <p className='game-footer'>{game.arena}</p>
                 </div>
                 <div className='game-right'>
-                    {logo(game.away)}
+                    {NBA_logo(game.away)}
                     <p className='game-team-name'>{awayStats['city']} {awayStats['name']}</p>
                     {score(game, game.away_score)}
                 </div>

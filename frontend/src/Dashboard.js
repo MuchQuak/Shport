@@ -6,7 +6,7 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from './StandingsTable';
 import Schedule from './Schedule';
 import Article from './Article';
-import {fetchNBAStats, fetchSports} from "./SportHandler";
+import {fetchNBAStandings, fetchSports} from "./SportHandler";
 
 function default_items(prefs, sports, stats) {
     return [
@@ -17,7 +17,7 @@ function default_items(prefs, sports, stats) {
             <TeamOverview stats={stats}/>
         </CloseableItem>),
         (<CloseableItem title='Standings' prefs={prefs} sports={sports}>
-            <StandingsTable stats={stats}/>
+            <StandingsTable />
         </CloseableItem>)
     ]
 }
@@ -49,9 +49,9 @@ function partitionItems(items) {
     });
     return (
         <>
-            <ThirdContent>{one}</ThirdContent>
-            <ThirdContent>{two}</ThirdContent>
-            <ThirdContent>{three}</ThirdContent>
+            <ThirdContent key={0}>{one}</ThirdContent>
+            <ThirdContent key={1}>{two}</ThirdContent>
+            <ThirdContent key={2}>{three}</ThirdContent>
         </>
     );
 }
@@ -61,7 +61,7 @@ export default function Dashboard(props) {
     const [sports, setSports] = useState([]);
 
     useEffect(() => {
-        fetchNBAStats().then( result => {
+        fetchNBAStandings().then( result => {
             if (result)
                 setStats(result);
         });
