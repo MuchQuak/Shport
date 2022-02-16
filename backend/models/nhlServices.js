@@ -60,7 +60,7 @@ function formatGamesData(responseData) {
       new_game.away = game.teams.away.team.name;
       new_game.away_score = game.teams.away.score;
       new_game.away_record = game.teams.away.leagueRecord.wins + "-" + game.teams.away.leagueRecord.losses;
-      new_game.away_id = game.teams.home.team.id;
+      new_game.away_id = game.teams.away.team.id;
       //Made new time cause don't know what you want to do with it but this is proof it works (Logan)
       //new_game.startTimeUTC = timeToUtc(game.startTimeEastern);
       new_games.push(new_game);
