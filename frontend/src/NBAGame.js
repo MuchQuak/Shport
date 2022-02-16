@@ -64,7 +64,7 @@ export default function NBAGame(props) {
             <div className='game-data'>
                 <div className='game-left'>
                     {logo(game.home)}
-                    <p className='game-team-name'>{homeStats['name']}</p>
+                    <p className='game-team-name'>{homeStats['city']} {homeStats['name']}</p>
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
@@ -73,7 +73,7 @@ export default function NBAGame(props) {
                 </div>
                 <div className='game-right'>
                     {logo(game.away)}
-                    <p className='game-team-name'>{awayStats['name']}</p>
+                    <p className='game-team-name'>{awayStats['city']} {awayStats['name']}</p>
                     {score(game, game.away_score)}
                 </div>
             </div>
