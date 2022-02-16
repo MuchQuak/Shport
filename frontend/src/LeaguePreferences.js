@@ -40,20 +40,10 @@ export default function LeaguePreferences(){
         "pref": prefList
       }
 
-      addUser(newUser);
+      //addUser(newUser);
 
-      navigate('/', {replace:true, state: newUser});
+      navigate('/TeamPreferences', {replace:true, state: newUser});
     }
-
-  /*
-  DOESNT WORK
-  function addAllPref(){
-    const allTokens = ["NBA","NFL", "MLB"];
-
-    for(let i = 0; i < allTokens.length; i++ ){
-      setPreferences(oldArray => [...oldArray, allTokens[i]]);
-    }
-  }*/
 
   function checkPref(e){
 
@@ -121,7 +111,7 @@ export default function LeaguePreferences(){
                         <Form.Check type={"checkbox"} label={`MLB`} id={`3`} onChange={(e) => checkSportOption(e,"MLB")}/>
                     </div>
 
-                    <Button className="submit-button" id="signup-button" block size="lg" type="submit">Sign Up</Button>
+                    <Button className="submit-button" id="signup-button" block size="lg" type="submit">Next</Button>
 
                     <Link to="/Login">
                         <p className="have-account">Already registered? Sign in</p>

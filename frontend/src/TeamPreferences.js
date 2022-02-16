@@ -8,53 +8,33 @@ import './style/SignUp.css';
 
 
 export default function TeamPreferences(){ 
-/*const items = [
-  {
-    "name": "Heat",
-    "sport":"NBA",
-    "city": "Miami"
-  },
-  {
-    "name": "Lakers",
-    "sport":"NBA",
-    "city": "Los Angeles"
-  },
-  {
-    "name": "Rams",
-    "sport":"NFL",
-    "city": "Los Angeles"
-  }
-]*/
-
 const [items, setItems] = useState([]); 
 
-useEffect(() => {
-  fetchTodayNBATeams().then( result => {
-      if (result){
-          setItems(result);
-          console.log(result);
+  useEffect(() => {
+    fetchTeams("NBA").then( result => {
+        if (result){
+            setItems(result);
+        }
+    });
+  }, [] );
 
-      }
-  });
-}, [] );
-
-async function fetchTodayNBATeams(){
-  try {
-      const response = await axios.get('http://localhost:5000/NBA/teams');
-      return response.data.teams;
+  async function fetchTeams(sport){
+    try {
+        const response = await axios.get('http://localhost:5000/sport/' + sport + '/teams');
+        return response.data;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
   }
-  catch (error){
-      console.log(error);
-      return false;
-  }
-}
 
 
-const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    console.log(string, results)
-  }
+  const handleOnSearch = (string, results) => {
+      // onSearch will have as the first callback parameter
+      // the string searched and for the second the results.
+      console.log(string, results)
+    }
 
   const handleOnHover = (result) => {
     // the item hovered
@@ -74,8 +54,7 @@ const handleOnSearch = (string, results) => {
     return (
       <>
         <span style={{ display: 'block', textAlign: 'left' }}>{item.name}</span>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.sport}</span>
-
+        <span style={{ display: 'block', textAlign: 'left' }}>{item.city}</span>
       </>
     )
   }
@@ -95,7 +74,11 @@ const handleOnSearch = (string, results) => {
                               <ReactSearchAutocomplete
                                   items={items}
                                   onSearch={handleOnSearch}
-                                  fuseOptions={{ keys: ["name", "city"] }}
+                                  fuseOptions={{ 
+                                    keys: ["name", "city"],
+                                    threshold: 0.3,  
+                                    maxPatternLength: 32,
+                                    minMatchCharLength: 1 }}
                                   onHover={handleOnHover}
                                   onSelect={handleOnSelect}
                                   onFocus={handleOnFocus}

@@ -24,7 +24,7 @@ export default function SignUp(props) {
         "username":username,
         "password": password,
       }
-      navigate('/Preferences', {replace: true, state: newUser});
+      navigate('/LeaguePreferences', {replace: true, state: newUser});
     }
   }
 

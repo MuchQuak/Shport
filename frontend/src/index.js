@@ -23,7 +23,9 @@ ReactDOM.render(
      <Route path="ProjectTeam" element={<ProjectTeam />} />
      <Route path="Login" element={<Login />} />
      <Route path="SignUp" element={<SignUp />} />
-     <Route path="Preferences" element={<LeaguePreferences />} />
+     <Route path="LeaguePreferences" element={<LeaguePreferences />} />
+     <Route path="TeamPreferences" element={<TeamPreferences />} />
+
    </Routes>
  </BrowserRouter>, 
    document.getElementById('root'
