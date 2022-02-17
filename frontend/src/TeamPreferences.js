@@ -19,17 +19,24 @@ export default function TeamPreferences(){
   if (location.state === null) {
     location.state = {};
     location.state.username = "[ Username ]";
-    location.state.pref = ["NBA", "NHL"];
+    location.state.pref = {
+      "_NO_PREF": 2,
+      "leaguePref": ["NBA", "NHL"]
+    };
+    
   }
 
   // Goes through the entire preference list and reformats the teams
   useEffect(() => {
-    if(addedTeams === false && location.state.pref.length > 0){
-      for(let i = 0; i < location.state.pref.length; i++){
-        fetchTeams(location.state.pref[i]).then( result => {
+
+    //const lPrefs = location.state.pref.leaguePref;
+    const lPrefs = [];
+    if(addedTeams === false && lPrefs.length > 0){
+      for(let i = 0; i < lPrefs.length; i++){
+        fetchTeams(lPrefs[i]).then( result => {
           if (result){
             for(let j = 0; j < result.length;j++){
-              result[j].league = location.state.pref[i];
+              result[j].league = lPrefs[i];
             }
             
             result.forEach(element => {
@@ -41,10 +48,32 @@ export default function TeamPreferences(){
       }
       setAddedTeams(true);
     }
-    else{
+    else if(addedTeams === false){
+      let allSports = []
       fetchAllTeams().then( result => {
+        console.log(result);
 
+        result.forEach(element =>{
+          allSports.push(element.sport);
+        });
+
+        for(let i = 0; i < allSports.length; i++){
+          fetchTeams(allSports[i]).then( result => {
+            if(result){
+              for(let j = 0; j < result.length;j++){
+                console.log(result);
+                result[j].league = allSports[i];
+              }
+              
+              result.forEach(element => {
+                setTeams(oldArray => [...oldArray, element]);
+              });
+            }
+          });
+        }
       });
+
+      setAddedTeams(true);
     }
 
   }, [] );
@@ -112,6 +141,15 @@ export default function TeamPreferences(){
 
     //check if pref is empty and if preferences were empty
     //Do later
+    /*
+
+    if(location.pref._NO_PREF === 0 ){  // No preferences wasn't clicked but neither were any leagues
+      add all sport teams
+    }
+    else{
+      just create sports team that were selected
+    }
+    */
 
     for(let i = 0; i < selectedTeams.length; i++){
       if(pref[selectedTeams[i].league] === undefined){
@@ -176,9 +214,6 @@ export default function TeamPreferences(){
                           </header>
                       </div>
                       <SelectedTable selectedData={selectedTeams} removeSelected={removeSelected} />
-
-                      <Button className="submit-button" id="signup-button" block size="lg" type="submit">Add to List</Button>
-
                       <Button className="submit-button" id="signup-button" block size="lg" type="submit">Sign Up</Button>
 
                       <Link to="/Login">
