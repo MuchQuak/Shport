@@ -11,16 +11,20 @@ export async function fetchNBAStandings(){
     }
 }
 
-export function NBA_logo(abbreviation) {
+export function NBA_logo(abbreviation, divId) {
     if (abbreviation === "" || abbreviation === "NBA") {
         return (
-            <div className='logo-container'>
+            <div className='logo-container' id={divId}>
                 <img className='logo' id='sport-logo' src='https://cdn.nba.com/logos/nba/nba-logoman.svg' alt='logo'/>
             </div>
         )
     }
     const url = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-    return (<div className='logo-container'><img className='logo' src={url} alt='logo'/></div>)
+    return (
+        <div className='logo-container' id={divId}>
+            <img className='logo' src={url} alt='logo'/>
+        </div>
+    );
 }
 
 export async function fetchNHLStandings(){
@@ -34,16 +38,20 @@ export async function fetchNHLStandings(){
     }
 }
 
-export function NHL_logo(id) {
+export function NHL_logo(id, divId) {
     if (id === "") {
         return (
             <div className='logo-container'>
-                <img className='logo' id='sport-logo' src='https://www-league.nhlstatic.com/images/logos/league-dark/133-flat.svg' alt='logo'/>
+                <img className='logo' id={divId} src='https://www-league.nhlstatic.com/images/logos/league-dark/133-flat.svg' alt='logo'/>
             </div>
         )
     }
     const url = 'https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/' + String(id) + '.svg';
-    return <div className='logo-container'><img className='logo' src={url} alt='logo'/></div>;
+    return (
+        <div className='logo-container' id={divId}>
+            <img className='logo' src={url} alt='logo'/>
+        </div>
+    );
 }
 
 export async function fetchSports(){
@@ -125,15 +133,16 @@ export async function fetchTomorrowNHLGames(){
 // Retrieves a sport by its code (ex: "NBA", "NFL")
 // sports is a sports object, like one retrieved by fetchSports() within a Component
 export function byCode(sports, code) {
-    let found = {};
+    return sports.find(sport => sport["sport"] === code);
+    /*let found = {};
     try {
-    sports.forEach((sport) => {
-        if (sport["sport"] === code) {
-            found = sport;
-        }
-    });
+        sports.forEach((sport) => {
+            if (sport["sport"] === code) {
+                found = sport;
+            }
+        });
     } catch (error) {}
-    return found;
+    return found;*/
 }
 
 export function UTCtoLocal(UTC) {
@@ -146,10 +155,22 @@ export function UTCtoLocal(UTC) {
     return hours + ":" + String(today.getMinutes()).padStart(2, '0') + " " + period;
 }
 
-export function getLeagueLogo(league) {
+export function getTeamLogo(league, code, divId) {
     switch (league) {
-        case "NBA": return NBA_logo("");
-        case "NHL": return NHL_logo("");
+        case "NBA": return NBA_logo(code, divId);
+        case "NHL": return NHL_logo(code, divId);
         default: return null;
     }
+}
+
+export function getLeagueLogo(league) {
+    return getTeamLogo(league, "", "sport-logo");
+}
+
+export function getFullName(code, league, sports) {
+    if (!sports || code === "" || league === "") {
+        return "";
+    }
+    const team = byCode(sports, league).teams.find(team => team.code === code);
+    return team.city + " " + team.name;
 }

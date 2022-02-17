@@ -1,7 +1,7 @@
 import "./style/Standings.css";
 import Tabbed from "./Tabbed";
 import {all_prefs, getSportsFollowed} from "./PrefHandler";
-import {byCode, fetchNBAStandings, fetchNHLStandings, NBA_logo, NHL_logo} from "./SportHandler";
+import {byCode, fetchNBAStandings, fetchNHLStandings, getLeagueLogo, NBA_logo, NHL_logo} from "./SportHandler";
 import {useEffect, useState} from "react";
 
 function get_teams(standings, conference) {
@@ -74,7 +74,7 @@ export default function StandingsTable(props) {
     const leaguesFollowed = getSportsFollowed(all_prefs); // should be replaced with user's prefs when those are fixed...
     const tabs = leaguesFollowed.map((league, index) => {
         const sportInfo = byCode(props.sports, league);
-        if (sportInfo.length === 0 || !sportInfo["divisions"]) {
+        if (!sportInfo || sportInfo.length === 0 || !sportInfo["divisions"]) {
             return null;
         }
         const divs = sportInfo["divisions"];
@@ -92,8 +92,11 @@ export default function StandingsTable(props) {
             </Tabbed>
         );
     });
+    const icons = leaguesFollowed.map((league, index) => {
+        return getLeagueLogo(String(league));
+    });
     return (
-        <Tabbed titles={leaguesFollowed} default={2}>
+        <Tabbed titles={leaguesFollowed} icons={icons} default={2}>
             {tabs}
         </Tabbed>
     );

@@ -11,7 +11,7 @@ import {fetchNBAStandings, fetchSports} from "./SportHandler";
 function default_items(prefs, sports, stats) {
     return [
         (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>
-            <Schedule className='nbaSchedule' stats={stats}/>
+            <Schedule className='nbaSchedule' stats={stats} sports={sports}/>
         </CloseableItem>),
         (<CloseableItem title='Teams' prefs={prefs}>
             <TeamOverview stats={stats}/>
@@ -21,6 +21,8 @@ function default_items(prefs, sports, stats) {
         </CloseableItem>)
     ]
 }
+
+//
 
 function article_items(prefs) {
     return [

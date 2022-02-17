@@ -37,11 +37,11 @@ function formatGamesData(responseData, date) {
       new_game.home = game.teams.home.team.name;
       new_game.home_score = game.teams.home.score;
       new_game.home_record = game.teams.home.leagueRecord.wins + "-" + game.teams.home.leagueRecord.losses;
-      new_game.home_id = game.teams.home.team.id;
+      new_game.home_code = game.teams.home.team.id;
       new_game.away = game.teams.away.team.name;
       new_game.away_score = game.teams.away.score;
       new_game.away_record = game.teams.away.leagueRecord.wins + "-" + game.teams.away.leagueRecord.losses;
-      new_game.away_id = game.teams.away.team.id;
+      new_game.away_code = game.teams.away.team.id;
       new_game.startTimeUTC = game.gameDate;
       //Made new time cause don't know what you want to do with it but this is proof it works (Logan)
       //new_game.startTimeUTC = timeToUtc(game.startTimeEastern);

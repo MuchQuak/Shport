@@ -1,5 +1,5 @@
 import './style/GameSchedule.css';
-import {NHL_logo, UTCtoLocal} from "./SportHandler";
+import {getTeamLogo, UTCtoLocal, getFullName} from "./SportHandler";
 
 function score(game, score_info) {
     if (score_info === "" || game.status <= 1) {
@@ -8,30 +8,32 @@ function score(game, score_info) {
     return (<p className='score'>{score_info}</p>);
 }
 
-export default function NBAGame(props) {
-    if (!props || !props.game) {
+function getTeamName(homeOrAway, game, league, sports) {
+    if (homeOrAway === "home" && game.home !== "") {
+        return game.home;
+    }
+    if (homeOrAway === "away" && game.away !== "") {
+        return game.away;
+    }
+    const teamCode = String(homeOrAway === "away" ? game.away_code : game.home_code);
+    let fullName;
+    try {
+        fullName = getFullName(teamCode, league, sports);
+    } catch (error) {
+        fullName = teamCode;
+    }
+    return fullName;
+}
+
+export default function Game(props) {
+    if (!props || !props.game || !props.sports) {
         return null;
     }
+    const league = props.league ? props.league : "none";
     const game = props.game;
     const clock_data = game.clock.toString().trim();
     function halftime() {
         return game.halftime || (clock_data === "" && game.currentQtr === 2 && game.endPeriod && game.activated)
-    }
-    function starttime() {
-        const today = new Date();
-        const currentDate = today.getFullYear() + "-" +
-            String(today.getMonth() + 1).padStart(2, '0') + "-" +
-            String(today.getDate()).padStart(2, '0');
-        const startTime = String(game.startTimeEST)
-            .replace(' ', '')
-            .replace('PM', '')
-            .replace('AM', '')
-            .replace('ET', '')
-            .trim().padStart(5, '0');
-        const dateString = currentDate + 'T' + startTime + ':00.000-05:00';
-        const date = new Date(dateString);
-        return date.toTimeString().substr(0, 5) + ' ' +
-            date.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
     }
     function clock() {
         if (game.status > 2) {
@@ -54,8 +56,8 @@ export default function NBAGame(props) {
         <div className='game'>
             <div className='game-data'>
                 <div className='game-left'>
-                    {NHL_logo(game.home_id)}
-                    <p className='game-team-name'>{game.home}</p>
+                    {getTeamLogo(league, game.home_code, "schedule-logo")}
+                    <p className='game-team-name'>{getTeamName("home", game, league, props.sports)}</p>
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
@@ -63,8 +65,8 @@ export default function NBAGame(props) {
                     <p className='game-footer'>{game.arena}</p>
                 </div>
                 <div className='game-right'>
-                    {NHL_logo(game.away_id)}
-                    <p className='game-team-name'>{game.away}</p>
+                    {getTeamLogo(league, game.away_code, "schedule-logo")}
+                    <p className='game-team-name'>{getTeamName("away", game, league, props.sports)}</p>
                     {score(game, game.away_score)}
                 </div>
             </div>
