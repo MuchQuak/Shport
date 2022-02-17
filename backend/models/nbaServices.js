@@ -45,10 +45,12 @@ function formatGamesData(responseData) {
       new_game.arena = game.arena.name;
       new_game.currentQtr = game.period.current;
       new_game.maxQtr = game.period.maxRegular;
-      new_game.home = game.hTeam.triCode;
+      new_game.home = "";
+      new_game.home_code = game.hTeam.triCode;
       new_game.home_score = game.hTeam.score;
       new_game.home_record = game.hTeam.win + "-" + game.hTeam.loss;
-      new_game.away = game.vTeam.triCode;
+      new_game.away = "";
+      new_game.away_code = game.vTeam.triCode;
       new_game.away_score = game.vTeam.score;
       new_game.away_record = game.vTeam.win + "-" + game.vTeam.loss;
       new_game.startTimeUTC = ESTtoUTC(game.startTimeEastern);

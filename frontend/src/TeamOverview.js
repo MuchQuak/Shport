@@ -1,6 +1,7 @@
 import './style/TeamOverview.css';
 import {all_prefs, getSportsFollowed, getTeamsFollowedForSport} from "./PrefHandler";
 import Tabbed from "./Tabbed";
+import {getLeagueLogo, getTeamLogo} from "./SportHandler";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -47,7 +48,7 @@ export default function TeamOverview(props) {
         const conference = capitalizeFirstLetter(stat['conference']);
         return (
             <div className='overview' key={index}>
-                {logo(code)}
+                {getTeamLogo("NBA", code, "overview-logo")}
                 <div className='overview-header'>
                     <div><p className='overview-team-name'>{name}</p></div>
                     <div className='break'></div>
@@ -67,8 +68,11 @@ export default function TeamOverview(props) {
             </div>
         );
     });
+    const icons = leaguesFollowed.map((league, index) => {
+        return getLeagueLogo(String(league));
+    });
     return (
-        <Tabbed titles={leaguesFollowed} default={0}>
+        <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
             {tabs}
         </Tabbed>
     );

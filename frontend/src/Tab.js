@@ -9,6 +9,6 @@ export default function Tab(props) {
         return 'tab-title noselect ' + (props.active === true ? 'tab-active' : 'tab-inactive');
     }
     return (
-        <p className={className()} onClick={props.click}><div className='logo-name-record'>{icon}{props.title}</div></p>
+        <div className={className()} onClick={props.click}><div className='logo-name-record'>{icon}{props.title}</div></div>
     );
 }

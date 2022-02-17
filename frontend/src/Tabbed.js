@@ -8,7 +8,6 @@ export default function Tabbed(props) {
         return null;
     }
     const icons = props.icons ? props.icons : [];
-    console.log(icons);
     const tabs = props.titles.map((title, index) => {
         const icon = icons[index] != null ? icons[index] : null;
         return (
