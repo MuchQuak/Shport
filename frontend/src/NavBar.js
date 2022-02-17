@@ -39,7 +39,7 @@ export default function NavBar() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Header>Hello, {location.state.username}</Dropdown.Header>
-                <Dropdown.Item href="#/action-2"><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
+                <Dropdown.Item href="/Settings"><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
                 <Dropdown.Item href="/Login">Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

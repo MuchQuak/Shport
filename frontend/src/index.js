@@ -14,6 +14,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import LeaguePreferences from './LeaguePreferences';
 import TeamPreferences from './TeamPreferences';
+import Settings from './Settings';
 
 ReactDOM.render(
    <BrowserRouter>
@@ -25,6 +26,7 @@ ReactDOM.render(
      <Route path="SignUp" element={<SignUp />} />
      <Route path="LeaguePreferences" element={<LeaguePreferences />} />
      <Route path="TeamPreferences" element={<TeamPreferences />} />
+     <Route path="Settings" element={<Settings/>} />
 
    </Routes>
  </BrowserRouter>, 
