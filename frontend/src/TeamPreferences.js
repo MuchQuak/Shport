@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import SelectedTable from './SelectedTable';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
 
 
 export default function TeamPreferences(){
+  const [addedTeams, setAddedTeams] = useState(false);
   const location = useLocation(); 
+  const navigation = useNavigate();
   const [items, setItems] = useState([]); 
   const [selectedTeams, setSelectedTeams] = useState([]);
 
@@ -21,7 +24,7 @@ export default function TeamPreferences(){
 
   // Goes through the entire preference list and reformats the teams
   useEffect(() => {
-    if(location.state.pref.length > 0){
+    if(addedTeams === false && location.state.pref.length > 0){
       for(let i = 0; i < location.state.pref.length; i++){
         fetchTeams(location.state.pref[i]).then( result => {
           if (result){
@@ -36,12 +39,10 @@ export default function TeamPreferences(){
           }
         });
       }
-
+      setAddedTeams(true);
     }
     else{
       fetchAllTeams().then( result => {
-
-
 
       });
     }
@@ -83,7 +84,9 @@ export default function TeamPreferences(){
 
   const handleOnSelect = (item) => {
     // the item selected
-    console.log(item)
+    console.log(item);
+    setItems(items.filter(element => element.name !== item.name));
+    setSelectedTeams(oldArray => [...oldArray, item]);
   }
 
   const handleOnFocus = () => {
@@ -97,6 +100,11 @@ export default function TeamPreferences(){
         <span style={{ display: 'block', textAlign: 'left' }}>{item.league}</span>
       </>
     )
+  }
+
+  function removeSelected(index){
+    setItems(oldArray => [...oldArray, selectedTeams[index]]);
+    setSelectedTeams(selectedTeams.filter(element => element.name !== selectedTeams[index].name));
   }
     
   function handleSubmit(event) {
@@ -116,7 +124,7 @@ export default function TeamPreferences(){
                                   onSearch={handleOnSearch}
                                   fuseOptions={{ 
                                     keys: ["city", "name"],
-                                    threshold: 0.3,  
+                                    threshold: 0.2,  
                                     maxPatternLength: 32,
                                     minMatchCharLength: 1 }}
                                   onHover={handleOnHover}
@@ -128,6 +136,8 @@ export default function TeamPreferences(){
                               </div>
                           </header>
                       </div>
+                      <SelectedTable selectedData={selectedTeams} removeSelected={removeSelected} />
+
                       <Button className="submit-button" id="signup-button" block size="lg" type="submit">Add to List</Button>
 
                       <Button className="submit-button" id="signup-button" block size="lg" type="submit">Sign Up</Button>
