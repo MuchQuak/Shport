@@ -21,7 +21,7 @@ export default function TeamPreferences(){
     location.state.username = "[ Username ]";
     location.state.pref = {
       "_NO_PREF": 2,
-      "leaguePref": ["NBA", "NHL"]
+      "leaguePref":[]  // ["NBA"]
     };
     
   }
@@ -29,54 +29,43 @@ export default function TeamPreferences(){
   // Goes through the entire preference list and reformats the teams
   useEffect(() => {
 
-    //const lPrefs = location.state.pref.leaguePref;
-    const lPrefs = [];
+    const lPrefs = location.state.pref.leaguePref;
     if(addedTeams === false && lPrefs.length > 0){
-      for(let i = 0; i < lPrefs.length; i++){
-        fetchTeams(lPrefs[i]).then( result => {
-          if (result){
-            for(let j = 0; j < result.length;j++){
-              result[j].league = lPrefs[i];
-            }
-            
-            result.forEach(element => {
-              setTeams(oldArray => [...oldArray, element]);
-            });
-
-          }
-        });
-      }
+      repeatFetchAllTeams(lPrefs);
       setAddedTeams(true);
     }
     else if(addedTeams === false){
       let allSports = []
       fetchAllTeams().then( result => {
-        console.log(result);
-
         result.forEach(element =>{
           allSports.push(element.sport);
         });
 
-        for(let i = 0; i < allSports.length; i++){
-          fetchTeams(allSports[i]).then( result => {
-            if(result){
-              for(let j = 0; j < result.length;j++){
-                console.log(result);
-                result[j].league = allSports[i];
-              }
-              
-              result.forEach(element => {
-                setTeams(oldArray => [...oldArray, element]);
-              });
-            }
-          });
-        }
+        location.state.pref.leaguePref = allSports;
+        repeatFetchAllTeams(allSports);
+      
       });
-
       setAddedTeams(true);
     }
-
   }, [] );
+
+  async function repeatFetchAllTeams(lPrefs){
+
+    for(let i = 0; i < lPrefs.length; i++){
+      fetchTeams(lPrefs[i]).then( result => {
+        if (result){
+          for(let j = 0; j < result.length;j++){
+            result[j].league = lPrefs[i];
+          }
+          
+          result.forEach(element => {
+            setTeams(oldArray => [...oldArray, element]);
+          });
+
+        }
+      });
+    }
+  }
 
   async function fetchTeams(sport){
     try {
@@ -139,26 +128,18 @@ export default function TeamPreferences(){
   function createPrefObject(){
     let pref = {};
 
-    //check if pref is empty and if preferences were empty
-    //Do later
-    /*
+    let allSports = location.state.pref.leaguePref;
 
-    if(location.pref._NO_PREF === 0 ){  // No preferences wasn't clicked but neither were any leagues
-      add all sport teams
+    for(let i = 0; i < allSports.length; i++){
+      pref[allSports[i]] = [];   //add all sport teams
     }
-    else{
-      just create sports team that were selected
-    }
-    */
 
     for(let i = 0; i < selectedTeams.length; i++){
-      if(pref[selectedTeams[i].league] === undefined){
-        pref[selectedTeams[i].league] = [selectedTeams[i].code];
-      }
-      else{
-        pref[selectedTeams[i].league].push(selectedTeams[i].code);
-      }
+      pref[selectedTeams[i].league].push(selectedTeams[i].code);
     }
+
+    pref._NO_PREF = location.state.pref._NO_PREF;
+
     return pref;
   }
 
