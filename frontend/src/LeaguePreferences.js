@@ -37,22 +37,52 @@ export default function LeaguePreferences(){
       return sport["sport"];
   })
 
+  async function addUser(user){
+    try {
+        const response = await axios.post('http://localhost:5000/users',user);
+        return response;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
+    
+    let newUser = {
+      "username": location.state.username,
+      "password": location.state.password,
+      "email": location.state.email,
+    }
 
-      const newUser = {
-        "username": location.state.username,
-        "password": location.state.password,
-        "email": location.state.email,
-        "pref": preferences
+    if(preferences.length === 0 && document.getElementById("0").checked === true ){  // No Preferences clicked
+      newUser.pref = {
+        "_NO_PREF": 1 // No Preferences clicked
       }
-
+      
+      addUser(newUser);
+      navigate('/', {replace:true, state: newUser});
+    }else if(preferences.length === 0){                                              // Nothing Clicked
+      newUser.pref = {
+        "_NO_PREF": 0 // means not clicked
+      }
+      navigate('/TeamPreferences', {replace:true, state: newUser});
+    }
+    else{
+      newUser.pref = {
+        "_NO_PREF": 2, // No preferences disabled
+        "leaguePref": preferences
+      };
       navigate('/TeamPreferences', {replace:true, state: newUser});
     }
 
-    const checkboxes = labels.map((label, index) => {
-        return (<Form.Check type={"checkbox"} label={label} id={index + 1} key={index + 1} onChange={(e) => checkSportOption(e, label)}/>);
-    });
+  }
+
+  const checkboxes = labels.map((label, index) => {
+    return (<Form.Check type={"checkbox"} label={label} id={index + 1} key={index + 1} onChange={(e) => checkSportOption(e, label)}/>);
+  });
 
   function checkPref(e){
       if(e.target.checked === true){
