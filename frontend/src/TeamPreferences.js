@@ -16,7 +16,7 @@ export default function TeamPreferences(){
   const [selectedTeams, setSelectedTeams] = useState([]); // teams that have been selected
 
   // TESTING 
-  if (location.state === null) {
+  /*if (location.state === null) {
     location.state = {};
     location.state.username = "[ Username ]";
     location.state.pref = {
@@ -24,7 +24,7 @@ export default function TeamPreferences(){
       "leaguePref":[]  // ["NBA"]
     };
     
-  }
+  }*/
 
   // Goes through the entire preference list and reformats the teams
   useEffect(() => {

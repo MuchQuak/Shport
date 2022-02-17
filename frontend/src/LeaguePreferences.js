@@ -66,7 +66,8 @@ export default function LeaguePreferences(){
       navigate('/', {replace:true, state: newUser});
     }else if(preferences.length === 0){                                              // Nothing Clicked
       newUser.pref = {
-        "_NO_PREF": 0 // means not clicked
+        "_NO_PREF": 0,
+        "leaguePref": []
       }
       navigate('/TeamPreferences', {replace:true, state: newUser});
     }
