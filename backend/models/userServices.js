@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    pref: [],
+    pref: { 
+        type: Object
+    },
   }, {collection : 'users'});
 
   /*const sportsSchema = new mongoose.Schema({

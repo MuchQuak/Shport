@@ -9,11 +9,11 @@ import './style/SignUp.css';
 
 
 export default function TeamPreferences(){
-  const [addedTeams, setAddedTeams] = useState(false);
-  const location = useLocation(); 
-  const navigation = useNavigate();
-  const [items, setItems] = useState([]); 
-  const [selectedTeams, setSelectedTeams] = useState([]);
+  const [addedTeams, setAddedTeams] = useState(false); // Page first started or reloaded check
+  const location = useLocation();                     // Data from sport preferences
+  const navigate = useNavigate();
+  const [teams, setTeams] = useState([]);             // teams that can select
+  const [selectedTeams, setSelectedTeams] = useState([]); // teams that have been selected
 
   // TESTING 
   if (location.state === null) {
@@ -33,7 +33,7 @@ export default function TeamPreferences(){
             }
             
             result.forEach(element => {
-              setItems(oldArray => [...oldArray, element]);
+              setTeams(oldArray => [...oldArray, element]);
             });
 
           }
@@ -85,7 +85,7 @@ export default function TeamPreferences(){
   const handleOnSelect = (item) => {
     // the item selected
     console.log(item);
-    setItems(items.filter(element => element.name !== item.name));
+    setTeams(teams.filter(element => element.name !== item.name));
     setSelectedTeams(oldArray => [...oldArray, item]);
   }
 
@@ -103,12 +103,51 @@ export default function TeamPreferences(){
   }
 
   function removeSelected(index){
-    setItems(oldArray => [...oldArray, selectedTeams[index]]);
+    setTeams(oldArray => [...oldArray, selectedTeams[index]]);
     setSelectedTeams(selectedTeams.filter(element => element.name !== selectedTeams[index].name));
   }
-    
+  
+  function createPrefObject(){
+    let pref = {};
+
+    //check if pref is empty and if preferences were empty
+    //Do later
+
+    for(let i = 0; i < selectedTeams.length; i++){
+      if(pref[selectedTeams[i].league] === undefined){
+        pref[selectedTeams[i].league] = [selectedTeams[i].code];
+      }
+      else{
+        pref[selectedTeams[i].league].push(selectedTeams[i].code);
+      }
+    }
+    return pref;
+  }
+
+  async function addUser(user){
+    try {
+        const response = await axios.post('http://localhost:5000/users',user);
+        return response;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+  }
+
   function handleSubmit(event) {
       event.preventDefault();
+
+      const newUser = {
+        "username": location.state.username,
+        "password": location.state.password,
+        "email": location.state.email,
+        "pref": createPrefObject()
+      }
+
+      addUser(newUser);
+      navigate("/", {replace:true, state: newUser});
+
   }
 
   return (
@@ -120,7 +159,7 @@ export default function TeamPreferences(){
                           <header className="App-header">
                               <div style={{ width: 350 }}>
                               <ReactSearchAutocomplete
-                                  items={items}
+                                  items={teams}
                                   onSearch={handleOnSearch}
                                   fuseOptions={{ 
                                     keys: ["city", "name"],
