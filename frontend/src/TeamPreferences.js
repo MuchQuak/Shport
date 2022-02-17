@@ -16,20 +16,17 @@ export default function TeamPreferences(){
   const [selectedTeams, setSelectedTeams] = useState([]); // teams that have been selected
 
   // TESTING 
-  /*if (location.state === null) {
+  if (location.state === null) {
     location.state = {};
     location.state.username = "[ Username ]";
-    location.state.pref = {
-      "_NO_PREF": 2,
-      "leaguePref":[]  // ["NBA"]
-    };
+    location.state.pref = [];
     
-  }*/
+  }
 
   // Goes through the entire preference list and reformats the teams
   useEffect(() => {
 
-    const lPrefs = location.state.pref.leaguePref;
+    const lPrefs = location.state.pref;
     if(addedTeams === false && lPrefs.length > 0){
       repeatFetchAllTeams(lPrefs);
       setAddedTeams(true);
@@ -41,7 +38,7 @@ export default function TeamPreferences(){
           allSports.push(element.sport);
         });
 
-        location.state.pref.leaguePref = allSports;
+        location.state.pref = allSports;
         repeatFetchAllTeams(allSports);
       
       });
@@ -128,7 +125,7 @@ export default function TeamPreferences(){
   function createPrefObject(){
     let pref = {};
 
-    let allSports = location.state.pref.leaguePref;
+    let allSports = location.state.pref;
 
     for(let i = 0; i < allSports.length; i++){
       pref[allSports[i]] = [];   //add all sport teams
@@ -137,8 +134,6 @@ export default function TeamPreferences(){
     for(let i = 0; i < selectedTeams.length; i++){
       pref[selectedTeams[i].league].push(selectedTeams[i].code);
     }
-
-    pref._NO_PREF = location.state.pref._NO_PREF;
 
     return pref;
   }

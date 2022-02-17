@@ -57,27 +57,28 @@ export default function LeaguePreferences(){
       "email": location.state.email,
     }
 
-    if(preferences.length === 0 && document.getElementById("0").checked === true ){  // No Preferences clicked
-      newUser.pref = {
-        "_NO_PREF": 1 // No Preferences clicked
-      }
+    if(preferences.length === 0){                                 // No Preferences
       
-      addUser(newUser);
-      navigate('/', {replace:true, state: newUser});
-    }else if(preferences.length === 0){                                              // Nothing Clicked
-      newUser.pref = {
-        "_NO_PREF": 0,
-        "leaguePref": []
-      }
-      navigate('/TeamPreferences', {replace:true, state: newUser});
+      let allSports = {};
+      sports.forEach(element => {
+        allSports[element.sport] = [];
+      });
+
+
+      if(document.getElementById("0").checked === true ){           // No Preferences clicked
+        newUser.pref = allSports;
+        addUser(newUser);
+        navigate('/', {replace:true, state: newUser});
+        return;
+      }else if(document.getElementById("0").checked === false)     // Nothing Clicked
+        newUser.pref = Object.keys(allSports); 
     }
     else{
-      newUser.pref = {
-        "_NO_PREF": 2, // No preferences disabled
-        "leaguePref": preferences
-      };
-      navigate('/TeamPreferences', {replace:true, state: newUser});
+      newUser.pref = preferences;
     }
+
+    navigate('/TeamPreferences', {replace:true, state: newUser});
+    return;
 
   }
 

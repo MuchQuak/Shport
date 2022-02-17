@@ -21,7 +21,9 @@ const userSchema = new mongoose.Schema({
         trim: true,
     },
     pref: { 
-        type: Object
+        type: Object,
+        trim: true,
+        required: true
     },
   }, {collection : 'users'});
 
