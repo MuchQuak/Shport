@@ -1,7 +1,7 @@
 
 /* -- Testing User Schema */
 // Importing User Schema 
-const User = require('./UserServices');
+const User = require('./newUserServices');
 
 test('TESTING: Username', () => {
   let newEncrptUser = new User();
@@ -19,12 +19,14 @@ test('TESTING: Email', () => {
 
 test('TESTING: Pref', () => {
   let newEncrptUser = new User();
-  let pref = {
-    "NBA": [],
-    "NHL":["5"]
+  let prefs = {
+    sports: {
+      "NBA": [],
+      "NHL":["5"]
+    }
   }
-  newEncrptUser.pref = pref;
-  expect(pref).toBe(newEncrptUser.pref);
+  newEncrptUser.prefs = prefs;
+  expect(prefs).toBe(newEncrptUser.prefs);
 });
 
 
