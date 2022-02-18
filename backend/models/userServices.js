@@ -4,69 +4,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 let dbConnection;
 
-// OLD
-const userSchema = new mongoose.Schema({
-    username: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-        type: String,
-        trim: true,
-    },
-    pref: { 
-        type: Object,
-        trim: true,
-        required: true
-    },
-  }, {collection : 'users'});
-
-  /*const sportsSchema = new mongoose.Schema({
-    sport: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    type: {
-        type: String,
-        required: true,
-        trim: true,
-      },   
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    divisions: [],
-    teams: [
-        {
-            code: {
-                type: String,
-                required: true,
-                trim: true,
-              },
-            city: {
-                type: String,
-                required: true,
-                trim: true,
-            },
-            name: {
-                type: String,
-                required: true,
-                trim: true,
-            },
-        },
-    ],},
-    {collection: 'sports'});*/
-
-
-// NEW PREFS
 const prefsSchema = new mongoose.Schema(
     {
         sports: {
@@ -114,8 +51,7 @@ const prefsSchema = new mongoose.Schema(
     }
 );
 
-// NEW USER
-const testUserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
     {
         username: {
             type: String,
@@ -127,18 +63,22 @@ const testUserSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        email: {
+            type: String,
+            required: true,
+            trim: true,
+        },
         prefs: {
             type: prefsSchema,
             required: true
         },
     },
     {
-        collection : 'test_users'
+        collection : 'users'
     }
 );
 
 function getDbConnection() {
-    
     if (!dbConnection) {
         dbConnection = mongoose.createConnection(process.env.MONGODB_URI, {
             useNewUrlParser: true,
@@ -167,24 +107,11 @@ async function signUpUser(user){
     }       
 }
 
-// for testing
-async function signUpTestUser(user) {
-    const userModel = getDbConnection().model("user", testUserSchema);
-    try {
-        const userToAdd = new userModel(user);
-        const savedUser = await userToAdd.save()
-        return savedUser;
-    } catch(error) {
-        console.log(error);
-        return false;
-    }
-}
-
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", userSchema);
     try {
         const query = userModel.find({'username': name});
-        return query.select('pref');
+        return query.select('prefs');
     } catch(error) {
         console.log(error);
         return false;
@@ -203,13 +130,51 @@ async function getUsers() {
 }
 
 async function findUserByUsername(name){
-    const userModel = getDbConnection().model("User", userSchema);
+    const userModel = getDbConnection().model("user", userSchema);
     return await userModel.find({'username': name});
 }
 
 exports.signUpUser = signUpUser;
-exports.signUpTestUser = signUpTestUser;
 exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.verifyLogin = verifyLogin;
 exports.findUserByUsername = findUserByUsername;
+
+
+/*const sportsSchema = new mongoose.Schema({
+  sport: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  type: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  divisions: [],
+  teams: [
+      {
+          code: {
+              type: String,
+              required: true,
+              trim: true,
+            },
+          city: {
+              type: String,
+              required: true,
+              trim: true,
+          },
+          name: {
+              type: String,
+              required: true,
+              trim: true,
+          },
+      },
+  ],},
+  {collection: 'sports'});*/

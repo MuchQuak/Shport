@@ -1,46 +1,29 @@
-import React from 'react';
-
-
-
-function TableBody (props) {
-  const rows = props.selectedData.map((row, index) => {
-    return (
-<tr key={index}>
-  <td>{row.name}</td>
-  <td>{row.league}</td>
-  <td>
-    <button onClick={() => props.removeSelected(index)}>Remove</button>
-  </td>
-</tr>
-    );
-  });
-  return (
-      <tbody>
-         {rows}
-      </tbody>
-   );
-}
-
-
-function TableHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>League</th>
-      </tr>
-    </thead>
-  );
-}
-
 function SelectedTable(props) {
-  if(props.selectedData.length < 1){
-    return (<></>);
+  if (!props || props.selectedData.length < 1){
+    return null;
   }
+    const rows = props.selectedData.map((row, index) => {
+        return (
+            <tr key={index}>
+                <td>{row.city} {row.name}</td>
+                <td>{row.sport}</td>
+                <td>
+                    <button onClick={() => props.removeSelected(index)}>Remove</button>
+                </td>
+            </tr>
+        );
+    });
   return (
     <table>
-      <TableHeader />
-      <TableBody selectedData={props.selectedData} removeSelected={props.removeSelected} />
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>League</th>
+        </tr>
+        </thead>
+        <tbody>
+        {rows}
+        </tbody>
     </table>
   );
 }

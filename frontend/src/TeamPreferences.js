@@ -1,167 +1,106 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import SelectedTable from './SelectedTable';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
+import {fetchSports} from "./SportHandler";
+import {addUser} from "./UserHandler";
 
+function itemsEqual(a, b) {
+    return a.name === b.name && a.city === b.city && a.sport === b.sport && a.code === b.code;
+}
 
 export default function TeamPreferences(){
-  const [addedTeams, setAddedTeams] = useState(false); // Page first started or reloaded check
-  const location = useLocation();                     // Data from sport preferences
+  const location = useLocation(); // Data from sport preferences
   const navigate = useNavigate();
-  const [teams, setTeams] = useState([]);             // teams that can select
   const [selectedTeams, setSelectedTeams] = useState([]); // teams that have been selected
+  const [availableTeams, setAvailableTeams] = useState([]); // teams that have been selected
+  const [sports, setSports] = useState([]);
 
-  // TESTING 
-  if (location.state === null) {
-    location.state = {};
-    location.state.username = "[ Username ]";
-    location.state.pref = [];
-    
-  }
-
-  // Goes through the entire preference list and reformats the teams
-  useEffect(() => {
-
-    const lPrefs = location.state.pref;
-    if(addedTeams === false && lPrefs.length > 0){
-      repeatFetchAllTeams(lPrefs);
-      setAddedTeams(true);
-    }
-    else if(addedTeams === false){
-      let allSports = []
-      fetchAllTeams().then( result => {
-        result.forEach(element =>{
-          allSports.push(element.sport);
+    useEffect(() => {
+        fetchSports().then(result => {
+            if (result)
+                setSports(result);
+                Object.keys(result).forEach((key) => {
+                    const teams = result[key].teams.map((team) => {
+                        team.sport = result[key].sport;
+                        return team;
+                    });
+                    setAvailableTeams(old => [...old, ...teams]);
+                })
         });
+    }, [] );
 
-        location.state.pref = allSports;
-        repeatFetchAllTeams(allSports);
-      
-      });
-      setAddedTeams(true);
+    if (!sports || availableTeams.length === 0) {
+        return null;
     }
-  }, [] );
-
-  async function repeatFetchAllTeams(lPrefs){
-
-    for(let i = 0; i < lPrefs.length; i++){
-      fetchTeams(lPrefs[i]).then( result => {
-        if (result){
-          for(let j = 0; j < result.length;j++){
-            result[j].league = lPrefs[i];
-          }
-          
-          result.forEach(element => {
-            setTeams(oldArray => [...oldArray, element]);
-          });
-
-        }
-      });
-    }
-  }
-
-  async function fetchTeams(sport){
-    try {
-        const response = await axios.get('http://localhost:5000/sport/' + sport + '/teams');
-        return response.data;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-  }
-  async function fetchAllTeams(){
-    try {
-        const response = await axios.get('http://localhost:5000/sport');
-        return response.data;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-  }
-
 
   const handleOnSearch = (string, results) => {
       // onSearch will have as the first callback parameter
       // the string searched and for the second the results.
-      console.log(string, results)
     }
 
   const handleOnHover = (result) => {
-    // the item hovered
-    console.log(result)
+  }
+  const handleOnFocus = () => {
   }
 
   const handleOnSelect = (item) => {
-    // the item selected
-    console.log(item);
-    setTeams(teams.filter(element => element.name !== item.name));
+    setAvailableTeams(availableTeams.filter(element => !itemsEqual(element, item)));
     setSelectedTeams(oldArray => [...oldArray, item]);
-  }
-
-  const handleOnFocus = () => {
-    console.log('Focused')
   }
 
   const formatResult = (item) => {
     return (
       <>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.name}</span>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.league}</span>
+        <span style={{ display: 'block', textAlign: 'left' }}>{item.city} {item.name}</span>
+        <span style={{ display: 'block', textAlign: 'left' }}>{item.sport}</span>
       </>
     )
   }
 
   function removeSelected(index){
-    setTeams(oldArray => [...oldArray, selectedTeams[index]]);
-    setSelectedTeams(selectedTeams.filter(element => element.name !== selectedTeams[index].name));
+    const select = selectedTeams[index];
+    setAvailableTeams(old => [...old, select]);
+    setSelectedTeams(selectedTeams.filter(element => !itemsEqual(element, select)));
   }
   
   function createPrefObject(){
-    let pref = {};
-
-    let allSports = location.state.pref;
-
-    for(let i = 0; i < allSports.length; i++){
-      pref[allSports[i]] = [];   //add all sport teams
-    }
-
-    for(let i = 0; i < selectedTeams.length; i++){
-      pref[selectedTeams[i].league].push(selectedTeams[i].code);
-    }
-
-    return pref;
-  }
-
-  async function addUser(user){
-    try {
-        const response = await axios.post('http://localhost:5000/users',user);
-        return response;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
+    let prefs = location.state.prefs;
+    console.log(prefs);
+    selectedTeams.forEach((team) => {
+        if (!prefs.sports.hasOwnProperty(team.sport)) {
+            prefs.sports[team.sport] = {
+                teams: []
+            }
+        }
+        if (!prefs.sports[team.sport].hasOwnProperty("teams")) {
+            prefs.sports[team.sport].teams = [];
+        }
+        prefs.sports[team.sport].teams.push(team.code);
+    })
+    return prefs;
   }
 
   function handleSubmit(event) {
       event.preventDefault();
-
+      if (location.state === null) {
+          navigate('/SignUp', {replace:true});
+          return;
+      }
       const newUser = {
         "username": location.state.username,
         "password": location.state.password,
         "email": location.state.email,
-        "pref": createPrefObject()
+        "prefs": createPrefObject()
       }
-
-      addUser(newUser);
-      navigate("/", {replace:true, state: newUser});
-
+      addUser(newUser).then(r => {
+          if (r.status === 201) {
+              navigate('/', {replace:true, state: newUser});
+          }
+      });
   }
 
   return (
@@ -173,7 +112,7 @@ export default function TeamPreferences(){
                           <header className="App-header">
                               <div style={{ width: 350 }}>
                               <ReactSearchAutocomplete
-                                  items={teams}
+                                  items={availableTeams}
                                   onSearch={handleOnSearch}
                                   fuseOptions={{ 
                                     keys: ["city", "name"],
@@ -190,8 +129,7 @@ export default function TeamPreferences(){
                           </header>
                       </div>
                       <SelectedTable selectedData={selectedTeams} removeSelected={removeSelected} />
-                      <Button className="submit-button" id="signup-button" block size="lg" type="submit">Sign Up</Button>
-
+                      <Button className="submit-button" id="signup-button" size="lg" type="submit">Sign Up</Button>
                       <Link to="/Login">
                           <p className="have-account">Already registered? Sign in</p>
                       </Link>

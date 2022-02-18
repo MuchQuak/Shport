@@ -41,17 +41,17 @@ export default function Login(props) {
           <div className="login">
               <h1 className="websiteName">Log In</h1>
               <Form onSubmit={handleSubmit}>
-                  <Form.Group className="usernameForm" size="lg" controlId="username">
+                  <Form.Group className="inputForm" size="lg" controlId="username">
                       <Form.Label>Username</Form.Label>
                       <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                   </Form.Group>
-                  <Form.Group className="passwordForm" size="lg" controlId="password">
+                  <Form.Group className="inputForm" size="lg" controlId="password">
                       <Form.Label>Password</Form.Label>
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </Form.Group>
-                    <Button className="login-button" id="login" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                    <Button className="login-button" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
                   <Link to="/SignUp" className="login-button">
-                    <Button className="login-button" id="signup" block size="lg" type="button">Sign Up</Button>
+                    <Button className="login-button" id="signup" size="lg" type="button">Sign Up</Button>
                   </Link>
               </Form>
           </div>

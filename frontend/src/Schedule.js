@@ -7,7 +7,7 @@ import {
     fetchTomorrowNBAGames,
     fetchYesterdayNBAGames,
     fetchTodayNHLGames,
-    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo, fetchSports
+    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo
 } from "./SportHandler";
 import Game from "./Game";
 

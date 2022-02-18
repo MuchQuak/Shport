@@ -40,28 +40,25 @@
 
 .signup-name {
   text-align: center;
-  margin: 0 auto 30px;
+  margin: 0 auto 10px;
 }
 
-.usernameForm {
-  margin: 0;
-  width: 100%;
-  height: auto;
-}
-
-.emailForm {
-  margin: 0;
-  width: 100%;
-  height: auto;
-}
-
-.passwordForm {
+.inputForm {
   margin: 0 0 10px;
   width: 100%;
   height: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
-.submit-button{
+.inputForm label {
+  margin: 0;
+}
+
+.submit-button {
     margin: 0;
     width: 100%;
     height: auto;
@@ -70,6 +67,7 @@
 
 .submit-button:disabled {
   background-color: #111133;
+  pointer-events: none;
   color: #FFFFFF;
 }
 
@@ -81,7 +79,7 @@
   margin: 0 0 5px;
 }
 
-.have-account{
+.have-account {
   margin: 0;
   width: 100%;
   height: auto;

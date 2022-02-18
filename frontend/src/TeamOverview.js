@@ -21,11 +21,6 @@ function suffix(i) {
     return i + "th";
 }
 
-function logo(abbreviation) {
-    const logo = 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/' + abbreviation.toLowerCase() + '.png';
-    return (<div className='logo-container' id='overview-logo'><img className='logo' src={logo} alt='logo'/></div>)
-}
-
 export default function TeamOverview(props) {
     if (!props.stats || !props.prefs) {
         return null;
