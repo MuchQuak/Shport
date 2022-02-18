@@ -7,7 +7,15 @@ import {fetchSports} from "./SportHandler";
 import {addUser} from "./UserHandler";
 
 export function prefSize(preferences) {
-    return Object.keys(preferences).length;
+    let total = 0;
+    for (const [key, value] of Object.entries(preferences.sports)) {
+        if (preferences[key].hasOwnProperty("following")){
+            if (preferences[key].following === true) {
+                total += 1;
+            }
+        }
+    }
+    return total;
 }
 
 export default function LeaguePreferences() {
@@ -51,19 +59,13 @@ export default function LeaguePreferences() {
     }
 
     if (prefSize(preferences) === 0){ // User has no preferences
-      let allSports = {
-          "sports": {}
-      };
+      let allSports = {};
       sports.forEach(element => {
-        allSports.sports[element.sport] = {};
+        allSports[element.sport] = {};
       });
       if (document.getElementById("0").checked === true ){ // "No Preferences" clicked
-        sports.forEach(element => {
-            allSports.sports[element.sport] = {
-                following: true
-            };
-        });
-        newUser.prefs = allSports;
+        allSports.following = true;
+        newUser.prefs.sports = allSports;
         addUser(newUser).then(response => {
             if (response.status === 201) {
                 navigate('/', {replace:true, state: newUser});
@@ -116,12 +118,16 @@ export default function LeaguePreferences() {
 
   function checkSportOption(e, token){
     if (e.target.checked === true){
-        preferences.sports[token] = {};
-        preferences.sports[token].following = true;
+        const newpref = preferences;
+        newpref.sports[token] = {};
+        newpref.sports[token].following = true;
+        setPreferences(newpref);
         disablePrefOptions(true);
     } else {
         if (preferences.sports[token].hasOwnProperty("following")) {
-            delete preferences.sports[token];
+            const newpref = preferences;
+            delete newpref.sports[token];
+            setPreferences(newpref);
         }
         disablePrefOptions(false);
     }

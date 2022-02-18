@@ -69,7 +69,6 @@ export default function TeamPreferences(){
   
   function createPrefObject(){
     let prefs = location.state.prefs;
-    console.log(prefs);
     selectedTeams.forEach((team) => {
         if (!prefs.sports.hasOwnProperty(team.sport)) {
             prefs.sports[team.sport] = {
