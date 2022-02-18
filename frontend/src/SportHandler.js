@@ -122,3 +122,7 @@ export function getFullName(code, league, sports) {
     const team = byCode(sports, league).teams.find(team => team.code === code);
     return team.city + " " + team.name;
 }
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

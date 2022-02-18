@@ -1,12 +1,8 @@
 import './style/TeamOverview.css';
 import {getSportsWithOneTeamFollowed, getTeamsFollowedForSport} from "./PrefHandler";
 import Tabbed from "./Tabbed";
-import {fetchNBAStandings, fetchNHLStandings, getLeagueLogo, getTeamLogo} from "./SportHandler";
+import {capitalizeFirstLetter, fetchNBAStandings, fetchNHLStandings, getLeagueLogo, getTeamLogo} from "./SportHandler";
 import {useEffect, useState} from "react";
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 function suffix(i) {
     const j = i % 10, k = i % 100;
