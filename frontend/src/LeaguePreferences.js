@@ -9,8 +9,8 @@ import {addUser} from "./UserHandler";
 export function prefSize(preferences) {
     let total = 0;
     for (const [key, value] of Object.entries(preferences.sports)) {
-        if (preferences[key].hasOwnProperty("following")){
-            if (preferences[key].following === true) {
+        if (preferences.sports[key].hasOwnProperty("following")){
+            if (preferences.sports[key].following === true) {
                 total += 1;
             }
         }

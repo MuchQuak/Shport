@@ -64,3 +64,24 @@
     padding: 0;
     height: 1.5em;
 }
+
+.logo-multiline-words {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+}
+
+
+.logo-text {
+    margin: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.logo-text p {
+    margin: 0;
+}

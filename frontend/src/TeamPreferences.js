@@ -5,7 +5,7 @@ import SelectedTable from './SelectedTable';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
-import {fetchSports} from "./SportHandler";
+import {fetchSports, getTeamLogo} from "./SportHandler";
 import {addUser} from "./UserHandler";
 
 function itemsEqual(a, b) {
@@ -54,10 +54,13 @@ export default function TeamPreferences(){
 
   const formatResult = (item) => {
     return (
-      <>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.city} {item.name}</span>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.sport}</span>
-      </>
+      <div className='logo-multiline-words'>
+        {getTeamLogo(item.sport, item.code, null)}
+        <div className='logo-text'>
+            <p>{item.city} {item.name}</p>
+            <p>{item.sport}</p>
+        </div>
+      </div>
     )
   }
 
@@ -107,25 +110,21 @@ export default function TeamPreferences(){
           <div className="signup">
               <h1 className="signup-name">Team Preferences</h1>
                   <Form onSubmit={handleSubmit}>
-                      <div className="App">
-                          <header className="App-header">
-                              <div style={{ width: 350 }}>
-                              <ReactSearchAutocomplete
-                                  items={availableTeams}
-                                  onSearch={handleOnSearch}
-                                  fuseOptions={{ 
-                                    keys: ["city", "name"],
-                                    threshold: 0.2,  
-                                    maxPatternLength: 32,
-                                    minMatchCharLength: 1 }}
-                                  onHover={handleOnHover}
-                                  onSelect={handleOnSelect}
-                                  onFocus={handleOnFocus}
-                                  autoFocus
-                                  formatResult={formatResult}
-                              />
-                              </div>
-                          </header>
+                      <div className='wrapper'>
+                          <ReactSearchAutocomplete
+                              items={availableTeams}
+                              onSearch={handleOnSearch}
+                              fuseOptions={{
+                                keys: ["city", "name", "sport"],
+                                threshold: 0.2,
+                                maxPatternLength: 32,
+                                minMatchCharLength: 1 }}
+                              onHover={handleOnHover}
+                              onSelect={handleOnSelect}
+                              onFocus={handleOnFocus}
+                              autoFocus
+                              formatResult={formatResult}
+                          />
                       </div>
                       <SelectedTable selectedData={selectedTeams} removeSelected={removeSelected} />
                       <Button className="submit-button" id="signup-button" size="lg" type="submit">Sign Up</Button>
