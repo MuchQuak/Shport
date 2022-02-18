@@ -51,7 +51,7 @@ export default function Schedule(props) {
     }
 
     const noGames = (
-        <p className='game-empty nomargin'>No Games</p>
+        <p className='nomargin bold'>No Games</p>
     );
     function Games(gameData, league) {
         if (gameData.length < 1) {
