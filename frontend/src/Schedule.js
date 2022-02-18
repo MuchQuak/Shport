@@ -50,7 +50,7 @@ export default function Schedule(props) {
                 temp["NHL"]["tomorrow"] = result;
                 setGames(temp);
         });
-    }, [] );
+    }, [games] );
 
     if (!props || !props.prefs || !props.sports || !games) {
         return null;
