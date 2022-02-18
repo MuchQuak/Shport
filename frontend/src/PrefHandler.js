@@ -74,3 +74,22 @@ export function getInterestedSports(prefs) {
         return getSportsFollowed(all_prefs);
     }
 }
+
+export function getPreferredSport(prefs) {
+    const followed = getSportsFollowed(prefs);
+    if (followed.length < 1) {
+        return null;
+    }
+    return getSportsFollowed(prefs)[0];
+}
+
+export function getPreferredSportIndex(prefs, sportsNames) {
+    if (!prefs) {
+        return 0;
+    }
+    const pref = getPreferredSport(prefs);
+    if (pref === null) {
+        return 0;
+    }
+    return sportsNames.indexOf(pref);
+}

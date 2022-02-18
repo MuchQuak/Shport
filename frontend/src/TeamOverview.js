@@ -1,12 +1,8 @@
 import './style/TeamOverview.css';
 import {getSportsWithOneTeamFollowed, getTeamsFollowedForSport} from "./PrefHandler";
 import Tabbed from "./Tabbed";
-import {fetchNBAStandings, fetchNHLStandings, getLeagueLogo, getTeamLogo} from "./SportHandler";
+import {capitalizeFirstLetter, fetchNBAStandings, fetchNHLStandings, getLeagueLogo, getTeamLogo} from "./SportHandler";
 import {useEffect, useState} from "react";
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 function suffix(i) {
     const j = i % 10, k = i % 100;
@@ -67,27 +63,26 @@ function tabs(prefs, standings, tabNames) {
 }
 
 export default function TeamOverview(props) {
-    const [NBAStandings, setNBAStandings] = useState({});
-    const [NHLStandings, setNHLStandings] = useState({});
+    const [standings, setStandings] = useState({});
 
     useEffect(() => {
         fetchNBAStandings().then( result => {
+            const temp = standings;
             if (result)
-                setNBAStandings(result);
+                temp["NBA"] = result;
+            setStandings(temp);
         });
         fetchNHLStandings().then( result => {
+            const temp = standings;
             if (result)
-                setNHLStandings(result);
+                temp["NHL"] = result;
+            setStandings(temp);
         });
-    }, [] );
+    }, [standings] );
 
     if (!props.prefs) {
         return null;
     }
-    const standings = {
-        "NBA": NBAStandings,
-        "NHL": NHLStandings
-    };
     const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);
     if (leaguesFollowed.length === 0 || Object.keys(standings).length === 0) {
         return null;

@@ -1,52 +1,58 @@
 import './style/GameSchedule.css';
 import Tabbed from "./Tabbed";
-import {getInterestedSports} from "./PrefHandler";
+import {getInterestedSports, getPreferredSportIndex} from "./PrefHandler";
 import {useEffect, useState} from "react";
 import {
-    fetchTodayNBAGames,
-    fetchTomorrowNBAGames,
-    fetchYesterdayNBAGames,
-    fetchTodayNHLGames,
-    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo
+    capitalizeFirstLetter,
+    fetchNBAGames,
+    fetchNHLGames,
+    getLeagueLogo
 } from "./SportHandler";
 import Game from "./Game";
 
 export default function Schedule(props) {
-    const [todayNBAGames, setTodayNBAGames] = useState([]);
-    const [yesterdayNBAGames, setYesterdayNBAGames] = useState([]);
-    const [tomorrowNBAGames, setTomorrowNBAGames] = useState([]);
-    const [todayNHLGames, setTodayNHLGames] = useState([]);
-    const [yesterdayNHLGames, setYesterdayNHLGames] = useState([]);
-    const [tomorrowNHLGames, setTomorrowNHLGames] = useState([]);
+    const [games, setGames] = useState({"NBA": {}, "NHL": {}});
 
     useEffect(() => {
-        fetchTodayNBAGames().then(result => {
+        fetchNBAGames(0).then(result => {
+            const temp = games;
             if (result)
-                setTodayNBAGames(result);
+                temp["NBA"]["today"] = result;
+                setGames(temp);
         });
-        fetchYesterdayNBAGames().then(result => {
+        fetchNBAGames(-1).then(result => {
+            const temp = games;
             if (result)
-                setYesterdayNBAGames(result);
+                temp["NBA"]["yesterday"] = result;
+                setGames(temp);
         });
-        fetchTomorrowNBAGames().then(result => {
+        fetchNBAGames(1).then(result => {
+            const temp = games;
             if (result)
-                setTomorrowNBAGames(result);
+                temp["NBA"]["tomorrow"] = result;
+                setGames(temp);
         });
-        fetchTodayNHLGames().then(result => {
+        fetchNHLGames(0).then(result => {
+            const temp = games;
             if (result)
-                setTodayNHLGames(result);
+                temp["NHL"]["today"] = result;
+                setGames(temp);
         });
-        fetchYesterdayNHLGames().then(result => {
+        fetchNHLGames(-1).then(result => {
+            const temp = games;
             if (result)
-                setYesterdayNHLGames(result);
+                temp["NHL"]["yesterday"] = result;
+                setGames(temp);
         });
-        fetchTomorrowNHLGames().then(result => {
+        fetchNHLGames(1).then(result => {
+            const temp = games;
             if (result)
-                setTomorrowNHLGames(result);
+                temp["NHL"]["tomorrow"] = result;
+                setGames(temp);
         });
-    }, [] );
+    }, [games] );
 
-    if (!props || !props.prefs || !props.sports) {
+    if (!props || !props.prefs || !props.sports || !games) {
         return null;
     }
 
@@ -62,32 +68,40 @@ export default function Schedule(props) {
         });
     }
     const leaguesFollowed = getInterestedSports(props.prefs);
-    const tabs = leaguesFollowed.map((league, index) => {
-        if (league === "NBA") {
-            return (
-                <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1} key={index}>
-                    <div className='schedule' key={index}>{Games(yesterdayNBAGames, "NBA")}</div>
-                    <div className='schedule' key={index}>{Games(todayNBAGames, "NBA")}</div>
-                    <div className='schedule' key={index}>{Games(tomorrowNBAGames, "NBA")}</div>
-                </Tabbed>
-            )
-        } else if (league === "NHL") {
-            return (
-                <Tabbed titles={['Yesterday', 'Today', 'Tomorrow']} default={1} key={index}>
-                    <div className='schedule' key={index}>{Games(yesterdayNHLGames, "NHL")}</div>
-                    <div className='schedule' key={index}>{Games(todayNHLGames, "NHL")}</div>
-                    <div className='schedule' key={index}>{Games(tomorrowNHLGames, "NHL")}</div>
-                </Tabbed>
-            )
+    function getTabIndex(tabNames) {
+        if (tabNames.length <= 2) {
+            return 0;
         }
-        return <p className='nomargin' key={index}>No {league} content.</p>;
-    });
-    const icons = leaguesFollowed.map((league, index) => {
-        return getLeagueLogo(String(league));
+        if (tabNames.includes("today")) {
+            return tabNames.indexOf("today");
+        }
+        return 1;
+    }
+    function tab(league){
+        if (games.hasOwnProperty(league) && Object.keys(games[league]).length > 0) {
+            const dates = ["yesterday", "today", "tomorrow"];
+            const league_games = games[league];
+            return (
+                <Tabbed titles={dates.map((d) => {return capitalizeFirstLetter(d)})} default={getTabIndex(dates)}>
+                    {dates.map((d) => {
+                        if (!(league_games.hasOwnProperty(d))) {
+                            return null;
+                        }
+                        return <div className='schedule'>{Games(league_games[d], league)}</div>
+                    })}
+                </Tabbed>
+            );
+        }
+        return <p className='nomargin'>No {league} content.</p>;
+    }
+    const icons = leaguesFollowed.map((league) => {
+        return getLeagueLogo(league);
     });
     return (
-        <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
-            {tabs}
+        <Tabbed titles={leaguesFollowed} icons={icons} default={getPreferredSportIndex(props.prefs, leaguesFollowed)}>
+            {leaguesFollowed.map((league) => {
+                return tab(league);
+            })}
         </Tabbed>
     );
 }

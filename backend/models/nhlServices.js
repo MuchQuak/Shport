@@ -1,23 +1,19 @@
-const http = require('http');
-const host = 'statsapi.web.nhl.com'
+const axios = require("axios");
+const host = 'https://statsapi.web.nhl.com'
 
-async function getGames(req, res, dayOffset) {
+async function getGames(req, res) {
+  const offset_param = String(req.params['offset']).trim();
+  const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
+  const offset = isNaN(offset_num) ? 0 : offset_num;
   const today = new Date();
-  const currentDate = String(today.getFullYear()) + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(parseInt(today.getDate()) + dayOffset).padStart(2, '0');
-    const options = {
-    host: host,
-    path: '/api/v1/schedule?date=' + currentDate,
-    method: 'GET'
-  }
-  http.request(options, function (response) {
-    let body = '';
-    response.on('data', function (data) {
-        body += data;
-    });
-    response.on('end', function () {
-        res.send(formatGamesData(body, currentDate));
-    });
-  }).end();
+  today.setDate(today.getDate() + offset);
+  const currentDate = String(today.getFullYear()) + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0');
+    try {
+        const games = await axios.get(host + '/api/v1/schedule?date=' + currentDate);
+        res.send(formatGamesData(games.data, currentDate));
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 function getStatus(codedGameState) {
@@ -34,7 +30,7 @@ function getStatus(codedGameState) {
 }
 
 function formatGamesData(responseData, date) {
-    const games = JSON.parse(responseData)['dates'].find(element => element.date === date)['games'];
+    const games = responseData['dates'].find(element => element.date === date)['games'];
     const new_games = [];
     for (let i = 0; i < games.length; i++) {
       const game = games[i];
@@ -63,28 +59,21 @@ function formatGamesData(responseData, date) {
 
 async function getStandings(req, res){
     const id = req.params['id'];
-    const options = {
-        host: host,
-        path: '/api/v1/standings',
-        method: 'GET'
+    try {
+        const standings = await axios.get(host + '/api/v1/standings');
+        if (id === undefined) {
+            res.send(formatStandingsData(standings.data));
+        } else {
+            res.send(formatStandingsData(standings.data).teams[id]);
+        }
+    } catch (e) {
+        console.error(e);
     }
-    http.request(options, function (response) {
-        let body = '';
-        response.on('data', function (data) {
-            body += data;
-        });
-        response.on('end', function () {
-            if (id === undefined)
-                res.send(formatStandingsData(body));
-            else
-                res.send(formatStandingsData(body)['teams'][id]);
-        });
-    }).end();
 }
 
 function formatStandingsData(responseData) {
     const all_data = {};
-    const data = JSON.parse(responseData)['records'];
+    const data = responseData['records'];
     data.forEach((division_data, index) => {
         const div_name = division_data['division']['nameShort'];
         const records = division_data['teamRecords'];

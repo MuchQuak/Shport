@@ -92,18 +92,14 @@ app.get('/sport/:sport', async (req, res) => {await sportInfoServices.getSportRe
 app.get('/sport/:sport/teams', async (req, res) => {await sportInfoServices.getTeamsRequest(req, res)});
 
 //NBA api Calls
-app.get('/NBA', async (req, res) => {await nba.getGames(req, res, 0)});
-app.get('/NBA/yesterday', async (req, res) => {await nba.getGames(req, res, -1)});
-app.get('/NBA/tomorrow', async (req, res) => {await nba.getGames(req, res, 1)});
-app.get('/NBA/teams', async (req, res) => {await nba.getTeams(req, res)});
-app.get('/NBA/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
+app.get('/NBA/games', async (req, res) => {await nba.getGames(req, res)});
+app.get('/NBA/games/:offset', async (req, res) => {await nba.getGames(req, res)});
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
 app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
 
 //NHL api Calls
-app.get('/NHL', async (req, res) => {await nhl.getGames(req, res, 0)});
-app.get('/NHL/yesterday', async (req, res) => {await nhl.getGames(req, res, -1)});
-app.get('/NHL/tomorrow', async (req, res) => {await nhl.getGames(req, res, 1)});
+app.get('/NHL/games', async (req, res) => {await nhl.getGames(req, res)});
+app.get('/NHL/games/:offset', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)});
 app.get('/NHL/standings/:id', async (req, res) => {await nhl.getStandings(req, res)});
 

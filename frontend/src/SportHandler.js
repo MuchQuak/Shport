@@ -65,9 +65,9 @@ export async function fetchSports(){
     }
 }
 
-export async function fetchTodayNBAGames(){
+export async function fetchNBAGames(dayOffset){
     try {
-        const response = await axios.get('http://localhost:5000/NBA');
+        const response = await axios.get('http://localhost:5000/NBA/games/' + dayOffset);
         return response.data.games;
     }
     catch (error){
@@ -76,52 +76,9 @@ export async function fetchTodayNBAGames(){
     }
 }
 
-export async function fetchYesterdayNBAGames(){
+export async function fetchNHLGames(dayOffset){
     try {
-        const response = await axios.get('http://localhost:5000/NBA/yesterday');
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-export async function fetchTomorrowNBAGames(){
-    try {
-        const response = await axios.get('http://localhost:5000/NBA/tomorrow');
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-
-export async function fetchTodayNHLGames(){
-    try {
-        const response = await axios.get('http://localhost:5000/NHL');
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-
-export async function fetchYesterdayNHLGames(){
-    try {
-        const response = await axios.get('http://localhost:5000/NHL/yesterday');
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-
-export async function fetchTomorrowNHLGames(){
-    try {
-        const response = await axios.get('http://localhost:5000/NHL/tomorrow');
+        const response = await axios.get('http://localhost:5000/NHL/games/' + dayOffset);
         return response.data.games;
     }
     catch (error){
@@ -134,15 +91,6 @@ export async function fetchTomorrowNHLGames(){
 // sports is a sports object, like one retrieved by fetchSports() within a Component
 export function byCode(sports, code) {
     return sports.find(sport => sport["sport"] === code);
-    /*let found = {};
-    try {
-        sports.forEach((sport) => {
-            if (sport["sport"] === code) {
-                found = sport;
-            }
-        });
-    } catch (error) {}
-    return found;*/
 }
 
 export function UTCtoLocal(UTC) {
@@ -173,4 +121,8 @@ export function getFullName(code, league, sports) {
     }
     const team = byCode(sports, league).teams.find(team => team.code === code);
     return team.city + " " + team.name;
+}
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

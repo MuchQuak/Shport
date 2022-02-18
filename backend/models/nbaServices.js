@@ -1,5 +1,5 @@
-const http = require('http');
-const host = 'data.nba.net'
+const axios = require("axios");
+const host = 'https://data.nba.net'
 
 function ESTtoUTC(time) {
     const timeParts = time.split(' ');
@@ -12,23 +12,19 @@ function ESTtoUTC(time) {
     return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
 }
 
-async function getGames(req, res, dayOffset) {
+async function getGames(req, res) {
+  const offset_param = String(req.params['offset']).trim();
+  const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
+  const offset = isNaN(offset_num) ? 0 : offset_num;
   const today = new Date();
-  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(parseInt(today.getDate()) + dayOffset).padStart(2, '0');
-  const options = {
-    host: host,
-    path: '/10s/prod/v1/' + currentDate + '/scoreboard.json',
-    method: 'GET'
-  }
-  http.request(options, function (response) {
-    let body = '';
-    response.on('data', function (data) {
-        body += data;
-    });
-    response.on('end', function () {
-        res.send(formatGamesData(body));
-    });
-  }).end();
+  today.setDate(today.getDate() + offset);
+  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+    try {
+        const games = await axios.get(host + '/10s/prod/v1/' + currentDate + '/scoreboard.json');
+        res.send(formatGamesData(games.data));
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 function getStatus(game) {
@@ -45,7 +41,7 @@ function getStatus(game) {
 }
 
 function formatGamesData(responseData) {
-  const games = JSON.parse(responseData).games;
+  const games = responseData["games"];
   const new_games = [];
   for (let i = 0; i < games.length; i++) {
       const game = games[i];
@@ -72,48 +68,9 @@ function formatGamesData(responseData) {
   };
 }
 
-async function getTeams(req, res) {
-  const id = req.params['id'];
-  const year = (new Date().getFullYear() - 1).toString().trim()
-  let options = {
-      host: host,
-      path: '/10s/prod/v2/' + year + '/teams.json',
-      method: 'GET'
-  }
-  http.request(options, function (response) {
-      let body = '';
-      response.on('data', function (data) {
-          body += data;
-      });
-      response.on('end', function () {
-        if (id === undefined)
-          res.send(formatTeamsData(body));
-        else {
-          res.send(formatTeamsData(body)[id]);
-        }
-      });
-  }).end();
-}
-
-function formatTeamsData(responseData) {
-    const old_teams = JSON.parse(responseData)['league']['standard'];
-    const teams = {};
-    for (let i = 0; i < old_teams.length; i++) {
-        const team = old_teams[i];
-        const new_team = {};
-        const code = team['tricode'];
-        new_team.code = code;
-        new_team.name = team['nickname'];
-        new_team.full_name = team['fullName'];
-        new_team.city = team['city'];
-        teams[code] = new_team;
-    }
-    return {teams: teams};
-}
-
 function formatStandingsData(responseData) {
     const all_data = {};
-    const object_data = JSON.parse(responseData)['league']['standard']['conference'];
+    const object_data = responseData['league']['standard']['conference'];
     for (const conf of Object.keys(object_data)) {
         const data = object_data[conf];
         data.forEach((division_data, index) => {
@@ -136,26 +93,52 @@ function formatStandingsData(responseData) {
 }
 
 async function getStandings(req, res){
-  const id = req.params['id'];
-  const options = {
-    host: host,
-    path: '/10s/prod/v1/current/standings_conference.json',
-    method: 'GET'
-  }
-  http.request(options, function (response) {
-    let body = '';
-    response.on('data', function (data) {
-        body += data;
-    });
-    response.on('end', function () {
-        if (id === undefined)
-            res.send(formatStandingsData(body));
-        else
-            res.send(formatStandingsData(body)['teams'][id]);
-    });
-  }).end();
+    const id = req.params['id'];
+    try {
+        const standings = await axios.get(host + '/10s/prod/v1/current/standings_conference.json');
+        if (id === undefined) {
+            res.send(formatStandingsData(standings.data));
+        } else {
+            res.send(formatStandingsData(standings.data).teams[id]);
+        }
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 exports.getGames = getGames;
-exports.getTeams = getTeams;
 exports.getStandings = getStandings;
+
+//exports.getTeams = getTeams;
+/*
+async function getTeams(req, res) {
+  const id = req.params['id'];
+  const year = (new Date().getFullYear() - 1).toString().trim()
+    try {
+        const teams = await axios.get(host + '/10s/prod/v2/' + year + '/teams.json');
+        if (id === undefined) {
+            res.send(formatTeamsData(teams.data));
+        } else {
+            res.send(formatTeamsData(teams.data)[id]);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function formatTeamsData(responseData) {
+    const old_teams = responseData['league']['standard'];
+    const teams = {};
+    for (let i = 0; i < old_teams.length; i++) {
+        const team = old_teams[i];
+        const new_team = {};
+        const code = team['tricode'];
+        new_team.code = code;
+        new_team.name = team['nickname'];
+        new_team.full_name = team['fullName'];
+        new_team.city = team['city'];
+        teams[code] = new_team;
+    }
+    return {teams: teams};
+}
+ */
