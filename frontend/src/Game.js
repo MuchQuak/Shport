@@ -52,12 +52,18 @@ export default function Game(props) {
             </>
         );
     }
+    function classes(current, other) {
+        if (current > other && game.status === 2) {
+            return 'game-team-name bold underline';
+        }
+        return 'game-team-name'
+    }
     return (
         <div className='game'>
             <div className='game-data'>
                 <div className='game-left'>
                     {getTeamLogo(league, game.home_code, "schedule-logo")}
-                    <p className='game-team-name'>{getTeamName("home", game, league, props.sports)}</p>
+                    <p className={classes(game.home_score, game.away_score)}>{getTeamName("home", game, league, props.sports)}</p>
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
@@ -66,7 +72,7 @@ export default function Game(props) {
                 </div>
                 <div className='game-right'>
                     {getTeamLogo(league, game.away_code, "schedule-logo")}
-                    <p className='game-team-name'>{getTeamName("away", game, league, props.sports)}</p>
+                    <p className={classes(game.away_score, game.home_score)}>{getTeamName("away", game, league, props.sports)}</p>
                     {score(game, game.away_score)}
                 </div>
             </div>
