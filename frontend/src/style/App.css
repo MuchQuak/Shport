@@ -94,3 +94,8 @@
 .logo-text p {
     margin: 0;
 }
+
+.favorite {
+    color: #ffbe00;
+    text-decoration-color: #ffbe00;
+}

@@ -26,7 +26,7 @@ function getTeamName(homeOrAway, game, league, sports) {
 }
 
 export default function Game(props) {
-    if (!props || !props.game || !props.sports) {
+    if (!props || !props.game || !props.sports || !props.prefs) {
         return null;
     }
     const league = props.league ? props.league : "none";
@@ -52,18 +52,27 @@ export default function Game(props) {
             </>
         );
     }
-    function classes(current, other) {
-        if (current > other && game.status === 2) {
-            return 'game-team-name bold underline';
+    function classes(current_code, current, other) {
+        let classN = 'game-team-name';
+        if (!props.prefs || !props.prefs.sports) {
+            return classN;
         }
-        return 'game-team-name'
+        if (props.prefs.sports.hasOwnProperty(league) &&
+            props.prefs.sports[league].hasOwnProperty("teams") &&
+            props.prefs.sports[league].teams.includes(String(current_code))){
+            classN = classN + ' favorite';
+        }
+        if (parseInt(current) > parseInt(other) && game.status === 2) {
+            classN = classN + ' underline';
+        }
+        return classN;
     }
     return (
         <div className='game'>
             <div className='game-data'>
                 <div className='game-left'>
                     {getTeamLogo(league, game.home_code, "schedule-logo")}
-                    <p className={classes(game.home_score, game.away_score)}>{getTeamName("home", game, league, props.sports)}</p>
+                    <p className={classes(game.home_code, game.home_score, game.away_score)}>{getTeamName("home", game, league, props.sports)}</p>
                     {score(game, game.home_score)}
                 </div>
                 <div className='game-center'>
@@ -72,7 +81,7 @@ export default function Game(props) {
                 </div>
                 <div className='game-right'>
                     {getTeamLogo(league, game.away_code, "schedule-logo")}
-                    <p className={classes(game.away_score, game.home_score)}>{getTeamName("away", game, league, props.sports)}</p>
+                    <p className={classes(game.away_code, game.away_score, game.home_score)}>{getTeamName("away", game, league, props.sports)}</p>
                     {score(game, game.away_score)}
                 </div>
             </div>

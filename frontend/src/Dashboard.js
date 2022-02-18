@@ -11,10 +11,10 @@ import {fetchNBAStandings, fetchSports} from "./SportHandler";
 function default_items(prefs, sports, stats) {
     return [
         (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>
-            <Schedule className='nbaSchedule' stats={stats} sports={sports}/>
+            <Schedule className='nbaSchedule' sports={sports}/>
         </CloseableItem>),
         (<CloseableItem title='Teams' prefs={prefs}>
-            <TeamOverview stats={stats}/>
+            <TeamOverview sports={sports}/>
         </CloseableItem>),
         (<CloseableItem title='Standings' prefs={prefs} sports={sports}>
             <StandingsTable />
