@@ -29,19 +29,19 @@ export default function NavBar() {
     <div className="header">
         <div className="header-nav">
           <div className="header-left">
-            <Link to="/" className="header-text-link"><h1 className="header-text">DASHBOARD</h1></Link>
+            <div className="header-text-link" onClick={() => navigate('/', {replace: true, state: location.state})}><h1 className="header-text">DASHBOARD</h1></div>
           </div>
           <div className="header-right">
-            <Link className="header-link" to="/About" id='header-about'>About Us</Link>
-            <Link className="header-link" to="/ProjectTeam" id='header-team'>Our Team</Link>
+            <p className="header-link" id='header-about' onClick={() => navigate('/About', {replace: true, state: location.state})}>About Us</p>
+            <p className="header-link" id='header-team' onClick={() => navigate('/ProjectTeam', {replace: true, state: location.state})}>Our Team</p>
             <Dropdown>
               <Dropdown.Toggle className="header-link" id="dropdown-basic">
                 {icon()}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Header>Hello, {location.state.username}</Dropdown.Header>
-                <Dropdown.Item onClick={() => navigate('/Settings', {replace:true, state: location.state})}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate('/Login', {replace:true, state: location.state})}>Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/Settings', {replace: true, state: location.state})}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/Login', {replace: true, state: null})}>Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
