@@ -1,9 +1,13 @@
 const axios = require("axios");
 const host = 'https://statsapi.web.nhl.com'
 
-async function getGames(req, res, dayOffset) {
+async function getGames(req, res) {
+  const offset_param = String(req.params['offset']).trim();
+  const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
+  const offset = isNaN(offset_num) ? 0 : offset_num;
   const today = new Date();
-  const currentDate = String(today.getFullYear()) + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(parseInt(today.getDate()) + dayOffset).padStart(2, '0');
+  today.setDate(today.getDate() + offset);
+  const currentDate = String(today.getFullYear()) + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0');
     try {
         const games = await axios.get(host + '/api/v1/schedule?date=' + currentDate);
         res.send(formatGamesData(games.data, currentDate));

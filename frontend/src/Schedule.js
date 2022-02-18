@@ -3,11 +3,9 @@ import Tabbed from "./Tabbed";
 import {getInterestedSports} from "./PrefHandler";
 import {useEffect, useState} from "react";
 import {
-    fetchTodayNBAGames,
-    fetchTomorrowNBAGames,
-    fetchYesterdayNBAGames,
-    fetchTodayNHLGames,
-    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo
+    fetchNBAGames,
+    fetchNHLGames,
+    getLeagueLogo
 } from "./SportHandler";
 import Game from "./Game";
 
@@ -20,31 +18,31 @@ export default function Schedule(props) {
     const [tomorrowNHLGames, setTomorrowNHLGames] = useState([]);
 
     useEffect(() => {
-        fetchTodayNBAGames().then(result => {
+        fetchNBAGames(0).then(result => {
             if (result)
                 setTodayNBAGames(result);
         });
-        fetchYesterdayNBAGames().then(result => {
+        fetchNBAGames(-1).then(result => {
             if (result)
                 setYesterdayNBAGames(result);
         });
-        fetchTomorrowNBAGames().then(result => {
+        fetchNBAGames(1).then(result => {
             if (result)
                 setTomorrowNBAGames(result);
         });
-        fetchTodayNHLGames().then(result => {
+        fetchNHLGames(0).then(result => {
             if (result)
                 setTodayNHLGames(result);
         });
-        fetchYesterdayNHLGames().then(result => {
+        fetchNHLGames(-1).then(result => {
             if (result)
                 setYesterdayNHLGames(result);
         });
-        fetchTomorrowNHLGames().then(result => {
+        fetchNHLGames(1).then(result => {
             if (result)
                 setTomorrowNHLGames(result);
         });
-    }, [] );
+    }, [todayNBAGames, todayNHLGames] );
 
     if (!props || !props.prefs || !props.sports) {
         return null;

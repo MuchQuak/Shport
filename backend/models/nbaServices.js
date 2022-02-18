@@ -12,9 +12,13 @@ function ESTtoUTC(time) {
     return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
 }
 
-async function getGames(req, res, dayOffset) {
+async function getGames(req, res) {
+  const offset_param = String(req.params['offset']).trim();
+  const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
+  const offset = isNaN(offset_num) ? 0 : offset_num;
   const today = new Date();
-  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(parseInt(today.getDate()) + dayOffset).padStart(2, '0');
+  today.setDate(today.getDate() + offset);
+  const currentDate = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
     try {
         const games = await axios.get(host + '/10s/prod/v1/' + currentDate + '/scoreboard.json');
         res.send(formatGamesData(games.data));
