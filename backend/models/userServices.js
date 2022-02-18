@@ -34,7 +34,7 @@ async function signUpUser(user){
 }
 
 async function getUserPreferences(name) {
-    const userModel = getDbConnection().model("user", userSchema);
+    const userModel = getDbConnection().model("user", User.schema);
     try {
         const query = userModel.find({'username': name});
         return query.select('prefs');
@@ -46,7 +46,7 @@ async function getUserPreferences(name) {
 
 //just for testing
 async function getUsers() {
-    const userModel = getDbConnection().model("user", userSchema);
+    const userModel = getDbConnection().model("user", User.schema);
     try {
         return userModel.find();
     } catch(error) {
@@ -56,7 +56,7 @@ async function getUsers() {
 }
 
 async function findUserByUsername(name){
-    const userModel = getDbConnection().model("user", userSchema);
+    const userModel = getDbConnection().model("user", User.schema);
     return await userModel.find({'username': name});
 }
 

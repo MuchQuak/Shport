@@ -46,45 +46,33 @@ app.get('/users/:name/pref', async (req, res) => {
         res.status(500).end();
 });
 
-// Getting username and password from user
+//FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const username = req.query.username;
-    const password = req.query.password;
 
-    if (username != undefined && password == undefined){
+    if (username != undefined){
         let result = await userServices.findUserByUsername(username)
         res.status(200).send(result);
-    } else if (username != undefined && password != undefined){ // Used by login screen
-        let result = await userServices.findUserByUsername(username);
-        
-        const user = new User(result[0]);
-        console.log(result);
-        if (result[0] !== undefined && user.verifyLogin(password)){
-            res.status(200).send(result);
-        } else {
-            res.status(500).end();
-        }
     } else {
         const allUsers = await userServices.TESTGetUsers();
         res.status(200).send(allUsers);
     }
 });
 
-/**
- * TO DO:
- * create a seperate endpoint for login
- * post call for login
- * seperate schema in its own file
- **/
+// Validating Login
+app.post('/login', async(req, res) => {
+    const user = req.body;
+    let result = await userServices.findUserByUsername(user.username);
 
-//FOR TESTING ONLY
-app.get('/users', async (req, res) => {
-    const pref = await userServices.TESTGetUsers();
-    if (pref)
-        res.status(201).send(pref);
-    else
+    if(result[0].validPassword(user.password)){
+        res.status(201).send();
+    }
+    else{
         res.status(500).end();
+    }
 });
+
+
 
 // Sport Calls
 app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});
