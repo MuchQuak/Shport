@@ -1,13 +1,13 @@
 import './style/GameSchedule.css';
 import Tabbed from "./Tabbed";
-import {all_prefs, getSportsFollowed} from "./PrefHandler";
+import {getInterestedSports} from "./PrefHandler";
 import {useEffect, useState} from "react";
 import {
     fetchTodayNBAGames,
     fetchTomorrowNBAGames,
     fetchYesterdayNBAGames,
     fetchTodayNHLGames,
-    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo, fetchSports
+    fetchYesterdayNHLGames, fetchTomorrowNHLGames, getLeagueLogo
 } from "./SportHandler";
 import Game from "./Game";
 
@@ -46,24 +46,22 @@ export default function Schedule(props) {
         });
     }, [] );
 
-    if (!props || !props.prefs || !props.sports || !props.stats) {
+    if (!props || !props.prefs || !props.sports) {
         return null;
     }
 
     const noGames = (
-        <p className='game-empty nomargin'>No Games</p>
+        <p className='nomargin bold'>No Games</p>
     );
     function Games(gameData, league) {
         if (gameData.length < 1) {
             return noGames;
         }
         return gameData.map((game, index) => {
-            return (<Game game={game} key={index} sports={props.sports} league={league} />);
+            return (<Game game={game} key={index} sports={props.sports} prefs={props.prefs} league={league} />);
         });
     }
-    const leaguesFollowed = getSportsFollowed(all_prefs); // should be replaced with user's prefs when those are fixed...
-    // const teamsFollowed = getTeamsFollowedForSport(all_prefs, 'NBA'); // This check will go inside individual game code instead...
-    // Code below is not dynamic yet, but leaguesFollowed will need to be map()ed to provide each page.
+    const leaguesFollowed = getInterestedSports(props.prefs);
     const tabs = leaguesFollowed.map((league, index) => {
         if (league === "NBA") {
             return (
@@ -88,7 +86,7 @@ export default function Schedule(props) {
         return getLeagueLogo(String(league));
     });
     return (
-        <Tabbed titles={leaguesFollowed} icons={icons} default={2}>
+        <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
             {tabs}
         </Tabbed>
     );

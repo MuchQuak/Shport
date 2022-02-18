@@ -33,6 +33,15 @@
     padding: 0;
 }
 
+.bold {
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    text-decoration-color: inherit;
+}
+
 .icon-text {
     margin: 0;
     width: auto;
@@ -63,4 +72,30 @@
     margin: 0;
     padding: 0;
     height: 1.5em;
+}
+
+.logo-multiline-words {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+}
+
+
+.logo-text {
+    margin: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.logo-text p {
+    margin: 0;
+}
+
+.favorite {
+    color: #ffbe00;
+    text-decoration-color: #ffbe00;
 }

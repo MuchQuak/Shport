@@ -1,6 +1,6 @@
 import "./style/Standings.css";
 import Tabbed from "./Tabbed";
-import {all_prefs, getSportsFollowed} from "./PrefHandler";
+import {getSportsFollowed} from "./PrefHandler";
 import {
     byCode,
     fetchNBAStandings,
@@ -67,7 +67,7 @@ export default function StandingsTable(props) {
         "NBA": NBAStandings,
         "NHL": NHLStandings
     };
-    const leaguesFollowed = getSportsFollowed(all_prefs); // should be replaced with user's prefs when those are fixed...
+    const leaguesFollowed = getSportsFollowed(props.prefs); // should be replaced with user's prefs when those are fixed...
     const tabs = leaguesFollowed.map((league, index) => {
         const sportInfo = byCode(props.sports, league);
         if (!sportInfo || sportInfo.length === 0 || !sportInfo["divisions"]) {
@@ -90,7 +90,7 @@ export default function StandingsTable(props) {
         return getLeagueLogo(String(league));
     });
     return (
-        <Tabbed titles={leaguesFollowed} icons={icons} default={2}>
+        <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
             {tabs}
         </Tabbed>
     );

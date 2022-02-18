@@ -15,7 +15,7 @@ const newTestUserSchema = new mongoose.Schema({
     },
     salt: String,
     hash: String,
-    pref: { 
+    prefs: {
         type: Object,
         trim: true,
         required: true

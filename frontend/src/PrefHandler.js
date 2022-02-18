@@ -39,14 +39,38 @@ export function getTeamsFollowedForSport(prefs, sport) {
 
 // Retrieve a list of all sports that a user follows (or all if 'following: true')
 export function getSportsFollowed(prefs) {
-    if (!prefs.sports) {
-        return []; // No sports interest...?
+    if (prefs.sports) {
+        if (prefs.sports.following === true) { // They follow all sports
+            return Object.keys(prefs.sports) // IN FUTURE: THIS SHOULD BE A RETRIEVAL FROM THE MASTER LIST (HARDCODED)
+                .filter(sport => sport !== 'following'); // To get all sports, besides the follow all boolean
+        }
+        return Object.keys(prefs.sports)
+            .filter(sport => sport !== 'following') // To get all sports, besides the follow all boolean
+            .filter(sport => prefs.sports[sport].following && prefs.sports[sport].following === true); // To get all they follow
+    } else {
+        return getSportsFollowed(all_prefs);
     }
-    if (prefs.sports.following === true) { // They follow all sports
-        return Object.keys(prefs.sports) // IN FUTURE: THIS SHOULD BE A RETRIEVAL FROM THE MASTER LIST (HARDCODED)
-            .filter(sport => sport !== 'following'); // To get all sports, besides the follow all boolean
+}
+
+// Retrieve a list of all sports that a user is following at least one team for
+export function getSportsWithOneTeamFollowed(prefs) {
+    const retrievedSports = [];
+    if (prefs.sports) {
+        for (const [key, value] of Object.entries(prefs.sports)) {
+            if (value.hasOwnProperty("teams") && value.teams.length > 0) {
+                retrievedSports.push(key);
+            }
+        }
+    } else {
+        retrievedSports.push(...getSportsFollowed(all_prefs));
     }
-    return Object.keys(prefs.sports)
-        .filter(sport => sport !== 'following') // To get all sports, besides the follow all boolean
-        .filter(sport => prefs.sports[sport].following && prefs.sports[sport].following === true); // To get all they follow
+    return retrievedSports;
+}
+
+export function getInterestedSports(prefs) {
+    if (prefs.sports) {
+        return [...new Set([...getSportsFollowed(prefs), ...getSportsWithOneTeamFollowed(prefs)])];
+    } else {
+        return getSportsFollowed(all_prefs);
+    }
 }

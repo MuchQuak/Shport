@@ -12,7 +12,7 @@
 
 .login {
     margin: 0 auto;
-    min-width: 30%;
+    min-width: 40%;
     max-width: 350px;
     height: auto;
     padding: 20px;
@@ -27,41 +27,36 @@
     box-shadow:inset 0px 0px 4px 2px #4146cc;
 }
 
-.websiteName {
-    text-align: center;
-    margin: 0 auto 30px;
-}
-
 .login form {
     width: 80%;
     margin: 0 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    align-items: center;
-    align-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
 }
 
-.emailForm {
-    margin: 0;
-    width: 100%;
-    height: auto;
+.websiteName {
+    text-align: center;
+    margin: 0 auto 10px;
 }
 
-.badInputAlertHidden{
-    display: none;
-}
-
-.badInputAlertVisible{
-    margin: 0;
-    width: 100%;
-    height: auto;
-}
-
-.passwordForm {
+.inputForm {
     margin: 0 0 10px;
     width: 100%;
     height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
+}
+
+.inputForm label {
+    margin: 0;
 }
 
 .login-button {

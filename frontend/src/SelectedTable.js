@@ -1,49 +1,29 @@
-import React from 'react';
+import Button from "react-bootstrap/Button";
+import {getTeamLogo} from "./SportHandler";
 
-
-
-function TableBody (props) {
-  const rows = props.selectedData.map((row, index) => {
-    return (
-<tr key={index}>
-  <td>{row.name}</td>
-  <td>{row.league}</td>
-  <td>
-    <button onClick={() => props.removeSelected(index)}>Remove</button>
-  </td>
-</tr>
-    );
-  });
-  return (
-      <tbody>
-         {rows}
-      </tbody>
-   );
-}
-
-
-function TableHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>League</th>
-      </tr>
-    </thead>
-  );
-}
-
-function SelectedTable(props) {
-  if(props.selectedData.length < 1){
-    return (<></>);
+export default function SelectedTable(props) {
+  if (!props || props.selectedData.length < 1){
+    return null;
   }
+    const rows = props.selectedData.map((row, index) => {
+        return (
+            <tr key={index}>
+                <td><div className='logo-multiline-words'>{getTeamLogo(row.sport, row.code, null)}{row.city} {row.name}</div></td>
+                <td>{row.sport}</td>
+                <td>
+                    <Button onClick={() => props.removeSelected(index)}>Remove</Button>
+                </td>
+            </tr>
+        );
+    });
   return (
-    <table>
-      <TableHeader />
-      <TableBody selectedData={props.selectedData} removeSelected={props.removeSelected} />
-    </table>
+      <>
+          <p className='nomargin bold underline'>Selected</p>
+          <table className='teamsTable'>
+              <tbody>
+              {rows}
+              </tbody>
+          </table>
+      </>
   );
 }
-
-export default SelectedTable;
-
