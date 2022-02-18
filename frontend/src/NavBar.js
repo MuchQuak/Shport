@@ -1,9 +1,10 @@
 import './style/NavBar.css';
-import { Link, useLocation } from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 
 export default function NavBar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (location.state == null) {
     location.state = {};
@@ -39,8 +40,8 @@ export default function NavBar() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Header>Hello, {location.state.username}</Dropdown.Header>
-                <Dropdown.Item href="/Settings"><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
-                <Dropdown.Item href="/Login">Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/Settings', {replace:true, state: location.state})}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/Login', {replace:true, state: location.state})}>Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

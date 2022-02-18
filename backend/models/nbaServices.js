@@ -66,7 +66,7 @@ function formatGamesData(responseData) {
 
 function formatStandingsData(responseData) {
     const all_data = {};
-    const object_data = JSON.parse(responseData)['league']['standard']['conference'];
+    const object_data = responseData['league']['standard']['conference'];
     for (const conf of Object.keys(object_data)) {
         const data = object_data[conf];
         data.forEach((division_data, index) => {
