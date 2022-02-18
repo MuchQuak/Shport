@@ -67,27 +67,26 @@ function tabs(prefs, standings, tabNames) {
 }
 
 export default function TeamOverview(props) {
-    const [NBAStandings, setNBAStandings] = useState({});
-    const [NHLStandings, setNHLStandings] = useState({});
+    const [standings, setStandings] = useState({});
 
     useEffect(() => {
         fetchNBAStandings().then( result => {
+            const temp = standings;
             if (result)
-                setNBAStandings(result);
+                temp["NBA"] = result;
+            setStandings(temp);
         });
         fetchNHLStandings().then( result => {
+            const temp = standings;
             if (result)
-                setNHLStandings(result);
+                temp["NHL"] = result;
+            setStandings(temp);
         });
-    }, [] );
+    }, [standings] );
 
     if (!props.prefs) {
         return null;
     }
-    const standings = {
-        "NBA": NBAStandings,
-        "NHL": NHLStandings
-    };
     const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);
     if (leaguesFollowed.length === 0 || Object.keys(standings).length === 0) {
         return null;
