@@ -2,81 +2,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 //dotenv.config({ path: __dirname + `/.env` }); 
 dotenv.config();
+const User = require('./userSchema');
+
 let dbConnection;
-
-const prefsSchema = new mongoose.Schema(
-    {
-        sports: {
-            following: {
-                type: Boolean,
-                required: false,
-                trim: true,
-            },
-            NBA: {
-                following: {
-                    type: Boolean,
-                    required: false,
-                    trim: true,
-                },
-                teams: []
-            },
-            NFL: {
-                following: {
-                    type: Boolean,
-                    required: false,
-                    trim: true,
-                },
-                teams: []
-            },
-            NHL: {
-                following: {
-                    type: Boolean,
-                    required: false,
-                    trim: true,
-                },
-                teams: []
-            },
-            MLB: {
-                following: {
-                    type: Boolean,
-                    required: false,
-                    trim: true,
-                },
-                teams: []
-            }
-        }
-    },
-    {
-        collection : 'prefs'
-    }
-);
-
-const userSchema = new mongoose.Schema(
-    {
-        username: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        password: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        prefs: {
-            type: prefsSchema,
-            required: true
-        },
-    },
-    {
-        collection : 'users'
-    }
-);
 
 function getDbConnection() {
     if (!dbConnection) {
@@ -88,23 +16,21 @@ function getDbConnection() {
     return dbConnection;
 }
 
-async function verifyLogin(user) {
-    const userModel = getDbConnection().model("user", userSchema);
-    
-    return true;
-}
 
 async function signUpUser(user){
-    //adds user
-    const userModel = getDbConnection().model("user", userSchema);
+    const userModel = getDbConnection().model("user", User.schema); // give to the userSchema
+    
     try {
-        const userToAdd = new userModel(user);
+        let userToAdd = new userModel(user);
+        userToAdd.setPassword(user.password)
         const savedUser = await userToAdd.save()
         return savedUser;
     } catch(error) {
         console.log(error);
         return false;
-    }       
+    }
+    
+    return false;
 }
 
 async function getUserPreferences(name) {
@@ -137,9 +63,7 @@ async function findUserByUsername(name){
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
-exports.verifyLogin = verifyLogin;
 exports.findUserByUsername = findUserByUsername;
-
 
 /*const sportsSchema = new mongoose.Schema({
   sport: {

@@ -10,6 +10,8 @@ const nba = require('./models/nbaServices');
 const userServices = require('./models/userServices');
 const sportInfoServices = require("./models/sportInfoServices");
 
+const User = require('./models/userServices');
+
 app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
@@ -54,7 +56,10 @@ app.get('/users', async (req, res) => {
         res.status(200).send(result);
     } else if (username != undefined && password != undefined){ // Used by login screen
         let result = await userServices.findUserByUsername(username);
-        if (result[0] !== undefined && password === result[0]["password"]){
+        
+        const user = new User(result[0]);
+        console.log(result);
+        if (result[0] !== undefined && user.verifyLogin(password)){
             res.status(200).send(result);
         } else {
             res.status(500).end();
@@ -65,6 +70,12 @@ app.get('/users', async (req, res) => {
     }
 });
 
+/**
+ * TO DO:
+ * create a seperate endpoint for login
+ * post call for login
+ * seperate schema in its own file
+ **/
 
 //FOR TESTING ONLY
 app.get('/users', async (req, res) => {
