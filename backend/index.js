@@ -72,6 +72,19 @@ app.post('/login', async(req, res) => {
     }
 });
 
+// gettingPreferences
+app.post('/preferences', async(req, res) => {
+    const user = req.body;
+    let userPref = await userServices.getUserPreferences(user.username);
+
+    if(userPref){
+        res.status(201).send(userPref);
+    }
+    else{
+        res.status(500).end();
+    }
+});
+
 
 
 // Sport Calls
