@@ -12,7 +12,7 @@
 
 .signup {
   margin: 0 auto;
-  min-width: 30%;
+  min-width: 40%;
   max-width: 350px;
   height: auto;
   padding: 20px;
@@ -95,6 +95,11 @@
 }
 
 .wrapper {
+  margin: 0 0 10px;
+  width: 100%;
+}
+
+.teamsTable {
   margin: 0 0 10px;
   width: 100%;
 }

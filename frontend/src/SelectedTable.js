@@ -1,4 +1,6 @@
-function SelectedTable(props) {
+import Button from "react-bootstrap/Button";
+
+export default function SelectedTable(props) {
   if (!props || props.selectedData.length < 1){
     return null;
   }
@@ -8,25 +10,17 @@ function SelectedTable(props) {
                 <td>{row.city} {row.name}</td>
                 <td>{row.sport}</td>
                 <td>
-                    <button onClick={() => props.removeSelected(index)}>Remove</button>
+                    <Button onClick={() => props.removeSelected(index)}>Remove</Button>
                 </td>
             </tr>
         );
     });
   return (
-    <table>
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>League</th>
-        </tr>
-        </thead>
+    <table className='teamsTable'>
+        <p className='nomargin bold underline'>Selected</p>
         <tbody>
         {rows}
         </tbody>
     </table>
   );
 }
-
-export default SelectedTable;
-

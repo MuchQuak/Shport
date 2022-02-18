@@ -33,6 +33,15 @@
     padding: 0;
 }
 
+.bold {
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    text-decoration-color: inherit;
+}
+
 .icon-text {
     margin: 0;
     width: auto;
