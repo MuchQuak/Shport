@@ -48,6 +48,16 @@
     height: auto;
 }
 
+.badInputAlertHidden{
+    display: none;
+}
+
+.badInputAlertVisible{
+    margin: 0;
+    width: 100%;
+    height: auto;
+}
+
 .passwordForm {
     margin: 0 0 10px;
     width: 100%;
