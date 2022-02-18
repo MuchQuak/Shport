@@ -20,20 +20,31 @@ async function getGames(req, res, dayOffset) {
   }).end();
 }
 
+function getStatus(codedGameState) {
+    const state = parseInt(codedGameState);
+    const LIVE = 3;
+    const FINAL = 6;
+    if (state >= FINAL) {
+        return 2;
+    } else if (state >= LIVE) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 function formatGamesData(responseData, date) {
     const games = JSON.parse(responseData)['dates'].find(element => element.date === date)['games'];
     const new_games = [];
     for (let i = 0; i < games.length; i++) {
       const game = games[i];
       const new_game = {}
-      new_game.status = game.status.codedGameState;
-      new_game.activated = game.status.abstractGameState === "Live" ? true : false;
-      new_game.endPeriod = false;
-      new_game.clock = "0";
+      new_game.status = getStatus(game.status.codedGameState);
+      new_game.clock = "NO DATA";
       new_game.halftime = false;
       new_game.arena = game.venue.name;
-      new_game.currentQtr = 0;
-      new_game.maxQtr = 0;
+      new_game.currentQtr = -1;
+      new_game.maxQtr = -1;
       new_game.home = game.teams.home.team.name;
       new_game.home_score = game.teams.home.score;
       new_game.home_record = game.teams.home.leagueRecord.wins + "-" + game.teams.home.leagueRecord.losses;
@@ -43,8 +54,6 @@ function formatGamesData(responseData, date) {
       new_game.away_record = game.teams.away.leagueRecord.wins + "-" + game.teams.away.leagueRecord.losses;
       new_game.away_code = game.teams.away.team.id;
       new_game.startTimeUTC = game.gameDate;
-      //Made new time cause don't know what you want to do with it but this is proof it works (Logan)
-      //new_game.startTimeUTC = timeToUtc(game.startTimeEastern);
       new_games.push(new_game);
     }
     return {

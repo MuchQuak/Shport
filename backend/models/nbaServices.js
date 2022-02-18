@@ -31,15 +31,26 @@ async function getGames(req, res, dayOffset) {
   }).end();
 }
 
+function getStatus(game) {
+    const state = parseInt(game.statusNum);
+    const LIVE = 2;
+    const FINAL = 3;
+    if (state >= FINAL) {
+        return 2;
+    } else if (state >= LIVE || game.isGameActivated) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 function formatGamesData(responseData) {
   const games = JSON.parse(responseData).games;
   const new_games = [];
   for (let i = 0; i < games.length; i++) {
       const game = games[i];
       const new_game = {}
-      new_game.status = game.statusNum;
-      new_game.activated = game.isGameActivated;
-      new_game.endPeriod = game.period.isEndOfPeriod;
+      new_game.status = getStatus(game);
       new_game.clock = game.clock;
       new_game.halftime = game.period.isHalftime;
       new_game.arena = game.arena.name;

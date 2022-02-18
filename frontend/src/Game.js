@@ -2,7 +2,7 @@ import './style/GameSchedule.css';
 import {getTeamLogo, UTCtoLocal, getFullName} from "./SportHandler";
 
 function score(game, score_info) {
-    if (score_info === "" || game.status <= 1) {
+    if (score_info === "" || game.status < 1) {
         return null;
     }
     return (<p className='score'>{score_info}</p>);
@@ -31,18 +31,18 @@ export default function Game(props) {
     }
     const league = props.league ? props.league : "none";
     const game = props.game;
-    const clock_data = game.clock.toString().trim();
+    const clock_data = String(game.clock).trim();
     function halftime() {
-        return game.halftime || (clock_data === "" && game.currentQtr === 2 && game.endPeriod && game.activated)
+        return game.status === 1 && (game.halftime || (clock_data === "" && game.currentQtr === 2))
     }
     function clock() {
-        if (game.status > 2) {
+        if (game.status === 2) {
             return (<p>Final Score</p>);
         }
         if (halftime()) {
             return (<p><b>Halftime</b></p>);
         }
-        if (clock_data === "" || !game.activated){
+        if (clock_data === "" || game.status === 0){
             return (<p>{UTCtoLocal(game.startTimeUTC)}</p>);
         }
         return (
