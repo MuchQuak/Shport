@@ -7,6 +7,7 @@ import Tabbed from "./Tabbed";
 
 export default function Article(props) {
     const [news, setNews] = useState([]);
+    console.log("prefs" + props.prefs);
     useEffect(() => {
         fetchNews().then(result => {
             if (result)
@@ -17,10 +18,6 @@ export default function Article(props) {
         return null;
     }
     
-    /*const temp = news.map((article) => 
-        <div>{article.url}</div>
-    );
-    */
     return (
         <div className='article'>
             <a href={props.news.url}>
