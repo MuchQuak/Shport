@@ -100,7 +100,7 @@ export default function TeamPreferences(){
       }
       addUser(newUser).then(r => {
           if (r.status === 201) {
-              navigate('/', {replace:true, state: newUser});
+              navigate('/', {replace:true, state: {"username": location.state.username}});
           }
       });
   }

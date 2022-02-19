@@ -46,28 +46,27 @@ function Conf(league, standings, conference) {
 }
 
 export default function StandingsTable(props) {
-    const [NBAStandings, setNBAStandings] = useState({});
-    const [NHLStandings, setNHLStandings] = useState({});
+    const [standings, setStandings] = useState({});
 
     useEffect(() => {
         fetchNBAStandings().then( result => {
+            const temp = standings;
             if (result)
-                setNBAStandings(result);
+                temp["NBA"] = result;
+                setStandings(temp);
         });
         fetchNHLStandings().then( result => {
+            const temp = standings;
             if (result)
-                setNHLStandings(result);
+                temp["NHL"] = result;
+                setStandings(temp);
         });
-    }, [] );
+    }, [standings] );
 
     if (!props || !props.prefs || !props.sports) {
         return null;
     }
-    const standings = {
-        "NBA": NBAStandings,
-        "NHL": NHLStandings
-    };
-    const leaguesFollowed = getSportsFollowed(props.prefs); // should be replaced with user's prefs when those are fixed...
+    const leaguesFollowed = getSportsFollowed(props.prefs);
     const tabs = leaguesFollowed.map((league, index) => {
         const sportInfo = byCode(props.sports, league);
         if (!sportInfo || sportInfo.length === 0 || !sportInfo["divisions"]) {
@@ -86,7 +85,7 @@ export default function StandingsTable(props) {
             </Tabbed>
         );
     });
-    const icons = leaguesFollowed.map((league, index) => {
+    const icons = leaguesFollowed.map((league) => {
         return getLeagueLogo(String(league));
     });
     return (

@@ -68,7 +68,7 @@ export default function LeaguePreferences() {
         newUser.prefs.sports = allSports;
         addUser(newUser).then(response => {
             if (response.status === 201) {
-                navigate('/', {replace:true, state: newUser});
+                navigate('/', {replace:true, state: {"username": location.state.username}});
             } else {
                 console.log("Error " + String(response.status) + " could not sign up user: " + response.statusText);
                 newUser.prefs.sports = {};

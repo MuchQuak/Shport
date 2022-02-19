@@ -11,6 +11,8 @@ const news = require('./models/newsServices');
 const userServices = require('./models/userServices');
 const sportInfoServices = require("./models/sportInfoServices");
 
+const User = require('./models/userServices');
+
 app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
@@ -45,36 +47,46 @@ app.get('/users/:name/pref', async (req, res) => {
         res.status(500).end();
 });
 
-// Getting username and password from user
+//FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const username = req.query.username;
-    const password = req.query.password;
 
-    if (username != undefined && password == undefined){
+    if (username != undefined){
         let result = await userServices.findUserByUsername(username)
         res.status(200).send(result);
-    } else if (username != undefined && password != undefined){ // Used by login screen
-        let result = await userServices.findUserByUsername(username);
-        if (result[0] !== undefined && password === result[0]["password"]){
-            res.status(200).send(result);
-        } else {
-            res.status(500).end();
-        }
     } else {
         const allUsers = await userServices.TESTGetUsers();
         res.status(200).send(allUsers);
     }
 });
 
+// Validating Login
+app.post('/login', async(req, res) => {
+    const user = req.body;
+    let result = await userServices.findUserByUsername(user.username);
 
-//FOR TESTING ONLY
-app.get('/users', async (req, res) => {
-    const pref = await userServices.TESTGetUsers();
-    if (pref)
-        res.status(201).send(pref);
-    else
+    if(result[0] != undefined && result[0].validPassword(user.password)){
+        res.status(201).send();
+    }
+    else{
         res.status(500).end();
+    }
 });
+
+// gettingPreferences
+app.post('/preferences', async(req, res) => {
+    const user = req.body;
+    let userPref = await userServices.getUserPreferences(user.username);
+
+    if(userPref){
+        res.status(201).send(userPref);
+    }
+    else{
+        res.status(500).end();
+    }
+});
+
+
 
 // Sport Calls
 app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});
@@ -82,18 +94,14 @@ app.get('/sport/:sport', async (req, res) => {await sportInfoServices.getSportRe
 app.get('/sport/:sport/teams', async (req, res) => {await sportInfoServices.getTeamsRequest(req, res)});
 
 //NBA api Calls
-app.get('/NBA', async (req, res) => {await nba.getGames(req, res, 0)});
-app.get('/NBA/yesterday', async (req, res) => {await nba.getGames(req, res, -1)});
-app.get('/NBA/tomorrow', async (req, res) => {await nba.getGames(req, res, 1)});
-app.get('/NBA/teams', async (req, res) => {await nba.getTeams(req, res)});
-app.get('/NBA/teams/:id', async (req, res) => {await nba.getTeams(req, res)});
+app.get('/NBA/games', async (req, res) => {await nba.getGames(req, res)});
+app.get('/NBA/games/:offset', async (req, res) => {await nba.getGames(req, res)});
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
 app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
 
 //NHL api Calls
-app.get('/NHL', async (req, res) => {await nhl.getGames(req, res, 0)});
-app.get('/NHL/yesterday', async (req, res) => {await nhl.getGames(req, res, -1)});
-app.get('/NHL/tomorrow', async (req, res) => {await nhl.getGames(req, res, 1)});
+app.get('/NHL/games', async (req, res) => {await nhl.getGames(req, res)});
+app.get('/NHL/games/:offset', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)});
 app.get('/NHL/standings/:id', async (req, res) => {await nhl.getStandings(req, res)});
 

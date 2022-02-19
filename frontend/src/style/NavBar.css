@@ -16,6 +16,7 @@
   line-height: 60px;
   color: #FFFFFF;
   text-shadow: 0px 1px 1px #31318f;
+  cursor: pointer;
 }
 
 .header-text-link {
@@ -46,6 +47,7 @@
   justify-content: center;
   align-items: center;
   gap: 3px;
+  cursor: pointer;
 }
 
 .header-link:hover {

@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import './style/Login.css';
 
+import Alert from 'react-bootstrap/Alert'
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,17 +17,17 @@ export default function Login(props) {
 
   async function validateLogin(){
     try {
-        const url = 'http://localhost:5000/users?username=' + username + '&password=' + password;
-        const response = await axios.get(url);
+        const url = 'http://localhost:5000/login';
+        const response = await axios.post(url, {"username":username,"password":password});
+        
         if (response.status === 201){
-          navigate('../', {replace:true, state:{username}});         
-          return true;
+          navigate('../', {replace:true, state:{username}});    
+          return response.data;
         }
-        return false;  
     }
     catch (error){
-        console.log(error);
-        return false;
+      console.log(error);
+      return error.data;
     }
   }
 

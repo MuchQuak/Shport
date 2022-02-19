@@ -1,7 +1,7 @@
 
 /* -- Testing User Schema */
 // Importing User Schema 
-const User = require('./newUserServices');
+const User = require('./userSchema');
 
 test('TESTING: Username', () => {
   let newEncrptUser = new User();
