@@ -16,7 +16,7 @@ export default function App() {
             getPrefs();
             setPref(true);
         }
-        else{
+        else if(location.state == null){
             location.state = {};
             location.state.username = "[ Username ]";
         }
