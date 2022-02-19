@@ -64,7 +64,7 @@ app.post('/login', async(req, res) => {
     const user = req.body;
     let result = await userServices.findUserByUsername(user.username);
 
-    if(result[0].validPassword(user.password)){
+    if(result[0] != undefined && result[0].validPassword(user.password)){
         res.status(201).send();
     }
     else{
