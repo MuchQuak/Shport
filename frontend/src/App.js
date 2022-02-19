@@ -1,3 +1,5 @@
+import React, {useEffect, useState} from "react";
+
 import {useLocation} from 'react-router-dom'; // Might need again for later
 import axios from 'axios';
 import './style/App.css';
@@ -6,15 +8,19 @@ import Dashboard from "./Dashboard";
 
 export default function App() {
     const location = useLocation();
+    const [loadedPref, setPref] = useState(false); 
+    const [userPrefs, setUserPrefs] = useState({});
 
-    if (location.state === null) {
-        location.state = {};
-        location.state.username = "[ Username ]";
-        location.state.prefs = {};
-    }
-    else{
-        getPrefs();
-    }
+    useEffect(() => {
+        if(!loadedPref){
+            getPrefs();
+            setPref(true);
+        }
+        else{
+            location.state = {};
+            location.state.username = "[ Username ]";
+        }
+      }, [] );
 
     async function getPrefs(){
         try {
@@ -22,8 +28,7 @@ export default function App() {
             const response = await axios.post(url, {"username":location.state.username});
             
             if (response.status === 201){
-                location.state.prefs = response.data[0].prefs;
-                console.log(location.state.prefs);
+                setUserPrefs(response.data[0].prefs);
                 return response.data;
             }
         }
@@ -33,13 +38,12 @@ export default function App() {
         }
       }
 
-    const prefs = location.state.prefs;
 
     return (
       <>
           <NavBar/>
           <div className='content'>
-              <Dashboard prefs={prefs}/>
+              <Dashboard prefs={userPrefs}/>
           </div>
       </>
   );
