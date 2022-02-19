@@ -38,7 +38,6 @@ export default function SignUp(props) {
             isValidEmail = true;
           }
 
-          console.log(isValidUsername, isValidEmail);
           if(isValidUsername && isValidEmail){
             const newUser = {
               "email": email,
