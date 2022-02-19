@@ -28,14 +28,13 @@ function get_teams(standings, conference) {
         return team.rank.localeCompare(other.rank, 'en', {numeric: true});
     });
 }
-
-function Conf(league, standings, conference) {
+function Conf(league, standings, conference, props) {
     return get_teams(standings, conference).map((row, index) => {
         return (
             <div className='standing' id={index} key={index}>
                 <div className='standing-left'>
                     <pre className='standing-rank'>{row.rank.toString().padEnd(2, ' ')}</pre>
-                    <div className='logo-name-record'>{getTeamLogo(league, row.code, "standing-logo")}{row.name}</div>
+                    <div className={classes(row.code, league, props)}>{getTeamLogo(league, row.code, "standing-logo")}{row.name}</div>
                 </div>
                 <div className='standing-right'>
                     <p>{row.wins}-{row.losses}</p>
@@ -43,6 +42,19 @@ function Conf(league, standings, conference) {
             </div>
         );
     });
+}
+
+function classes(code, league, props) {
+    let classN = 'logo-name-record';
+    if (!props.prefs || !props.prefs.sports) {
+        return classN;
+    }
+    if (props.prefs.sports.hasOwnProperty(league) &&
+        props.prefs.sports[league].hasOwnProperty("teams") &&
+        props.prefs.sports[league].teams.includes(code)){
+        classN = classN + ' favorite';
+    }
+    return classN;
 }
 
 export default function StandingsTable(props) {
@@ -75,7 +87,7 @@ export default function StandingsTable(props) {
         const divs = sportInfo["divisions"];
         const data = divs.map((div, index) => {
             if (standings.hasOwnProperty(league)) {
-                return <div className='conference' key={index}>{Conf(league, standings[league], String(div).toLowerCase())}</div>;
+                return <div className='conference' key={index}>{Conf(league, standings[league], String(div).toLowerCase(), props)}</div>;
             }
             return <p className='nomargin' key={index}>No {league} content.</p>;
         });
