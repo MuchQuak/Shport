@@ -73,10 +73,10 @@ app.post('/signup/username', async(req, res) => {
     }
 });
 
-// Validating Sign Up username
+// Validating Sign Up email
 app.post('/signup/email', async(req, res) => {
     const user = req.body;
-    let result = await userServices.findUserByUsername(user.username);
+    let result = await userServices.findUserByEmail(user.email);
 
     if(result[0] != undefined && result[0].email === user.email){
         res.status(201).send();

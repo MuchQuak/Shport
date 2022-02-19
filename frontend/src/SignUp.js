@@ -19,36 +19,39 @@ export default function SignUp(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    testNewUser().then(result => {
-      if(result){
-        const newUser = {
-          "email": email,
-          "username": username,
-          "password": password,
-        }
-        navigate('/LeaguePreferences', {replace: true, state: newUser});
-      }
-    });
+    testNewUser();
   }
 
   async function testNewUser(){
     // In our case we look if that username or email have been entered in the database.
     // Do we check that instead in the post method? And return with an error code? I believe so.
     // But perhaps that means we need to post the user, and then set their preferences.
-    let isValidUser = false;
+    let isValidUsername = false;
+    let isValidEmail = false;
 
     validateNewUsername(username).then(result => {
-      if(result.status != 201){
-        validateNewEmail(username, email).then( result => {
-          if(result.status != 201){
-            isValidUser = true;
-          }
-        });
+      if(result === false){
+        isValidUsername = true;
       }
+      validateNewEmail(email).then( result => {
+          if(result === false){
+            isValidEmail = true;
+          }
+
+          console.log(isValidUsername, isValidEmail);
+          if(isValidUsername && isValidEmail){
+            const newUser = {
+              "email": email,
+              "username": username,
+              "password": password,
+            }
+            navigate('/LeaguePreferences', {replace: true, state: newUser});
+          }
+      });
     });
 
-    return isValidUser;
+
+    return ;
   }
 
   return (

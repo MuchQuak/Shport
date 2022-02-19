@@ -23,9 +23,9 @@ export async function validateNewUsername(username){
 }
 
 
-export async function validateNewEmail(username, email){
+export async function validateNewEmail(email){
     try{
-        const response = await axios.post('http://localhost:5000/signup/username', {"username":username, "email":email});
+        const response = await axios.post('http://localhost:5000/signup/email', {"email":email});
         return response;
     }
     catch (error){

@@ -58,10 +58,16 @@ async function findUserByUsername(name){
     return await userModel.find({'username': name});
 }
 
+async function findUserByEmail(email){
+    const userModel = getDbConnection().model("user", User.schema);
+    return await userModel.find({'email': email});
+}
+
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.findUserByUsername = findUserByUsername;
+exports.findUserByEmail = findUserByEmail;
 
 /*const sportsSchema = new mongoose.Schema({
   sport: {
