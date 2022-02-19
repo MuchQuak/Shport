@@ -12,7 +12,7 @@ export default function App() {
     const [userPrefs, setUserPrefs] = useState({});
 
     useEffect(() => {
-        if(!loadedPref){
+        if(location.state != null && !loadedPref){
             getPrefs();
             setPref(true);
         }
