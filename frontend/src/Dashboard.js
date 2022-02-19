@@ -7,6 +7,7 @@ import StandingsTable from './StandingsTable';
 import Schedule from './Schedule';
 import Article from './Article';
 import {fetchNBAStandings, fetchSports} from "./SportHandler";
+import {fetchNews} from "./NewsHandler";
 
 function default_items(prefs, sports, stats) {
     return [
@@ -24,16 +25,15 @@ function default_items(prefs, sports, stats) {
 
 //
 
-function article_items(prefs) {
-    return [
-        (<CloseableItem title='Kings Trade for Sabonis' prefs={prefs}>
-            <Article date='8 February 2022'
-                     body='The Sacramento Kings have traded away Tyrese Haliburton, Buddy Hield, and Tristan Thompson in a shocking move early this Tuesday. In return, they received Indiana Pacers center Domantas Sabonis, along with players Jeremy Lamb and Justin Holiday.'/>
-        </CloseableItem>),
-        (<CloseableItem title='News Article' prefs={prefs}>
-            <Article date='3 February 2022' body='test number 2'/>
+function article_items(prefs, news) {
+    console.log("prefs " + prefs);
+    const temp = news.map((article, idx) =>
+        (<CloseableItem title={article.publishBy} key={article.url}>
+            <Article news={article} key={article.url}/>
         </CloseableItem>)
-    ]
+        
+    )
+    return temp;
 }
 
 function partitionItems(items) {
@@ -61,6 +61,7 @@ function partitionItems(items) {
 export default function Dashboard(props) {
     const [stats, setStats] = useState({});
     const [sports, setSports] = useState([]);
+    const [news, setNews] = useState([]);
 
     useEffect(() => {
         fetchNBAStandings().then( result => {
@@ -71,10 +72,14 @@ export default function Dashboard(props) {
             if (result)
                 setSports(result);
         });
+        fetchNews().then( result => {
+            if (result)
+                setNews(result);
+        })
     }, [] );
     if (props) {
         if (props.prefs) {
-            const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs));
+            const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs, news));
             return (
                 <div className='dashboard'>
                     {partitionItems(all_items)}

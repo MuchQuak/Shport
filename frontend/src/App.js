@@ -20,7 +20,7 @@ export default function App() {
             location.state = {};
             location.state.username = "[ Username ]";
         }
-      }, [] );
+      }, [location, loadedPref, userPrefs] );
 
     async function getPrefs(){
         try {
