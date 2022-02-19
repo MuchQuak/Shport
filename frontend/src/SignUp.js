@@ -21,7 +21,6 @@ export default function SignUp(props) {
     event.preventDefault();
 
     testNewUser().then(result => {
-      console.log(result);
       if(result){
         const newUser = {
           "email": email,
