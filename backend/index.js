@@ -60,6 +60,32 @@ app.get('/users', async (req, res) => {
     }
 });
 
+// Validating Sign Up username
+app.post('/signup/username', async(req, res) => {
+    const user = req.body;
+    let result = await userServices.findUserByUsername(user.username);
+
+    if(result[0] != undefined){
+        res.status(201).send();
+    }
+    else{
+        res.status(500).end();
+    }
+});
+
+// Validating Sign Up username
+app.post('/signup/email', async(req, res) => {
+    const user = req.body;
+    let result = await userServices.findUserByUsername(user.username);
+
+    if(result[0] != undefined && result[0].email === user.email){
+        res.status(201).send();
+    }
+    else{
+        res.status(500).end();
+    }
+});
+
 // Validating Login
 app.post('/login', async(req, res) => {
     const user = req.body;

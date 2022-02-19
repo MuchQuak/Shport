@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
+import {validateNewUsername, validateNewEmail} from "./UserHandler";
 import './style/SignUp.css';
 
 export default function SignUp(props) {
@@ -18,23 +19,37 @@ export default function SignUp(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (testNewUser()){
-      const newUser = {
-        "email": email,
-        "username": username,
-        "password": password,
+
+    testNewUser().then(result => {
+      console.log(result);
+      if(result){
+        const newUser = {
+          "email": email,
+          "username": username,
+          "password": password,
+        }
+        navigate('/LeaguePreferences', {replace: true, state: newUser});
       }
-      navigate('/LeaguePreferences', {replace: true, state: newUser});
-    }
+    });
   }
 
-  function testNewUser(){
+  async function testNewUser(){
     // In our case we look if that username or email have been entered in the database.
     // Do we check that instead in the post method? And return with an error code? I believe so.
     // But perhaps that means we need to post the user, and then set their preferences.
+    let isValidUser = false;
 
-    // allow duplicates for now
-    return true;
+    validateNewUsername(username).then(result => {
+      if(result.status != 201){
+        validateNewEmail(username, email).then( result => {
+          if(result.status != 201){
+            isValidUser = true;
+          }
+        });
+      }
+    });
+
+    return isValidUser;
   }
 
   return (
