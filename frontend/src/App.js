@@ -10,7 +10,7 @@ export default function App() {
     if (location.state === null) {
         location.state = {};
         location.state.username = "[ Username ]";
-        location.state.prefs = [];
+        location.state.prefs = {};
     }
     else{
         getPrefs();
@@ -34,7 +34,7 @@ export default function App() {
       }
 
     const prefs = location.state.prefs;
-    
+
     return (
       <>
           <NavBar/>
