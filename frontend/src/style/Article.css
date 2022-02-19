@@ -9,15 +9,22 @@
     text-align: left;
 }
 
-.article-date {
-    margin: 0 0 2px;
+.article-title {
+    text-align: center;
     width: 100%;
     flex-basis: 100%;
     font-weight: bold;
 }
 
-.article-body {
+.article-img {
+    height: 400px;
+    width: 500px;
+    object-fit: cover;
+}
+
+.article-desc {
     margin: 0;
     width: 100%;
     flex-basis: 100%;
 }
+
