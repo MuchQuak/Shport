@@ -18,7 +18,7 @@ function getDbConnection() {
 
 
 async function signUpUser(user){
-    const userModel = getDbConnection().model("user", User.schema); // give to the userSchema
+    const userModel = getDbConnection().model("user", User.schema);
     
     try {
         let userToAdd = new userModel(user);
@@ -29,8 +29,6 @@ async function signUpUser(user){
         console.log(error);
         return false;
     }
-    
-    return false;
 }
 
 async function getUserPreferences(name) {

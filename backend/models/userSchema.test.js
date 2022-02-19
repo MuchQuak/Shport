@@ -1,6 +1,5 @@
 
 /* -- Testing User Schema */
-// Importing User Schema 
 const User = require('./userSchema');
 
 test('TESTING: Username', () => {

@@ -10,6 +10,7 @@ export default function NavBar() {
     location.state = {};
     location.state.username = "[ Username ]";
   }
+    
   function gear() {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" className="bi bi-gear settings-icon nomargin" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

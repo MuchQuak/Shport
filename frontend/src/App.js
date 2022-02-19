@@ -29,6 +29,7 @@ export default function App() {
             
             if (response.status === 201){
                 setUserPrefs(response.data[0].prefs);
+                location.state.prefs = response.data[0].prefs;
                 return response.data;
             }
         }
