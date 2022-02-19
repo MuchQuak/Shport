@@ -3,12 +3,15 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { AlertHandler } from "./UserHandler";
 import './style/Login.css';
 
-import Alert from 'react-bootstrap/Alert'
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage] = useState("Invalid! Incorrect Username or Password");
+  const [isAlertVisible, setVisible] = useState(false);
+
   const navigate = useNavigate();
 
   function validateForm() {
@@ -27,6 +30,7 @@ export default function Login(props) {
     }
     catch (error){
       console.log(error);
+      setVisible(true);
       return error.data;
     }
   }
@@ -46,6 +50,10 @@ export default function Login(props) {
                       <Form.Label>Username</Form.Label>
                       <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                   </Form.Group>
+
+
+                  <AlertHandler isAlertVisible={isAlertVisible} alertMessage={alertMessage} />
+
                   <Form.Group className="inputForm" size="lg" controlId="password">
                       <Form.Label>Password</Form.Label>
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>

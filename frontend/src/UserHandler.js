@@ -33,3 +33,16 @@ export async function validateNewEmail(email){
         return false;
     }
 }
+
+export function AlertHandler(props){    
+    if(props.isAlertVisible){
+      return (
+        <>
+        <p>{props.alertMessage}</p>
+        </>
+      )
+    }
+    else{
+      return (<></> )
+    }
+  };
