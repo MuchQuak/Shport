@@ -1,6 +1,3 @@
-const axios = require("axios");
-const host = 'https://statsapi.web.nhl.com'
-
 const league = require('./leagueService');
 
 class NhlService extends league.LeagueService {

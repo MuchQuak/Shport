@@ -5,8 +5,11 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
+//MODEL IMPORTS
 const nhlServices = require('./models/nhlServices');
 const nbaServices = require('./models/nbaServices');
+const mlbServices = require('./models/mlbServices');
+const nflServices = require('./models/nflServices');
 const news = require('./models/newsServices');
 const userServices = require('./models/userServices');
 const sportInfoServices = require("./models/sportInfoServices");
@@ -125,13 +128,6 @@ app.get('/NBA/games/:offset', async (req, res) => {await nba.getGames(req, res)}
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
 app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
 
-/*
-app.get('/NBA/games', async (req, res) => {await nba.getGames(req, res)});
-app.get('/NBA/games/:offset', async (req, res) => {await nba.getGames(req, res)});
-app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
-app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
-*/
-
 //NHL api Calls
 let nhl = new nhlServices.NhlService('https://statsapi.web.nhl.com');
 //const nhl = require('./models/nhlServices');
@@ -140,6 +136,20 @@ app.get('/NHL/games', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/games/:offset', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)});
 app.get('/NHL/standings/:id', async (req, res) => {await nhl.getStandings(req, res)});
+
+//MLB api Calls Currently currently pulls nothing
+let mlb = new mlbServices.MlbService('');
+app.get('/MLB/games', async (req, res) => {await mlb.getGames(req, res)});
+app.get('/MLB/games/:offset', async (req, res) => {await mlb.getGames(req, res)});
+app.get('/MLB/standings', async (req, res) => {await mlb.getStandings(req, res)});
+app.get('/MLB/standings/:id', async (req, res) => {await mlb.getStandings(req, res)});
+
+//NFL api Calls Currently pulls nothing
+let nfl = new nflServices.NflService('');
+app.get('/NFL/games', async (req, res) => {await nfl.getGames(req, res)});
+app.get('/NFL/games/:offset', async (req, res) => {await nfl.getGames(req, res)});
+app.get('/NFL/standings', async (req, res) => {await nfl.getStandings(req, res)});
+app.get('/NFL/standings/:id', async (req, res) => {await nfl.getStandings(req, res)});
 
 //articles api Calls
 app.get('/news', async (req, res) => {await news.getNews(req, res)});
