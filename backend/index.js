@@ -6,12 +6,13 @@ app.use(cors());
 app.use(express.json());
 
 const nhl = require('./models/nhlServices');
-const nba = require('./models/nbaServices');
+const nbaServices = require('./models/nbaServices');
 const news = require('./models/newsServices');
 const userServices = require('./models/userServices');
 const sportInfoServices = require("./models/sportInfoServices");
 
 const User = require('./models/userServices');
+const { leagueService } = require('./models/leagueService');
 
 app.get('/', (req, res) => {
     res.send("Backend Landing");
@@ -112,18 +113,24 @@ app.post('/preferences', async(req, res) => {
     }
 });
 
-
-
 // Sport Calls
 app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});
 app.get('/sport/:sport', async (req, res) => {await sportInfoServices.getSportRequest(req, res)});
 app.get('/sport/:sport/teams', async (req, res) => {await sportInfoServices.getTeamsRequest(req, res)});
 
 //NBA api Calls
+let nba = new nbaServices.NbaService('https://data.nba.net');
 app.get('/NBA/games', async (req, res) => {await nba.getGames(req, res)});
 app.get('/NBA/games/:offset', async (req, res) => {await nba.getGames(req, res)});
 app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
 app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
+
+/*
+app.get('/NBA/games', async (req, res) => {await nba.getGames(req, res)});
+app.get('/NBA/games/:offset', async (req, res) => {await nba.getGames(req, res)});
+app.get('/NBA/standings', async (req, res) => {await nba.getStandings(req, res)});
+app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, res)});
+*/
 
 //NHL api Calls
 app.get('/NHL/games', async (req, res) => {await nhl.getGames(req, res)});
