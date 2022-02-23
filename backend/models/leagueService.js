@@ -40,7 +40,7 @@ class LeagueService {
         try {
             const games = await axios.get(this.getGamesEndPoint(currentDate));
 
-            res.send(this.formatGamesData(games.data));
+            res.send(this.formatGamesData(games.data, currentDate));
         } catch (e) {
             console.error(e);
         }
@@ -73,7 +73,7 @@ class LeagueService {
             String(date.getDate()).padStart(2, '0');
     }
 
-    formatGamesData(responseData) {
+    formatGamesData(responseData, date) {
         throw new Error("Abstract Method has no implementation");
     }
     formatStandingsData(responseData) {

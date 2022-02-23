@@ -5,7 +5,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-const nhl = require('./models/nhlServices');
+const nhlServices = require('./models/nhlServices');
 const nbaServices = require('./models/nbaServices');
 const news = require('./models/newsServices');
 const userServices = require('./models/userServices');
@@ -133,6 +133,9 @@ app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, r
 */
 
 //NHL api Calls
+let nhl = new nhlServices.NhlService('https://statsapi.web.nhl.com');
+//const nhl = require('./models/nhlServices');
+
 app.get('/NHL/games', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/games/:offset', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)});

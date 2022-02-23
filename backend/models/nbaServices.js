@@ -13,7 +13,7 @@ class NbaService extends league.LeagueService {
         return this.host + '/10s/prod/v1/current/standings_conference.json';
     }
 
-    formatGamesData(responseData) {
+    formatGamesData(responseData, date) {
         const games = responseData["games"];
         const new_games = [];
         for (let i = 0; i < games.length; i++) {
