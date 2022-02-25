@@ -22,8 +22,8 @@ async function signUpUser(user){
     
     try {
         let userToAdd = new userModel(user);
-        userToAdd.setPassword(user.password)
-        const savedUser = await userToAdd.save()
+        userToAdd.setPassword(user.password);
+        const savedUser = await userToAdd.save();
         return savedUser;
     } catch(error) {
         console.log(error);
@@ -39,7 +39,19 @@ async function getUserPreferences(name) {
     } catch(error) {
         console.log(error);
         return false;
-    }   
+    }
+}
+
+// update preferences
+async function setUserPreferences(name, newPrefs) {
+    const userModel = getDbConnection().model("user", User.schema);
+    try {
+        userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
+        return true;
+    } catch(error) {
+        console.log(error);
+    }
+    return false;
 }
 
 //just for testing
@@ -65,6 +77,7 @@ async function findUserByEmail(email){
 
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
+exports.setUserPreferences = setUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;

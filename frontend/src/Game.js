@@ -32,8 +32,11 @@ export default function Game(props) {
     const league = props.league ? props.league : "none";
     const game = props.game;
     const clock_data = String(game.clock).trim();
+    //if (!props.sports[league] || !props.sports[league].teams.includes(game.home_code) || !props.sports[league].teams.includes(game.away_code)) {
+    //    return null;
+    //}
     function halftime() {
-        return game.status === 1 && (game.halftime || (clock_data === "" && game.currentQtr === 2))
+      return game.status === 1 && (game.halftime || (clock_data === "" && game.currentQtr === 2));
     }
     function clock() {
         if (game.status === 2) {

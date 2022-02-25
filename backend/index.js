@@ -25,37 +25,41 @@ app.get('/', (req, res) => {
 app.post('/users', async (req, res) => {
     const user = req.body;
     const savedUser = await userServices.signUpUser(user);
-    if (savedUser)
+    if (savedUser) {
         res.status(201).send();
-    else
+    } else {
         res.status(500).end();
-});
-
-//Test user sign up call
-    app.post('/testusers', async (req, res) => {
-    const user = req.body;
-    const savedUser = await userServices.signUpTestUser(user);
-    if (savedUser)
-        res.status(201).send();
-    else
-        res.status(500).end();
+    }
 });
 
 //Currently just uses name to look up but would like to change this
 app.get('/users/:name/pref', async (req, res) => {
     const name = req.params.name;
     const pref = await userServices.getUserPreferences(name);
-    if (pref)
+    if (pref) {
         res.status(200).send(pref);
-    else
+    } else {
         res.status(500).end();
+    }
+});
+
+//Currently just uses name to look up but would like to change this
+app.put('/users/:name/pref', async (req, res) => {
+    const name = req.params.name;
+    const prefs = req.body;
+    const pref = await userServices.setUserPreferences(name, prefs);
+    if (pref) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
+    }
 });
 
 //FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const username = req.query.username;
 
-    if (username != undefined){
+    if (username !== undefined){
         let result = await userServices.findUserByUsername(username)
         res.status(200).send(result);
     } else {
@@ -69,10 +73,9 @@ app.post('/signup/username', async(req, res) => {
     const user = req.body;
     let result = await userServices.findUserByUsername(user.username);
 
-    if(result[0] != undefined){
+    if (result[0] !== undefined){
         res.status(201).send();
-    }
-    else{
+    } else {
         res.status(500).end();
     }
 });
@@ -82,10 +85,9 @@ app.post('/signup/email', async(req, res) => {
     const user = req.body;
     let result = await userServices.findUserByEmail(user.email);
 
-    if(result[0] != undefined && result[0].email === user.email){
+    if (result[0] !== undefined && result[0].email === user.email){
         res.status(201).send();
-    }
-    else{
+    } else {
         res.status(500).end();
     }
 });
@@ -95,10 +97,9 @@ app.post('/login', async(req, res) => {
     const user = req.body;
     let result = await userServices.findUserByUsername(user.username);
 
-    if(result[0] != undefined && result[0].validPassword(user.password)){
+    if (result[0] !== undefined && result[0].validPassword(user.password)){
         res.status(201).send();
-    }
-    else{
+    } else {
         res.status(500).end();
     }
 });
@@ -108,10 +109,22 @@ app.post('/preferences', async(req, res) => {
     const user = req.body;
     let userPref = await userServices.getUserPreferences(user.username);
 
-    if(userPref){
+    if (userPref){
         res.status(201).send(userPref);
+    } else {
+        res.status(500).end();
     }
-    else{
+});
+
+
+// changing preferences
+app.patch('/preferences', async(req, res) => {
+    const user = req.body;
+    let userPref = await userServices.getUserPreferences(user.username);
+
+    if (userPref){
+        res.status(201).send(userPref);
+    } else {
         res.status(500).end();
     }
 });

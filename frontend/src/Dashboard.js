@@ -26,7 +26,7 @@ function default_items(prefs, sports, stats) {
 //
 
 function article_items(prefs, news) {
-    console.log("prefs " + prefs);
+    //console.log("prefs " + prefs);
     const temp = news.map((article, idx) =>
         (<CloseableItem title={article.publishBy} key={article.url}>
             <Article news={article} key={article.url}/>

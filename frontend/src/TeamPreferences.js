@@ -7,6 +7,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
 import {fetchSports, getTeamLogo} from "./SportHandler";
 import {addUser} from "./UserHandler";
+import TeamPreferenceSelector from "./TeamPreferenceSelector";
 
 function itemsEqual(a, b) {
     return a.name === b.name && a.city === b.city && a.sport === b.sport && a.code === b.code;
@@ -110,23 +111,16 @@ export default function TeamPreferences(){
           <div className="signup">
               <h1 className="signup-name">Team Preferences</h1>
                   <Form onSubmit={handleSubmit}>
-                      <div className='wrapper'>
-                          <ReactSearchAutocomplete
-                              items={availableTeams}
-                              onSearch={handleOnSearch}
-                              fuseOptions={{
-                                keys: ["city", "name", "sport"],
-                                threshold: 0.2,
-                                maxPatternLength: 32,
-                                minMatchCharLength: 1 }}
-                              onHover={handleOnHover}
-                              onSelect={handleOnSelect}
-                              onFocus={handleOnFocus}
-                              autoFocus
+                          <TeamPreferenceSelector
+                              availableTeams={availableTeams}
+                              handleOnSearch={handleOnSearch}
+                              handleOnHover={handleOnHover}
+                              handleOnSelect={handleOnSelect}
+                              handleOnFocus={handleOnFocus}
                               formatResult={formatResult}
+                              selectedTeams={selectedTeams}
+                              removeSelected={removeSelected}
                           />
-                      </div>
-                      <SelectedTable selectedData={selectedTeams} removeSelected={removeSelected} />
                       <Button className="submit-button" id="signup-button" size="lg" type="submit">Sign Up</Button>
                       <Link to="/Login">
                           <p className="have-account">Already registered? Sign in</p>

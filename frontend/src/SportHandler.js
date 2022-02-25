@@ -54,6 +54,38 @@ export function NHL_logo(id, divId) {
     );
 }
 
+export function MLB_logo(id, divId) {
+    if (id === "" || id === "MLB") {
+        return (
+            <div className='logo-container' id={divId}>
+                <img className='logo' id='sport-logo' src='https://www.mlbstatic.com/team-logos/league-on-dark/1.svg' alt='logo'/>
+            </div>
+        )
+    }
+    const url = 'https://www.mlbstatic.com/team-logos/team-cap-on-light/' + id.toLowerCase() + '.svg';
+    return (
+        <div className='logo-container' id={divId}>
+            <img className='logo' src={url} alt='logo'/>
+        </div>
+    );
+}
+
+export function NFL_logo(abbreviation, divId) {
+    if (abbreviation === "" || abbreviation === "NFL") {
+        return (
+            <div className='logo-container' id={divId}>
+                <img className='logo' id='sport-logo' src='https://static.www.nfl.com/image/upload/v1554321393/league/nvfr7ogywskqrfaiu38m.svg' alt='logo'/>
+            </div>
+        )
+    }
+    const url = 'https://static.www.nfl.com/t_headshot_desktop_2x/f_auto/league/api/clubs/logos/' + abbreviation.toLowerCase();
+    return (
+        <div className='logo-container' id={divId}>
+            <img className='logo' src={url} alt='logo'/>
+        </div>
+    );
+}
+
 export async function fetchSports(){
     try {
         const response = await axios.get('http://localhost:5000/sport');
@@ -107,6 +139,8 @@ export function getTeamLogo(league, code, divId) {
     switch (league) {
         case "NBA": return NBA_logo(code, divId);
         case "NHL": return NHL_logo(code, divId);
+        case "MLB": return MLB_logo(code, divId);
+        case "NFL": return NFL_logo(code, divId);
         default: return null;
     }
 }

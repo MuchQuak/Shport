@@ -7,7 +7,7 @@ import Tabbed from "./Tabbed";
 
 export default function Article(props) {
     const [news, setNews] = useState([]);
-    console.log("prefs" + props.prefs);
+    //console.log("prefs" + props.prefs);
     useEffect(() => {
         fetchNews().then(result => {
             if (result)
