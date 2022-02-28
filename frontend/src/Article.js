@@ -20,7 +20,7 @@ export default function Article(props) {
     
     return (
         <div className='article'>
-            <a href={props.news.url}>
+            <a href={props.news.url} target="_blank">
                 <p className='article-title'>{props.news.title}</p>
                 <img
                     className='article-img'
