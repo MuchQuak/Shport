@@ -3,13 +3,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
 import {validateNewUsername, validateNewEmail, AlertHandler} from "./UserHandler";
+import { ReactDialogBox } from 'react-js-dialog-box'
+import 'react-js-dialog-box/dist/index.css'
 import './style/SignUp.css';
 
 export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [alertMessage] = useState("Invalid! Username or Passoword already taken!");
+  const [alertMessage] = useState("Invalid! Username or Email already taken!");
   const [isAlertVisible, setVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -55,6 +57,10 @@ export default function SignUp(props) {
     });
   }
 
+  function closeBox(){
+    setVisible(false);
+  }
+
   return (
         <div className="signup-content">
             <div className="signup">
@@ -69,7 +75,28 @@ export default function SignUp(props) {
                         <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </Form.Group>
 
-                    <AlertHandler isAlertVisible={isAlertVisible} alertMessage={alertMessage} />
+                    <div>
+                    {isAlertVisible && (
+                      <>
+                        <ReactDialogBox
+                          closeBox={closeBox}
+                          modalWidth='60%'
+                          headerBackgroundColor='blue'
+                          headerTextColor='white'
+                          headerHeight='65'
+                          closeButtonColor='white'
+                          bodyBackgroundColor='white'
+                          bodyTextColor='black'
+                          bodyHeight='200px'
+                          headerText='Invalid'
+                        >
+                          <div>
+                            <h1>{alertMessage}</h1>
+                          </div>
+                        </ReactDialogBox>
+                      </>
+                    )}
+                  </div>
 
                     <Form.Group className="inputForm" id="passwordForm" size="lg" controlId="password">
                         <Form.Label>Password</Form.Label>

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { ReactDialogBox } from 'react-js-dialog-box'
+import 'react-js-dialog-box/dist/index.css'
 
 export async function addUser(user){
     try {
@@ -46,3 +48,35 @@ export function AlertHandler(props){
       return (<></> )
     }
   };
+
+  export function AlertHandler2(props){    
+    
+    function closeBox(){
+        props.isVis = false;
+      }
+
+    return (
+        <div>
+            {props.isVis && (
+                <>
+                <ReactDialogBox
+                    closeBox={closeBox}
+                    modalWidth='60%'
+                    headerBackgroundColor='blue'
+                    headerTextColor='white'
+                    headerHeight='65'
+                    closeButtonColor='white'
+                    bodyBackgroundColor='white'
+                    bodyTextColor='black'
+                    bodyHeight='200px'
+                    headerText='Invalid Input'
+                >
+                    <div>
+                    <h1>{props.alertMessage}</h1>
+                    </div>
+                </ReactDialogBox>
+                </>
+            )}
+        </div>
+
+)};

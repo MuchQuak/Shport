@@ -3,7 +3,8 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { AlertHandler } from "./UserHandler";
+import { ReactDialogBox } from 'react-js-dialog-box'
+import 'react-js-dialog-box/dist/index.css'
 import './style/Login.css';
 
 export default function Login(props) {
@@ -40,6 +41,12 @@ export default function Login(props) {
     validateLogin();
   }
 
+
+
+  function closeBox(){
+    setVisible(false);
+  }
+
   return (
       <div className='login-content'>
           <h1 className="welcome">Welcome to Sports Dashboard</h1>
@@ -51,8 +58,28 @@ export default function Login(props) {
                       <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                   </Form.Group>
 
-
-                  <AlertHandler isAlertVisible={isAlertVisible} alertMessage={alertMessage} />
+                  <div>
+                    {isAlertVisible && (
+                      <>
+                        <ReactDialogBox
+                          closeBox={closeBox}
+                          modalWidth='60%'
+                          headerBackgroundColor='blue'
+                          headerTextColor='white'
+                          headerHeight='65'
+                          closeButtonColor='white'
+                          bodyBackgroundColor='white'
+                          bodyTextColor='black'
+                          bodyHeight='200px'
+                          headerText='Invalid'
+                        >
+                          <div>
+                            <h1>{alertMessage}</h1>
+                          </div>
+                        </ReactDialogBox>
+                      </>
+                    )}
+                  </div>
 
                   <Form.Group className="inputForm" size="lg" controlId="password">
                       <Form.Label>Password</Form.Label>
