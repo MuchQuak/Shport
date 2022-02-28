@@ -5,7 +5,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-//MODEL IMPORTS
+// Models
 const nhlServices = require('./models/nhlServices');
 const nbaServices = require('./models/nbaServices');
 const mlbServices = require('./models/mlbServices');
@@ -13,15 +13,13 @@ const nflServices = require('./models/nflServices');
 const news = require('./models/newsServices');
 const userServices = require('./models/userServices');
 const sportInfoServices = require("./models/sportInfoServices");
-
-const User = require('./models/userServices');
-const { leagueService } = require('./models/leagueService');
+const leagueServices = require('./models/leagueService');
 
 app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
 
-//User db calls
+// User db calls
 app.post('/users', async (req, res) => {
     const user = req.body;
     const savedUser = await userServices.signUpUser(user);
@@ -32,7 +30,7 @@ app.post('/users', async (req, res) => {
     }
 });
 
-//Currently just uses name to look up but would like to change this
+// Currently just uses name to look up but would like to change this
 app.get('/users/:name/pref', async (req, res) => {
     const name = req.params.name;
     const pref = await userServices.getUserPreferences(name);
@@ -43,7 +41,7 @@ app.get('/users/:name/pref', async (req, res) => {
     }
 });
 
-//Currently just uses name to look up but would like to change this
+// Currently just uses name to look up but would like to change this
 app.put('/users/:name/pref', async (req, res) => {
     const name = req.params.name;
     const prefs = req.body;
@@ -55,7 +53,7 @@ app.put('/users/:name/pref', async (req, res) => {
     }
 });
 
-//FOR TESTING ONLY
+// FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const username = req.query.username;
 
@@ -143,8 +141,6 @@ app.get('/NBA/standings/:id', async (req, res) => {await nba.getStandings(req, r
 
 //NHL api Calls
 let nhl = new nhlServices.NhlService('https://statsapi.web.nhl.com');
-//const nhl = require('./models/nhlServices');
-
 app.get('/NHL/games', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/games/:offset', async (req, res) => {await nhl.getGames(req, res)});
 app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)});
