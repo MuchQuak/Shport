@@ -15,19 +15,6 @@ class LeagueService {
         const t = new Date();
         return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
     }
-
-    getStatus(codedGameState) {
-        const state = parseInt(codedGameState);
-        const LIVE = 3;
-        const FINAL = 6;
-        if (state >= FINAL) {
-            return 2;
-        } else if (state >= LIVE) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
     
     async getGames(req, res) {
         const offset_param = String(req.params['offset']).trim();

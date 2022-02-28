@@ -151,7 +151,7 @@ app.get('/NHL/standings', async (req, res) => {await nhl.getStandings(req, res)}
 app.get('/NHL/standings/:id', async (req, res) => {await nhl.getStandings(req, res)});
 
 //MLB api Calls Currently currently pulls nothing
-let mlb = new mlbServices.MlbService('');
+let mlb = new mlbServices.MlbService('https://lookup-service-prod.mlb.com/json');
 app.get('/MLB/games', async (req, res) => {await mlb.getGames(req, res)});
 app.get('/MLB/games/:offset', async (req, res) => {await mlb.getGames(req, res)});
 app.get('/MLB/standings', async (req, res) => {await mlb.getStandings(req, res)});

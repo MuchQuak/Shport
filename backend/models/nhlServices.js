@@ -56,6 +56,19 @@ class NhlService extends league.LeagueService {
         };
     }
 
+    getStatus(codedGameState) {
+        const state = parseInt(codedGameState);
+        const LIVE = 3;
+        const FINAL = 6;
+        if (state >= FINAL) {
+            return 2;
+        } else if (state >= LIVE) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     formatStandingsData(responseData) {
         const all_data = {};
         const data = responseData['records'];
@@ -79,6 +92,7 @@ class NhlService extends league.LeagueService {
         };
     }
 }
+
 /*
 
 async function getGames(req, res) {
@@ -93,19 +107,6 @@ async function getGames(req, res) {
         res.send(formatGamesData(games.data, currentDate));
     } catch (e) {
         console.error(e);
-    }
-}
-
-function getStatus(codedGameState) {
-    const state = parseInt(codedGameState);
-    const LIVE = 3;
-    const FINAL = 6;
-    if (state >= FINAL) {
-        return 2;
-    } else if (state >= LIVE) {
-        return 1;
-    } else {
-        return 0;
     }
 }
 
