@@ -1,11 +1,10 @@
-
-/* -- Testing User Schema */
+/* -- Testing userSchema */
 const User = require('../userSchema');
 
 test('TESTING: Username', () => {
   let newEncrptUser = new User();
   let username = "Bob";
-  newEncrptUser.username = username,
+  newEncrptUser.username = username;
   expect(username).toBe(newEncrptUser.username);
 });
 
