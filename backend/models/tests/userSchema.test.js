@@ -1,6 +1,6 @@
 
 /* -- Testing User Schema */
-const User = require('./userSchema');
+const User = require('../userSchema');
 
 test('TESTING: Username', () => {
   let newEncrptUser = new User();
