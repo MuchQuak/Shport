@@ -77,15 +77,13 @@ export default function Dashboard(props) {
                 setNews(result);
         })
     }, [] );
-    if (props) {
-        if (props.prefs) {
-            const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs, news));
-            return (
-                <div className='dashboard'>
-                    {partitionItems(all_items)}
-                </div>
-            );
-        }
+    if (!props || !props.prefs) {
+        return (<p className='nomargin'>Loading...</p>);
     }
-    return (<p className='nomargin'>Loading...</p>);
+    const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs, news));
+    return (
+        <div className='dashboard'>
+            {partitionItems(all_items)}
+        </div>
+    );
 }

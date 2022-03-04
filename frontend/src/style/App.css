@@ -99,3 +99,20 @@
     color: #ffbe00;
     text-decoration-color: #ffbe00;
 }
+
+.boxed {
+    margin: 0 auto;
+    min-width: 40%;
+    max-width: 350px;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: #5259FF;
+    border-radius: 8px;
+    color: #FFFFFF;
+    box-shadow:inset 0px 0px 4px 2px #4146cc;
+}

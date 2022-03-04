@@ -5,18 +5,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
 import {fetchSports} from "./SportHandler";
 import {addUser} from "./UserHandler";
-
-export function prefSize(preferences) {
-    let total = 0;
-    for (const [key, value] of Object.entries(preferences.sports)) {
-        if (preferences.sports[key].hasOwnProperty("following")){
-            if (preferences.sports[key].following === true) {
-                total += 1;
-            }
-        }
-    }
-    return total;
-}
+import {prefSize} from "./PrefHandler";
 
 export default function LeaguePreferences() {
   const [preferences, setPreferences] = useState({sports: {}});
@@ -30,11 +19,9 @@ export default function LeaguePreferences() {
         setSports(result);
     });
   }, [] );
-
   if (!sports) {
     return null;
   }
-
   const labels = sports.map((sport) => {
       return sport["sport"];
   })

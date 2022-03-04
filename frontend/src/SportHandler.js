@@ -160,3 +160,9 @@ export function getFullName(code, league, sports) {
 export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function getLabels(sports) {
+    return sports.map((sport) => {
+        return sport["sport"];
+    });
+}

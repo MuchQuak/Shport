@@ -93,3 +93,15 @@ export function getPreferredSportIndex(prefs, sportsNames) {
     }
     return sportsNames.indexOf(pref);
 }
+
+export function prefSize(preferences) {
+    let total = 0;
+    for (const [key, value] of Object.entries(preferences.sports)) {
+        if (preferences.sports[key].hasOwnProperty("following")){
+            if (preferences.sports[key].following === true) {
+                total += 1;
+            }
+        }
+    }
+    return total;
+}

@@ -1,7 +1,6 @@
 import NavBar from './NavBar';
 import {useLocation} from "react-router-dom";
-import LeaguePreferences from "./LeaguePreferences";
-import TeamPreferences from "./TeamPreferences";
+import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 
 function prefDisplay(prefs) {
     if (prefs && Object.keys(prefs).length > 0) {
@@ -22,9 +21,11 @@ export default function Settings() {
     return (
       <main>
         <NavBar/>
-        <LeaguePreferences />
-        <TeamPreferences />
-        {prefDisplay(prefs)}
+        <div className='boxed'>
+            <h1>Settings</h1>
+            <LeaguePreferenceSelector />
+            {prefDisplay(prefs)}
+        </div>
       </main>
     );
 }
