@@ -1,12 +1,14 @@
 import NavBar from './NavBar';
+import InfoContent from "./InfoContent";
 
 export default function About() {
     return (
       <main>
         <NavBar/>
-        <h2>About Us</h2>
-        <p>We are are a webite that offers sport services</p>
-        <h3>Our Mission</h3>
+        <InfoContent title='About Us'>
+            <p>Our dashboard provides you up-to-date, relevant information concerning your sports interests.</p>
+            <p>We currently provide support for the NBA and NHL.</p>
+        </InfoContent>
       </main>
     );
 }

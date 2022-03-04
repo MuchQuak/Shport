@@ -1,0 +1,21 @@
+.infoContent {
+    margin: 0 auto;
+    padding: 10px 0 0;
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.infoContent h1 {
+    margin: 0;
+    padding: 0;
+    color: #212121;
+}
+
+.infoContent p {
+    margin: 0;
+    padding: 0;
+    color: #212121;
+}
