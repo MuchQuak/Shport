@@ -89,21 +89,17 @@ async function findUserByEmail(email){
 }
 
 async function findUserById(id){
-    let obj;
-
-    if(typeof(id) !== mongoose.Types.ObjectId){
-        try{
-            obj = mongoose.Types.ObjectId(id);
-        }
-        catch(error){
-            console.log(error);
-            return undefined;
-        }
+    
+    if(mongoose.Types.ObjectId.isValid(id)){
+        let obj = new mongoose.Types.ObjectId(id);
+        const userModel = getDbConnection().model("user", User.schema);
+        return await userModel.find({'_id': obj});
     }
-
-    const userModel = getDbConnection().model("user", User.schema);
-    return await userModel.find({'_id': id});
+    else{
+        return undefined;
+    }
 }
+
 
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
