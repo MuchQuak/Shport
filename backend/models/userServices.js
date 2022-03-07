@@ -88,10 +88,28 @@ async function findUserByEmail(email){
     return await userModel.find({'email': email});
 }
 
+async function findUserById(id){
+    let obj;
+
+    if(typeof(id) !== mongoose.Types.ObjectId){
+        try{
+            obj = mongoose.Types.ObjectId(id);
+        }
+        catch(error){
+            console.log(error);
+            return undefined;
+        }
+    }
+
+    const userModel = getDbConnection().model("user", User.schema);
+    return await userModel.find({'_id': id});
+}
+
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;
 exports.TESTGetUsers = getUsers;
+exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
