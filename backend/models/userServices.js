@@ -16,6 +16,11 @@ function getDbConnection() {
     return dbConnection;
 }
 
+function setConnection(newConn){
+    dbConnection = newConn;
+    return dbConnection;
+  }
+
 
 async function signUpUser(user){
     const userModel = getDbConnection().model("user", User.schema);
@@ -55,10 +60,18 @@ async function setUserPreferences(name, newPrefs) {
 }
 
 //just for testing
-async function getUsers() {
+async function getUsers(username, email) {
     const userModel = getDbConnection().model("user", User.schema);
     try {
-        return userModel.find();
+        if (username === undefined && email === undefined) {
+            result = await userModel.find();
+        } else if (username && email === undefined) {
+            result = await findUserByUsername(username);
+        } else if (email && username === undefined) {
+            result = await findUserByEmail(email);
+        }
+
+        return result;
     } catch(error) {
         console.log(error);
         return false;
@@ -81,6 +94,7 @@ exports.setUserPreferences = setUserPreferences;
 exports.TESTGetUsers = getUsers;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
+exports.setConnection = setConnection;
 
 /*const sportsSchema = new mongoose.Schema({
   sport: {

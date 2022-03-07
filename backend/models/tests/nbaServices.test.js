@@ -13,10 +13,10 @@ test('TESTING: nbaServices host (endpoint)', () => {
 
   expect(nbaConst.host).toStrictEqual("/NBA");
   });
-
+/*
 test('TESTING: nbaGamesEndPoint', () => {
   let nbaConst = new nba.NbaService("/NBA");
   let testDate = "";
 
   expect(nbaConst.getGamesEndPoint("")).toStrictEqual("/NBA");
-  });
+  });*/
