@@ -6,7 +6,6 @@ import {getSportsFollowed} from "./PrefHandler";
 
 export default function LeaguePreferenceSelector(props) {
     const [sports, setSports] = useState([]);
-    const [selectedLeagues, setSelectedLeagues] = useState([]);
     const [allDisabled, setAllDisabled] = useState(false);
     const prefs = () => {
         return props.prefs ? props.prefs : {sports: {}};
@@ -16,10 +15,13 @@ export default function LeaguePreferenceSelector(props) {
             if (result)
                 setSports(result);
         });
-        setSelectedLeagues(getSportsFollowed(prefs()));
     }, [] );
-    if (!props || !sports || sports.length === 0) {
+    if (!props || !sports || sports.length === 0 || !props.selected || !props.setSelected) {
         return null;
+    }
+    const selectedLeagues = props.selected;
+    function setSelectedLeagues(select) {
+        props.setSelected(select);
     }
     const labels = getLabels(sports)
     const checkboxes = labels.map((league, index) => {
