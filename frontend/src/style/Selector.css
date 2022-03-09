@@ -31,10 +31,6 @@
     width: 80%;
     display: flex;
     flex-flow: column wrap;
-    justify-content: center;
-    justify-items: center;
-    align-items: center;
-    align-content: center;
 }
 
 .league-wrapper {
