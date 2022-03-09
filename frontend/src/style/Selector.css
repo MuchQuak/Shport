@@ -83,10 +83,9 @@
 }
 
 .settings-category-header {
-    margin: 0 auto 2px;
+    margin: 0 auto 5px;
     width: 100%;
     font-weight: bold;
-    text-decoration: underline;
     align-self: flex-start;
 }
 

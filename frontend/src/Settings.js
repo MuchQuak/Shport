@@ -45,7 +45,6 @@ export default function Settings() {
         <div className='boxed'>
             <h1 className='settings-header'>Settings</h1>
             <div className='wrapper'>
-                <p className='settings-category-header'>User</p>
                 <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="username" value={location.state.username}/>
