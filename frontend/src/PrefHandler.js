@@ -26,6 +26,9 @@ export const all_prefs = {
     }
 }
 
+// retrieve all leagues + teams
+
+
 // Retrieve a list of all teams a user follows, given a sport (example sport: 'NBA') (example output: ['LAL', 'CHA', 'SAC'])
 export function getTeamsFollowedForSport(prefs, sport) {
     if (!prefs.sports) {
