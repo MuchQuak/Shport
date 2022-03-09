@@ -111,16 +111,23 @@ export default function TeamPreferences(){
           <div className="signup">
               <h1 className="signup-name">Team Preferences</h1>
                   <Form onSubmit={handleSubmit}>
-                          <TeamPreferenceSelector
-                              availableTeams={availableTeams}
-                              handleOnSearch={handleOnSearch}
-                              handleOnHover={handleOnHover}
-                              handleOnSelect={handleOnSelect}
-                              handleOnFocus={handleOnFocus}
+                      <div className='wrapper'>
+                          <ReactSearchAutocomplete
+                              items={availableTeams}
+                              onSearch={handleOnSearch}
+                              fuseOptions={{
+                                  keys: ["city", "name", "sport"],
+                                  threshold: 0.2,
+                                  maxPatternLength: 32,
+                                  minMatchCharLength: 1 }}
+                              onHover={handleOnHover}
+                              onSelect={handleOnSelect}
+                              onFocus={handleOnFocus}
+                              autoFocus
                               formatResult={formatResult}
-                              selectedTeams={selectedTeams}
-                              removeSelected={removeSelected}
                           />
+                          <SelectedTable selectedData={selectedTeams} removeSelected={removeSelected} />
+                      </div>
                       <Button className="submit-button" id="signup-button" size="lg" type="submit">Sign Up</Button>
                       <Link to="/Login">
                           <p className="have-account">Already registered? Sign in</p>

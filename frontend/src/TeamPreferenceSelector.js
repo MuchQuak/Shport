@@ -1,16 +1,54 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import SelectedTable from "./SelectedTable";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {fetchSports, getAllTeams, getTeamLogo} from "./SportHandler";
+import "./style/Selector.css";
+
+const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+}
+const handleOnHover = (result) => {}
+const handleOnFocus = () => {}
+const formatResult = (item) => {
+    return (
+        <div className='logo-multiline-words'>
+            {getTeamLogo(item.sport, item.code, null)}
+            <div className='logo-text'>
+                <p>{item.city} {item.name}</p>
+                <p>{item.sport}</p>
+            </div>
+        </div>
+    )
+}
+function itemsEqual(a, b) {
+    return a.name === b.name && a.city === b.city && a.sport === b.sport && a.code === b.code;
+}
 
 export default function TeamPreferenceSelector(props) {
-    const availableTeams = props.availableTeams;
-    const handleOnSearch = props.handleOnSearch;
-    const handleOnHover = props.handleOnHover;
-    const handleOnSelect = props.handleOnSelect;
-    const handleOnFocus = props.handleOnFocus;
-    const formatResult = props.formatResult;
-    const selectedTeams = props.selectedTeams;
-    const removeSelected = props.removeSelected;
+    const [availableTeams, setAvailableTeams] = useState([]);
+    useEffect(() => {
+        fetchSports().then(result => {
+            if (result)
+                setAvailableTeams(getAllTeams(result));
+        });
+    }, [] );
+    if (!props || !availableTeams || availableTeams.length === 0 || !props.selected || !props.setSelected) {
+        return null;
+    }
+    const selectedTeams = props.selected;
+    function setSelectedTeams(select) {
+        props.setSelected(select);
+    }
+    const handleOnSelect = (item) => {
+        setAvailableTeams(availableTeams.filter(element => !itemsEqual(element, item)));
+        setSelectedTeams(oldArray => [...oldArray, item]);
+    }
+    function removeSelected(index){
+        const select = selectedTeams[index];
+        setAvailableTeams(old => [...old, select]);
+        setSelectedTeams(selectedTeams.filter(element => !itemsEqual(element, select)));
+    }
     return (
         <div className='wrapper'>
             <ReactSearchAutocomplete
