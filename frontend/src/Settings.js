@@ -1,11 +1,12 @@
 import NavBar from './NavBar';
 import {useLocation} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import {fetchSports} from "./SportHandler";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 function prefDisplay(prefs) {
     if (prefs && Object.keys(prefs).length > 0) {
@@ -42,10 +43,24 @@ export default function Settings() {
       <main>
         <NavBar/>
         <div className='boxed'>
-            <h1>Settings</h1>
-            <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
-            <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-            <Button variant='light'>Save Changes</Button>
+            <h1 className='settings-header'>Settings</h1>
+            <div className='wrapper'>
+                <p className='settings-category-header'>User</p>
+                <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="username" value={location.state.username}/>
+                </Form.Group>
+                <Form.Group className="inputForm" id="passwordForm" size="lg" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" value={"pass"}/>
+                </Form.Group>
+            </div>
+            <div className='wrapper'>
+                <p className='settings-category-header'>Preferences</p>
+                <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
+                <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
+                <Button variant='light' className='save-button'>Save Changes</Button>
+            </div>
         </div>
       </main>
     );

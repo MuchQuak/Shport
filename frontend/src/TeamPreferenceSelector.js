@@ -50,7 +50,7 @@ export default function TeamPreferenceSelector(props) {
         setSelectedTeams(selectedTeams.filter(element => !itemsEqual(element, select)));
     }
     return (
-        <div className='wrapper'>
+        <div className='team-wrapper'>
             <ReactSearchAutocomplete
                 items={availableTeams}
                 onSearch={handleOnSearch}
