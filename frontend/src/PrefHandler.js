@@ -42,8 +42,8 @@ export function getTeamsFollowedForSport(prefs, sport) {
 
 // Retrieve a list of all sports that a user follows (or all if 'following: true')
 export function getSportsFollowed(prefs) {
-    if (prefs.sports) {
-        if (prefs.sports.following === true) { // They follow all sports
+    if (prefs && prefs.sports) {
+        if (prefs.sports.following && prefs.sports.following === true) { // They follow all sports
             return Object.keys(prefs.sports) // IN FUTURE: THIS SHOULD BE A RETRIEVAL FROM THE MASTER LIST (HARDCODED)
                 .filter(sport => sport !== 'following'); // To get all sports, besides the follow all boolean
         }
