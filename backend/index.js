@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
 // User db calls
 app.post('/users', async (req, res) => {
     const user = req.body;
-    const savedUser = await userServices.signUpUser(user);
+    const savedUser = await userServices.validateAndSignUp(user);
+
     if (savedUser) {
         res.status(201).send();
     } else {
@@ -126,6 +127,8 @@ app.patch('/preferences', async(req, res) => {
         res.status(500).end();
     }
 });
+
+// Do we have to test the API calls
 
 // Sport Calls
 app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});

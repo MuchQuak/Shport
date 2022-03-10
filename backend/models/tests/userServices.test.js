@@ -1,5 +1,5 @@
 /* -- Testing userServices */
-const mongoose = require("mongoose");
+/*const mongoose = require("mongoose");
 const UserSchema = require("../userSchema");
 const userServices = require("../userServices");
 const { MongoMemoryServer } = require("mongodb-memory-server");
@@ -261,6 +261,7 @@ test("Adding user -- failure path with already taken email", async () => {
   expect(result).toBeFalsy();
 });
 */
+/*
 test("Adding user -- failure path with no username", async () => {
   const dummyUser = {
     email: "youngWizard@gmail.com",
@@ -294,7 +295,7 @@ test("Adding user -- failure path with no prefs", async () => {
   const result = await userServices.signUpUser(dummyUser);
   expect(result).toBeFalsy();
 });
-
+/*
 test("Logging in user -- ", async () => {
   const dummyUser = {
     username: "Harry Potter",
@@ -309,3 +310,4 @@ test("Logging in user -- ", async () => {
   expect(result).toBeFalsy();
 });
 
+*/

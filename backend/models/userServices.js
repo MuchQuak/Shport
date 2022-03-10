@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const axios = require('axios');
+
 //dotenv.config({ path: __dirname + `/.env` }); 
 dotenv.config();
 const User = require('./userSchema');
@@ -35,6 +37,60 @@ async function signUpUser(user){
         return false;
     }
 }
+
+async function validateAndSignUp(u){
+    let isValidUsername = false;
+    let isValidEmail = false;
+    let isValidToSignUp = false;
+    //let user = undefined;
+
+    return await validateNewUsername(u.username).then(result => {
+      if(result === false){
+        isValidUsername = true;
+        
+        return validateNewEmail(u.email).then( result2 => {
+            if(result2 === false){
+              isValidEmail = true;
+                
+              if(isValidUsername && isValidEmail){
+                return signUpUser(u);
+              }
+            }
+            return false
+        });
+    }
+    return false;
+});
+
+}
+
+/*
+async function validateAndSignUp(u){
+    let isValidUsername = false;
+    let isValidEmail = false;
+    let isValidToSignUp = false;
+    //let user = undefined;
+
+    isValidEmail = await validateNewUsername(u.username).then(result => {
+      if(result === false){
+        return true;
+      }
+    });
+        
+    isValidEmail = await validateNewEmail(u.email).then( result => {
+        if(result === false){
+            return true;
+        }
+    });
+                
+    if(isValidUsername && isValidEmail){
+        return await signUpUser(u);
+    }
+    else{
+        return false;
+    }
+}
+*/
 
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
@@ -100,6 +156,29 @@ async function findUserById(id){
     }
 }
 
+async function validateNewUsername(username){
+    try{
+        const response = await axios.post('http://localhost:5000/signup/username', {"username":username});
+        return response;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+}
+
+
+async function validateNewEmail(email){
+    try{
+        const response = await axios.post('http://localhost:5000/signup/email', {"email":email});
+        return response;
+    }
+    catch (error){
+        console.log(error);
+        return false;
+    }
+}
+
 
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
@@ -109,6 +188,8 @@ exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
+exports.validateAndSignUp = validateAndSignUp;
+
 
 /*const sportsSchema = new mongoose.Schema({
   sport: {
