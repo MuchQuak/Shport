@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { addUser} from "./UserHandler";
 import { ReactDialogBox } from 'react-js-dialog-box'
 import 'react-js-dialog-box/dist/index.css'
-import './style/SignUp.css';
+import './style/SignUp.scss';
 
 export default function SignUp(props) {
   const [email, setEmail] = useState("");

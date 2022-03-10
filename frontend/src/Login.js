@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { ReactDialogBox } from 'react-js-dialog-box'
 import 'react-js-dialog-box/dist/index.css'
-import './style/Login.css';
+import './style/Login.scss';
 
 export default function Login(props) {
   const [username, setUsername] = useState("");

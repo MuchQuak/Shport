@@ -1,4 +1,4 @@
-import "./style/Item.css";
+import "./style/Item.scss";
 import React from 'react';
 import CloseButton from "react-bootstrap/CloseButton";
 

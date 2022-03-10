@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {fetchSports, getLabels} from "./SportHandler";
 import LeagueOption from "./LeagueOption";
-import "./style/Selector.css";
+import "./style/Selector.scss";
 
 export default function LeaguePreferenceSelector(props) {
     const [sports, setSports] = useState([]);

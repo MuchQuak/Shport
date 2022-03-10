@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import SelectedTable from './SelectedTable';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import './style/SignUp.css';
+import './style/SignUp.scss';
 import {fetchSports, getTeamLogo} from "./SportHandler";
 import {addUser} from "./UserHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
