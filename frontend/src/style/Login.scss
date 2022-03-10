@@ -1,3 +1,5 @@
+@use 'theme';
+
 .login-content {
     margin: 0 auto;
     width: 100%;
@@ -21,10 +23,10 @@
     justify-content: center;
     align-items: center;
     align-content: center;
-    background-color: #5259FF;
+    background-color: theme.$current;
     border-radius: 8px;
     color: #FFFFFF;
-    box-shadow:inset 0px 0px 4px 2px #4146cc;
+    box-shadow:inset 0px 0px 4px 2px theme.$current-accent;
 }
 
 .login form {
@@ -63,7 +65,7 @@
     margin: 0;
     width: 100%;
     height: auto;
-    background-color: #31318f;
+    background-color: theme.$current-border;
 }
 
 .login-button:disabled {
@@ -73,7 +75,7 @@
 }
 
 .login-button:hover {
-    background-color: #4343cc;
+    background-color: theme.$current-accent;
 }
 
 #submit {

@@ -1,3 +1,5 @@
+@use 'theme';
+
 .settings-header {
     margin: 0 auto 20px;
 }
@@ -8,21 +10,22 @@
     border-radius: 3px;
     cursor: pointer;
     font-weight: bold;
-    outline: 2px solid #4146cc;
+    background-color: theme.$current;
+    outline: 2px solid theme.$current-border;
 }
 
 .league-option:hover {
-    background-color: #4146cc;
+    background-color: theme.$current-accent;
 }
 
 .league-option-active {
-    background-color: #4146cc;
+    background-color: theme.$current-accent;
     text-decoration: underline;
     text-decoration-color: #FFFFFF;
 }
 
 .league-option-inactive {
-    background-color: #6a6dcc;
+    background-color: theme.$current-light;
     pointer-events: none !important;
 }
 
