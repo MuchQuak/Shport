@@ -1,9 +1,12 @@
 import NavBar from './NavBar';
 import {useLocation} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
-import {Accordion} from "react-bootstrap";
-import {useEffect, useState} from "react";
-import {getSportsFollowed} from "./PrefHandler";
+import React, {useEffect, useState} from "react";
+import {getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
+import TeamPreferenceSelector from "./TeamPreferenceSelector";
+import {fetchSports} from "./SportHandler";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 function prefDisplay(prefs) {
     if (prefs && Object.keys(prefs).length > 0) {
@@ -15,6 +18,14 @@ function prefDisplay(prefs) {
 export default function Settings() {
     const location = useLocation();
     const [selectedLeagues, setSelectedLeagues] = useState([]);
+    const [selectedTeams, setSelectedTeams] = useState([]);
+    const [sports, setSports] = useState([]);
+    useEffect(() => {
+        fetchSports().then(result => {
+            if (result)
+                setSports(result);
+        });
+    }, [] );
 
     if (location.state === null) {
         location.state = {};
@@ -25,23 +36,30 @@ export default function Settings() {
 
     useEffect(() => {
         setSelectedLeagues(getSportsFollowed(prefs));
-    }, [] );
+        setSelectedTeams(getAllTeamsFollowed(prefs, sports));
+    }, [prefs, sports] );
 
     return (
       <main>
         <NavBar/>
         <div className='boxed'>
-            <h1>Settings</h1>
-            <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
-            <button onClick={() => alert("Selected:" + selectedLeagues.toString())}>Test Selections</button>
-            <Accordion style={{margin: '10px'}}>
-                <Accordion.Item eventKey="0">
-                    <Accordion.Header>View Raw JSON</Accordion.Header>
-                    <Accordion.Body>
-                        {prefDisplay(prefs)}
-                    </Accordion.Body>
-                </Accordion.Item>
-            </Accordion>
+            <h1 className='settings-header'>Settings</h1>
+            <div className='wrapper'>
+                <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="username" value={location.state.username}/>
+                </Form.Group>
+                <Form.Group className="inputForm" id="passwordForm" size="lg" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" value={"pass"}/>
+                </Form.Group>
+            </div>
+            <div className='wrapper'>
+                <p className='settings-category-header'>Preferences</p>
+                <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
+                <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
+                <Button variant='light' className='save-button'>Save Changes</Button>
+            </div>
         </div>
       </main>
     );

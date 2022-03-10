@@ -55,7 +55,8 @@
 }
 
 .inputForm label {
-  margin: 0;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .submit-button {
@@ -92,14 +93,4 @@
   margin: 0 0 1px;
   width: 100%;
   height: auto;
-}
-
-.wrapper {
-  margin: 0 0 10px;
-  width: 100%;
-}
-
-.teamsTable {
-  margin: 0 0 10px;
-  width: 100%;
 }

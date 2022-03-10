@@ -164,7 +164,7 @@ app.get('/NFL/standings', async (req, res) => {await nfl.getStandings(req, res)}
 app.get('/NFL/standings/:id', async (req, res) => {await nfl.getStandings(req, res)});
 
 //articles api Calls
-app.get('/news', async (req, res) => {await news.getNews(req, res)});
+//app.get('/news', async (req, res) => {await news.getNews(req, res)});
 app.get('/news/:id', async (req, res) => {await news.getNews(req, res)});
 
 app.listen(port, () => {

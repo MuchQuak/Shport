@@ -8,6 +8,7 @@ import Schedule from './Schedule';
 import Article from './Article';
 import {fetchNBAStandings, fetchSports} from "./SportHandler";
 import {fetchNews} from "./NewsHandler";
+import {getSportsWithOneTeamFollowed} from "./PrefHandler";
 
 function default_items(prefs, sports, stats) {
     return [
@@ -62,7 +63,7 @@ export default function Dashboard(props) {
     const [stats, setStats] = useState({});
     const [sports, setSports] = useState([]);
     const [news, setNews] = useState([]);
-
+    
     useEffect(() => {
         fetchNBAStandings().then( result => {
             if (result)
@@ -72,7 +73,7 @@ export default function Dashboard(props) {
             if (result)
                 setSports(result);
         });
-        fetchNews().then( result => {
+        fetchNews(getSportsWithOneTeamFollowed(props.prefs)).then( result => {
             if (result)
                 setNews(result);
         })
@@ -80,6 +81,7 @@ export default function Dashboard(props) {
     if (!props || !props.prefs) {
         return (<p className='nomargin'>Loading...</p>);
     }
+
     const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs, news));
     return (
         <div className='dashboard'>

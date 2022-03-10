@@ -14,6 +14,8 @@ prefs: {
 }
 */
 
+import {getAllTeams} from "./SportHandler";
+
 export const all_prefs = {
     sports: {
         following: true,
@@ -26,6 +28,9 @@ export const all_prefs = {
     }
 }
 
+// retrieve all leagues + teams
+
+
 // Retrieve a list of all teams a user follows, given a sport (example sport: 'NBA') (example output: ['LAL', 'CHA', 'SAC'])
 export function getTeamsFollowedForSport(prefs, sport) {
     if (!prefs.sports) {
@@ -35,6 +40,28 @@ export function getTeamsFollowedForSport(prefs, sport) {
         return []; // No sport in their interest, or no teams within such sport, or zero length in the array
     }
     return prefs.sports[sport].teams;
+}
+
+export function getAllTeamsFollowed(prefs, sports) {
+    if (!prefs || !prefs.sports || !sports) {
+        return []; // No sports interest...?
+    }
+    const availableTeams = getAllTeams(sports);
+    const allTeams = [];
+    Object.keys(prefs.sports).forEach((sport) => {
+        if (prefs.sports[sport] && prefs.sports[sport].teams && prefs.sports[sport].teams.length > 0) {
+            const teams = prefs.sports[sport].teams;
+            if (teams.length > 0) {
+                teams.forEach((team) => {
+                    const newTeam = availableTeams.find((teamData) => teamData.code === team && teamData.sport === sport);
+                    if (newTeam !== undefined) {
+                        allTeams.push(newTeam);
+                    }
+                });
+            }
+        }
+    });
+    return allTeams;
 }
 
 // Retrieve a list of all sports that a user follows (or all if 'following: true')

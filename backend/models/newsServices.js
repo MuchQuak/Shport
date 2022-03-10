@@ -10,8 +10,8 @@ async function getNews(req, res) {
         id = 'sports'
     const options = {
       host: host,
-      path: '/v2/top-headlines?country=us&category=sports&apikey=' + process.env.NEWSAPI_KEY,
-      //path: '/v2/everything?q=' + id + '&apiKey=' + process.env.NEWSAPI_KEY, 
+      //path: '/v2/top-headlines?country=us&category=sports&apikey=' + process.env.NEWSAPI_KEY,
+      path: '/v2/everything?q=' + id + '&pageSize=100&apiKey=' + process.env.NEWSAPI_KEY, 
       method: 'GET'
     }
     http.request(options, function (response) {
@@ -28,7 +28,7 @@ async function getNews(req, res) {
   function formatNewsData(responseData) {
     const articles = JSON.parse(responseData).articles;
     const new_articles = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 20; i++) {
         const article = articles[i];
         const new_article = {}
         new_article.title = article.title;
