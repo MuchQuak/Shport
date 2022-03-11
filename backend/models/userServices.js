@@ -8,8 +8,6 @@ const axios = require('axios');
 //dotenv.config({ path: __dirname + `/.env` }); 
 dotenv.config();
 
-
-
 let dbConnection;
 
 function getDbConnection() {
@@ -29,6 +27,10 @@ function setConnection(newConn){
 
 
 async function signUpUser(user){
+    if(user.username == undefined || user.email == undefined || user.password == undefined || user.prefs == undefined){
+        return false;
+    }
+
     //Users Collection
     const userModel = getDbConnection().model("user", User.schema);
     //Prefs Collection
@@ -94,9 +96,8 @@ async function getUserPreferences(name) {
     const prefModel = getDbConnection().model("pref", Pref.schema);
 
     try {
-        const query = userModel.find({'username': name}).populate({ path: 'prefId', model: 'pref' });
+        const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query;
-        //return query.select('prefs');
     } catch(error) {
         console.log(error);
         return false;
@@ -174,42 +175,3 @@ exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
 exports.validateAndSignUp = validateAndSignUp;
 exports.login = login;
-
-
-/*const sportsSchema = new mongoose.Schema({
-  sport: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  type: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  divisions: [],
-  teams: [
-      {
-          code: {
-              type: String,
-              required: true,
-              trim: true,
-            },
-          city: {
-              type: String,
-              required: true,
-              trim: true,
-          },
-          name: {
-              type: String,
-              required: true,
-              trim: true,
-          },
-      },
-  ],},
-  {collection: 'sports'});*/

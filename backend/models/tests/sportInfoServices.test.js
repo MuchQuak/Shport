@@ -116,11 +116,3 @@ test("Fetch Teams By Sport -- Failure", async () => {
   let sportFetched = await sportsInfoServices.getTeams(sport);
   expect(sportFetched).toBeFalsy();
 });
-
-/*
-// Can't test the endpoints
-test("Fetch Teams By SportRequest", async () => {
-  let res = new Response();
-  let sportsRequest = await sportsInfoServices.getSportsRequest("",res);
-  expect(sportsRequest).toBeFalsy();
-});*/
