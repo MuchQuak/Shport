@@ -1,3 +1,5 @@
+@use 'theme';
+
 .conference {
     display: flex;
     flex-flow: row wrap;
@@ -14,9 +16,9 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    background-color: #7a8cff;
+    background-color: theme.$current-light;
     color: #FFFFFF;
-    text-shadow: 0px 1px 2px #31318f;
+    text-shadow: 0px 1px 2px theme.$current-border;
     font-weight: bold;
     border-radius: 5px;
 }
