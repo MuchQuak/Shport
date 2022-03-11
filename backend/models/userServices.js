@@ -8,8 +8,6 @@ const axios = require('axios');
 //dotenv.config({ path: __dirname + `/.env` }); 
 dotenv.config();
 
-
-
 let dbConnection;
 
 function getDbConnection() {
@@ -98,9 +96,8 @@ async function getUserPreferences(name) {
     const prefModel = getDbConnection().model("pref", Pref.schema);
 
     try {
-        const query = userModel.find({'username': name}).populate({ path: 'prefId', model: 'pref' });
+        const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query;
-        //return query.select('prefs');
     } catch(error) {
         console.log(error);
         return false;

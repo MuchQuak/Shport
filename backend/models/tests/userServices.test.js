@@ -35,7 +35,7 @@ beforeEach(async () => {
   let dummyUser = {
     "username": "Chuck Norris",
     "email": "chuck@gmail.com",
-    "prefs": {"sports":{}}
+    "prefs": {"user": 'dfjosdjflksdf', "sports":{}}
   };
   let result = new userModel(dummyUser);
   result.setPassword("Sample$aa");
@@ -78,7 +78,7 @@ afterEach(async () => {
 test("Fetching all users", async () => {
   const users = await userServices.TESTGetUsers();
   expect(users).toBeDefined();
-  expect(users.length).toBeGreaterThan(0);
+  expect(users.length).toBe(4);
 });
 
 test("Fetching users by username -- Success", async () => {
