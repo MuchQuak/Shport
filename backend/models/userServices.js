@@ -29,6 +29,10 @@ function setConnection(newConn){
 
 
 async function signUpUser(user){
+    if(user.username == undefined || user.email == undefined || user.password == undefined || user.prefs == undefined){
+        return false;
+    }
+
     //Users Collection
     const userModel = getDbConnection().model("user", User.schema);
     //Prefs Collection

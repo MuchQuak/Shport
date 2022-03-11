@@ -24,7 +24,6 @@ test('TESTING: Entire User Schema', () => {
 });
 
 
-
 test('TESTING: Pref', () => {
   let prefs = {"sports":{}};
 
@@ -52,13 +51,6 @@ test('TESTING: Password', () => {
 
   let newUser = new User(dummyUser);
   newUser.setPassword(password);
-
   expect(newUser.validPassword(password)).toBeTrue;
   expect(newUser.password).toBeUndefined;
 });
-
-
-
-
-
-
