@@ -1,0 +1,103 @@
+@use 'theme';
+
+.settings-header {
+    margin: 0 auto 20px;
+}
+
+.league-option {
+    padding: 5px;
+    color: #FFFFFF;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: theme.$current;
+    outline: 2px solid theme.$current-border;
+}
+
+.league-option:hover {
+    background-color: theme.$current-accent;
+}
+
+.league-option-active {
+    background-color: theme.$current-accent;
+    text-decoration: underline;
+    text-decoration-color: #FFFFFF;
+}
+
+.league-option-inactive {
+    background-color: theme.$current-light;
+    pointer-events: none !important;
+}
+
+.wrapper {
+    margin: 0;
+    width: 80%;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.league-wrapper {
+    margin: 0 auto 10px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 10px;
+}
+
+.team-wrapper {
+    margin: 0 0 5px;
+    width: 100%;
+}
+
+.selected-table {
+    margin: 10px auto;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 2px;
+    justify-items: flex-start;
+    align-items: flex-start;
+}
+
+.selected-team {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.remove-button {
+    margin: 0;
+    padding: 0;
+}
+
+.save-button {
+    margin: 0 auto;
+}
+
+.settings-category-header {
+    margin: 0 auto 5px;
+    width: 100%;
+    font-weight: bold;
+    align-self: flex-start;
+}
+
+.inputForm {
+    margin: 0 0 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+
+}
+
+.inputForm label {
+    margin: 0 auto;
+    width: 100%;
+}

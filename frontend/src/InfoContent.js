@@ -1,4 +1,4 @@
-import './style/InfoContent.css';
+import './style/InfoContent.scss';
 
 export default function InfoContent(props){
     if (!props || !props.title) {

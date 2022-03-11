@@ -25,13 +25,3 @@ test('TESTING: leagueServices EST To UTC', () => {
 
     expect(leageueConst.ESTtoUTC(testESTDate)).toStrictEqual(testDate);
     });
-
-    /*
-test('TESTING: leagueServices Comparting Dates', () => {
-    let leageueConst = new leagues.LeagueService("API endpoint");
-    let testESTDate = "1:30 PM";
-    let testDate = leageueConst.ESTtoUTC(testESTDate);
-    let today = new Date();
-
-    expect(leageueConst.formatDate(testDate)).toStrictEqual("1");
-    });*/

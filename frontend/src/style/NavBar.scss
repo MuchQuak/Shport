@@ -1,11 +1,13 @@
+@use 'theme';
+
 .header {
   margin: 0 auto 35px;
   padding-top: 5px;
   padding-bottom: 5px;
   width: 100%;
   text-align: left;
-  background-color: #5259FF;
-  box-shadow: 0px 5px #31318f;
+  background-color: theme.$current;
+  box-shadow: 0px 5px theme.$current-border;
 }
 
 .header-text {
@@ -15,7 +17,7 @@
   font-style: italic;
   line-height: 60px;
   color: #FFFFFF;
-  text-shadow: 0px 1px 1px #31318f;
+  text-shadow: 0px 1px 1px theme.$current-border;
   cursor: pointer;
 }
 
@@ -24,7 +26,7 @@
 }
 
 .header-text:hover {
-  color: #31318f;
+  color: theme.$current-border;
 }
 
 .header-nav {
@@ -37,7 +39,7 @@
   margin: 0;
   padding: 5px;
   background-color: #FFFFFF;
-  color: #5259FF;
+  color: theme.$current;
   font-weight: bold;
   font-style: normal;
   text-decoration: none;
@@ -52,7 +54,7 @@
 
 .header-link:hover {
   background-color: #FFFFFF;
-  color: #31318f;
+  color: theme.$current-border;
 }
 
 .header-left {

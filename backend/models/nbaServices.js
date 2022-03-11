@@ -23,7 +23,7 @@ class NbaService extends league.LeagueService {
             new_game.clock = game.clock;
             new_game.halftime = game.period.isHalftime;
             new_game.arena = game.arena.name;
-            new_game.curçrentQtr = game.period.current;
+            new_game.currentQtr = game.period.current;
             new_game.maxQtr = game.period.maxRegular;
             new_game.home = "";
             new_game.home_code = game.hTeam.triCode;

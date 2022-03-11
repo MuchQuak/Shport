@@ -1,19 +1,6 @@
 const mongoose = require('mongoose');
+const sports = require('./sportSchema');
 let dbConnection;
-
-const sportSchema = new mongoose.Schema(
-    {
-        sport: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        teams: []
-    },
-    {
-        collection : "sports"
-    }
-);
 
 function getDbConnection() {
     const url = "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
@@ -26,8 +13,14 @@ function getDbConnection() {
     return dbConnection;
 }
 
+
+function setConnection(newConn){
+    dbConnection = newConn;
+    return dbConnection;
+  }
+
 async function getSports() {
-    const sportModel = getDbConnection().model("sport", sportSchema);
+    const sportModel = getDbConnection().model("sport", sports.schema);
     try {
         return sportModel.find();
     } catch(error) {
@@ -37,7 +30,7 @@ async function getSports() {
 }
 
 async function getSport(sport) {
-    const sportModel = getDbConnection().model("sport", sportSchema);
+    const sportModel = getDbConnection().model("sport", sports.schema);
     try {
         return sportModel.findOne({"sport": String(sport).trim().toUpperCase()});
     } catch(error) {
@@ -49,13 +42,18 @@ async function getSport(sport) {
 async function getTeams(sport) {
     try {
         const sportModel = await getSport(sport);
-        return sportModel.teams;
+
+        if(sportModel){
+            return sportModel.teams;
+        }
+        return false;
     } catch(error) {
         console.log(error);
         return false;
     }
 }
 
+// API CALLS
 async function getSportsRequest(req, res) {
     const sports = await getSports();
     if (sports)
@@ -63,6 +61,7 @@ async function getSportsRequest(req, res) {
     else
         res.status(500).end();
 }
+
 
 async function getSportRequest(req, res) {
     const sport = String(req.params.sport).trim().toUpperCase();
@@ -88,3 +87,4 @@ exports.getTeams = getTeams;
 exports.getSportsRequest = getSportsRequest;
 exports.getSportRequest = getSportRequest;
 exports.getTeamsRequest = getTeamsRequest;
+exports.setConnection = setConnection;

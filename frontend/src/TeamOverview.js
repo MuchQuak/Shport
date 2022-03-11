@@ -1,4 +1,4 @@
-import './style/TeamOverview.css';
+import './style/TeamOverview.scss';
 import {getSportsWithOneTeamFollowed, getTeamsFollowedForSport} from "./PrefHandler";
 import Tabbed from "./Tabbed";
 import {capitalizeFirstLetter, fetchNBAStandings, fetchNHLStandings, getLeagueLogo, getTeamLogo} from "./SportHandler";

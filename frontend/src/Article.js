@@ -1,4 +1,4 @@
-import './style/Article.css';
+import './style/Article.scss';
 
 export default function Article(props) {
     if (!props || !props.prefs || !props.news) {

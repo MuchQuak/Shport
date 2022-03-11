@@ -1,4 +1,4 @@
-import './style/GameSchedule.css';
+import './style/GameSchedule.scss';
 import Tabbed from "./Tabbed";
 import {getInterestedSports, getPreferredSportIndex} from "./PrefHandler";
 import {useEffect, useState} from "react";

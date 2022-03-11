@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
 // User db calls
 app.post('/users', async (req, res) => {
     const user = req.body;
-    const savedUser = await userServices.signUpUser(user);
+    const savedUser = await userServices.validateAndSignUp(user);
+
     if (savedUser) {
         res.status(201).send();
     } else {
@@ -66,36 +67,13 @@ app.get('/users', async (req, res) => {
     }
 });
 
-// Validating Sign Up username
-app.post('/signup/username', async(req, res) => {
-    const user = req.body;
-    let result = await userServices.findUserByUsername(user.username);
-
-    if (result[0] !== undefined){
-        res.status(201).send();
-    } else {
-        res.status(500).end();
-    }
-});
-
-// Validating Sign Up email
-app.post('/signup/email', async(req, res) => {
-    const user = req.body;
-    let result = await userServices.findUserByEmail(user.email);
-
-    if (result[0] !== undefined && result[0].email === user.email){
-        res.status(201).send();
-    } else {
-        res.status(500).end();
-    }
-});
 
 // Validating Login
 app.post('/login', async(req, res) => {
     const user = req.body;
-    let result = await userServices.findUserByUsername(user.username);
+    let result = await userServices.login(user);
 
-    if (result[0] !== undefined && result[0].validPassword(user.password)){
+    if (result){
         res.status(201).send();
     } else {
         res.status(500).end();
@@ -118,7 +96,7 @@ app.post('/preferences', async(req, res) => {
 // changing preferences
 app.patch('/preferences', async(req, res) => {
     const user = req.body;
-    let userPref = await userServices.getUserPreferences(user.username);
+    let userPref = await userServices.setUserPreferences(user.username, user.prefs);
 
     if (userPref){
         res.status(201).send(userPref);
@@ -126,6 +104,8 @@ app.patch('/preferences', async(req, res) => {
         res.status(500).end();
     }
 });
+
+// Do we have to test the API calls
 
 // Sport Calls
 app.get('/sport', async (req, res) => {await sportInfoServices.getSportsRequest(req, res)});

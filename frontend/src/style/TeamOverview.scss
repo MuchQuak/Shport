@@ -1,3 +1,5 @@
+@use 'theme';
+
 .overviews {
     margin: 0;
     padding: 0;
@@ -16,9 +18,9 @@
     flex-flow: row wrap;
     text-align: left;
     border-radius: 8px;
-    background-color: #5259FF;
+    background-color: theme.$current;
     color: #FFFFFF;
-    box-shadow: inset 0px 0px 2px 1px #4146cc, 0px 3px #31318F;
+    box-shadow: inset 0px 0px 2px 1px theme.$current-accent, 0px 3px theme.$current-border;
 }
 
 #overview-logo {

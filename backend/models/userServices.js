@@ -3,6 +3,8 @@ const User = require('./userSchema');
 const Pref = require('./prefSchema');
 
 const dotenv = require('dotenv');
+const axios = require('axios');
+
 //dotenv.config({ path: __dirname + `/.env` }); 
 dotenv.config();
 
@@ -57,6 +59,36 @@ async function signUpUser(user){
     }
 }
 
+async function validateAndSignUp(u){
+
+    if(u.username == undefined || u.email == undefined || u.password == undefined || u.prefs == undefined){
+        return false;
+    }
+
+    return await findUserByUsername(u.username).then( result =>{
+        if(result.length === 0){
+            return findUserByEmail(u.email).then(result2 =>{
+                if(u._id == undefined && result2.length === 0){
+                    return signUpUser(u);
+                }
+                else if(result2.length === 0){
+                    return findUserById(u._id).then( result3 => {
+                        if(result3 !== undefined && result3.length === 0){
+                            return signUpUser(u);
+                        }
+                        return false;
+                    })
+                }
+                return false;
+
+            });
+        }
+        return false;
+
+    } );
+
+}
+
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
     const prefModel = getDbConnection().model("pref", Pref.schema);
@@ -75,8 +107,7 @@ async function getUserPreferences(name) {
 async function setUserPreferences(name, newPrefs) {
     const userModel = getDbConnection().model("user", User.schema);
     try {
-        userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
-        return true;
+        return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
     } catch(error) {
         console.log(error);
     }
@@ -123,6 +154,14 @@ async function findUserById(id){
         return undefined;
     }
 }
+async function login(user){
+    return await findUserByUsername(user.username).then( result =>{
+        if(result.length == 1){
+            return result[0].validPassword(user.password);
+        }
+        return false;
+    } );
+}
 
 
 exports.signUpUser = signUpUser;
@@ -133,6 +172,9 @@ exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
+exports.validateAndSignUp = validateAndSignUp;
+exports.login = login;
+
 
 /*const sportsSchema = new mongoose.Schema({
   sport: {

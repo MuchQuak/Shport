@@ -1,43 +1,60 @@
 /* -- Testing userSchema */
 const User = require('../userSchema');
 
-test('TESTING: Username', () => {
-  let newEncrptUser = new User();
-  let username = "Bob";
-  newEncrptUser.username = username;
-  expect(username).toBe(newEncrptUser.username);
+test('TESTING: Entire User Schema', () => {
+
+  let username = "Pepe";
+  let email = "pepe@gmail.com";
+  let password = "Sample--4$#4--Password";
+  let prefs = {"sports":{}};
+
+  dummyUser = {
+    "username": username,
+    "email":email,
+    "password":password,
+    "prefs": prefs
+  };
+
+
+  let newUser = new User(dummyUser);
+
+  expect(username).toBe(newUser.username);
+  expect(email).toBe(newUser.email);
+
 });
 
-test('TESTING: Email', () => {
-  let newEncrptUser = new User();
-  let email = "bob@gmail.com";
-  newEncrptUser.email = email;
-  expect(email).toBe(newEncrptUser.email);
-});
-/*
+
+
 test('TESTING: Pref', () => {
-  let newEncrptUser = new User();
-  let prefs = {
-    sports: {
-      "NBA": {
-        "teams": []
-      },
-      "NHL":{
-        "teams": []
-      }
-    }
-  }
-  newEncrptUser.prefs = prefs;
-  expect(prefs.sports).toBe(newEncrptUser.prefs.sports);
+  let prefs = {"sports":{}};
+
+  dummyUser = {
+    "username": "Pepe",
+    "email":"pepe@gmail.com",
+    "password": "Sample--4$#4--Password",
+    "prefs": prefs
+  };
+
+  const newUser = new User(dummyUser);
+
+  expect(prefs.sports).toEqual(newUser.prefs.sports);
 });
-*/
+
 
 test('TESTING: Password', () => {
-  let newEncrptUser = new User();
   let password = "Sample--4$#4--Password";
-  newEncrptUser.setPassword(password);
+  dummyUser = {
+    "username": "Pepe",
+    "email":"pepe@gmail.com",
+    "password": password,
+    "prefs": {"sports":{}}
+  };
 
-  expect(newEncrptUser.validPassword(password)).toBeTrue;
+  let newUser = new User(dummyUser);
+  newUser.setPassword(password);
+
+  expect(newUser.validPassword(password)).toBeTrue;
+  expect(newUser.password).toBeUndefined;
 });
 
 

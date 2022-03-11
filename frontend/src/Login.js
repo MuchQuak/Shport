@@ -5,12 +5,13 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { ReactDialogBox } from 'react-js-dialog-box'
 import 'react-js-dialog-box/dist/index.css'
-import './style/Login.css';
+import './style/login-signup.scss';
+
+const alertMessage = "The username or password you entered was incorrect. Please try again.";
 
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [alertMessage] = useState("Invalid! Incorrect Username or Password");
   const [isAlertVisible, setVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -41,53 +42,49 @@ export default function Login(props) {
     validateLogin();
   }
 
-
-
   function closeBox(){
     setVisible(false);
   }
 
   return (
-      <div className='login-content'>
+      <div className='centered-boxed-wrapper'>
           <h1 className="welcome">Welcome to Sports Dashboard</h1>
-          <div className="login">
-              <h1 className="websiteName">Log In</h1>
+          <div className="boxed">
+              <h1 className="boxed-header">Log In</h1>
+              {isAlertVisible && (
+                  <>
+                      <ReactDialogBox
+                          closeBox={closeBox}
+                          modalWidth='45%'
+                          headerBackgroundColor='#ff4747'
+                          headerTextColor='white'
+                          headerHeight='auto'
+                          closeButtonColor='white'
+                          bodyBackgroundColor='white'
+                          bodyTextColor='black'
+                          bodyHeight='auto'
+                          headerText='Failed to log in'
+                      >
+                          <p>{alertMessage}</p>
+                      </ReactDialogBox>
+                  </>
+              )}
               <Form onSubmit={handleSubmit}>
                   <Form.Group className="inputForm" size="lg" controlId="username">
                       <Form.Label>Username</Form.Label>
                       <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                   </Form.Group>
-
-                  <div>
-                    {isAlertVisible && (
-                      <>
-                        <ReactDialogBox
-                          closeBox={closeBox}
-                          modalWidth='60%'
-                          headerBackgroundColor='blue'
-                          headerTextColor='white'
-                          headerHeight='65'
-                          closeButtonColor='white'
-                          bodyBackgroundColor='white'
-                          bodyTextColor='black'
-                          bodyHeight='200px'
-                          headerText='Invalid'
-                        >
-                          <div>
-                            <h1>{alertMessage}</h1>
-                          </div>
-                        </ReactDialogBox>
-                      </>
-                    )}
-                  </div>
-
                   <Form.Group className="inputForm" size="lg" controlId="password">
                       <Form.Label>Password</Form.Label>
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </Form.Group>
-                    <Button className="login-button" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
-                  <Link to="/SignUp" className="login-button">
-                    <Button className="login-button" id="signup" size="lg" type="button">Sign Up</Button>
+                  <div className='button-wrapper'>
+                    <Button className="login-button margin-bottom-5" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                  </div>
+                  <Link to="/SignUp" className='signup-link'>
+                      <div className='button-wrapper'>
+                        <Button className="login-button" id="signup" size="lg" type="button">Sign Up</Button>
+                      </div>
                   </Link>
               </Form>
           </div>

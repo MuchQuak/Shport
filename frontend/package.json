@@ -14,10 +14,12 @@
     "react-calendar": "^3.6.0",
     "react-dom": "^17.0.2",
     "react-js-dialog-box": "^1.1.6",
+    "react-query": "^3.34.16",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-search-autocomplete": "^6.0.0",
+    "sass": "^1.49.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

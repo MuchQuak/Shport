@@ -1,12 +1,10 @@
-import Form from "react-bootstrap/Form";
 import React, {useEffect, useState} from "react";
 import {fetchSports, getLabels} from "./SportHandler";
 import LeagueOption from "./LeagueOption";
-import "./style/Selector.css";
+import "./style/Selector.scss";
 
 export default function LeaguePreferenceSelector(props) {
     const [sports, setSports] = useState([]);
-    const [allDisabled, setAllDisabled] = useState(false);
     useEffect(() => {
         fetchSports().then(result => {
             if (result)
@@ -21,26 +19,6 @@ export default function LeaguePreferenceSelector(props) {
         props.setSelected(select);
     }
     const labels = getLabels(sports)
-    const checkboxes = () => {
-        return (
-            <div className='league-options'>
-                {labels.map((league, index) => {
-                    return (<LeagueOption league={league} key={index + 1} click={() => checkSportOption(league)} disabled={allDisabled} active={!allDisabled && selectedLeagues.includes(league)}/>);
-                })}
-            </div>
-        );
-    };
-    function checkPref(e){
-        if (e.target.checked === true){
-            disableSportOptions();
-        } else {
-            setAllDisabled(false);
-        }
-    }
-    function disableSportOptions() {
-        setSelectedLeagues([]);
-        setAllDisabled(true);
-    }
     function checkSportOption(token) {
         if (selectedLeagues.includes(token)) {
             setSelectedLeagues(selectedLeagues.filter((item) => item !== token))
@@ -49,9 +27,10 @@ export default function LeaguePreferenceSelector(props) {
         }
     }
     return (
-        <div className='leaguePreferences'>
-            <Form.Check type="checkbox" label="No Preferences" id="0" key="0" onChange={(e) => checkPref(e)}/>
-            {checkboxes()}
+        <div className='league-wrapper'>
+            {labels.map((league, index) => {
+                return (<LeagueOption league={league} key={index} click={() => checkSportOption(league)} disabled={false} active={selectedLeagues.includes(league)}/>);
+            })}
         </div>
     );
 }
