@@ -79,11 +79,11 @@ export default function Login(props) {
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </Form.Group>
                   <div className='button-wrapper'>
-                    <Button className="login-button margin-bottom-5" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                    <Button className="themed-button margin-bottom-5" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
                   </div>
                   <Link to="/SignUp" className='signup-link'>
                       <div className='button-wrapper'>
-                        <Button className="login-button" id="signup" size="lg" type="button">Sign Up</Button>
+                        <Button className="themed-button" id="signup" size="lg" type="button">Sign Up</Button>
                       </div>
                   </Link>
               </Form>

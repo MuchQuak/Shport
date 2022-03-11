@@ -1,4 +1,4 @@
-import './style/NavBar.scss';
+import './style/navbar.scss';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 
@@ -34,7 +34,6 @@ export default function NavBar() {
           </div>
           <div className="header-right">
             <p className="header-link" id='header-about' onClick={() => navigate('/About', {replace: true, state: location.state})}>About Us</p>
-            <p className="header-link" id='header-team' onClick={() => navigate('/ProjectTeam', {replace: true, state: location.state})}>Our Team</p>
             <Dropdown>
               <Dropdown.Toggle className="header-link" id="dropdown-basic">
                 {icon()}

@@ -2,7 +2,7 @@ import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import SelectedTable from "./SelectedTable";
 import React, {useEffect, useState} from "react";
 import {fetchSports, getAllTeams, getTeamLogo} from "./SportHandler";
-import "./style/Selector.scss";
+import "./style/selector.scss";
 import Button from "react-bootstrap/Button";
 
 const handleOnSearch = (string, results) => {

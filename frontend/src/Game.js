@@ -1,4 +1,4 @@
-import './style/GameSchedule.scss';
+import './style/game-schedule.scss';
 import {getTeamLogo, UTCtoLocal, getFullName} from "./SportHandler";
 
 function score(game, score_info) {

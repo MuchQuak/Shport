@@ -86,7 +86,7 @@ afterEach(async () => {
 
 test("Fetch all sports", async () => {
   let allSports = await sportsInfoServices.getSports();
-  expect(allSports.length).toBeGreaterThan(0);
+  expect(allSports.length).toBe(2);
 });
 
 
@@ -108,7 +108,7 @@ test("Fetch One Sport -- Failure", async () => {
 test("Fetch Teams By Sport -- Success", async () => {
   let sport = "NHL";
   let sportFetched = await sportsInfoServices.getTeams(sport);
-  expect(sportFetched.length).toBeGreaterThan(0);
+  expect(sportFetched.length).toBe(3);
 });
 
 test("Fetch Teams By Sport -- Failure", async () => {
@@ -116,11 +116,3 @@ test("Fetch Teams By Sport -- Failure", async () => {
   let sportFetched = await sportsInfoServices.getTeams(sport);
   expect(sportFetched).toBeFalsy();
 });
-
-/*
-// Can't test the endpoints
-test("Fetch Teams By SportRequest", async () => {
-  let res = new Response();
-  let sportsRequest = await sportsInfoServices.getSportsRequest("",res);
-  expect(sportsRequest).toBeFalsy();
-});*/
