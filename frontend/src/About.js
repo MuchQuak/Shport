@@ -1,7 +1,7 @@
 import NavBar from './NavBar';
 import InfoContent from "./InfoContent";
 
-export function GithubUser(props) {
+export function GitHubUser(props) {
     const username = () => {
         return props.username ? props.username : "undefined";
     }
@@ -23,10 +23,10 @@ export default function About() {
             <p>We currently provide support for the NBA and NHL.</p>
             <br />
             <p style={{fontWeight: "bold", textDecoration: "underline"}}>The Team</p>
-            <GithubUser username='HRen5577' name='Humberto Rendon' />
-            <GithubUser username='bradleyhewitt' name='Bradley Hewitt' />
-            <GithubUser username='MuchQuak' name='Logan Wilt' />
-            <GithubUser username='rtblast70' name='Ryan Tsai' />
+            <GitHubUser username='HRen5577' name='Humberto Rendon' />
+            <GitHubUser username='bradleyhewitt' name='Bradley Hewitt' />
+            <GitHubUser username='MuchQuak' name='Logan Wilt' />
+            <GitHubUser username='rtblast70' name='Ryan Tsai' />
         </InfoContent>
       </main>
     );

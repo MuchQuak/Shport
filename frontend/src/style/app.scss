@@ -260,7 +260,7 @@
 
 .team-member {
     margin: 3px;
-    padding: 4px;
+    padding: 5px;
     height: auto;
     display: flex;
     flex-flow: row nowrap;
@@ -271,6 +271,7 @@
 }
 
 .team-member p {
+    line-height: 1em !important;
     margin: 0;
     padding: 0;
     color: #FFFFFF !important;
