@@ -5,7 +5,8 @@
 }
 
 .league-option {
-    padding: 5px;
+    margin: 2px;
+    padding: 4px;
     color: #FFFFFF;
     border-radius: 3px;
     cursor: pointer;
@@ -41,10 +42,10 @@
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: space-evenly;
+    gap: 2px;
     align-items: center;
     align-content: center;
-    gap: 10px;
 }
 
 .team-wrapper {
