@@ -35,14 +35,45 @@ afterAll(async () => {
 beforeEach(async () => {
   let dummySport = {
     sport:"NBA",
-    teams: []
+    teams: [  {
+              "code":"ATL",
+              "city":"Atlanta",
+              "name":"Hawks"
+              },
+              {
+                "code":"GSW",
+                "city":"Golden State",
+                "name":"Warriors"
+              },
+              {
+                "code":"LAL",
+                "city":"Los Angeles",
+                "name":"Lakers"
+              }
+            
+            ]
   };
   let result = new sportModel(dummySport);
   await result.save();
   
   dummySport = {
     sport:"NHL",
-    teams: ["l"]
+    teams: [{
+              "code":"13",
+              "city":"Florida",
+              "name":"Panthers"
+            },
+            {
+              "code":"7",
+              "city":"Buffalo",
+              "name":"Sabres"
+            },
+            {
+              "code":"28",
+              "city":"San Jose",
+              "name":"Sharks"
+            }
+  ]
   };
   result = new sportModel(dummySport);
   await result.save();
@@ -73,11 +104,11 @@ test("Fetch One Sport -- Failure", async () => {
   let sportFetched = await sportsInfoServices.getSport(sport);
   expect(sportFetched).toBeFalsy();
 });
-/*
+
 test("Fetch Teams By Sport -- Success", async () => {
   let sport = "NHL";
   let sportFetched = await sportsInfoServices.getTeams(sport);
-  expect(sportFetched.teams.length).toBeGreaterThan(0);
+  expect(sportFetched.length).toBeGreaterThan(0);
 });
 
 test("Fetch Teams By Sport -- Failure", async () => {

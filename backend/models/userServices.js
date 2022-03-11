@@ -47,8 +47,16 @@ async function validateAndSignUp(u){
     return await findUserByUsername(u.username).then( result =>{
         if(result.length === 0){
             return findUserByEmail(u.email).then(result2 =>{
-                if(result2.length === 0){
+                if(u._id == undefined && result2.length === 0){
                     return signUpUser(u);
+                }
+                else if(result2.length === 0){
+                    return findUserById(u._id).then( result3 => {
+                        if(result3 !== undefined && result3.length === 0){
+                            return signUpUser(u);
+                        }
+                        return false;
+                    })
                 }
                 return false;
 

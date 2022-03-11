@@ -33,41 +33,38 @@ afterAll(async () => {
 
 beforeEach(async () => {
   let dummyUser = {
-    username: "Chuck Norris",
-    email: "chuck@gmail.com",
-    prefs: {"NBA": [],
-            "NHL": []}
+    "username": "Chuck Norris",
+    "email": "chuck@gmail.com",
+    "prefs": {"sports":{}}
   };
   let result = new userModel(dummyUser);
   result.setPassword("Sample$aa");
   await result.save();
 
   dummyUser = {
-    username: "Ted Lasso",
-    email: "ted@email.com",
-    prefs: {"NBA": [],
-    "NHL": []}
+    "username": "Ted Lasso",
+    "email": "ted@email.com",
+    "prefs": {"sports":{}}
   };
   result = new userModel(dummyUser);
   result.setPassword("Sample$415aa");
   await result.save();
 
   dummyUser = {
-    username: "Larry Fare",
-    email: "fare@yahoo.com",
-    prefs: {"NBA": [],
-    "NHL": []}
+    "username": "Larry Fare",
+    "email": "fare@yahoo.com",
+    "prefs": {"sports":{}}
   };
   result = new userModel(dummyUser);
   result.setPassword("Sap$Rw11aa");
   await result.save();
 
   dummyUser = {
-    username: "Pepe Guardiola",
-    email: "pepe@gmail.com",
-    prefs: {"NBA": [],
-    "NHL": []}
+    "username": "Pepe Guardiola",
+    "email": "pepe@gmail.com",
+    "prefs": {"sports":{}}
   };
+  
   result = new userModel(dummyUser);
   result.setPassword("Sample$bc14a");
   await result.save();
@@ -303,7 +300,7 @@ test("Logging in user -- Success", async () => {
   expect(loginResult).toBeTruthy();
 });
 
-test("Logging in user -- Failure", async () => {
+test("Logging in user -- Password Failure", async () => {
   const dummyUser = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
@@ -312,6 +309,21 @@ test("Logging in user -- Failure", async () => {
   };
   const result = await userServices.validateAndSignUp(dummyUser);
   dummyUser.password = "Differentpass55$";
+
+  const loginResult = await userServices.login(dummyUser);
+
+  expect(loginResult).toBeFalsy();
+});
+
+test("Logging in user -- Username Failure", async () => {
+  const dummyUser = {
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+  };
+  const result = await userServices.validateAndSignUp(dummyUser);
+  dummyUser.username = "Ron";
 
   const loginResult = await userServices.login(dummyUser);
 

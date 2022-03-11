@@ -42,7 +42,11 @@ async function getSport(sport) {
 async function getTeams(sport) {
     try {
         const sportModel = await getSport(sport);
-        return sportModel.teams;
+
+        if(sportModel){
+            return sportModel.teams;
+        }
+        return false;
     } catch(error) {
         console.log(error);
         return false;
