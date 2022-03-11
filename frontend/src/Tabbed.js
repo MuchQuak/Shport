@@ -1,4 +1,4 @@
-import "./style/Tab.scss";
+import "./style/tab.scss";
 import React from 'react';
 import Tab from "./Tab";
 

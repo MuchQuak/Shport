@@ -1,4 +1,4 @@
-import './style/NavBar.scss';
+import './style/navbar.scss';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 
