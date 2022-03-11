@@ -337,3 +337,30 @@ test("Logging in user -- Username Failure", async () => {
 
   expect(loginResult).toBeFalsy();
 });
+
+test("Logging in user -- no username Failure", async () => {
+  const dummyUser = {
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+  };
+  const result = await userServices.validateAndSignUp(dummyUser);
+
+  const loginResult = await userServices.login(dummyUser);
+
+  expect(loginResult).toBeFalsy();
+});
+
+test("Logging in user -- no email Failure", async () => {
+  const dummyUser = {
+    "username": "Harry Potter",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+  };
+  const result = await userServices.validateAndSignUp(dummyUser);
+  
+
+  const loginResult = await userServices.login(dummyUser);
+
+  expect(loginResult).toBeFalsy();
+});
