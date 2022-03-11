@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const sports = require('./sportSchema'); 
+const sports = require('./sportSchema');
 let dbConnection;
 
 function getDbConnection() {
@@ -49,6 +49,7 @@ async function getTeams(sport) {
     }
 }
 
+// API CALLS
 async function getSportsRequest(req, res) {
     const sports = await getSports();
     if (sports)
@@ -58,7 +59,6 @@ async function getSportsRequest(req, res) {
 }
 
 
-// API CALLS
 async function getSportRequest(req, res) {
     const sport = String(req.params.sport).trim().toUpperCase();
     const sp = await getSport(sport);

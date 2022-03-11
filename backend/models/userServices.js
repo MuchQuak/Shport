@@ -39,58 +39,26 @@ async function signUpUser(user){
 }
 
 async function validateAndSignUp(u){
-    let isValidUsername = false;
-    let isValidEmail = false;
-    let isValidToSignUp = false;
-    //let user = undefined;
 
-    return await validateNewUsername(u.username).then(result => {
-      if(result === false){
-        isValidUsername = true;
-        
-        return validateNewEmail(u.email).then( result2 => {
-            if(result2 === false){
-              isValidEmail = true;
-                
-              if(isValidUsername && isValidEmail){
-                return signUpUser(u);
-              }
-            }
-            return false
-        });
-    }
-    return false;
-});
-
-}
-
-/*
-async function validateAndSignUp(u){
-    let isValidUsername = false;
-    let isValidEmail = false;
-    let isValidToSignUp = false;
-    //let user = undefined;
-
-    isValidEmail = await validateNewUsername(u.username).then(result => {
-      if(result === false){
-        return true;
-      }
-    });
-        
-    isValidEmail = await validateNewEmail(u.email).then( result => {
-        if(result === false){
-            return true;
-        }
-    });
-                
-    if(isValidUsername && isValidEmail){
-        return await signUpUser(u);
-    }
-    else{
+    if(u.username == undefined || u.email == undefined || u.password == undefined || u.prefs == undefined){
         return false;
     }
+
+    return await findUserByUsername(u.username).then( result =>{
+        if(result.length === 0){
+            return findUserByEmail(u.email).then(result2 =>{
+                if(result2.length === 0){
+                    return signUpUser(u);
+                }
+                return false;
+
+            });
+        }
+        return false;
+
+    } );
+
 }
-*/
 
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
@@ -107,8 +75,7 @@ async function getUserPreferences(name) {
 async function setUserPreferences(name, newPrefs) {
     const userModel = getDbConnection().model("user", User.schema);
     try {
-        userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
-        return true;
+        return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
     } catch(error) {
         console.log(error);
     }
@@ -155,28 +122,13 @@ async function findUserById(id){
         return undefined;
     }
 }
-
-async function validateNewUsername(username){
-    try{
-        const response = await axios.post('http://localhost:5000/signup/username', {"username":username});
-        return response;
-    }
-    catch (error){
-        console.log(error);
+async function login(user){
+    return await findUserByUsername(user.username).then( result =>{
+        if(result.length == 1){
+            return result[0].validPassword(user.password);
+        }
         return false;
-    }
-}
-
-
-async function validateNewEmail(email){
-    try{
-        const response = await axios.post('http://localhost:5000/signup/email', {"email":email});
-        return response;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
+    } );
 }
 
 
@@ -189,6 +141,7 @@ exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
 exports.validateAndSignUp = validateAndSignUp;
+exports.login = login;
 
 
 /*const sportsSchema = new mongoose.Schema({

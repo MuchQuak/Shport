@@ -6,7 +6,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/SignUp.css';
 import {fetchSports, getTeamLogo} from "./SportHandler";
-import {addUser} from "./UserHandler";
+import {setUserPrefs} from "./UserHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 
 function itemsEqual(a, b) {
@@ -99,7 +99,7 @@ export default function TeamPreferences(){
         "email": location.state.email,
         "prefs": createPrefObject()
       }
-      addUser(newUser).then(r => {
+      setUserPrefs(newUser).then(r => {
           if (r.status === 201) {
               navigate('/', {replace:true, state: {"username": location.state.username}});
           }

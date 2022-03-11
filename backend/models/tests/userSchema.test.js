@@ -14,23 +14,14 @@ test('TESTING: Email', () => {
   newEncrptUser.email = email;
   expect(email).toBe(newEncrptUser.email);
 });
-/*
+
 test('TESTING: Pref', () => {
   let newEncrptUser = new User();
-  let prefs = {
-    sports: {
-      "NBA": {
-        "teams": []
-      },
-      "NHL":{
-        "teams": []
-      }
-    }
-  }
+  let prefs = {"sports": {}};
   newEncrptUser.prefs = prefs;
-  expect(prefs.sports).toBe(newEncrptUser.prefs.sports);
+  expect(prefs.sports).toEqual(newEncrptUser.prefs.sports);
 });
-*/
+
 
 test('TESTING: Password', () => {
   let newEncrptUser = new User();

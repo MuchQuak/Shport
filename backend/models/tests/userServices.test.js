@@ -1,5 +1,5 @@
 /* -- Testing userServices */
-/*const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const UserSchema = require("../userSchema");
 const userServices = require("../userServices");
 const { MongoMemoryServer } = require("mongodb-memory-server");
@@ -84,7 +84,7 @@ test("Fetching all users", async () => {
   expect(users.length).toBeGreaterThan(0);
 });
 
-test("Fetching users by username", async () => {
+test("Fetching users by username -- Success", async () => {
   const userName = "Ted Lasso";
   const users = await userServices.TESTGetUsers(userName);
   expect(users).toBeDefined();
@@ -92,6 +92,12 @@ test("Fetching users by username", async () => {
   users.forEach((user) => expect(user.username).toBe(userName));
 });
 
+test("Fetching users by username -- Success", async () => {
+  const userName = "Ted Iasso";
+  const users = await userServices.TESTGetUsers(userName);
+  expect(users).toBeDefined();
+  expect(users.length).toBe(0);
+});
 
 test("Fetching users by email", async () => {
   const email = "ted@email.com";
@@ -100,8 +106,6 @@ test("Fetching users by email", async () => {
   expect(users.length).toBeGreaterThan(0);
   users.forEach((user) => expect(user.email).toBe(email));
 });
-
-
 
 test("Fetching by invalid id format", async () => {
   const anyId = "123";
@@ -118,15 +122,14 @@ test("Fetching by valid id and not finding", async () => {
 
 test("Fetching by valid id and finding", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-    }
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+
   };
   
-  const result = await userServices.signUpUser(dummyUser);
+  const result = await userServices.validateAndSignUp(dummyUser);
   const addedUser = await result.save();
 
   const foundUser = await userServices.findUserById(addedUser._id);
@@ -139,12 +142,11 @@ test("Fetching by valid id and finding", async () => {
 
 test("Deleting a user by Id -- successful path", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-    }
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+
   };
   const result = new userModel(dummyUser);
   const addedUser = await result.save();
@@ -158,17 +160,16 @@ test("Deleting a user by Id -- inexisting id", async () => {
   expect(deleteResult).toBeNull();
 });
 
+
 test("Adding user -- successful path", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-    }
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+
   };
-  const result = await userServices.signUpUser(dummyUser);
-  result.setPassword("Sample%%44*5");
+  const result = await userServices.validateAndSignUp(dummyUser);
 
   expect(result).toBeTruthy();
   expect(result.username).toBe(dummyUser.username);
@@ -187,7 +188,7 @@ test("Adding user -- failure path with invalid id", async () => {
     "NHL": []
     }
   };
-  const result = await userServices.signUpUser(dummyUser);
+  const result = await userServices.validateAndSignUp(dummyUser);
   expect(result).toBeFalsy();
 });
 
@@ -200,7 +201,7 @@ test("Adding user -- failure path with already taken id", async () => {
     "NHL": []
       }
   };
-  const addedUser = await userServices.signUpUser(dummyUser);
+  const addedUser = await userServices.validateAndSignUp(dummyUser);
 
   const anotherDummyUser = {
     _id: addedUser.id,
@@ -211,103 +212,108 @@ test("Adding user -- failure path with already taken id", async () => {
       "NHL": []
     }
   };
-  const result = await userServices.signUpUser(anotherDummyUser);
+  const result = await userServices.validateAndSignUp(anotherDummyUser);
   expect(result).toBeFalsy();
 });
-/*
+
+
 test("Adding user -- failure path with already taken username", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-      }
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
   };
-  const addedUser = await userServices.signUpUser(dummyUser);
+  const addedUser = await userServices.validateAndSignUp(dummyUser);
 
   const anotherDummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard2@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-      "NHL": []
-    }
+    "username": addedUser.username,
+    "email": "youngWizard2@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
   };
-  const result = await userServices.signUpUser(anotherDummyUser);
+  const result = await userServices.validateAndSignUp(anotherDummyUser);
   expect(result).toBeFalsy();
 });
 
 test("Adding user -- failure path with already taken email", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-      }
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
   };
-  const addedUser = await userServices.signUpUser(dummyUser);
+  const addedUser = await userServices.validateAndSignUp(dummyUser);
 
   const anotherDummyUser = {
-    username: "Ron",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-      "NHL": []
-    }
+    "username": "Ron",
+    "email": addedUser.email,
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
   };
-  const result = await userServices.signUpUser(anotherDummyUser);
+
+  const result = await userServices.validateAndSignUp(anotherDummyUser);
   expect(result).toBeFalsy();
 });
-*/
-/*
+
+
 test("Adding user -- failure path with no username", async () => {
   const dummyUser = {
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-      }
-    };
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+  }
 
-  const result = await userServices.signUpUser(dummyUser);
+  const result = await userServices.validateAndSignUp(dummyUser);
   expect(result).toBeFalsy();
 });
 
 test("Adding user -- failure path with no email", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-      }
+    "username": "Harry Potter",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
     };
-  const result = await userServices.signUpUser(dummyUser);
+  const result = await userServices.validateAndSignUp(dummyUser);
   expect(result).toBeFalsy();
 });
 
 test("Adding user -- failure path with no prefs", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    password: "Sample%%44*5",
-    };
-  const result = await userServices.signUpUser(dummyUser);
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5"
+
+  }
+  const result = await userServices.validateAndSignUp(dummyUser);
   expect(result).toBeFalsy();
 });
-/*
-test("Logging in user -- ", async () => {
+
+test("Logging in user -- Success", async () => {
   const dummyUser = {
-    username: "Harry Potter",
-    email: "youngWizard@gmail.com",
-    password: "Sample%%44*5",
-    prefs: {"NBA": [],
-    "NHL": []
-      }
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
   };
-  const result = await userServices.signUpUser(dummyUser);
+  const result = await userServices.validateAndSignUp(dummyUser);
 
-  expect(result).toBeFalsy();
+  const loginResult = await userServices.login(dummyUser);
+
+  expect(loginResult).toBeTruthy();
 });
 
-*/
+test("Logging in user -- Failure", async () => {
+  const dummyUser = {
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5",
+    "prefs" : {"sports" : {}}
+  };
+  const result = await userServices.validateAndSignUp(dummyUser);
+  dummyUser.password = "Differentpass55$";
+
+  const loginResult = await userServices.login(dummyUser);
+
+  expect(loginResult).toBeFalsy();
+});

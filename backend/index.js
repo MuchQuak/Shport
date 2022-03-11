@@ -94,9 +94,9 @@ app.post('/signup/email', async(req, res) => {
 // Validating Login
 app.post('/login', async(req, res) => {
     const user = req.body;
-    let result = await userServices.findUserByUsername(user.username);
+    let result = await userServices.login(user);
 
-    if (result[0] !== undefined && result[0].validPassword(user.password)){
+    if (result){
         res.status(201).send();
     } else {
         res.status(500).end();
@@ -119,7 +119,7 @@ app.post('/preferences', async(req, res) => {
 // changing preferences
 app.patch('/preferences', async(req, res) => {
     const user = req.body;
-    let userPref = await userServices.getUserPreferences(user.username);
+    let userPref = await userServices.setUserPreferences(user.username, user.prefs);
 
     if (userPref){
         res.status(201).send(userPref);
