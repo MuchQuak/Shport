@@ -140,3 +140,34 @@
 .margin-bottom-5 {
     margin: 0 0 5px !important;
 }
+
+.button-wrapper {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+}
+
+.themed-button {
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    border: 2px solid theme.$current-border;
+    border-radius: 8px;
+    background-color: theme.$current;
+}
+
+.themed-button:disabled {
+    background-color: theme.$current-border;
+    border-color: theme.$current-border;
+    pointer-events: none;
+    color: #FFFFFF;
+}
+
+.themed-button:hover {
+    background-color: theme.$current-accent;
+    border-color: theme.$current-border;
+}
