@@ -1,5 +1,5 @@
 import {getLeagueLogo} from "./SportHandler";
-import './style/Selector.scss';
+import './style/selector.scss';
 
 export default function LeagueOption(props){
     if (!props || !props.league || !props.click) {

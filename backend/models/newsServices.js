@@ -25,14 +25,23 @@ async function getNews(req, res) {
     }).end();
   }
 
+  function removeTags(str) {
+    if ((str===null) || (str===''))
+      return false;
+    else
+      str = str.toString();
+    return str.replace( /(<([^>]+)>)/ig, '');
+ }
+
   function formatNewsData(responseData) {
     const articles = JSON.parse(responseData).articles;
     const new_articles = [];
-    for (let i = 0; i < 20; i++) {
+  
+    for (let i = 1; i < 20; i++) {
         const article = articles[i];
         const new_article = {}
         new_article.title = article.title;
-        new_article.description = article.description;
+        new_article.description = removeTags(article.description);
         new_article.url = article.url;
         new_article.image = article.urlToImage;
         new_article.date = article.publishedAt.split('T')[0];

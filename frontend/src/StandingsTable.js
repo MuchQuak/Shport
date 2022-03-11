@@ -1,4 +1,4 @@
-import "./style/Standings.scss";
+import "./style/standings.scss";
 import Tabbed from "./Tabbed";
 import {getSportsFollowed} from "./PrefHandler";
 import {
