@@ -119,3 +119,24 @@
     color: #FFFFFF;
     box-shadow:inset 0px 0px 4px 2px theme.$current-accent;
 }
+
+.boxed-header {
+    text-align: center;
+    margin: 0 auto 10px;
+}
+
+.centered-boxed-wrapper {
+    margin: 0 auto;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.margin-bottom-5 {
+    margin: 0 0 5px !important;
+}
