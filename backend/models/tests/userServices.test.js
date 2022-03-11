@@ -35,7 +35,7 @@ beforeEach(async () => {
   let dummyUser = {
     "username": "Chuck Norris",
     "email": "chuck@gmail.com",
-    "prefs": {"sports":{}}
+    "prefs": {"user": 'dfjosdjflksdf', "sports":{}}
   };
   let result = new userModel(dummyUser);
   result.setPassword("Sample$aa");
