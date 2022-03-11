@@ -5,13 +5,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { addUser} from "./UserHandler";
 import { ReactDialogBox } from 'react-js-dialog-box'
 import 'react-js-dialog-box/dist/index.css'
-import './style/SignUp.scss';
+import './style/login-signup.scss';
 
 export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [alertMessage] = useState("Invalid! Username or Email already taken!");
+  const [alertMessage] = useState("Username or email already taken.");
   const [isAlertVisible, setVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -54,9 +54,27 @@ export default function SignUp(props) {
   }
 
   return (
-        <div className="signup-content">
-            <div className="signup">
-                <h1 className="signup-name">Sign Up</h1>
+        <div className="centered-boxed-wrapper">
+            <div className="boxed">
+                <h1 className="boxed-header">Sign Up</h1>
+                {isAlertVisible && (
+                    <>
+                        <ReactDialogBox
+                            closeBox={closeBox}
+                            modalWidth='45%'
+                            headerBackgroundColor='#ff4747'
+                            headerTextColor='white'
+                            headerHeight='auto'
+                            closeButtonColor='white'
+                            bodyBackgroundColor='white'
+                            bodyTextColor='black'
+                            bodyHeight='auto'
+                            headerText='Failed to sign up'
+                        >
+                            <p>{alertMessage}</p>
+                        </ReactDialogBox>
+                    </>
+                )}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="inputForm" size="lg" controlId="username">
                     <Form.Label>Username</Form.Label>
@@ -66,35 +84,11 @@ export default function SignUp(props) {
                         <Form.Label>Email</Form.Label>
                         <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </Form.Group>
-
-                    <div>
-                    {isAlertVisible && (
-                      <>
-                        <ReactDialogBox
-                          closeBox={closeBox}
-                          modalWidth='60%'
-                          headerBackgroundColor='blue'
-                          headerTextColor='white'
-                          headerHeight='65'
-                          closeButtonColor='white'
-                          bodyBackgroundColor='white'
-                          bodyTextColor='black'
-                          bodyHeight='200px'
-                          headerText='Invalid'
-                        >
-                          <div>
-                            <h1>{alertMessage}</h1>
-                          </div>
-                        </ReactDialogBox>
-                      </>
-                    )}
-                  </div>
-
                     <Form.Group className="inputForm" id="passwordForm" size="lg" controlId="password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
-                    <Button className="submit-button" id="signup-button" size="lg" type="submit" disabled={!validateForm()}>Next</Button>
+                    <Button className="login-button margin-bottom-5" id="signup-button" size="lg" type="submit" disabled={!validateForm()}>Next</Button>
                     <Link to="/Login">
                         <p className="have-account noselect">Already registered? Sign in</p>
                     </Link>

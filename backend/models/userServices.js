@@ -1,10 +1,14 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
+const User = require('./userSchema');
+const Pref = require('./prefSchema');
+
 const dotenv = require('dotenv');
 const axios = require('axios');
 
 //dotenv.config({ path: __dirname + `/.env` }); 
 dotenv.config();
-const User = require('./userSchema');
+
+
 
 let dbConnection;
 
@@ -25,10 +29,27 @@ function setConnection(newConn){
 
 
 async function signUpUser(user){
+    //Users Collection
     const userModel = getDbConnection().model("user", User.schema);
+    //Prefs Collection
+    const prefModel = getDbConnection().model("pref", Pref.schema);
     
     try {
+        //New user
         let userToAdd = new userModel(user);
+
+        //New Preferences linked to user
+        let userPrefs = new prefModel({
+            user: userToAdd._id,
+            sports: {
+                following: true,
+            }
+        });
+
+        userToAdd.prefId = userPrefs._id;
+
+        await userPrefs.save();
+
         userToAdd.setPassword(user.password);
         const savedUser = await userToAdd.save();
         return savedUser;
@@ -70,9 +91,12 @@ async function validateAndSignUp(u){
 
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
+    const prefModel = getDbConnection().model("pref", Pref.schema);
+
     try {
-        const query = userModel.find({'username': name});
-        return query.select('prefs');
+        const query = userModel.find({'username': name}).populate({ path: 'prefId', model: 'pref' });
+        return query;
+        //return query.select('prefs');
     } catch(error) {
         console.log(error);
         return false;
