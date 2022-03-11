@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import './style/Dashboard.css';
+import './style/Dashboard.scss';
 import TeamOverview from "./TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";

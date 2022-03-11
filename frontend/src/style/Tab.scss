@@ -1,3 +1,5 @@
+@use 'theme';
+
 .tab-group {
     margin: 0;
     padding: 0;
@@ -28,18 +30,19 @@
     flex-basis: 100%;
     cursor: pointer;
     font-weight: bold;
+    background-color: theme.$current;
 }
 
 .tab-title:hover {
-    background-color: #4146cc;
+    background-color: theme.$current-accent;
 }
 
 .tab-active {
-    background-color: #4146cc;
+    background-color: theme.$current-accent;
     text-decoration: underline;
     text-decoration-color: #FFFFFF;
 }
 
 .tab-inactive {
-    background-color: #5259FF;
+    background-color: theme.$current;
 }

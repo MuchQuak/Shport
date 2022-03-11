@@ -1,4 +1,4 @@
-import "./style/Tab.css";
+import "./style/Tab.scss";
 
 export default function Tab(props) {
     if (!props || !props.title || !props.click) {
