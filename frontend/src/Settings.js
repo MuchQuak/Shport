@@ -43,7 +43,7 @@ export default function Settings() {
       <main>
         <NavBar/>
         <div className='boxed'>
-            <h1 className='settings-header'>Settings</h1>
+            <h1 className='boxed-header'>Settings</h1>
             <div className='wrapper'>
                 <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
                     <Form.Label>Username</Form.Label>

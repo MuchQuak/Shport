@@ -1,0 +1,79 @@
+@use 'theme';
+
+.boxed form {
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
+}
+
+.inputForm {
+    margin: 0 0 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    text-align: left;
+}
+
+.inputForm label {
+    margin: 0;
+}
+
+.signup-link {
+    width: 100%;
+    text-decoration: none;
+}
+
+.button-wrapper {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+}
+
+.login-button {
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    background-color: theme.$current-accent;
+    border-color: theme.$current-border;
+}
+
+.login-button:disabled {
+    background-color: theme.$current-border;
+    border-color: theme.$current-border;
+    pointer-events: none;
+    color: #FFFFFF;
+}
+
+.login-button:hover {
+    background-color: theme.$current-light;
+    border-color: theme.$current-border;
+}
+
+.have-account {
+    margin: 0;
+    width: 100%;
+    height: auto;
+    color: #FFFFFF;
+    text-decoration: underline;
+    text-decoration-color: #FFFFFF;
+}
+
+.preferences {
+    margin: 0 0 1px;
+    width: 100%;
+    height: auto;
+}
