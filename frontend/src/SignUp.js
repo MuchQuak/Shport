@@ -88,7 +88,7 @@ export default function SignUp(props) {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
-                    <Button className="login-button margin-bottom-5" id="signup-button" size="lg" type="submit" disabled={!validateForm()}>Next</Button>
+                    <Button className="themed-button " id="signup-button" size="lg" type="submit" disabled={!validateForm()}>Next</Button>
                     <Link to="/Login">
                         <p className="have-account noselect">Already registered? Sign in</p>
                     </Link>
