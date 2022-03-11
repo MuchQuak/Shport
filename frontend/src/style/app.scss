@@ -172,6 +172,11 @@
     border-color: theme.$current-border;
 }
 
+.themed-button:active {
+    background-color: theme.$current-accent;
+    border-color: theme.$current-border;
+}
+
 .leftSpace {
     margin: 0;
     padding: 0;
@@ -251,4 +256,30 @@
     font-size: 16px;
     margin: 0;
     padding: 0;
+}
+
+.team-member {
+    margin: 3px;
+    padding: 4px;
+    height: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 5px;
+    background-color: theme.$current;
+    border-radius: 5px;
+}
+
+.team-member p {
+    margin: 0;
+    padding: 0;
+    color: #FFFFFF !important;
+    font-size: 20px;
+}
+
+.team-member img {
+    height: 20px;
+    width: 20px;
+    border-radius: 2px;
+    border: 1px solid #FFFFFF;
 }
