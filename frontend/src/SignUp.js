@@ -3,17 +3,36 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
 import { addUser} from "./UserHandler";
-import { ReactDialogBox } from 'react-js-dialog-box'
 import 'react-js-dialog-box/dist/index.css'
 import './style/login-signup.scss';
+import Modal from 'react-modal';
+import CloseButton from "react-bootstrap/CloseButton";
+
+export const modalStyle = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        height: 'auto',
+        width: '45%',
+        border: 'none',
+        padding: '0'
+    },
+};
+
+const alertMessage = "Username or email already taken.";
 
 export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [alertMessage] = useState("Username or email already taken.");
-  const [isAlertVisible, setVisible] = useState(false);
+  const [isAlertVisible, setAlertVisible] = useState(false);
   const navigate = useNavigate();
+
+  Modal.setAppElement('#root');
 
   function validateForm() {
     return username.length > 0 &&
@@ -39,42 +58,42 @@ export default function SignUp(props) {
     }
 
     addUser(newUser).then(result => {
-
-      if(result){
+      if (result){
         navigate('/LeaguePreferences', {replace: true, state: newUser});
-      }
-      else{
-        setVisible(true);
+      } else {
+        openAlert();
       }
     });
   }
 
-  function closeBox(){
-    setVisible(false);
+  function openAlert(){
+      setAlertVisible(true);
+  }
+
+  function closeAlert(){
+    setAlertVisible(false);
   }
 
   return (
         <div className="centered-boxed-wrapper">
             <div className="boxed">
                 <h1 className="boxed-header">Sign Up</h1>
-                {isAlertVisible && (
-                    <>
-                        <ReactDialogBox
-                            closeBox={closeBox}
-                            modalWidth='45%'
-                            headerBackgroundColor='#ff4747'
-                            headerTextColor='white'
-                            headerHeight='auto'
-                            closeButtonColor='white'
-                            bodyBackgroundColor='white'
-                            bodyTextColor='black'
-                            bodyHeight='auto'
-                            headerText='Failed to sign up'
-                        >
+                <Modal isOpen={isAlertVisible} onRequestClose={closeAlert} style={modalStyle} contentLabel='alert'>
+                    <div className='dialog'>
+                        <div className='dialog-header'>
+                            <div className='leftSpace' />
+                            <div className='middleSpace'>
+                                <p>Failed to sign up</p>
+                            </div>
+                            <div className='rightSpace'>
+                                <CloseButton className='closeButton' variant='white' aria-label='Hide' onClick={closeAlert}/>
+                            </div>
+                        </div>
+                        <div className='dialog-body'>
                             <p>{alertMessage}</p>
-                        </ReactDialogBox>
-                    </>
-                )}
+                        </div>
+                    </div>
+                </Modal>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="inputForm" size="lg" controlId="username">
                     <Form.Label>Username</Form.Label>
