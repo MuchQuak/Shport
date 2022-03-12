@@ -131,3 +131,12 @@ export function prefSize(preferences) {
     }
     return total;
 }
+
+export function fromLocation(location) {
+    if (!location || location.state === null) {
+        location.state = {};
+        location.state.username = "[ Username ]";
+        location.state.prefs = all_prefs;
+    }
+    return location.state.prefs;
+}

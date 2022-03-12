@@ -60,12 +60,11 @@ async function signUpUser(user){
     }
 }
 
-async function validateAndSignUp(u){
+async function validateAndSignUp(u) {
 
-    if(u.username == undefined || u.email == undefined || u.password == undefined){
+    if(u.username == undefined || u.email == undefined || u.password == undefined, u.prefs == undefined){
         return false;
     }
-
     return await findUserByUsername(u.username).then( result =>{
         if(result.length === 0){
             return findUserByEmail(u.email).then(result2 =>{
@@ -87,7 +86,6 @@ async function validateAndSignUp(u){
         return false;
 
     } );
-
 }
 
 async function getUserPreferences(name) {
@@ -96,18 +94,23 @@ async function getUserPreferences(name) {
     
     //return userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
 
-    return findUserByUsername(name).then( result =>{
-        if(result.length == 1){
-            return prefModel.find({"user":result[0]._id});
-        }
-        return [];
-    } )
+    try {
+        const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
+        return query.select('prefs');
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
 }
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
+    const prefModel = getDbConnection().model("pref", Pref.schema);
     const userModel = getDbConnection().model("user", User.schema);
-    return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
+     
+    const user = userModel.findOne({'username': name});
+
+    return prefModel.findOneAndUpdate({'user': user._id}, {'sports': newPrefs.sports})
 }
 
 //just for testing
@@ -156,7 +159,6 @@ async function login(user){
         return false;
     } );
 }
-
 
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;

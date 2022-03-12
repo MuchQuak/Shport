@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
-import { addUser} from "./UserHandler";
+import {addUser} from "./UserHandler";
 import './style/login-signup.scss';
 import Modal from 'react-modal';
 import CloseButton from "react-bootstrap/CloseButton";
@@ -53,7 +53,7 @@ export default function SignUp(props) {
       "email": email,
       "username": username,
       "password": password,
-      "prefs" : {"sports" : {}}
+      //"prefs" : {"sports" : {}}
     }
 
     addUser(newUser).then(result => {
