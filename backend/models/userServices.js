@@ -62,14 +62,9 @@ async function signUpUser(user){
 
 async function validateAndSignUp(u) {
 
-<<<<<<< HEAD
     if(u.username == undefined || u.email == undefined || u.password == undefined, u.prefs == undefined){
-=======
-    if(u.username == undefined || u.email == undefined || u.password == undefined){
->>>>>>> 2280073397114e738e49578a8878c6e51365c02e
         return false;
     }
-
     return await findUserByUsername(u.username).then( result =>{
         if(result.length === 0){
             return findUserByEmail(u.email).then(result2 =>{
@@ -99,7 +94,6 @@ async function getUserPreferences(name) {
     
     //return userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
 
-<<<<<<< HEAD
     try {
         const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query.select('prefs');
@@ -107,14 +101,6 @@ async function getUserPreferences(name) {
         console.log(error);
         return false;
     }
-=======
-    return findUserByUsername(name).then( result =>{
-        if(result.length == 1){
-            return prefModel.find({"user":result[0]._id});
-        }
-        return [];
-    } )
->>>>>>> 2280073397114e738e49578a8878c6e51365c02e
 }
 
 // update preferences
