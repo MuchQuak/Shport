@@ -2,7 +2,7 @@ import NavBar from './NavBar';
 import {useLocation} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
-import {getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
+import {all_prefs, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import {fetchSports} from "./SportHandler";
 import Button from "react-bootstrap/Button";
@@ -30,7 +30,7 @@ export default function Settings() {
     if (location.state === null) {
         location.state = {};
         location.state.username = "[ Username ]";
-        location.state.prefs = {sports: {}};
+        location.state.prefs = all_prefs;
     }
     const prefs = location.state.prefs;
 
@@ -42,7 +42,7 @@ export default function Settings() {
     return (
       <main>
         <NavBar/>
-        <div className='boxed'>
+        <div className='boxed margin-bottom-10'>
             <h1 className='boxed-header'>Settings</h1>
             <div className='wrapper'>
                 <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
@@ -58,7 +58,7 @@ export default function Settings() {
                 <p className='settings-category-header'>Preferences</p>
                 <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
                 <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-                <Button variant='light' className='save-button'>Save Changes</Button>
+                <Button className='themed-button' size='md'>Save Changes</Button>
             </div>
         </div>
       </main>

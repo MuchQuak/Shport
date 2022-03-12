@@ -10,11 +10,9 @@
     gap: 8px;
 }
 
-.logo-container img {
-    margin: 0 auto;
-    padding: 1px;
-    width: 40px;
-    height: 40px;
+#schedule-logo-container {
+    width: 40px !important;
+    height: 40px !important;
 }
 
 .game {
@@ -27,6 +25,7 @@
     background-color: theme.$current;
     color: #FFFFFF;
     box-shadow: inset 0px 0px 2px 1px theme.$current-accent, 0px 3px theme.$current-border;
+    line-height: 1.15em;
 }
 
 .game-data {
@@ -41,6 +40,7 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-evenly;
+    align-items: center;
     flex-basis: 40%;
     text-align: center;
     font-weight: bold;
@@ -63,6 +63,7 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-evenly;
+    align-items: center;
     flex-basis: 40%;
     text-align: center;
     font-weight: bold;
