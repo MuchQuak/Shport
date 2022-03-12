@@ -60,21 +60,31 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
-    gap: 1px;
+    gap: 5px;
 }
 
 .logo-container {
-    height: auto;
-    width: auto;
     margin: 0;
     padding: 0;
-    border-radius: 25%;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
-#sport-logo {
+.logo-container-sport {
+    height: 1.5em;
+    width: auto;
+}
+
+.logo-container-sport-wide {
+    height: 1.5em;
+    width: 1.5em !important;
+}
+
+.logo {
     margin: 0;
     padding: 0;
-    height: 1.5em;
+    height: 100% !important;
+    width: 100% !important;
 }
 
 .logo-multiline-words {
@@ -138,7 +148,11 @@
 }
 
 .margin-bottom-5 {
-    margin: 0 0 5px !important;
+    margin: 0 auto 5px !important;
+}
+
+.margin-bottom-10 {
+    margin: 0 auto 10px !important;
 }
 
 .button-wrapper {

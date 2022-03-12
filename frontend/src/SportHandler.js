@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getImageSrc} from "./AssetHandler";
 
 export async function fetchNBAStandings(){
     try {
@@ -14,8 +15,8 @@ export async function fetchNBAStandings(){
 export function NBA_logo(abbreviation, divId) {
     if (abbreviation === "" || abbreviation === "NBA") {
         return (
-            <div className='logo-container' id={divId}>
-                <img className='logo' id='sport-logo' src='https://cdn.nba.com/logos/nba/nba-logoman.svg' alt='logo'/>
+            <div className='logo-container logo-container-sport' id={divId}>
+                <img className='logo' src={getImageSrc('NBA.svg')} alt='logo'/>
             </div>
         )
     }
@@ -41,8 +42,8 @@ export async function fetchNHLStandings(){
 export function NHL_logo(id, divId) {
     if (id === "") {
         return (
-            <div className='logo-container'>
-                <img className='logo' id={divId} src='https://www-league.nhlstatic.com/images/logos/league-dark/133-flat.svg' alt='logo'/>
+            <div className='logo-container logo-container-sport' id={divId}>
+                <img className='logo' src={getImageSrc('NHL.svg')} alt='logo'/>
             </div>
         )
     }
@@ -57,8 +58,8 @@ export function NHL_logo(id, divId) {
 export function MLB_logo(id, divId) {
     if (id === "" || id === "MLB") {
         return (
-            <div className='logo-container' id={divId}>
-                <img className='logo' id='sport-logo' src='https://www.mlbstatic.com/team-logos/league-on-dark/1.svg' alt='logo'/>
+            <div className='logo-container logo-container-sport logo-container-sport-wide' id={divId}>
+                <img className='logo' src={getImageSrc('MLB.svg')} alt='logo'/>
             </div>
         )
     }
@@ -73,8 +74,8 @@ export function MLB_logo(id, divId) {
 export function NFL_logo(abbreviation, divId) {
     if (abbreviation === "" || abbreviation === "NFL") {
         return (
-            <div className='logo-container' id={divId}>
-                <img className='logo' id='sport-logo' src='https://static.www.nfl.com/image/upload/v1554321393/league/nvfr7ogywskqrfaiu38m.svg' alt='logo'/>
+            <div className='logo-container logo-container-sport' id={divId}>
+                <img className='logo' src={getImageSrc('NFL.svg')} alt='logo'/>
             </div>
         )
     }

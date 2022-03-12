@@ -74,7 +74,7 @@ export default function Game(props) {
         <div className='game'>
             <div className='game-data'>
                 <div className='game-left'>
-                    {getTeamLogo(league, game.home_code, "schedule-logo")}
+                    {getTeamLogo(league, game.home_code, "schedule-logo-container")}
                     <p className={classes(game.home_code, game.home_score, game.away_score)}>{getTeamName("home", game, league, props.sports)}</p>
                     {score(game, game.home_score)}
                 </div>
@@ -83,7 +83,7 @@ export default function Game(props) {
                     <p className='game-footer'>{game.arena}</p>
                 </div>
                 <div className='game-right'>
-                    {getTeamLogo(league, game.away_code, "schedule-logo")}
+                    {getTeamLogo(league, game.away_code, "schedule-logo-container")}
                     <p className={classes(game.away_code, game.away_score, game.home_score)}>{getTeamName("away", game, league, props.sports)}</p>
                     {score(game, game.away_score)}
                 </div>

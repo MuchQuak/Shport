@@ -6,7 +6,7 @@
 
 .league-option {
     margin: 2px;
-    padding: 4px;
+    padding: 4px 10px;
     color: #FFFFFF;
     border-radius: 3px;
     cursor: pointer;
@@ -101,4 +101,9 @@
 .inputForm label {
     margin: 0 auto;
     width: 100%;
+}
+
+#selector-logo-container {
+    width: 40px;
+    height: 40px;
 }
