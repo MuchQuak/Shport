@@ -115,13 +115,12 @@ async function getUsers(username, email) {
     const userModel = getDbConnection().model("user", User.schema);
     try {
         if (username === undefined && email === undefined) {
-            result = await userModel.find();
+            return await userModel.find();
         } else if (username && email === undefined) {
-            result = await findUserByUsername(username);
-        } else if (email && username === undefined) {
-            result = await findUserByEmail(email);
+            return await findUserByUsername(username);
+        } else{// (email && username === undefined) {
+            return await findUserByEmail(email);
         }
-        return result;
     } catch(error) {
         console.log(error);
         return false;

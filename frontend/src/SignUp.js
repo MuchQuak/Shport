@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
 import { addUser} from "./UserHandler";
-import 'react-js-dialog-box/dist/index.css'
 import './style/login-signup.scss';
 import Modal from 'react-modal';
 import CloseButton from "react-bootstrap/CloseButton";
