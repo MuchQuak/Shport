@@ -1,12 +1,13 @@
 import NavBar from './NavBar';
 import {useLocation} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
-import React, {useEffect, useState} from "react";
-import {all_prefs, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
+import React, {useState} from "react";
+import {all_prefs, fromLocation, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
-import {fetchSports} from "./SportHandler";
+import {sportsQuery} from "./SportHandler";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import {useQuery} from "react-query";
 
 function prefDisplay(prefs) {
     if (prefs && Object.keys(prefs).length > 0) {
@@ -15,33 +16,24 @@ function prefDisplay(prefs) {
     return <p className='nomargin' style={{color:'#000000'}}>No preferences found!</p>;
 }
 
-export default function Settings() {
+function SettingsBox() {
     const location = useLocation();
     const [selectedLeagues, setSelectedLeagues] = useState([]);
     const [selectedTeams, setSelectedTeams] = useState([]);
-    const [sports, setSports] = useState([]);
-    useEffect(() => {
-        fetchSports().then(result => {
-            if (result)
-                setSports(result);
-        });
-    }, [] );
-
-    if (location.state === null) {
-        location.state = {};
-        location.state.username = "[ Username ]";
-        location.state.prefs = all_prefs;
+    const prefs = fromLocation(location);
+    const { isLoading, isError, error } = useQuery('sports', sportsQuery, {
+        onSuccess: (data) => {
+            setSelectedLeagues(getSportsFollowed(prefs));
+            setSelectedTeams(getAllTeamsFollowed(prefs, data));
+        }
+    })
+    if (isLoading) {
+        return <span>Loading...</span>
     }
-    const prefs = location.state.prefs;
-
-    useEffect(() => {
-        setSelectedLeagues(getSportsFollowed(prefs));
-        setSelectedTeams(getAllTeamsFollowed(prefs, sports));
-    }, [prefs, sports] );
-
+    if (isError) {
+        return <span>Error: {error.message}</span>
+    }
     return (
-      <main>
-        <NavBar/>
         <div className='boxed margin-bottom-10'>
             <h1 className='boxed-header'>Settings</h1>
             <div className='wrapper'>
@@ -61,6 +53,14 @@ export default function Settings() {
                 <Button className='themed-button' size='md'>Save Changes</Button>
             </div>
         </div>
+    )
+}
+
+export default function Settings() {
+    return (
+      <main>
+        <NavBar />
+        <SettingsBox />
       </main>
     );
 }
