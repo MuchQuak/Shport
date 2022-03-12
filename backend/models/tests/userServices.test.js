@@ -117,8 +117,6 @@ beforeEach(async () => {
 
   userToAdd.setPassword("rwftg88ff2%f3le$aa");
   await userToAdd.save();
-  
-
 });
 
 afterEach(async () => {
@@ -127,7 +125,7 @@ afterEach(async () => {
 
 
 
-test("Fetching all users", async () => {
+test("Fetching all users -- Success", async () => {
   const users = await userServices.TESTGetUsers();
   expect(users).toBeDefined();
   expect(users.length).toBe(4);
@@ -489,4 +487,31 @@ test("Adding user w/o validation -- failure path with no email", async () => {
     };
   const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
+});
+
+test("Getting user Preferences -- successful path", async () => {
+  let user = {
+    "username": "HarryPotter",
+    "email": "youngWizard@gmail.com",
+    "password": "Srr$pffle%%44*5"
+  };
+
+  const resultUser = await userServices.validateAndSignUp(user);
+  const resultPref = await userServices.getUserPreferences(resultUser.username);
+  expect(resultUser.prefs).toStrictEqual(resultPref[0]._id);
+  expect(resultUser._id).toStrictEqual(resultPref[0].user);
+
+});
+
+test("Getting user Preferences -- Failure path", async () => {
+  let user = {
+    "username": "HarryPotter",
+    "email": "youngWizard@gmail.com",
+    "password": "Srr$pffle%%44*5"
+  };
+
+  const resultUser = await userServices.validateAndSignUp(user);
+  resultUser.username = "Ron";
+  const resultPref = await userServices.getUserPreferences(resultUser.username);
+  expect(resultPref.length).toBe(0);
 });

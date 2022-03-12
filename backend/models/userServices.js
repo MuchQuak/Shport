@@ -47,7 +47,7 @@ async function signUpUser(user){
             }
         });
 
-        userToAdd.prefId = userPrefs._id;
+        userToAdd.prefs = userPrefs._id;
 
         await userPrefs.save();
 
@@ -93,25 +93,21 @@ async function validateAndSignUp(u){
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
     const prefModel = getDbConnection().model("pref", Pref.schema);
+    
+    //return userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
 
-    try {
-        const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
-        return query;
-    } catch(error) {
-        console.log(error);
-        return false;
-    }
+    return findUserByUsername(name).then( result =>{
+        if(result.length == 1){
+            return prefModel.find({"user":result[0]._id});
+        }
+        return [];
+    } )
 }
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
     const userModel = getDbConnection().model("user", User.schema);
-    try {
-        return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
-    } catch(error) {
-        console.log(error);
-    }
-    return false;
+    return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
 }
 
 //just for testing

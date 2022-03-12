@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">48.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/33</span>
+                <span class='fraction'>16/33</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/9</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">48.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/33</span>
+                <span class='fraction'>16/33</span>
             </div>
         
             
@@ -137,7 +137,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,23 +183,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -252,24 +252,24 @@ class LeagueService {
         }
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync getGamesEndPoint(currentDate) {
-<span class="cstat-no" title="statement not covered" >        throw new Error("Abstract Method has no implementation");</span>
+    async getGamesEndPoint(currentDate) {
+        throw new Error("Abstract Method has no implementation");
     }
-<span class="fstat-no" title="function not covered" >    as</span>ync getStandingsEndPoint() {
-<span class="cstat-no" title="statement not covered" >        throw new Error("Abstract Method has no implementation");</span>
+    async getStandingsEndPoint() {
+        throw new Error("Abstract Method has no implementation");
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    fo</span>rmatDate(date){
-<span class="cstat-no" title="statement not covered" >        return date.getFullYear() + </span>
+    formatDate(date){
+        return date.getFullYear() + 
             String(date.getMonth() + 1).padStart(2, '0') + 
             String(date.getDate()).padStart(2, '0');
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    fo</span>rmatGamesData(responseData, date) {
-<span class="cstat-no" title="statement not covered" >        throw new Error("Abstract Method has no implementation");</span>
+    formatGamesData(responseData, date) {
+        throw new Error("Abstract Method has no implementation");
     }
-<span class="fstat-no" title="function not covered" >    fo</span>rmatStandingsData(responseData) {
-<span class="cstat-no" title="statement not covered" >        throw new Error("Abstract Method has no implementation");</span>
+    formatStandingsData(responseData) {
+        throw new Error("Abstract Method has no implementation");
     }
 }
 &nbsp;
@@ -280,7 +280,7 @@ exports.LeagueService = LeagueService;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Mar 11 2022 18:29:06 GMT-0800 (Pacific Standard Time)
+                at Fri Mar 11 2022 19:50:01 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="prettify.js"></script>
         <script>
