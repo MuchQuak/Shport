@@ -35,7 +35,7 @@ export default function SignUp(props) {
       "email": email,
       "username": username,
       "password": password,
-      "prefs" : {"sports" : {}}
+      //"prefs" : {"sports" : {}}
     }
 
     addUser(newUser).then(result => {
