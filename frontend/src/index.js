@@ -14,19 +14,23 @@ import SignUp from './SignUp';
 import LeaguePreferences from './LeaguePreferences';
 import TeamPreferences from './TeamPreferences';
 import Settings from './Settings';
+import {QueryClient, QueryClientProvider} from "react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
-   <BrowserRouter>
-   <Routes>
-     <Route path="/" element={<App />} />
-     <Route path="About" element={<About />} />
-     <Route path="Login" element={<Login />} />
-     <Route path="SignUp" element={<SignUp />} />
-     <Route path="LeaguePreferences" element={<LeaguePreferences />} />
-     <Route path="TeamPreferences" element={<TeamPreferences />} />
-     <Route path="Settings" element={<Settings/>} />
-   </Routes>
- </BrowserRouter>, 
-   document.getElementById('root'
-));
+   <QueryClientProvider client={queryClient}>
+       <BrowserRouter>
+           <Routes>
+             <Route path="/" element={<App />} />
+             <Route path="About" element={<About />} />
+             <Route path="Login" element={<Login />} />
+             <Route path="SignUp" element={<SignUp />} />
+             <Route path="LeaguePreferences" element={<LeaguePreferences />} />
+             <Route path="TeamPreferences" element={<TeamPreferences />} />
+             <Route path="Settings" element={<Settings/>} />
+           </Routes>
+       </BrowserRouter>
+   </QueryClientProvider>, document.getElementById('root')
+);
 

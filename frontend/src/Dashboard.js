@@ -84,8 +84,10 @@ export default function Dashboard(props) {
 
     const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs, news));
     return (
-        <div className='dashboard'>
-            {partitionItems(all_items)}
+        <div className='content'>
+            <div className='dashboard'>
+                {partitionItems(all_items)}
+            </div>
         </div>
     );
 }

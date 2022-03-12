@@ -98,6 +98,11 @@ export async function fetchSports(){
     }
 }
 
+export async function sportsQuery() {
+    const response = await axios.get('http://localhost:5000/sport');
+    return response;
+}
+
 export async function fetchNBAGames(dayOffset){
     try {
         const response = await axios.get('http://localhost:5000/NBA/games/' + dayOffset);

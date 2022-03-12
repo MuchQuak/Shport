@@ -234,6 +234,18 @@ test("Adding user w/ validation-- successful path", async () => {
   expect(result).toHaveProperty("_id");
 });
 
+test("Adding user w/ validation -- success path with valid id", async () => {
+  let user = {
+    "_id":"6132b9d47cefd0cc1916b6a9",
+    "username": "HarryPotter",
+    "email": "youngWizard@gmail.com",
+    "password": "dderr$pffle%%44*5",
+  };
+
+  const result = await userServices.validateAndSignUp(user);
+  expect(result).toBeTruthy();
+});
+
 test("Adding user w/ validation -- failure path with invalid id", async () => {
   let user = {
     "_id":"123",
@@ -498,8 +510,9 @@ test("Getting user Preferences -- successful path", async () => {
 
   const resultUser = await userServices.validateAndSignUp(user);
   const resultPref = await userServices.getUserPreferences(resultUser.username);
-  expect(resultUser.prefs).toStrictEqual(resultPref[0]._id);
-  expect(resultUser._id).toStrictEqual(resultPref[0].user);
+
+  expect(resultUser.prefs).toStrictEqual(resultPref[0].prefs._id);
+  expect(resultUser._id).toStrictEqual(resultPref[0].prefs.user);
 
 });
 
@@ -515,3 +528,21 @@ test("Getting user Preferences -- Failure path", async () => {
   const resultPref = await userServices.getUserPreferences(resultUser.username);
   expect(resultPref.length).toBe(0);
 });
+/*
+test("Setting user Preferences -- Success path", async () => {
+  let user = {
+    "username": "HarryPotter",
+    "email": "youngWizard@gmail.com",
+    "password": "Srr$pffle%%44*5"
+  };
+
+  let newPrefs = {
+
+  }
+
+  const resultUser = await userServices.validateAndSignUp(user);
+  const orginalPrefs = await userServices.getUserPreferences(resultUser.username);
+  const newPref = await userServices.setUserPreferences(resultUser.username, newPrefs );
+
+  expect(orginalPrefs).toBe(newPref);
+});*/

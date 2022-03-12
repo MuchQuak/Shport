@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-
 import {useLocation} from 'react-router-dom'; // Might need again for later
 import axios from 'axios';
 import './style/app.scss';
@@ -12,11 +11,12 @@ export default function App() {
     const [userPrefs, setUserPrefs] = useState({});
 
     useEffect(() => {
-        if(location.state != null && !loadedPref){
-            getPrefs();
-            setPref(true);
-        }
-        else if(location.state == null){
+        if (location.state != null && !loadedPref){
+            getPrefs().then(() => {
+                    setPref(true);
+                }
+            );
+        } else if (location.state === null){
             location.state = {};
             location.state.username = "[ Username ]";
         }
@@ -39,13 +39,10 @@ export default function App() {
         }
       }
 
-
     return (
       <>
           <NavBar/>
-          <div className='content'>
-              <Dashboard prefs={userPrefs}/>
-          </div>
+          <Dashboard prefs={userPrefs}/>
       </>
   );
 }
