@@ -62,9 +62,10 @@ async function signUpUser(user){
 
 async function validateAndSignUp(u) {
 
-    if(u.username == undefined || u.email == undefined || u.password == undefined, u.prefs == undefined){
+    if(u.username == undefined || u.email == undefined || u.password == undefined){
         return false;
     }
+    
     return await findUserByUsername(u.username).then( result =>{
         if(result.length === 0){
             return findUserByEmail(u.email).then(result2 =>{

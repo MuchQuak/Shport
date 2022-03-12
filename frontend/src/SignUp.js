@@ -53,12 +53,12 @@ export default function SignUp(props) {
       "email": email,
       "username": username,
       "password": password,
-      //"prefs" : {"sports" : {}}
     }
 
     addUser(newUser).then(result => {
+      console.log(result);
       if (result){
-        navigate('/LeaguePreferences', {replace: true, state: newUser});
+        navigate('/', {replace: true, state: newUser});
       } else {
         openAlert();
       }
