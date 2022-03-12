@@ -6,15 +6,19 @@ import Button from "react-bootstrap/Button";
 import { ReactDialogBox } from 'react-js-dialog-box'
 import 'react-js-dialog-box/dist/index.css'
 import './style/login-signup.scss';
+import Modal from "react-modal";
+import CloseButton from "react-bootstrap/CloseButton";
+import {modalStyle} from "./SignUp";
 
 const alertMessage = "The username or password you entered was incorrect. Please try again.";
 
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isAlertVisible, setVisible] = useState(false);
-
+  const [isAlertVisible, setAlertVisible] = useState(false);
   const navigate = useNavigate();
+
+  Modal.setAppElement('#root');
 
   function validateForm() {
     return username.length > 0 && password.length > 0;
@@ -32,7 +36,7 @@ export default function Login(props) {
     }
     catch (error){
       console.log(error);
-      setVisible(true);
+      openAlert();
       return error.data;
     }
   }
@@ -42,33 +46,35 @@ export default function Login(props) {
     validateLogin();
   }
 
-  function closeBox(){
-    setVisible(false);
-  }
+    function openAlert(){
+        setAlertVisible(true);
+    }
+
+    function closeAlert(){
+        setAlertVisible(false);
+    }
 
   return (
       <div className='centered-boxed-wrapper'>
           <h1 className="welcome">Welcome to Sports Dashboard</h1>
           <div className="boxed">
               <h1 className="boxed-header">Log In</h1>
-              {isAlertVisible && (
-                  <>
-                      <ReactDialogBox
-                          closeBox={closeBox}
-                          modalWidth='45%'
-                          headerBackgroundColor='#ff4747'
-                          headerTextColor='white'
-                          headerHeight='auto'
-                          closeButtonColor='white'
-                          bodyBackgroundColor='white'
-                          bodyTextColor='black'
-                          bodyHeight='auto'
-                          headerText='Failed to log in'
-                      >
+              <Modal isOpen={isAlertVisible} onRequestClose={closeAlert} style={modalStyle} contentLabel='alert'>
+                  <div className='dialog'>
+                      <div className='dialog-header'>
+                          <div className='leftSpace' />
+                          <div className='middleSpace'>
+                              <p>Failed to log in</p>
+                          </div>
+                          <div className='rightSpace'>
+                              <CloseButton className='closeButton' variant='white' aria-label='Hide' onClick={closeAlert}/>
+                          </div>
+                      </div>
+                      <div className='dialog-body'>
                           <p>{alertMessage}</p>
-                      </ReactDialogBox>
-                  </>
-              )}
+                      </div>
+                  </div>
+              </Modal>
               <Form onSubmit={handleSubmit}>
                   <Form.Group className="inputForm" size="lg" controlId="username">
                       <Form.Label>Username</Form.Label>

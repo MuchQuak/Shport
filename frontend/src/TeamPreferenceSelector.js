@@ -1,5 +1,4 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
-import SelectedTable from "./SelectedTable";
 import React, {useEffect, useState} from "react";
 import {fetchSports, getAllTeams, getTeamLogo} from "./SportHandler";
 import "./style/selector.scss";
@@ -14,7 +13,7 @@ const handleOnFocus = () => {}
 const formatResult = (item) => {
     return (
         <div className='logo-multiline-words'>
-            {getTeamLogo(item.sport, item.code, null)}
+            {getTeamLogo(item.sport, item.code, "selector-logo-container")}
             <div className='logo-text'>
                 <p>{item.city} {item.name}</p>
                 <p>{item.sport}</p>
@@ -75,7 +74,7 @@ export default function TeamPreferenceSelector(props) {
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                 </svg>
                             </Button>
-                            <div className='logo-multiline-words'>{getTeamLogo(row.sport, row.code, null)}{row.city} {row.name} ({row.sport})</div>
+                            <div className='logo-multiline-words'>{getTeamLogo(row.sport, row.code, 'selector-logo-container')}{row.city} {row.name} ({row.sport})</div>
                         </div>
                     );
                 })}

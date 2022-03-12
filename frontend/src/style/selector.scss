@@ -5,7 +5,8 @@
 }
 
 .league-option {
-    padding: 5px;
+    margin: 2px;
+    padding: 4px 10px;
     color: #FFFFFF;
     border-radius: 3px;
     cursor: pointer;
@@ -30,7 +31,7 @@
 }
 
 .wrapper {
-    margin: 0;
+    margin: 0 auto;
     width: 80%;
     display: flex;
     flex-flow: column wrap;
@@ -41,19 +42,19 @@
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: space-evenly;
+    gap: 2px;
     align-items: center;
     align-content: center;
-    gap: 10px;
 }
 
 .team-wrapper {
-    margin: 0 0 5px;
+    margin: 0 auto 10px;
     width: 100%;
 }
 
 .selected-table {
-    margin: 10px auto;
+    margin: 0;
     padding: 0;
     width: 100%;
     display: flex;
@@ -64,7 +65,7 @@
 }
 
 .selected-team {
-    margin: 0;
+    margin: 3px 0 0;
     padding: 0;
     display: flex;
     flex-flow: row nowrap;
@@ -100,4 +101,9 @@
 .inputForm label {
     margin: 0 auto;
     width: 100%;
+}
+
+#selector-logo-container {
+    width: 40px;
+    height: 40px;
 }

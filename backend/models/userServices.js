@@ -27,6 +27,9 @@ function setConnection(newConn){
 
 
 async function signUpUser(user){
+    if(user.username == undefined || user.email == undefined || user.password == undefined){
+        return false;
+    }
     //Users Collection
     const userModel = getDbConnection().model("user", User.schema);
     //Prefs Collection
@@ -59,7 +62,11 @@ async function signUpUser(user){
 
 async function validateAndSignUp(u) {
 
+<<<<<<< HEAD
     if(u.username == undefined || u.email == undefined || u.password == undefined, u.prefs == undefined){
+=======
+    if(u.username == undefined || u.email == undefined || u.password == undefined){
+>>>>>>> 2280073397114e738e49578a8878c6e51365c02e
         return false;
     }
 
@@ -89,7 +96,10 @@ async function validateAndSignUp(u) {
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
     const prefModel = getDbConnection().model("pref", Pref.schema);
+    
+    //return userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
 
+<<<<<<< HEAD
     try {
         const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query.select('prefs');
@@ -97,23 +107,24 @@ async function getUserPreferences(name) {
         console.log(error);
         return false;
     }
+=======
+    return findUserByUsername(name).then( result =>{
+        if(result.length == 1){
+            return prefModel.find({"user":result[0]._id});
+        }
+        return [];
+    } )
+>>>>>>> 2280073397114e738e49578a8878c6e51365c02e
 }
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
     const prefModel = getDbConnection().model("pref", Pref.schema);
     const userModel = getDbConnection().model("user", User.schema);
+     
+    const user = userModel.findOne({'username': name});
 
-    try {
-        //return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
-        const user = userModel.findOne({'username': name});
-
-        return prefModel.findOneAndUpdate({'user': user._id}, {'sports': newPrefs.sports});
-
-    } catch(error) {
-        console.log(error);
-    }
-    return false;
+    return prefModel.findOneAndUpdate({'user': user._id}, {'sports': newPrefs.sports})
 }
 
 //just for testing
@@ -127,7 +138,6 @@ async function getUsers(username, email) {
         } else if (email && username === undefined) {
             result = await findUserByEmail(email);
         }
-
         return result;
     } catch(error) {
         console.log(error);

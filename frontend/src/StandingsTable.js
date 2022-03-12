@@ -34,7 +34,7 @@ function Conf(league, standings, conference, props) {
             <div className='standing' id={index} key={index}>
                 <div className='standing-left'>
                     <pre className='standing-rank'>{row.rank.toString().padEnd(2, ' ')}</pre>
-                    <div className={classes(row.code, league, props)}>{getTeamLogo(league, row.code, "standing-logo")}{row.name}</div>
+                    <div className={classes(row.code, league, props)}>{getTeamLogo(league, row.code, "standing-logo-container")}{row.name}</div>
                 </div>
                 <div className='standing-right'>
                     <p>{row.wins}-{row.losses}</p>
