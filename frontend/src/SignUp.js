@@ -58,7 +58,7 @@ export default function SignUp(props) {
     addUser(newUser).then(result => {
       console.log(result);
       if (result){
-        navigate('/', {replace: true, state: newUser});
+        navigate('/LeaguePreferences', {replace: true, state: newUser});
       } else {
         openAlert();
       }
