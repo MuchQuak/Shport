@@ -27,10 +27,9 @@ function setConnection(newConn){
 
 
 async function signUpUser(user){
-    if(user.username == undefined || user.email == undefined || user.password == undefined || user.prefs == undefined){
+    if(user.username == undefined || user.email == undefined || user.password == undefined){
         return false;
     }
-
     //Users Collection
     const userModel = getDbConnection().model("user", User.schema);
     //Prefs Collection
@@ -63,7 +62,7 @@ async function signUpUser(user){
 
 async function validateAndSignUp(u){
 
-    if(u.username == undefined || u.email == undefined || u.password == undefined || u.prefs == undefined){
+    if(u.username == undefined || u.email == undefined || u.password == undefined){
         return false;
     }
 
@@ -126,7 +125,6 @@ async function getUsers(username, email) {
         } else if (email && username === undefined) {
             result = await findUserByEmail(email);
         }
-
         return result;
     } catch(error) {
         console.log(error);
