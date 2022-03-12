@@ -44,7 +44,7 @@ async function signUpUser(user){
             }
         });
 
-        userToAdd.prefId = userPrefs._id;
+        userToAdd.prefs = userPrefs._id;
 
         await userPrefs.save();
 
@@ -57,9 +57,9 @@ async function signUpUser(user){
     }
 }
 
-async function validateAndSignUp(u){
+async function validateAndSignUp(u) {
 
-    if(u.username == undefined || u.email == undefined || u.password == undefined || u.prefs == undefined){
+    if(u.username == undefined || u.email == undefined || u.password == undefined, u.prefs == undefined){
         return false;
     }
 
@@ -84,7 +84,6 @@ async function validateAndSignUp(u){
         return false;
 
     } );
-
 }
 
 async function getUserPreferences(name) {
@@ -93,7 +92,7 @@ async function getUserPreferences(name) {
 
     try {
         const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
-        return query;
+        return query.select('prefs');
     } catch(error) {
         console.log(error);
         return false;
@@ -102,9 +101,15 @@ async function getUserPreferences(name) {
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
+    const prefModel = getDbConnection().model("pref", Pref.schema);
     const userModel = getDbConnection().model("user", User.schema);
+
     try {
-        return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
+        //return userModel.findOneAndUpdate({'username': name}, {'prefs': newPrefs});
+        const user = userModel.findOne({'username': name});
+
+        return prefModel.findOneAndUpdate({'user': user._id}, {'sports': newPrefs.sports});
+
     } catch(error) {
         console.log(error);
     }
@@ -159,7 +164,6 @@ async function login(user){
         return false;
     } );
 }
-
 
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
