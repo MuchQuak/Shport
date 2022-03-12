@@ -510,8 +510,9 @@ test("Getting user Preferences -- successful path", async () => {
 
   const resultUser = await userServices.validateAndSignUp(user);
   const resultPref = await userServices.getUserPreferences(resultUser.username);
-  expect(resultUser.prefs).toStrictEqual(resultPref[0]._id);
-  expect(resultUser._id).toStrictEqual(resultPref[0].user);
+
+  expect(resultUser.prefs).toStrictEqual(resultPref[0].prefs._id);
+  expect(resultUser._id).toStrictEqual(resultPref[0].prefs.user);
 
 });
 
