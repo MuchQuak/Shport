@@ -1,7 +1,28 @@
 import React, {useEffect, useState} from "react";
-import {fetchSports, getLabels} from "./SportHandler";
-import LeagueOption from "./LeagueOption";
+import {fetchSports, getLabels, getLeagueLogo} from "./SportHandler";
 import "./style/selector.scss";
+
+export function LeagueOption(props){
+    if (!props || !props.league || !props.click) {
+        return null;
+    }
+    const icon = getLeagueLogo(props.league);
+    const className = () => {
+        if (props.disabled === true) {
+            return ' league-option-inactive';
+        } else if (props.active === true) {
+            return ' league-option-active'
+        }
+        return ''
+    }
+    return (
+        <div className={'league-option noselect' + className()} onClick={props.click}>
+            <div className='logo-name-record'>
+                {icon}{props.league}
+            </div>
+        </div>
+    );
+}
 
 export default function LeaguePreferenceSelector(props) {
     const [sports, setSports] = useState([]);

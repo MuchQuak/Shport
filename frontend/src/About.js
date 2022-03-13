@@ -11,7 +11,7 @@ export function GitHubUser(props) {
     const link = () => {
         return "https://github.com/" + username();
     }
-    return <a href={link()} style={{textDecoration: "none"}}><div className='team-member'><img src={link() + ".png"}  alt='GitHub picture'/><p>{name()}</p></div></a>
+    return <a href={link()} style={{textDecoration: "none"}}><div className='team-member'><img src={link() + ".png"}  alt='GitHub'/><p>{name()}</p></div></a>
 }
 
 export default function About() {

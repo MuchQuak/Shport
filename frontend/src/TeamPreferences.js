@@ -7,7 +7,6 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import './style/login-signup.scss';
 import {fetchSports, getTeamLogo} from "./SportHandler";
 import {setUserPrefs} from "./UserHandler";
-import TeamPreferenceSelector from "./TeamPreferenceSelector";
 
 function itemsEqual(a, b) {
     return a.name === b.name && a.city === b.city && a.sport === b.sport && a.code === b.code;

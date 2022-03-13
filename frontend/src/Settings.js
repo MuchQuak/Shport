@@ -2,19 +2,19 @@ import NavBar from './NavBar';
 import {useLocation} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useState} from "react";
-import {all_prefs, fromLocation, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
+import {fromLocation, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import {sportsQuery} from "./SportHandler";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";
 
-function prefDisplay(prefs) {
+/*function prefDisplay(prefs) {
     if (prefs && Object.keys(prefs).length > 0) {
         return <p className='nomargin' style={{color:'#000000'}}>{JSON.stringify(prefs)}</p>;
     }
     return <p className='nomargin' style={{color:'#000000'}}>No preferences found!</p>;
-}
+}*/
 
 function SettingsBox() {
     const location = useLocation();

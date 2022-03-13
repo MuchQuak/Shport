@@ -65,7 +65,7 @@ export default function Game(props) {
             props.prefs.sports[league].teams.includes(String(current_code))){
             classN = classN + ' favorite';
         }
-        if (parseInt(current) > parseInt(other) && game.status === 2) {
+        if (parseInt(current) > parseInt(other) && parseInt(game.status) === 2) {
             classN = classN + ' underline';
         }
         return classN;
