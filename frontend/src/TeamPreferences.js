@@ -98,6 +98,7 @@ export default function TeamPreferences(){
         "email": location.state.email,
         "prefs": createPrefObject()
       }
+      
       setUserPrefs(newUser).then(r => {
           if (r.status === 201) {
               navigate('/', {replace:true, state: {"username": location.state.username}});

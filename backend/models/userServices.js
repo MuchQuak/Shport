@@ -109,9 +109,9 @@ async function setUserPreferences(name, newPrefs) {
     const prefModel = getDbConnection().model("pref", Pref.schema);
     const userModel = getDbConnection().model("user", User.schema);
      
-    const user = userModel.findOne({'username': name});
+    const user = await findUserByUsername(name);
 
-    return prefModel.findOneAndUpdate({'user': user._id}, {'sports': newPrefs.sports})
+    return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})
 }
 
 //just for testing
