@@ -91,10 +91,7 @@ async function validateAndSignUp(u) {
 
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
-    const prefModel = getDbConnection().model("pref", Pref.schema);
     
-    //return userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
-
     try {
         const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query.select('prefs');
@@ -106,9 +103,7 @@ async function getUserPreferences(name) {
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
-    const prefModel = getDbConnection().model("pref", Pref.schema);
-    const userModel = getDbConnection().model("user", User.schema);
-     
+    const prefModel = getDbConnection().model("pref", Pref.schema);     
     const user = await findUserByUsername(name);
 
     return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})
@@ -122,7 +117,7 @@ async function getUsers(username, email) {
             return await userModel.find();
         } else if (username && email === undefined) {
             return await findUserByUsername(username);
-        } else{// (email && username === undefined) {
+        } else{
             return await findUserByEmail(email);
         }
     } catch(error) {
