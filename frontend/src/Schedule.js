@@ -68,6 +68,9 @@ export default function Schedule(props) {
         });
     }
     const leaguesFollowed = getInterestedSports(props.prefs);
+    if (leaguesFollowed.length === 0) {
+        return <p className='nomargin bold'>No Leagues Followed</p>;
+    }
     function getTabIndex(tabNames) {
         if (tabNames.length <= 2) {
             return 0;

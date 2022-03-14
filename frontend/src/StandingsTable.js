@@ -79,6 +79,9 @@ export default function StandingsTable(props) {
         return null;
     }
     const leaguesFollowed = getSportsFollowed(props.prefs);
+    if (leaguesFollowed.length === 0) {
+        return <p className='nomargin bold'>No Leagues Followed</p>;
+    }
     const tabs = leaguesFollowed.map((league, index) => {
         const sportInfo = byCode(props.sports, league);
         if (!sportInfo || sportInfo.length === 0 || !sportInfo["divisions"]) {

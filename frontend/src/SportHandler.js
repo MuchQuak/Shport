@@ -176,11 +176,13 @@ export function getLabels(sports) {
 export function getAllTeams(sports) {
     const allTeams = [];
     Object.keys(sports).forEach((key) => {
-        const teams = sports[key].teams.map((team) => {
-            team.sport = sports[key].sport;
-            return team;
-        });
-        allTeams.push(...teams);
+        if (sports[key].hasOwnProperty("teams")) {
+            const teams = sports[key].teams.map((team) => {
+                team.sport = sports[key].sport;
+                return team;
+            });
+            allTeams.push(...teams);
+        }
     });
     return allTeams;
 }

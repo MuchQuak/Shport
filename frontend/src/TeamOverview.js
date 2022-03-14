@@ -64,28 +64,24 @@ function tabs(prefs, standings, tabNames) {
 
 export default function TeamOverview(props) {
     const [standings, setStandings] = useState({});
-
     useEffect(() => {
+        const temp = {};
         fetchNBAStandings().then( result => {
-            const temp = standings;
             if (result)
                 temp["NBA"] = result;
-            setStandings(temp);
         });
         fetchNHLStandings().then( result => {
-            const temp = standings;
             if (result)
                 temp["NHL"] = result;
-            setStandings(temp);
         });
-    }, [standings] );
-
-    if (!props.prefs) {
+        setStandings(temp);
+    }, [] );
+    if (!props || !props.prefs) {
         return null;
     }
     const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);
     if (leaguesFollowed.length === 0 || Object.keys(standings).length === 0) {
-        return null;
+        return <p className='nomargin bold'>No teams followed</p>;
     }
     const icons = leaguesFollowed.map((league, index) => {
         return getLeagueLogo(String(league));

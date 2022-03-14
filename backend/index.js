@@ -83,8 +83,7 @@ app.post('/login', async(req, res) => {
 // gettingPreferences
 app.post('/preferences', async(req, res) => {
     const user = req.body;
-    let userPref = await userServices.getUserPreferences(user.username);
-
+    const userPref = await userServices.getUserPreferences(user.username);
     if (userPref){
         res.status(201).send(userPref);
     } else {
@@ -96,8 +95,7 @@ app.post('/preferences', async(req, res) => {
 // changing preferences
 app.patch('/preferences', async(req, res) => {
     const user = req.body;
-    let userPref = await userServices.setUserPreferences(user.username, user.prefs);
-
+    const userPref = await userServices.setUserPreferences(user.username, user.prefs);
     if (userPref){
         res.status(201).send(userPref);
     } else {

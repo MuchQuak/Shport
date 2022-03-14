@@ -11,8 +11,6 @@ import App from './App';
 import About from './About';
 import Login from './Login';
 import SignUp from './SignUp';
-import LeaguePreferences from './LeaguePreferences';
-import TeamPreferences from './TeamPreferences';
 import Settings from './Settings';
 import {QueryClient, QueryClientProvider} from "react-query";
 
@@ -26,8 +24,6 @@ ReactDOM.render(
              <Route path="About" element={<About />} />
              <Route path="Login" element={<Login />} />
              <Route path="SignUp" element={<SignUp />} />
-             <Route path="LeaguePreferences" element={<LeaguePreferences />} />
-             <Route path="TeamPreferences" element={<TeamPreferences />} />
              <Route path="Settings" element={<Settings/>} />
            </Routes>
        </BrowserRouter>
