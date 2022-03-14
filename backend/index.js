@@ -25,7 +25,6 @@ app.post('/users', async (req, res) => {
     const savedUser = await userServices.validateAndSignUp(user);
 
     if (savedUser) {
-
         res.status(201).send();
     } else {
         res.status(500).end();
