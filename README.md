@@ -12,7 +12,7 @@ To gain access you must have a .env file in backend folder with variables:
 
 Code Coverage Report
 03/14/2022
-----------------------|---------|----------|---------|---------|---------------------
+
 File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s   
 ----------------------|---------|----------|---------|---------|---------------------
 All files             |    76.5 |    72.22 |   85.29 |    76.5 |                     
