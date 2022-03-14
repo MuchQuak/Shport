@@ -19,9 +19,7 @@ import {getAllTeams} from "./SportHandler";
 export const all_prefs = {
     sports: {
         following: true,
-        NBA: {
-            teams: ["LAL", "CHI", "SAC"] // for testing purposes, we could even expand this to be the master list however...
-        },
+        NBA: {},
         NFL: {},
         NHL: {},
         MLB: {}

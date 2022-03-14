@@ -8,9 +8,9 @@ import Schedule from './Schedule';
 import Article from './Article';
 import {fetchNBAStandings, fetchSports} from "./SportHandler";
 import {fetchNews} from "./NewsHandler";
-import {getSportsWithOneTeamFollowed} from "./PrefHandler";
+import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "./PrefHandler";
 
-function default_items(prefs, sports, stats) {
+function default_items(prefs, sports) {
     return [
         (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>
             <Schedule className='nbaSchedule' sports={sports}/>
@@ -60,29 +60,34 @@ function partitionItems(items) {
 }
 
 export default function Dashboard(props) {
-    const [stats, setStats] = useState({});
-    const [sports, setSports] = useState([]);
-    const [news, setNews] = useState([]);
-    
+    const [sports, setSports] = useState([])
+    const [news, setNews] = useState([])
+
+    const prefs = props.prefs ? props.prefs : all_prefs;
+
     useEffect(() => {
-        fetchNBAStandings().then( result => {
-            if (result)
-                setStats(result);
-        });
         fetchSports().then( result => {
             if (result)
                 setSports(result);
         });
-        fetchNews(getSportsWithOneTeamFollowed(props.prefs)).then( result => {
+    }, [] );
+    useEffect(() => {
+        fetchNews(getInterestedSports(prefs)).then( result => {
             if (result)
                 setNews(result);
-        })
-    }, [] );
-    if (!props || !props.prefs) {
-        return (<p className='nomargin'>Loading...</p>);
-    }
+        });
+    }, [prefs] );
 
-    const all_items = default_items(props.prefs, sports, stats).concat(article_items(props.prefs, news));
+    if (!props || !props.prefs) {
+        return (
+            <div className='content'>
+                <div className='dashboard'>
+                    <p className='nomargin'>Loading...</p>
+                </div>
+            </div>
+        );
+    }
+    const all_items = default_items(prefs, sports).concat(article_items(prefs, news));
     return (
         <div className='content'>
             <div className='dashboard'>
