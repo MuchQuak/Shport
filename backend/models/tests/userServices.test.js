@@ -528,7 +528,7 @@ test("Getting user Preferences -- Failure path", async () => {
   const resultPref = await userServices.getUserPreferences(resultUser.username);
   expect(resultPref.length).toBe(0);
 });
-/*
+
 test("Setting user Preferences -- Success path", async () => {
   let user = {
     "username": "HarryPotter",
@@ -537,12 +537,25 @@ test("Setting user Preferences -- Success path", async () => {
   };
 
   let newPrefs = {
-
-  }
+    "sports": {
+        "NBA": {
+          "teams": [],
+          "following":true
+        },
+        "NHL": {
+          "teams": ["55"],
+          "following":true
+        }, 
+    }
+  };
 
   const resultUser = await userServices.validateAndSignUp(user);
   const orginalPrefs = await userServices.getUserPreferences(resultUser.username);
-  const newPref = await userServices.setUserPreferences(resultUser.username, newPrefs );
+  await userServices.setUserPreferences(resultUser.username, newPrefs );
+  const newPref = await userServices.getUserPreferences(resultUser.username);
 
-  expect(orginalPrefs).toBe(newPref);
-});*/
+  expect(orginalPrefs[0].prefs.user).toStrictEqual(newPref[0].prefs.user);
+  expect(orginalPrefs[0].prefs._id).toStrictEqual(newPref[0].prefs._id);
+  expect(orginalPrefs[0].prefs.sports).not.toStrictEqual(newPref[0].prefs.sports)
+
+});
