@@ -11,6 +11,7 @@ To gain access you must have a .env file in backend folder with variables:
 
 
 Code Coverage Report
+
 03/14/2022
 
 File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s   
@@ -22,4 +23,3 @@ All files             |    76.5 |    72.22 |   85.29 |    76.5 |
  sportSchema.js       |     100 |      100 |     100 |     100 | 
  userSchema.js        |     100 |      100 |     100 |     100 | 
  userServices.js      |   93.82 |    97.22 |     100 |   93.82 | 15,100-101,125-126 
-----------------------|---------|----------|---------|---------|---------------------
