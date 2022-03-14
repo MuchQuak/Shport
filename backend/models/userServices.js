@@ -91,6 +91,7 @@ async function validateAndSignUp(u) {
 
 async function getUserPreferences(name) {
     const userModel = getDbConnection().model("user", User.schema);
+    const prefModel = getDbConnection().model("pref", Pref.schema);
     
     try {
         const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
