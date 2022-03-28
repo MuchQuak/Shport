@@ -5,7 +5,7 @@ import axios from 'axios';
 import NavBar from './dashboard/NavBar';
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
-import About from "./About";
+import About from "./dashboard/about/About";
 
 export default function App() {
     const location = useLocation();
