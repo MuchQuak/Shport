@@ -20,11 +20,9 @@ ReactDOM.render(
    <QueryClientProvider client={queryClient}>
        <BrowserRouter>
            <Routes>
-             <Route path="/" element={<App />} />
-             <Route path="About" element={<About />} />
-             <Route path="Login" element={<Login />} />
-             <Route path="SignUp" element={<SignUp />} />
-             <Route path="Settings" element={<Settings/>} />
+             <Route path="/*" element={<App />} />
+             <Route path="login" element={<Login />} />
+             <Route path="signup" element={<SignUp />} />
            </Routes>
        </BrowserRouter>
    </QueryClientProvider>, document.getElementById('root')

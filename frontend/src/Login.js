@@ -85,7 +85,7 @@ export default function Login(props) {
                   <div className='button-wrapper'>
                     <Button className="themed-button margin-bottom-5" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
                   </div>
-                  <Link to="/SignUp" className='signup-link'>
+                  <Link to="/signup" className='signup-link'>
                       <div className='button-wrapper'>
                         <Button className="themed-button" id="signup" size="lg" type="button">Sign Up</Button>
                       </div>

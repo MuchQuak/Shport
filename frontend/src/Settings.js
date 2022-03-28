@@ -1,4 +1,3 @@
-import NavBar from './NavBar';
 import {useLocation, useNavigate} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
@@ -109,13 +108,8 @@ export default function Settings() {
             location.state.username === undefined || location.state.username === "" ||
             location.state.username === null || location.state.username === "[ Username ]"){
             // Navigate away if no user found
-            navigate('/SignUp', {replace:true});
+            navigate('/signup', {replace:true});
         }
     });
-    return (
-      <main>
-        <NavBar />
-        <SettingsBox />
-      </main>
-    );
+    return <SettingsBox />;
 }

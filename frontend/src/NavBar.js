@@ -33,15 +33,15 @@ export default function NavBar() {
             <div className="header-text-link" onClick={() => navigate('/', {replace: true, state: location.state})}><h1 className="header-text">DASHBOARD</h1></div>
           </div>
           <div className="header-right">
-            <p className="header-link" id='header-about' onClick={() => navigate('/About', {replace: true, state: location.state})}>About Us</p>
+            <p className="header-link" id='header-about' onClick={() => navigate('/about', {replace: true, state: location.state})}>About Us</p>
             <Dropdown>
               <Dropdown.Toggle className="header-link" id="dropdown-basic">
                 {icon()}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Header>Hello, {location.state.username}</Dropdown.Header>
-                <Dropdown.Item onClick={() => navigate('/Settings', {replace: true, state: location.state})}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate('/Login', {replace: true, state: null})}>Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/settings', {replace: true, state: location.state})}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/login', {replace: true, state: null})}>Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

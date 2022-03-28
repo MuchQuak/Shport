@@ -58,7 +58,7 @@ export default function SignUp(props) {
     addUser(newUser).then(result => {
       console.log(result);
       if (result){
-        navigate('/Settings', {replace: true, state: newUser});
+        navigate('/settings', {replace: true, state: newUser});
       } else {
         openAlert();
       }
@@ -107,7 +107,7 @@ export default function SignUp(props) {
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
                     <Button className="themed-button" id="signup-button" size="lg" type="submit" disabled={!validateForm()}>Next</Button>
-                    <Link to="/Login">
+                    <Link to="/login">
                         <p className="have-account noselect">Already registered? Sign in</p>
                     </Link>
                 </Form>

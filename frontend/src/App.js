@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {useLocation} from 'react-router-dom'; // Might need again for later
+import {Route, Routes, useLocation} from 'react-router-dom'; // Might need again for later
 import axios from 'axios';
 import './style/app.scss';
 import NavBar from './NavBar';
 import Dashboard from "./Dashboard";
+import Settings from "./Settings";
+import About from "./About";
 
 export default function App() {
     const location = useLocation();
@@ -40,9 +42,13 @@ export default function App() {
       }
 
     return (
-      <>
-          <NavBar/>
-          <Dashboard prefs={userPrefs}/>
-      </>
-  );
+        <>
+            <NavBar/>
+            <Routes>
+                <Route index element={<Dashboard prefs={userPrefs}/>} />
+                <Route path="settings" element={<Settings/>} />
+                <Route path="about" element={<About/>} />
+            </Routes>
+        </>
+    );
 }
