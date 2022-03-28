@@ -1,4 +1,4 @@
-import "./style/item.scss";
+import "../style/item.scss";
 import React, {useState} from 'react';
 import CloseButton from "react-bootstrap/CloseButton";
 

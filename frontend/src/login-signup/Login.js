@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-import './style/login-signup.scss';
+import '../style/login-signup.scss';
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import {modalStyle} from "./SignUp";

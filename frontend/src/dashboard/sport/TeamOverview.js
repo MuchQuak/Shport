@@ -1,6 +1,6 @@
-import './style/overview.scss';
-import {getSportsWithOneTeamFollowed, getTeamsFollowedForSport} from "./PrefHandler";
-import Tabbed from "./Tabbed";
+import '../../style/overview.scss';
+import {getSportsWithOneTeamFollowed, getTeamsFollowedForSport} from "../../settings/PrefHandler";
+import Tabbed from "../Tabbed";
 import {capitalizeFirstLetter, fetchNBAStandings, fetchNHLStandings, getLeagueLogo, getTeamLogo} from "./SportHandler";
 import {useEffect, useState} from "react";
 

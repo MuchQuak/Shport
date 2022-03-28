@@ -1,10 +1,10 @@
-import './style/settings.scss'
+import '../style/settings.scss'
 import {useLocation, useNavigate} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
 import {fromLocation, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
-import {fetchSports, getLabels, sportsQuery} from "./SportHandler";
+import {fetchSports, getLabels, sportsQuery} from "../dashboard/sport/SportHandler";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";

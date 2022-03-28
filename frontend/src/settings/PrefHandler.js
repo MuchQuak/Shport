@@ -14,7 +14,7 @@ prefs: {
 }
 */
 
-import {getAllTeams} from "./SportHandler";
+import {getAllTeams} from "../dashboard/sport/SportHandler";
 
 export const all_prefs = {
     sports: {

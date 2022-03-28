@@ -1,24 +1,14 @@
 import React, {useEffect, useState} from "react";
-import './style/dashboard.scss';
+import '../style/dashboard.scss';
 import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
-<<<<<<< HEAD:frontend/src/dashboard/Dashboard.js
 import StandingsTable from './sport/StandingsTable';
-import Schedule from '../Schedule';
+import Schedule from './sport/Schedule';
 import Article from './news/Article';
-import {fetchNBAStandings, fetchSports} from "../SportHandler";
+import {fetchNBAStandings, fetchSports} from "./sport/SportHandler";
 import {fetchNews} from "./news/NewsHandler";
-import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "../PrefHandler";
-=======
-import StandingsTable from './StandingsTable';
-import Schedule from './Schedule';
-import Article from './Article';
-import {fetchSports} from "./SportHandler";
-import {fetchNews} from "./NewsHandler";
-import {all_prefs, getInterestedSports} from "./PrefHandler";
->>>>>>> 2ac40d9b84989206b2976c79873366fa6a884356:frontend/src/Dashboard.js
-
+import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "../settings/PrefHandler";
 function default_items(prefs, sports) {
     return [
         (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>

@@ -1,13 +1,6 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import React, {useEffect, useState} from "react";
-<<<<<<< HEAD:frontend/src/settings/TeamPreferenceSelector.js
-import {fetchSports, getAllTeams, getTeamLogo} from "../SportHandler";
-import "./style/selector.scss";
-=======
-import {fetchSports, getAllTeams, getTeamLogo} from "./SportHandler";
->>>>>>> 2ac40d9b84989206b2976c79873366fa6a884356:frontend/src/TeamPreferenceSelector.js
-import Button from "react-bootstrap/Button";
-
+import {fetchSports, getAllTeams, getTeamLogo} from "../dashboard/sport/SportHandler";
 const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.

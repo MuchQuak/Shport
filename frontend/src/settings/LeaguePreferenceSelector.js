@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from "react";
-<<<<<<< HEAD:frontend/src/settings/LeaguePreferenceSelector.js
-import {fetchSports, getLabels, getLeagueLogo} from "../SportHandler";
-import "./style/selector.scss";
-=======
-import {fetchSports, getLabels, getLeagueLogo} from "./SportHandler";
-import "./style/settings.scss";
->>>>>>> 2ac40d9b84989206b2976c79873366fa6a884356:frontend/src/LeaguePreferenceSelector.js
+import {fetchSports, getLabels, getLeagueLogo} from "../dashboard/sport/SportHandler";
 
 export function LeagueOption(props){
     if (!props || !props.league || !props.click) {

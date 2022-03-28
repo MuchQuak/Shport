@@ -1,6 +1,6 @@
-import './style/game-schedule.scss';
-import Tabbed from "./Tabbed";
-import {getInterestedSports, getPreferredSportIndex} from "./PrefHandler";
+import '../../style/game-schedule.scss';
+import Tabbed from "../Tabbed";
+import {getInterestedSports, getPreferredSportIndex} from "../../settings/PrefHandler";
 import {useEffect, useState} from "react";
 import {
     capitalizeFirstLetter,

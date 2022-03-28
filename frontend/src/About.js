@@ -1,4 +1,4 @@
-import InfoContent from "./InfoContent";
+import InfoContent from "./dashboard/InfoContent";
 
 export function GitHubUser(props) {
     const username = () => {

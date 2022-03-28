@@ -1,4 +1,4 @@
-import "./style/tab.scss";
+import "../style/tab.scss";
 import React from 'react';
 
 export function Tab(props) {

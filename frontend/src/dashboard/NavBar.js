@@ -1,5 +1,5 @@
-import './style/navbar.scss';
-import './style/app.scss';
+import '../style/navbar.scss';
+import '../style/app.scss';
 import {useLocation, useNavigate} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 

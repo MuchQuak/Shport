@@ -1,6 +1,6 @@
-import "./style/standings.scss";
-import Tabbed from "./Tabbed";
-import {getSportsFollowed} from "./PrefHandler";
+import "../../style/standings.scss";
+import Tabbed from "../Tabbed";
+import {getSportsFollowed} from "../../settings/PrefHandler";
 import {
     byCode,
     fetchNBAStandings,
