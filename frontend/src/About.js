@@ -1,4 +1,3 @@
-import NavBar from './NavBar';
 import InfoContent from "./InfoContent";
 
 export function GitHubUser(props) {

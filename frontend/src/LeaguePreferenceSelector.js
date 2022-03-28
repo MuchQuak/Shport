@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {fetchSports, getLabels, getLeagueLogo} from "./SportHandler";
-import "./style/selector.scss";
+import "./style/settings.scss";
 
 export function LeagueOption(props){
     if (!props || !props.league || !props.click) {

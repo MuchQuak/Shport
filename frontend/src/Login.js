@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import './style/login-signup.scss';
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -83,11 +82,11 @@ export default function Login(props) {
                       <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </Form.Group>
                   <div className='button-wrapper'>
-                    <Button className="themed-button margin-bottom-5" id="login" size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                    <button className="themed-button margin-bottom-5" id="login" type="submit" disabled={!validateForm()}>Login</button>
                   </div>
                   <Link to="/signup" className='signup-link'>
                       <div className='button-wrapper'>
-                        <Button className="themed-button" id="signup" size="lg" type="button">Sign Up</Button>
+                        <button className="themed-button" id="signup" size="lg" type="button">Sign Up</button>
                       </div>
                   </Link>
               </Form>

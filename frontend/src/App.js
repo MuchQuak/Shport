@@ -1,7 +1,7 @@
+import './style/app.scss';
 import React, {useEffect, useState} from "react";
 import {Route, Routes, useLocation} from 'react-router-dom'; // Might need again for later
 import axios from 'axios';
-import './style/app.scss';
 import NavBar from './NavBar';
 import Dashboard from "./Dashboard";
 import Settings from "./Settings";

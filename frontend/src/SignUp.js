@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import { useNavigate, Link } from "react-router-dom";
 import {addUser} from "./UserHandler";
 import './style/login-signup.scss';
@@ -106,7 +105,7 @@ export default function SignUp(props) {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
-                    <Button className="themed-button" id="signup-button" size="lg" type="submit" disabled={!validateForm()}>Next</Button>
+                    <button className="themed-button" id="signup-button" type="submit" disabled={!validateForm()}>Next</button>
                     <Link to="/login">
                         <p className="have-account noselect">Already registered? Sign in</p>
                     </Link>

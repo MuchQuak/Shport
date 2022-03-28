@@ -6,9 +6,9 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from './StandingsTable';
 import Schedule from './Schedule';
 import Article from './Article';
-import {fetchNBAStandings, fetchSports} from "./SportHandler";
+import {fetchSports} from "./SportHandler";
 import {fetchNews} from "./NewsHandler";
-import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "./PrefHandler";
+import {all_prefs, getInterestedSports} from "./PrefHandler";
 
 function default_items(prefs, sports) {
     return [

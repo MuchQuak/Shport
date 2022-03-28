@@ -167,11 +167,13 @@
 
 .themed-button {
     margin: 0 auto;
+    padding: 5px;
     width: 100%;
     height: auto;
     border: 2px solid theme.$current-border;
     border-radius: 8px;
     background-color: theme.$current;
+    color: #FFFFFF;
 }
 
 .themed-button:disabled {

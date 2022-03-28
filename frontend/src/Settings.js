@@ -1,3 +1,4 @@
+import './style/settings.scss'
 import {useLocation, useNavigate} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
@@ -94,7 +95,7 @@ function SettingsBox() {
                 <p className='settings-category-header'>Preferences</p>
                 <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
                 <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-                <Button className='themed-button' size='md' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</Button>
+                <button className='themed-button' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
             </div>
         </div>
     );
