@@ -1,4 +1,4 @@
-import NavBar from './NavBar';
+import './style/settings.scss'
 import {useLocation, useNavigate} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
@@ -95,7 +95,7 @@ function SettingsBox() {
                 <p className='settings-category-header'>Preferences</p>
                 <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
                 <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-                <Button className='themed-button' size='md' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</Button>
+                <button className='themed-button' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
             </div>
         </div>
     );
@@ -109,13 +109,8 @@ export default function Settings() {
             location.state.username === undefined || location.state.username === "" ||
             location.state.username === null || location.state.username === "[ Username ]"){
             // Navigate away if no user found
-            navigate('/SignUp', {replace:true});
+            navigate('/signup', {replace:true});
         }
     });
-    return (
-      <main>
-        <NavBar />
-        <SettingsBox />
-      </main>
-    );
+    return <SettingsBox />;
 }

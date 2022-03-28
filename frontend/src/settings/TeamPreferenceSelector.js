@@ -1,7 +1,11 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import React, {useEffect, useState} from "react";
+<<<<<<< HEAD:frontend/src/settings/TeamPreferenceSelector.js
 import {fetchSports, getAllTeams, getTeamLogo} from "../SportHandler";
 import "./style/selector.scss";
+=======
+import {fetchSports, getAllTeams, getTeamLogo} from "./SportHandler";
+>>>>>>> 2ac40d9b84989206b2976c79873366fa6a884356:frontend/src/TeamPreferenceSelector.js
 import Button from "react-bootstrap/Button";
 
 const handleOnSearch = (string, results) => {
@@ -69,11 +73,11 @@ export default function TeamPreferenceSelector(props) {
                 {selectedTeams.map((row, index) => {
                     return (
                         <div className='selected-team' key={index}>
-                            <Button className='remove-button' variant='danger' onClick={() => removeSelected(index)}>
+                            <button className='remove-button' onClick={() => removeSelected(index)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16">
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                 </svg>
-                            </Button>
+                            </button>
                             <div className='logo-multiline-words'>{getTeamLogo(row.sport, row.code, 'selector-logo-container')}{row.city} {row.name} ({row.sport})</div>
                         </div>
                     );

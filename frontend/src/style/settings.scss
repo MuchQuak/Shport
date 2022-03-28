@@ -77,6 +77,15 @@
 .remove-button {
     margin: 0;
     padding: 0;
+    background-color: #eb4034;
+    height: auto;
+    border: 2px solid #d12115;
+    border-radius: 8px;
+    color: #FFFFFF;
+}
+
+.remove-button:hover {
+    background-color: #d12115;
 }
 
 .save-button {

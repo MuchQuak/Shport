@@ -1,6 +1,11 @@
 import Button from "react-bootstrap/Button";
+<<<<<<< HEAD:frontend/src/settings/SelectedTable.js
 import {getTeamLogo} from "../SportHandler";
 import "./style/selector.scss";
+=======
+import {getTeamLogo} from "./SportHandler";
+import "./style/settings.scss";
+>>>>>>> 2ac40d9b84989206b2976c79873366fa6a884356:frontend/src/SelectedTable.js
 import React from "react";
 
 export default function SelectedTable(props) {
