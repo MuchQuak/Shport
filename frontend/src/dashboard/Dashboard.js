@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import './style/dashboard.scss';
-import TeamOverview from "./TeamOverview";
+import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
 import ThirdContent from "./ThirdContent";
-import StandingsTable from './StandingsTable';
-import Schedule from './Schedule';
-import Article from './Article';
-import {fetchNBAStandings, fetchSports} from "./SportHandler";
-import {fetchNews} from "./NewsHandler";
-import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "./PrefHandler";
+import StandingsTable from './sport/StandingsTable';
+import Schedule from '../Schedule';
+import Article from './news/Article';
+import {fetchNBAStandings, fetchSports} from "../SportHandler";
+import {fetchNews} from "./news/NewsHandler";
+import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "../PrefHandler";
 
 function default_items(prefs, sports) {
     return [

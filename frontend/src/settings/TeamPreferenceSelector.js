@@ -1,6 +1,6 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import React, {useEffect, useState} from "react";
-import {fetchSports, getAllTeams, getTeamLogo} from "./SportHandler";
+import {fetchSports, getAllTeams, getTeamLogo} from "../SportHandler";
 import "./style/selector.scss";
 import Button from "react-bootstrap/Button";
 

@@ -1,5 +1,5 @@
 import Button from "react-bootstrap/Button";
-import {getTeamLogo} from "./SportHandler";
+import {getTeamLogo} from "../SportHandler";
 import "./style/selector.scss";
 import React from "react";
 

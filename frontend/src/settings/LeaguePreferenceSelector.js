@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {fetchSports, getLabels, getLeagueLogo} from "./SportHandler";
+import {fetchSports, getLabels, getLeagueLogo} from "../SportHandler";
 import "./style/selector.scss";
 
 export function LeagueOption(props){

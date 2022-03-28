@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1647274038402" clover="3.2.0">
-  <project timestamp="1647274038402" name="All files">
+<coverage generated="1647277814707" clover="3.2.0">
+  <project timestamp="1647277814707" name="All files">
     <metrics statements="183" coveredstatements="140" conditionals="54" coveredconditionals="39" methods="34" coveredmethods="29" elements="271" coveredelements="208" complexity="0" loc="183" ncloc="183" packages="1" files="6" classes="6"/>
     <file name="leagueService.js" path="C:\personal\school\cal_poly\winter_2022\CSC308\projects\308-309_Project\backend\models\leagueService.js">
       <metrics statements="33" coveredstatements="16" conditionals="8" coveredconditionals="1" methods="9" coveredmethods="7"/>

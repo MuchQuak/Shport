@@ -8,7 +8,7 @@ import {fetchSports, getLabels, sportsQuery} from "./SportHandler";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";
-import {setUserPrefs} from "./UserHandler";
+import {setUserPrefs} from "../login-signup/UserHandler";
 
 function createPrefsObject(allLeagues, leagues, teams) {
     const leagueLabels = getLabels(allLeagues);

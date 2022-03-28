@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getImageSrc} from "./AssetHandler";
+import {getImageSrc} from "./dashboard/AssetHandler";
 
 export async function fetchNBAStandings(){
     try {
