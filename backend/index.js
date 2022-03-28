@@ -6,14 +6,14 @@ app.use(cors());
 app.use(express.json());
 
 // Models
-const nhlServices = require('./models/nhlServices');
-const nbaServices = require('./models/nbaServices');
-const mlbServices = require('./models/mlbServices');
-const nflServices = require('./models/nflServices');
-const news = require('./models/newsServices');
-const userServices = require('./models/userServices');
-const sportInfoServices = require("./models/sportInfoServices");
-const leagueServices = require('./models/leagueService');
+const nhlServices = require('./models/sport/nhlServices');
+const nbaServices = require('./models/sport/nbaServices');
+const mlbServices = require('./models/sport/mlbServices');
+const nflServices = require('./models/sport/nflServices');
+const news = require('./models/news/newsServices');
+const userServices = require('./models/user/userServices');
+const sportInfoServices = require("./models/sport/sportInfoServices");
+const leagueServices = require('./models/sport/leagueService');
 
 app.get('/', (req, res) => {
     res.send("Backend Landing");

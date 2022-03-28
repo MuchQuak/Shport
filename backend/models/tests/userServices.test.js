@@ -1,8 +1,8 @@
 /* -- Testing userServices */
 const mongoose = require("mongoose");
-const UserSchema = require("../userSchema");
-const PrefSchema = require("../prefSchema");
-const userServices = require("../userServices");
+const UserSchema = require("../user/userSchema");
+const PrefSchema = require("../user/prefSchema");
+const userServices = require("../user/userServices");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
 let mongoServer;

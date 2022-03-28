@@ -1,4 +1,4 @@
-const leagues = require('../leagueService');
+const leagues = require('../sport/leagueService');
 const axios = require("axios");
 
 

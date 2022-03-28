@@ -1,8 +1,8 @@
 /* -- Testing sportInfoServices */
 const mongoose = require("mongoose");
 const axios = require('axios');
-const sportSchema = require("../sportSchema");
-const sportsInfoServices = require("../sportInfoServices");
+const sportSchema = require("../sport/sportSchema");
+const sportsInfoServices = require("../sport/sportInfoServices");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
 let mongoServer;

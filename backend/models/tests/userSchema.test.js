@@ -1,6 +1,6 @@
 /* -- Testing userSchema */
-const User = require('../userSchema');
-const Pref = require("../prefSchema");
+const User = require('../user/userSchema');
+const Pref = require("../user/prefSchema");
 
 test('TESTING: Entire User Schema', () => {
 
