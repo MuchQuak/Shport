@@ -122,12 +122,12 @@ async function getUsers(username, email) {
 
 async function findUserByUsername(name){
     const userModel = getDbConnection().model("user", User.schema);
-    return await userModel.find({'username': name});
+    return userModel.find({'username': name});
 }
 
 async function findUserByEmail(email){
     const userModel = getDbConnection().model("user", User.schema);
-    return await userModel.find({'email': email});
+    return userModel.find({'email': email});
 }
 
 async function findUserById(id){
@@ -135,7 +135,7 @@ async function findUserById(id){
     if(mongoose.Types.ObjectId.isValid(id)){
         let obj = new mongoose.Types.ObjectId(id);
         const userModel = getDbConnection().model("user", User.schema);
-        return await userModel.find({'_id': obj});
+        return userModel.find({'_id': obj});
     }
     else{
         return undefined;
@@ -143,7 +143,7 @@ async function findUserById(id){
 }
 async function login(user){
     return await findUserByUsername(user.username).then( result =>{
-        if(result.length == 1){
+        if(result.length === 1){
             return result[0].validPassword(user.password);
         }
         return false;
