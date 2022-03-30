@@ -1,5 +1,7 @@
 const cors = require('cors');
 const express = require('express');
+const jwt = require('jsonwebtoken');
+
 const app = express();
 const port = 5000;
 app.use(cors());
@@ -15,19 +17,35 @@ const userServices = require('./models/user/userServices');
 const sportInfoServices = require("./models/sport/sportInfoServices");
 const leagueServices = require('./models/sport/leagueService');
 
+function generateAccessToken(username) {
+    return jwt.sign({"username": username}, process.env.TOKEN_SECRET, { expiresIn: "60s" });
+}
+
 app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
 
-// User db calls
-app.post('/users', async (req, res) => {
-    const user = req.body;
-    const savedUser = await userServices.validateAndSignUp(user);
 
-    if (savedUser) {
-        res.status(201).send();
+
+// User db calls
+app.post('/signup', async (req, res) => {
+    const user = req.body;
+
+    if(!user.username && !user.password && !user.email) {
+        res.status(400).send("Bad Request: Invalid input data")
     } else {
-        res.status(500).end();
+        if(!(await userServices.validate(user))) {
+            res.status(409).send('Username or Email mail already taken')
+        } else {
+            const savedUser = await userServices.signUpUser(user);
+
+            if (savedUser) {
+                const token = generateAccessToken(user.username);
+                res.status(201).send(token);
+            } else {
+                res.status(500).end("Server Error");
+            }
+        }
     }
 });
 

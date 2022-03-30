@@ -27,7 +27,7 @@ export default function Login(props) {
         const response = await axios.post(url, {"username":username,"password":password});
         
         if (response.status === 201){
-          navigate('../', {replace:true, state:{username}});    
+          navigate('../', {replace:true, state:{/* token */}});    
           return response.data;
         }
     }
@@ -43,13 +43,13 @@ export default function Login(props) {
     validateLogin();
   }
 
-    function openAlert(){
-        setAlertVisible(true);
-    }
+  function openAlert(){
+    setAlertVisible(true);
+  }
 
-    function closeAlert(){
-        setAlertVisible(false);
-    }
+  function closeAlert(){
+    setAlertVisible(false);
+  }
 
   return (
       <div className='centered-boxed-wrapper'>

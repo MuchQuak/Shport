@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function addUser(user){
     try {
-        const response = await axios.post('http://localhost:5000/users', user);
+        const response = await axios.post('http://localhost:5000/signup', user);
         return response;
     }
     catch (error){

@@ -26,10 +26,7 @@ function setConnection(newConn){
   }
 
 
-async function signUpUser(user){
-    if(user.username == undefined || user.email == undefined || user.password == undefined){
-        return false;
-    }
+async function signUpUser(user) {
     //Users Collection
     const userModel = getDbConnection().model("user", User.schema);
     //Prefs Collection
@@ -60,22 +57,18 @@ async function signUpUser(user){
     }
 }
 
-async function validateAndSignUp(u) {
-
-    if(u.username == undefined || u.email == undefined || u.password == undefined){
-        return false;
-    }
+async function validate(u) {
     
     return await findUserByUsername(u.username).then( result =>{
         if(result.length === 0){
             return findUserByEmail(u.email).then(result2 =>{
                 if(u._id == undefined && result2.length === 0){
-                    return signUpUser(u);
+                    return true;
                 }
                 else if(result2.length === 0){
                     return findUserById(u._id).then( result3 => {
                         if(result3 !== undefined && result3.length === 0){
-                            return signUpUser(u);
+                            return true;
                         }
                         return false;
                     })
@@ -165,5 +158,5 @@ exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
-exports.validateAndSignUp = validateAndSignUp;
+exports.validate = validate;
 exports.login = login;
