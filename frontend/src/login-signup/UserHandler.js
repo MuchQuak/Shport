@@ -25,15 +25,13 @@ export async function getPrefs(auth_token){
     try {
         const url = 'http://localhost:5000/preferences';
         const config = {headers: {"auth_token": auth_token}};
-        await axios.get(url, config)
-            .then(res => {
-                if (res.status === 201){
-                    return res.data;
-                }
-                throw Error("Could not retrieve preferences.")
-            });
-    }
-    catch (error){
+        await axios.get(url, config).then(res => {
+            if (res.status === 201){
+                return res.data;
+            }
+            throw Error("Error " + res.status + ": Could not retrieve preferences.")
+        });
+    } catch (error){
         console.log(error);
         return all_prefs;
         //return error.data;

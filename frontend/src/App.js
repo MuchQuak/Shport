@@ -21,16 +21,15 @@ export default function App() {
     // change to auth token once implemented
     const auth_token = "not_yet_implemented";
     // change to username retrieval using token
-    const username = "[ Username ]"
+    const username = "Guest"
     useEffect(() => {
-        const temp = {
-            info: {
-                name: username,
-            },
-            prefs: {}
-        }
         getPrefs(auth_token).then(p => {
-            temp.prefs = p;
+            const temp = {
+                info: {
+                    name: username,
+                },
+                prefs: p
+            }
             setUser(temp);
         });
     }, [] );

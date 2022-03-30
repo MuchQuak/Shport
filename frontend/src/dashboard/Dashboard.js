@@ -76,11 +76,27 @@ export default function Dashboard(props) {
         });
     }, [user] );
 
-    if (!props || !user || !user.prefs) {
+    if (!props) {
         return (
             <div className='content'>
                 <div className='dashboard'>
                     <p className='nomargin'>Loading...</p>
+                </div>
+            </div>
+        );
+    } else if (!user) {
+        return (
+            <div className='content'>
+                <div className='dashboard'>
+                    <p className='nomargin'>Loading user...</p>
+                </div>
+            </div>
+        );
+    } else if (!user.prefs) {
+        return (
+            <div className='content'>
+                <div className='dashboard'>
+                    <p className='nomargin'>Loading prefs...</p>
                 </div>
             </div>
         );
