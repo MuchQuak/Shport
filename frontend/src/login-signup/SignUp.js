@@ -55,7 +55,8 @@ export default function SignUp(props) {
     }
 
     addUser(newUser).then(result => {
-      console.log(result);
+      console.log(result.data); // THIS IS TOKEN
+
       if (result){
         navigate('/settings', {replace: true, state: newUser});
       } else {
