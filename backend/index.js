@@ -133,9 +133,11 @@ app.post('/login', async(req, res) => {
 });
 
 // gettingPreferences
-app.post('/preferences', async(req, res) => {
-    const user = req.body;
-    const userPref = await userServices.getUserPreferences(user.username);
+app.get('/preferences', async(req, res) => {
+    //const user = req.body;
+    const username = req.headers["username"];
+    const userPref = await userServices.getUserPreferences(username);
+    
     if (userPref){
         res.status(201).send(userPref);
     } else {

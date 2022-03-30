@@ -27,7 +27,11 @@ export default function App() {
     async function getPrefs(){
         try {
             const url = 'http://localhost:5000/preferences';
-            const response = await axios.post(url, {"username":location.state.username});
+            const config = {
+                headers: { username: location.state.username}
+            }
+            //Change preference call to get and moved username to header
+            const response = await axios.get(url, config);
             
             if (response.status === 201){
                 setUserPrefs(response.data[0].prefs);
