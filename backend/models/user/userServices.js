@@ -27,7 +27,7 @@ function setConnection(newConn){
 
 
 async function signUpUser(user){
-    if(user.username == undefined || user.email == undefined || user.password == undefined){
+    if(user.username === undefined || user.email === undefined || user.password === undefined){
         return false;
     }
     //Users Collection
@@ -61,15 +61,14 @@ async function signUpUser(user){
 }
 
 async function validateAndSignUp(u) {
-
-    if(u.username == undefined || u.email == undefined || u.password == undefined){
+    if (u.username === undefined || u.email === undefined || u.password === undefined){
         return false;
     }
     
     return await findUserByUsername(u.username).then( result =>{
         if(result.length === 0){
             return findUserByEmail(u.email).then(result2 =>{
-                if(u._id == undefined && result2.length === 0){
+                if(u._id === undefined && result2.length === 0){
                     return signUpUser(u);
                 }
                 else if(result2.length === 0){
@@ -129,12 +128,12 @@ async function getUsers(username, email) {
 
 async function findUserByUsername(name){
     const userModel = getDbConnection().model("user", User.schema);
-    return await userModel.find({'username': name});
+    return userModel.find({'username': name});
 }
 
 async function findUserByEmail(email){
     const userModel = getDbConnection().model("user", User.schema);
-    return await userModel.find({'email': email});
+    return userModel.find({'email': email});
 }
 
 async function findUserById(id){
@@ -142,15 +141,15 @@ async function findUserById(id){
     if(mongoose.Types.ObjectId.isValid(id)){
         let obj = new mongoose.Types.ObjectId(id);
         const userModel = getDbConnection().model("user", User.schema);
-        return await userModel.find({'_id': obj});
+        return userModel.find({'_id': obj});
     }
     else{
         return undefined;
     }
 }
 async function login(user){
-    return await findUserByUsername(user.username).then( result =>{
-        if(result.length == 1){
+    return await findUserByUsername(user.username).then(result =>{
+        if(result.length === 1){
             return result[0].validPassword(user.password);
         }
         return false;
