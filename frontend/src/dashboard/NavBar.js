@@ -3,15 +3,12 @@ import '../style/app.scss';
 import {useLocation, useNavigate} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 
-export default function NavBar() {
-  const location = useLocation();
+export default function NavBar(props) {
   const navigate = useNavigate();
+  const user = props.user;
 
-  if (location.state == null) {
-    location.state = {};
-    location.state.username = "[ Username ]";
-  }
-    
+
+
   function gear() {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" className="bi bi-gear settings-icon nomargin" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -31,18 +28,18 @@ export default function NavBar() {
     <div className="header">
         <div className="header-nav">
           <div className="header-left">
-            <div className="header-text-link" onClick={() => navigate('/', {replace: true, state: location.state})}><h1 className="header-text">DASHBOARD</h1></div>
+            <div className="header-text-link" onClick={() => navigate('/')}><h1 className="header-text">DASHBOARD</h1></div>
           </div>
           <div className="header-right">
-            <p className="header-link" id='header-about' onClick={() => navigate('/about', {replace: true, state: location.state})}>About Us</p>
+            <p className="header-link" id='header-about' onClick={() => navigate('/about')}>About Us</p>
             <Dropdown className="nomargin">
               <Dropdown.Toggle id="header-dropdown">
                 {icon()}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Header>Hello, {location.state.username}</Dropdown.Header>
-                <Dropdown.Item onClick={() => navigate('/settings', {replace: true, state: location.state})}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate('/login', {replace: true, state: null})}>Sign Out</Dropdown.Item>
+                <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
+                <Dropdown.Item onClick={() => navigate('/settings')}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate('/login')}>Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

@@ -34,9 +34,14 @@ export default function App() {
         });
     }, [] );
 
+    if (!user || !user.info) { //  || !user.prefs too, but causes issues right now
+        // Don't pass it down yet. Causes errors if passed before useEffect loads it.
+        return <span>App loading...</span>;
+    }
+
     return (
         <>
-            <NavBar/>
+            <NavBar user={user}/>
             <Routes>
                 <Route index element={<Dashboard user={user}/>} />
                 <Route path="settings" element={<Settings user={user} setUser={setUser}/>} />
