@@ -1,56 +1,46 @@
 import './style/app.scss';
 import React, {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from 'react-router-dom'; // Might need again for later
-import axios from 'axios';
+import {Route, Routes} from 'react-router-dom';
 import NavBar from './dashboard/NavBar';
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
+import {getPrefs} from "./login-signup/UserHandler";
+
+/*
+const user = {
+    info: {
+        name: "",
+    },
+    prefs: {} // prefs object
+}
+*/
 
 export default function App() {
-    const location = useLocation();
-    const [loadedPref, setPref] = useState(false); 
-    const [userPrefs, setUserPrefs] = useState({});
-
+    const [user, setUser] = useState({});
+    // change to auth token once implemented
+    const auth_token = "not_yet_implemented";
+    // change to username retrieval using token
+    const username = "[ Username ]"
     useEffect(() => {
-        if (location.state != null && !loadedPref){
-            getPrefs().then(() => {
-                    setPref(true);
-                }
-            );
-        } else if (location.state === null){
-            location.state = {};
-            location.state.username = "[ Username ]";
+        const temp = {
+            info: {
+                name: username,
+            },
+            prefs: {}
         }
-      }, [location, loadedPref, userPrefs] );
-
-    async function getPrefs(){
-        try {
-            const url = 'http://localhost:5000/preferences';
-            const config = {
-                headers: { username: location.state.username}
-            }
-            //Change preference call to get and moved username to header
-            const response = await axios.get(url, config);
-            
-            if (response.status === 201){
-                setUserPrefs(response.data[0].prefs);
-                location.state.prefs = response.data[0].prefs;
-                return response.data;
-            }
-        }
-        catch (error){
-          console.log(error);
-          return error.data;
-        }
-      }
+        getPrefs(auth_token).then(p => {
+            temp.prefs = p;
+            setUser(temp);
+        });
+    }, [] );
 
     return (
         <>
             <NavBar/>
             <Routes>
-                <Route index element={<Dashboard prefs={userPrefs}/>} />
-                <Route path="settings" element={<Settings/>} />
+                <Route index element={<Dashboard user={user}/>} />
+                <Route path="settings" element={<Settings user={user} setUser={setUser}/>} />
                 <Route path="about" element={<About/>} />
             </Routes>
         </>

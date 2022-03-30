@@ -59,10 +59,9 @@ function partitionItems(items) {
 }
 
 export default function Dashboard(props) {
-    const [sports, setSports] = useState([])
-    const [news, setNews] = useState([])
-
-    const prefs = props.prefs ? props.prefs : all_prefs;
+    const [sports, setSports] = useState([]);
+    const [news, setNews] = useState([]);
+    const user = props.user;
 
     useEffect(() => {
         fetchSports().then( result => {
@@ -71,13 +70,13 @@ export default function Dashboard(props) {
         });
     }, [] );
     useEffect(() => {
-        fetchNews(getInterestedSports(prefs)).then( result => {
+        fetchNews(getInterestedSports(user.prefs)).then(result => {
             if (result)
                 setNews(result);
         });
-    }, [prefs] );
+    }, [user] );
 
-    if (!props || !props.prefs) {
+    if (!props || !user || !user.prefs) {
         return (
             <div className='content'>
                 <div className='dashboard'>
@@ -86,7 +85,7 @@ export default function Dashboard(props) {
             </div>
         );
     }
-    const all_items = default_items(prefs, sports).concat(article_items(prefs, news));
+    const all_items = default_items(user.prefs, sports).concat(article_items(user.prefs, news));
     return (
         <div className='content'>
             <div className='dashboard'>
