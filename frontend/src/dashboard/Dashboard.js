@@ -6,9 +6,10 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from './sport/StandingsTable';
 import Schedule from './sport/Schedule';
 import Article from './news/Article';
-import {fetchNBAStandings, fetchSports} from "./sport/SportHandler";
+import {sportsQuery} from "./sport/SportHandler";
 import {fetchNews} from "./news/NewsHandler";
-import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "../settings/PrefHandler";
+import {getInterestedSports} from "../settings/PrefHandler";
+import {useQuery} from "react-query";
 function default_items(prefs, sports) {
     return [
         (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>
@@ -63,23 +64,23 @@ export default function Dashboard(props) {
     const [news, setNews] = useState([]);
     const user = props.user;
 
-    useEffect(() => {
-        fetchSports().then( result => {
-            if (result)
-                setSports(result);
-        });
-    }, [] );
+    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
+        onSuccess: (data) => {
+            setSports(data);
+        }
+    });
     useEffect(() => {
         fetchNews(getInterestedSports(user.prefs)).then(result => {
             if (result)
                 setNews(result);
         });
-    }, [user] );
+    }, [] );
 
-    if (!props) {
+    if (!props || sportsResult.isLoading) {
         return (
             <div className='content'>
                 <div className='dashboard'>
+                    {}
                     <p className='nomargin'>Loading...</p>
                 </div>
             </div>

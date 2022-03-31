@@ -87,7 +87,7 @@ export function NFL_logo(abbreviation, divId) {
     );
 }
 
-export async function fetchSports(){
+/*export async function fetchSports(){
     try {
         const response = await axios.get('http://localhost:5000/sport');
         return response.data;
@@ -96,11 +96,11 @@ export async function fetchSports(){
         console.log(error);
         return false;
     }
-}
+}*/
 
 export async function sportsQuery() {
-    const response = await axios.get('http://localhost:5000/sport');
-    return response;
+    const response = await axios.get('http://localhost:5000/sport')
+    return response.data;
 }
 
 export async function fetchNBAGames(dayOffset){

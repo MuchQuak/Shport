@@ -4,7 +4,7 @@ import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
 import {getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
-import {fetchSports, getLabels, sportsQuery} from "../dashboard/sport/SportHandler";
+import {getLabels, sportsQuery} from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";
 import {setUserPrefs} from "../login-signup/UserHandler";
@@ -40,18 +40,13 @@ function SettingsBox(props) {
     const navigate = useNavigate();
     const [selectedLeagues, setSelectedLeagues] = useState([]);
     const [selectedTeams, setSelectedTeams] = useState([]);
-    const user = props.user;
     const [sports, setSports] = useState([]);
-    useEffect(() => {
-        fetchSports().then(result => {
-            if (result)
-                setSports(result);
-        });
-    }, [] );
-    const { isLoading, isError, error } = useQuery('sports', sportsQuery, {
+    const user = props.user;
+    const { isLoading, isError, error } = useQuery('sports', () => sportsQuery, {
         onSuccess: (data) => {
+            setSports(data);
             setSelectedLeagues(getSportsFollowed(user.prefs));
-            setSelectedTeams(getAllTeamsFollowed(user.prefs, data.data));
+            setSelectedTeams(getAllTeamsFollowed(user.prefs, data));
         }
     });
     if (isLoading) {

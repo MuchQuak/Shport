@@ -5,7 +5,10 @@ import NavBar from './dashboard/NavBar';
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
-import {getPrefs} from "./login-signup/UserHandler";
+import {prefsQuery} from "./login-signup/UserHandler";
+import {useQuery} from "react-query";
+import {sportsQuery} from "./dashboard/sport/SportHandler";
+import {getAllTeamsFollowed, getSportsFollowed} from "./settings/PrefHandler";
 
 /*
 const user = {
@@ -22,21 +25,22 @@ export default function App() {
     const auth_token = "not_yet_implemented";
     // change to username retrieval using token
     const username = "Guest"
-    useEffect(() => {
-        getPrefs(auth_token).then(p => {
+    const { isLoading, isError, error } = useQuery(['prefs', auth_token], () => prefsQuery(auth_token), {
+        onSuccess: (data) => {
             const temp = {
                 info: {
                     name: username,
                 },
-                prefs: p
+                prefs: data
             }
             setUser(temp);
-        });
-    }, [] );
+        }
+    });
 
-    if (!user || !user.info) { //  || !user.prefs too, but causes issues right now
-        // Don't pass it down yet. Causes errors if passed before useEffect loads it.
+    if (isLoading) {
         return <span>App loading...</span>;
+    } else if (isError) {
+        return <span>App error: {error}...</span>;
     }
 
     return (
