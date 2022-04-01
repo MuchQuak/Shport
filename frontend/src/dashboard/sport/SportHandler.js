@@ -88,9 +88,17 @@ export function byCode(sports, code) {
     return sports.find(sport => sport["sport"] === code);
 }
 
+Date.prototype.isDST = function () {
+    return this.getTimezoneOffset() <
+        Math.max(new Date(this.getFullYear(), 0, 1).getTimezoneOffset(), new Date(this.getFullYear(), 6, 1).getTimezoneOffset());
+}
+
 export function UTCtoLocal(UTC) {
     const today = new Date(UTC);
     let hours = today.getHours();
+    if (today.isDST()) {
+        hours -= 1;
+    }
     const period = hours > 12 ? "PM" : "AM";
     if (hours > 12) {
         hours -= 12;
