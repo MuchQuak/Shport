@@ -10,15 +10,16 @@ import {sportsQuery} from "./sport/SportHandler";
 import {fetchNews} from "./news/NewsHandler";
 import {getInterestedSports} from "../settings/PrefHandler";
 import {useQuery} from "react-query";
+
 function default_items(prefs, sports) {
     return [
-        (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>
+        (<CloseableItem title='Schedule' prefs={prefs} sports={sports} key={0}>
             <Schedule className='nbaSchedule' sports={sports}/>
         </CloseableItem>),
-        (<CloseableItem title='Teams' prefs={prefs}>
+        (<CloseableItem title='Teams' prefs={prefs} key={1}>
             <TeamOverview sports={sports}/>
         </CloseableItem>),
-        (<CloseableItem title='Standings' prefs={prefs} sports={sports}>
+        (<CloseableItem title='Standings' prefs={prefs} sports={sports} key={2}>
             <StandingsTable />
         </CloseableItem>)
     ]
@@ -28,13 +29,11 @@ function default_items(prefs, sports) {
 
 function article_items(prefs, news) {
     //console.log("prefs " + prefs);
-    const temp = news.map((article, idx) =>
+    return news.map((article, idx) =>
         (<CloseableItem title={article.publishBy} key={article.url}>
             <Article news={article} key={article.url}/>
         </CloseableItem>)
-        
-    )
-    return temp;
+    );
 }
 
 function partitionItems(items) {

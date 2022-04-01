@@ -84,30 +84,30 @@ export default function Schedule(props) {
         }
         return 1;
     }
-    function tab(league){
+    function tab(league, index){
         if (games.hasOwnProperty(league) && Object.keys(games[league]).length > 0) {
             const dates = ["yesterday", "today", "tomorrow"];
             const league_games = games[league];
             return (
-                <Tabbed titles={dates.map((d) => {return capitalizeFirstLetter(d)})} default={getTabIndex(dates)}>
-                    {dates.map((d) => {
+                <Tabbed titles={dates.map(capitalizeFirstLetter)} default={getTabIndex(dates)} key={index}>
+                    {dates.map((d, idx) => {
                         if (!(league_games.hasOwnProperty(d))) {
                             return null;
                         }
-                        return <div className='schedule'>{Games(league_games[d], league)}</div>
+                        return <div className='schedule' key={idx}>{Games(league_games[d], league)}</div>
                     })}
                 </Tabbed>
             );
         }
-        return <p className='nomargin'>No {league} content.</p>;
+        return <p className='nomargin' key={index}>No {league} content.</p>;
     }
     const icons = leaguesFollowed.map((league) => {
         return getLeagueLogo(league);
     });
     return (
         <Tabbed titles={leaguesFollowed} icons={icons} default={getPreferredSportIndex(props.prefs, leaguesFollowed)}>
-            {leaguesFollowed.map((league) => {
-                return tab(league);
+            {leaguesFollowed.map((league, idx) => {
+                return tab(league, idx);
             })}
         </Tabbed>
     );
