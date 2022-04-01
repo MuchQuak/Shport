@@ -2,9 +2,9 @@ import axios from "axios";
 import {getImageSrc} from "../AssetHandler";
 
 export async function sportsQuery() {
-    const { data } =  await axios.get('http://localhost:5000/sport');
-    console.log(data);
-    return data;
+    return await axios.get('http://localhost:5000/sport').then((res) => {
+        return res.data;
+    });
 }
 
 export async function standingsQuery(sport){
@@ -134,7 +134,6 @@ export function capitalizeFirstLetter(string) {
 }
 
 export function getLabels(sports) {
-    console.log(sports);
     return sports.map((sport) => {
         return sport["sport"];
     });

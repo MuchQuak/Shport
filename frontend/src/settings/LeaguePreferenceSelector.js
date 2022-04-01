@@ -33,7 +33,6 @@ export default function LeaguePreferenceSelector(props) {
     function setSelectedLeagues(select) {
         props.setSelected(select);
     }
-    console.log(sports);
     const labels = getLabels(sports);
     function checkSportOption(token) {
         if (selectedLeagues.includes(token)) {
