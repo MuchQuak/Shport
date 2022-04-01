@@ -1,5 +1,4 @@
 import axios from "axios";
-import {all_prefs} from "../settings/PrefHandler";
 
 export async function addUser(user){
     try {

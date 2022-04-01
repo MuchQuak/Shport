@@ -1,5 +1,5 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {getAllTeams, getTeamLogo, sportsQuery} from "../dashboard/sport/SportHandler";
 import {useQuery} from "react-query";
 const handleOnSearch = (string, results) => {

@@ -1,5 +1,5 @@
 import './style/app.scss';
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Route, Routes} from 'react-router-dom';
 import NavBar from './dashboard/NavBar';
 import Dashboard from "./dashboard/Dashboard";
@@ -7,8 +7,6 @@ import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
 import {prefsQuery} from "./login-signup/UserHandler";
 import {useQuery} from "react-query";
-import {sportsQuery} from "./dashboard/sport/SportHandler";
-import {getAllTeamsFollowed, getSportsFollowed} from "./settings/PrefHandler";
 
 /*
 const user = {

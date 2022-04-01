@@ -3,12 +3,11 @@ import Tabbed from "../Tabbed";
 import {getSportsFollowed} from "../../settings/PrefHandler";
 import {
     byCode,
-    fetchNBAStandings,
-    fetchNHLStandings,
     getLeagueLogo,
-    getTeamLogo
+    getTeamLogo, standingsQuery
 } from "./SportHandler";
-import {useEffect, useState} from "react";
+import {useState} from "react";
+import {useQuery} from "react-query";
 
 function get_teams(standings, conference) {
     const team_stats = [];
@@ -59,23 +58,21 @@ function classes(code, league, props) {
 
 export default function StandingsTable(props) {
     const [standings, setStandings] = useState({});
-
-    useEffect(() => {
-        fetchNBAStandings().then( result => {
-            const temp = standings;
-            if (result)
-                temp["NBA"] = result;
-                setStandings(temp);
-        });
-        fetchNHLStandings().then( result => {
-            const temp = standings;
-            if (result)
-                temp["NHL"] = result;
-                setStandings(temp);
-        });
-    }, [standings] );
-
-    if (!props || !props.prefs || !props.sports) {
+    const nba = useQuery(['NBAStandings', "NBA"], () => standingsQuery("NBA"), {
+        onSuccess: (data) => {
+            const temp = { ...standings };
+            temp["NBA"] = data;
+            setStandings(temp);
+        }
+    });
+    const nhl = useQuery(['NHLStandings', "NHL"], () => standingsQuery("NHL"), {
+        onSuccess: (data) => {
+            const temp = { ...standings };
+            temp["NHL"] = data;
+            setStandings(temp);
+        }
+    });
+    if (nba.isLoading || nhl.isLoading || !props || !props.prefs || !props.sports) {
         return null;
     }
     const leaguesFollowed = getSportsFollowed(props.prefs);

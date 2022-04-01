@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {getLabels, getLeagueLogo, sportsQuery} from "../dashboard/sport/SportHandler";
 import {useQuery} from "react-query";
 

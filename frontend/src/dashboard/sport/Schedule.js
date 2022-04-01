@@ -1,58 +1,62 @@
 import '../../style/game-schedule.scss';
 import Tabbed from "../Tabbed";
 import {getInterestedSports, getPreferredSportIndex} from "../../settings/PrefHandler";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {
     capitalizeFirstLetter,
-    fetchNBAGames,
-    fetchNHLGames,
+    gamesQuery,
     getLeagueLogo
 } from "./SportHandler";
 import Game from "./Game";
+import {useQuery} from "react-query";
 
 export default function Schedule(props) {
     const [games, setGames] = useState({"NBA": {}, "NHL": {}});
-
-    useEffect(() => {
-        fetchNBAGames(0).then(result => {
-            const temp = games;
-            if (result)
-                temp["NBA"]["today"] = result;
-                setGames(temp);
-        });
-        fetchNBAGames(-1).then(result => {
-            const temp = games;
-            if (result)
-                temp["NBA"]["yesterday"] = result;
-                setGames(temp);
-        });
-        fetchNBAGames(1).then(result => {
-            const temp = games;
-            if (result)
-                temp["NBA"]["tomorrow"] = result;
-                setGames(temp);
-        });
-        fetchNHLGames(0).then(result => {
-            const temp = games;
-            if (result)
-                temp["NHL"]["today"] = result;
-                setGames(temp);
-        });
-        fetchNHLGames(-1).then(result => {
-            const temp = games;
-            if (result)
-                temp["NHL"]["yesterday"] = result;
-                setGames(temp);
-        });
-        fetchNHLGames(1).then(result => {
-            const temp = games;
-            if (result)
-                temp["NHL"]["tomorrow"] = result;
-                setGames(temp);
-        });
-    }, [games] );
-
-    if (!props || !props.prefs || !props.sports || !games) {
+    const nbaToday = useQuery(['NBAGamesToday', "NBA", 0], () => gamesQuery("NBA", 0), {
+        onSuccess: (data) => {
+            const temp = { ...games };
+            temp["NBA"]["today"] = data;
+            setGames(temp);
+        }
+    });
+    const nbaYesterday = useQuery(['NBAGamesYesterday', "NBA", -1], () => gamesQuery("NBA", -1), {
+        onSuccess: (data) => {
+            const temp = { ...games };
+            temp["NBA"]["yesterday"] = data;
+            setGames(temp);
+        }
+    });
+    const nbaTomorrow = useQuery(['NBAGamesTomorrow', "NBA", 1], () => gamesQuery("NBA", 1), {
+        onSuccess: (data) => {
+            const temp = { ...games };
+            temp["NBA"]["tomorrow"] = data;
+            setGames(temp);
+        }
+    });
+    const nhlToday = useQuery(['NHLGamesToday', "NHL", 0], () => gamesQuery("NHL", 0), {
+        onSuccess: (data) => {
+            const temp = { ...games };
+            temp["NHL"]["today"] = data;
+            setGames(temp);
+        }
+    });
+    const nhlYesterday = useQuery(['NHLGamesYesterday', "NHL", -1], () => gamesQuery("NHL", -1), {
+        onSuccess: (data) => {
+            const temp = { ...games };
+            temp["NHL"]["yesterday"] = data;
+            setGames(temp);
+        }
+    });
+    const nhlTomorrow = useQuery(['NHLGamesTomorrow', "NHL", 1], () => gamesQuery("NHL", 1), {
+        onSuccess: (data) => {
+            const temp = { ...games };
+            temp["NHL"]["tomorrow"] = data;
+            setGames(temp);
+        }
+    });
+    if (nbaYesterday.isLoading || nbaToday.isLoading || nbaTomorrow.isLoading ||
+        nhlYesterday.isLoading || nhlToday.isLoading || nhlTomorrow.isLoading ||
+        !props || !props.prefs || !props.sports || !games) {
         return null;
     }
 

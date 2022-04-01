@@ -1,13 +1,11 @@
 import '../style/navbar.scss';
 import '../style/app.scss';
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown'
 
 export default function NavBar(props) {
   const navigate = useNavigate();
   const user = props.user;
-
-
 
   function gear() {
     return (
