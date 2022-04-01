@@ -1,9 +1,20 @@
 import axios from "axios";
 import {getImageSrc} from "../AssetHandler";
 
+export async function sportsQuery() {
+    const response = await axios.get('http://localhost:5000/sport')
+    return response.data;
+}
+
 export async function standingsQuery(sport){
     return await axios.get('http://localhost:5000/' + sport + '/standings').then((res) => {
         return res.data.teams;
+    });
+}
+
+export async function gamesQuery(sport, dayOffset){
+    return await axios.get('http://localhost:5000/' + sport + '/games/' + dayOffset).then((res) => {
+        return res.data.games;
     });
 }
 
@@ -69,39 +80,6 @@ export function NFL_logo(abbreviation, divId) {
             <img className='logo' src={url} alt='logo'/>
         </div>
     );
-}
-
-export async function sportsQuery() {
-    const response = await axios.get('http://localhost:5000/sport')
-    return response.data;
-}
-
-export async function gamesQuery(sport, dayOffset){
-    return await axios.get('http://localhost:5000/' + sport + '/games/' + dayOffset).then((res) => {
-        return res.data.games;
-    });
-}
-
-export async function fetchNBAGames(dayOffset){
-    try {
-        const response = await axios.get('http://localhost:5000/NBA/games/' + dayOffset);
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-
-export async function fetchNHLGames(dayOffset){
-    try {
-        const response = await axios.get('http://localhost:5000/NHL/games/' + dayOffset);
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
 }
 
 // Retrieves a sport by its code (ex: "NBA", "NFL")

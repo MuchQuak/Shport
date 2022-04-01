@@ -25,7 +25,7 @@ class LeagueService {
         const currentDate = this.formatDate(today);
 
         try {
-            const games = await axios.get(this.getGamesEndPoint(currentDate));
+            const games = await axios.get(await this.getGamesEndPoint(currentDate));
 
             res.send(this.formatGamesData(games.data, currentDate));
         } catch (e) {
@@ -36,7 +36,7 @@ class LeagueService {
     async getStandings(req, res) {
         const id = req.params['id'];
         try {
-            const standings = await axios.get(this.getStandingsEndPoint());
+            const standings = await axios.get(await this.getStandingsEndPoint());
             if (id === undefined) {
                 res.send(this.formatStandingsData(standings.data));
             } else {
