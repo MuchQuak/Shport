@@ -46,7 +46,7 @@ export default function Game(props) {
             return (<p><b>Halftime</b></p>);
         }
         if (clock_data === "" || game.status === 0){
-            return (<p>{UTCtoLocal(game.startTimeUTC)}</p>);
+            return (<p>{UTCtoLocal(game.startTimeUTC, league)}</p>);
         }
         return (
             <>

@@ -93,10 +93,10 @@ Date.prototype.isDST = function () {
         Math.max(new Date(this.getFullYear(), 0, 1).getTimezoneOffset(), new Date(this.getFullYear(), 6, 1).getTimezoneOffset());
 }
 
-export function UTCtoLocal(UTC) {
+export function UTCtoLocal(UTC, league) {
     const today = new Date(UTC);
     let hours = today.getHours();
-    if (today.isDST()) {
+    if (today.isDST() && league === "NBA") {
         hours -= 1;
     }
     const period = hours > 12 ? "PM" : "AM";
