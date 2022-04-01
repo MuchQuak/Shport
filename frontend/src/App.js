@@ -1,56 +1,52 @@
 import './style/app.scss';
-import React, {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from 'react-router-dom'; // Might need again for later
-import axios from 'axios';
+import React, {useState} from "react";
+import {Route, Routes} from 'react-router-dom';
 import NavBar from './dashboard/NavBar';
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
+import {prefsQuery} from "./login-signup/UserHandler";
+import {useQuery} from "react-query";
+
+/*
+const user = {
+    info: {
+        name: "",
+    },
+    prefs: {} // prefs object
+}
+*/
 
 export default function App() {
-    const location = useLocation();
-    const [loadedPref, setPref] = useState(false); 
-    const [userPrefs, setUserPrefs] = useState({});
-
-    useEffect(() => {
-        if (location.state != null && !loadedPref){
-            getPrefs().then(() => {
-                    setPref(true);
-                }
-            );
-        } else if (location.state === null){
-            location.state = {};
-            location.state.username = "[ Username ]";
-        }
-      }, [location, loadedPref, userPrefs] );
-
-    async function getPrefs(){
-        try {
-            const url = 'http://localhost:5000/preferences';
-            const config = {
-                headers: { username: location.state.username}
+    const [user, setUser] = useState({});
+    // change to auth token once implemented
+    const auth_token = "not_yet_implemented";
+    // change to username retrieval using token
+    const username = "Guest"
+    const { isLoading, isError, error } = useQuery(['prefs', auth_token], () => prefsQuery(auth_token), {
+        onSuccess: (data) => {
+            const temp = {
+                info: {
+                    name: username,
+                },
+                prefs: data
             }
-            //Change preference call to get and moved username to header
-            const response = await axios.get(url, config);
-            
-            if (response.status === 201){
-                setUserPrefs(response.data[0].prefs);
-                location.state.prefs = response.data[0].prefs;
-                return response.data;
-            }
+            setUser(temp);
         }
-        catch (error){
-          console.log(error);
-          return error.data;
-        }
-      }
+    });
+
+    if (isLoading) {
+        return <span>App loading...</span>;
+    } else if (isError) {
+        return <span>App error: {error}...</span>;
+    }
 
     return (
         <>
-            <NavBar/>
+            <NavBar user={user}/>
             <Routes>
-                <Route index element={<Dashboard prefs={userPrefs}/>} />
-                <Route path="settings" element={<Settings/>} />
+                <Route index element={<Dashboard user={user}/>} />
+                <Route path="settings" element={<Settings user={user} setUser={setUser}/>} />
                 <Route path="about" element={<About/>} />
             </Routes>
         </>

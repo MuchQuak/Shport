@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {fetchSports, getLabels, getLeagueLogo} from "../dashboard/sport/SportHandler";
+import React, {useState} from "react";
+import {getLabels, getLeagueLogo, sportsQuery} from "../dashboard/sport/SportHandler";
+import {useQuery} from "react-query";
 
 export function LeagueOption(props){
     if (!props || !props.league || !props.click) {
@@ -25,13 +26,12 @@ export function LeagueOption(props){
 
 export default function LeaguePreferenceSelector(props) {
     const [sports, setSports] = useState([]);
-    useEffect(() => {
-        fetchSports().then(result => {
-            if (result)
-                setSports(result);
-        });
-    }, [] );
-    if (!props || !sports || sports.length === 0 || !props.selected || !props.setSelected) {
+    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
+        onSuccess: (data) => {
+            setSports(data);
+        }
+    });
+    if (!props || sportsResult.isLoading || !props.selected || !props.setSelected) {
         return null;
     }
     const selectedLeagues = props.selected;

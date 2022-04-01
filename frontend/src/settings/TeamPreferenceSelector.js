@@ -1,6 +1,7 @@
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
-import React, {useEffect, useState} from "react";
-import {fetchSports, getAllTeams, getTeamLogo} from "../dashboard/sport/SportHandler";
+import React, {useState} from "react";
+import {getAllTeams, getTeamLogo, sportsQuery} from "../dashboard/sport/SportHandler";
+import {useQuery} from "react-query";
 const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
@@ -28,12 +29,11 @@ export default function TeamPreferenceSelector(props) {
     function setSelectedTeams(select) {
         props.setSelected(select);
     }
-    useEffect(() => {
-        fetchSports().then(result => {
-            if (result)
-                setAvailableTeams(getAllTeams(result).filter(element => !selectedTeams.some((e) => itemsEqual(e, element))));
-        });
-    }, [selectedTeams] );
+    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
+        onSuccess: (data) => {
+            setAvailableTeams(getAllTeams(data).filter(element => !selectedTeams.some((e) => itemsEqual(e, element))));
+        }
+    });
     if (!props || !availableTeams || availableTeams.length === 0 || !props.selected || !props.setSelected) {
         return null;
     }

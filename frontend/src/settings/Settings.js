@@ -1,11 +1,10 @@
 import '../style/settings.scss'
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useEffect, useState} from "react";
-import {fromLocation, getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
+import {getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
-import {fetchSports, getLabels, sportsQuery} from "../dashboard/sport/SportHandler";
-import Button from "react-bootstrap/Button";
+import {getLabels, sportsQuery} from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";
 import {setUserPrefs} from "../login-signup/UserHandler";
@@ -37,23 +36,17 @@ function createPrefsObject(allLeagues, leagues, teams) {
     }
 }
 
-function SettingsBox() {
-    const location = useLocation();
+function SettingsBox(props) {
     const navigate = useNavigate();
     const [selectedLeagues, setSelectedLeagues] = useState([]);
     const [selectedTeams, setSelectedTeams] = useState([]);
-    const prefs = fromLocation(location);
     const [sports, setSports] = useState([]);
-    useEffect(() => {
-        fetchSports().then(result => {
-            if (result)
-                setSports(result);
-        });
-    }, [] );
-    const { isLoading, isError, error } = useQuery('sports', sportsQuery, {
+    const user = props.user;
+    const { isLoading, isError, error } = useQuery('sports', () => sportsQuery, {
         onSuccess: (data) => {
-            setSelectedLeagues(getSportsFollowed(prefs));
-            setSelectedTeams(getAllTeamsFollowed(prefs, data.data));
+            setSports(data);
+            setSelectedLeagues(getSportsFollowed(user.prefs));
+            setSelectedTeams(getAllTeamsFollowed(user.prefs, data));
         }
     });
     if (isLoading) {
@@ -64,15 +57,13 @@ function SettingsBox() {
     }
     function handleSubmit(event, allLeagues, leagues, teams) {
         event.preventDefault();
-        const newUser = {
-            "username": location.state.username,
-            "password": location.state.password,
-            "email": location.state.email,
-            "prefs": createPrefsObject(allLeagues, leagues, teams)
-        }
-        setUserPrefs(newUser).then(r => {
+        user.prefs = createPrefsObject(allLeagues, leagues, teams);
+        props.setUser(user);
+        setUserPrefs(user.prefs).then(r => {
             if (r.status === 201) {
-                navigate('/', {replace:true, state: newUser});
+                navigate('/');
+            } else {
+                console.log("Error" + r.status);
             }
         });
     }
@@ -83,7 +74,7 @@ function SettingsBox() {
                 <Form>
                     <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="username" value={location.state.username} readOnly={true}/>
+                        <Form.Control type="username" value={user.info.name} readOnly={true}/>
                     </Form.Group>
                     <Form.Group className="inputForm" id="passwordForm" size="lg" controlId="password">
                         <Form.Label>Password</Form.Label>
@@ -93,24 +84,23 @@ function SettingsBox() {
             </div>
             <div className='wrapper'>
                 <p className='settings-category-header'>Preferences</p>
-                <LeaguePreferenceSelector prefs={prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
-                <TeamPreferenceSelector prefs={prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
+                <LeaguePreferenceSelector prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
+                <TeamPreferenceSelector prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
                 <button className='themed-button' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
             </div>
         </div>
     );
 }
 
-export default function Settings() {
-    const location = useLocation();
+export default function Settings(props) {
     const navigate = useNavigate();
-    useEffect(() => {
+    /*useEffect(() => {
         if (location.state === undefined || location.state === null ||
             location.state.username === undefined || location.state.username === "" ||
             location.state.username === null || location.state.username === "[ Username ]"){
             // Navigate away if no user found
             navigate('/signup', {replace:true});
         }
-    });
-    return <SettingsBox />;
+    });*/
+    return <SettingsBox user={props.user} setUser={props.setUser}/>;
 }

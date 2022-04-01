@@ -134,7 +134,6 @@ app.post('/login', async(req, res) => {
 
 // gettingPreferences
 app.get('/preferences', async(req, res) => {
-    //const user = req.body;
     const username = req.headers["username"];
     const userPref = await userServices.getUserPreferences(username);
     

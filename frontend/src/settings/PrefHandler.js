@@ -92,7 +92,7 @@ export function getSportsWithOneTeamFollowed(prefs) {
 }
 
 export function getInterestedSports(prefs) {
-    if (prefs.sports) {
+    if (prefs && prefs.sports) {
         return [...new Set([...getSportsFollowed(prefs), ...getSportsWithOneTeamFollowed(prefs)])];
     } else {
         return getSportsFollowed(all_prefs);
@@ -128,13 +128,4 @@ export function prefSize(preferences) {
         }
     }
     return total;
-}
-
-export function fromLocation(location) {
-    if (!location || location.state === null) {
-        location.state = {};
-        location.state.username = "[ Username ]";
-        location.state.prefs = all_prefs;
-    }
-    return location.state.prefs;
 }

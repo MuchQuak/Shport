@@ -2,8 +2,7 @@ import axios from "axios";
 
 export async function addUser(user){
     try {
-        const response = await axios.post('http://localhost:5000/signup', user);
-        return response;
+        return await axios.post('http://localhost:5000/signup', user);
     }
     catch (error){
         console.log(error);
@@ -11,13 +10,23 @@ export async function addUser(user){
     }
 }
 
-export async function setUserPrefs(user){
+export async function setUserPrefs(prefs){
     try {
-        const response = await axios.patch('http://localhost:5000/preferences', user);
-        return response;
+        return await axios.patch('http://localhost:5000/preferences', prefs);
     }
     catch (error){
         console.log(error);
         return false;
     }
+}
+
+export async function prefsQuery(auth_token) {
+    const url = 'http://localhost:5000/preferences';
+    const config = {headers: {"auth_token": auth_token}};
+    return await axios.get(url, config).then((res) => {
+        if (res.status === 201){
+            return res.data;
+        }
+        throw new Error("Error " + res.status + ": Could not retrieve preferences.")
+    });
 }

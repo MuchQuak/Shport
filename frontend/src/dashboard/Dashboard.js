@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import '../style/dashboard.scss';
 import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
@@ -6,18 +6,20 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from './sport/StandingsTable';
 import Schedule from './sport/Schedule';
 import Article from './news/Article';
-import {fetchNBAStandings, fetchSports} from "./sport/SportHandler";
-import {fetchNews} from "./news/NewsHandler";
-import {all_prefs, getInterestedSports, getSportsWithOneTeamFollowed} from "../settings/PrefHandler";
+import {sportsQuery} from "./sport/SportHandler";
+import {newsQuery} from "./news/NewsHandler";
+import {getInterestedSports} from "../settings/PrefHandler";
+import {useQuery} from "react-query";
+
 function default_items(prefs, sports) {
     return [
-        (<CloseableItem title='Schedule' prefs={prefs} sports={sports}>
+        (<CloseableItem title='Schedule' prefs={prefs} sports={sports} key={0}>
             <Schedule className='nbaSchedule' sports={sports}/>
         </CloseableItem>),
-        (<CloseableItem title='Teams' prefs={prefs}>
+        (<CloseableItem title='Teams' prefs={prefs} key={1}>
             <TeamOverview sports={sports}/>
         </CloseableItem>),
-        (<CloseableItem title='Standings' prefs={prefs} sports={sports}>
+        (<CloseableItem title='Standings' prefs={prefs} sports={sports} key={2}>
             <StandingsTable />
         </CloseableItem>)
     ]
@@ -27,13 +29,11 @@ function default_items(prefs, sports) {
 
 function article_items(prefs, news) {
     //console.log("prefs " + prefs);
-    const temp = news.map((article, idx) =>
+    return news.map((article, idx) =>
         (<CloseableItem title={article.publishBy} key={article.url}>
             <Article news={article} key={article.url}/>
         </CloseableItem>)
-        
-    )
-    return temp;
+    );
 }
 
 function partitionItems(items) {
@@ -59,34 +59,47 @@ function partitionItems(items) {
 }
 
 export default function Dashboard(props) {
-    const [sports, setSports] = useState([])
-    const [news, setNews] = useState([])
-
-    const prefs = props.prefs ? props.prefs : all_prefs;
-
-    useEffect(() => {
-        fetchSports().then( result => {
-            if (result)
-                setSports(result);
-        });
-    }, [] );
-    useEffect(() => {
-        fetchNews(getInterestedSports(prefs)).then( result => {
-            if (result)
-                setNews(result);
-        });
-    }, [prefs] );
-
-    if (!props || !props.prefs) {
+    const [sports, setSports] = useState([]);
+    const [news, setNews] = useState([]);
+    const user = props.user;
+    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
+        onSuccess: (data) => {
+            setSports(data);
+        }
+    });
+    const interested = getInterestedSports(user.prefs);
+    const newsResult = useQuery(['news', interested], () => newsQuery(interested), {
+        onSuccess: (data) => {
+            setNews(data);
+        }
+    });
+    if (!props || sportsResult.isLoading) {
         return (
             <div className='content'>
                 <div className='dashboard'>
+                    {}
                     <p className='nomargin'>Loading...</p>
                 </div>
             </div>
         );
+    } else if (!user) {
+        return (
+            <div className='content'>
+                <div className='dashboard'>
+                    <p className='nomargin'>Loading user...</p>
+                </div>
+            </div>
+        );
+    } else if (!user.prefs) {
+        return (
+            <div className='content'>
+                <div className='dashboard'>
+                    <p className='nomargin'>Loading prefs...</p>
+                </div>
+            </div>
+        );
     }
-    const all_items = default_items(prefs, sports).concat(article_items(prefs, news));
+    const all_items = default_items(user.prefs, sports).concat(article_items(user.prefs, news));
     return (
         <div className='content'>
             <div className='dashboard'>
