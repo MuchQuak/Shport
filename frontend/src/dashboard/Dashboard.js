@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import '../style/dashboard.scss';
 import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
@@ -7,7 +7,7 @@ import StandingsTable from './sport/StandingsTable';
 import Schedule from './sport/Schedule';
 import Article from './news/Article';
 import {sportsQuery} from "./sport/SportHandler";
-import {fetchNews} from "./news/NewsHandler";
+import {newsQuery} from "./news/NewsHandler";
 import {getInterestedSports} from "../settings/PrefHandler";
 import {useQuery} from "react-query";
 
@@ -62,19 +62,17 @@ export default function Dashboard(props) {
     const [sports, setSports] = useState([]);
     const [news, setNews] = useState([]);
     const user = props.user;
-
     const sportsResult = useQuery(['sports'], () => sportsQuery(), {
         onSuccess: (data) => {
             setSports(data);
         }
     });
-    useEffect(() => {
-        fetchNews(getInterestedSports(user.prefs)).then(result => {
-            if (result)
-                setNews(result);
-        });
-    }, [] );
-
+    const interested = getInterestedSports(user.prefs);
+    const newsResult = useQuery(['news', interested], () => newsQuery(interested), {
+        onSuccess: (data) => {
+            setNews(data);
+        }
+    });
     if (!props || sportsResult.isLoading) {
         return (
             <div className='content'>
