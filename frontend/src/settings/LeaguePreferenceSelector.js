@@ -25,20 +25,16 @@ export function LeagueOption(props){
 }
 
 export default function LeaguePreferenceSelector(props) {
-    const [sports, setSports] = useState([]);
-    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
-        onSuccess: (data) => {
-            setSports(data);
-        }
-    });
-    if (!props || sportsResult.isLoading || !props.selected || !props.setSelected) {
+    if (!props || !props.sports || !props.selected || !props.setSelected) {
         return null;
     }
+    const sports = props.sports;
     const selectedLeagues = props.selected;
     function setSelectedLeagues(select) {
         props.setSelected(select);
     }
-    const labels = getLabels(sports)
+    console.log(sports);
+    const labels = getLabels(sports);
     function checkSportOption(token) {
         if (selectedLeagues.includes(token)) {
             setSelectedLeagues(selectedLeagues.filter((item) => item !== token))
