@@ -24,16 +24,11 @@ function itemsEqual(a, b) {
 }
 
 export default function TeamPreferenceSelector(props) {
-    const [availableTeams, setAvailableTeams] = useState([]);
     const selectedTeams = props.selected;
+    const [availableTeams, setAvailableTeams] = useState(getAllTeams(props.sports).filter(element => !selectedTeams.some((e) => itemsEqual(e, element))));
     function setSelectedTeams(select) {
         props.setSelected(select);
     }
-    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
-        onSuccess: (data) => {
-            setAvailableTeams(getAllTeams(data).filter(element => !selectedTeams.some((e) => itemsEqual(e, element))));
-        }
-    });
     if (!props || !availableTeams || availableTeams.length === 0 || !props.selected || !props.setSelected) {
         return null;
     }
