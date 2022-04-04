@@ -42,20 +42,18 @@ function SettingsBox(props) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [sports, setSports] = useState([]);
     const user = props.user;
-    const spq = useQuery('sports', () => sportsQuery, {
+    const sportsResult = useQuery(['sports'], () => sportsQuery(), {
         onSuccess: (data) => {
-            data.then((sp) => {
-                setSports(sp);
-                setSelectedLeagues(getSportsFollowed(user.prefs));
-                setSelectedTeams(getAllTeamsFollowed(user.prefs, sp.data));
-            });
+            setSports(data);
+            setSelectedLeagues(getSportsFollowed(user.prefs));
+            setSelectedTeams(getAllTeamsFollowed(user.prefs, data));
         }
     });
     function handleSubmit(event, allLeagues, leagues, teams) {
         event.preventDefault();
         user.prefs = createPrefsObject(allLeagues, leagues, teams);
         props.setUser(user);
-        console.log("HandleSumbit"+ user.prefs.sports.NBA.teams)
+        //console.log("HandleSumbit"+ user.prefs.sports.NBA.teams)
         setUserPrefs(user).then(r => {
             if (r.status === 201) {
                 navigate('/');
@@ -77,8 +75,8 @@ function SettingsBox(props) {
                 </div>
                     <div className='wrapper'>
                     <p className='settings-category-header'>Preferences</p>
-                        {spq.isLoading && <p className='nomargin'>Loading...</p>}
-                        {spq.isSuccess && sports.length > 0 &&
+                        {sportsResult.isLoading && <p className='nomargin'>Loading...</p>}
+                        {sportsResult.isSuccess && sports.length > 0 &&
                             <>
                                 <LeaguePreferenceSelector sports={sports} prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
                                 <TeamPreferenceSelector sports={sports} prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
