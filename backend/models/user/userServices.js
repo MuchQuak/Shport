@@ -87,7 +87,7 @@ async function getUserPreferences(name) {
     const prefModel = getDbConnection().model("pref", Pref.schema);
     
     try {
-        const query = userModel.find({'username': name}).populate({ path: 'prefs', model: 'pref' });
+        const query = userModel.findOne({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query.select('prefs');
     } catch(error) {
         console.log(error);

@@ -24,11 +24,7 @@ function default_items(prefs, sports) {
         </CloseableItem>)
     ]
 }
-
-//
-
 function article_items(prefs, news) {
-    //console.log("prefs " + prefs);
     return news.map((article, idx) =>
         (<CloseableItem title={article.publishBy} key={article.url}>
             <Article news={article} key={article.url}/>
@@ -73,37 +69,23 @@ export default function Dashboard(props) {
             setNews(data);
         }
     });
-    if (!props || sportsResult.isLoading) {
-        return (
-            <div className='content'>
-                <div className='dashboard'>
-                    {}
-                    <p className='nomargin'>Loading...</p>
-                </div>
-            </div>
-        );
-    } else if (!user) {
-        return (
-            <div className='content'>
-                <div className='dashboard'>
-                    <p className='nomargin'>Loading user...</p>
-                </div>
-            </div>
-        );
-    } else if (!user.prefs) {
-        return (
-            <div className='content'>
-                <div className='dashboard'>
-                    <p className='nomargin'>Loading prefs...</p>
-                </div>
-            </div>
-        );
+    const getMsg = () => {
+        if (!props || sportsResult.isLoading || newsResult.isLoading) {
+            return <p className='nomargin'>Loading...</p>;
+        } else if (!user) {
+            return <p className='nomargin'>Loading user...</p>;
+        } else if (!user.prefs) {
+            return <p className='nomargin'>Loading prefs...</p>
+        } else if (user.prefs && sportsResult.isSuccess && newsResult.isSuccess) {
+            return partitionItems(default_items(user.prefs, sports).concat(article_items(user.prefs, news)));
+        } else {
+            return <p className='nomargin'>Error loading!</p>;
+        }
     }
-    const all_items = default_items(user.prefs, sports).concat(article_items(user.prefs, news));
     return (
         <div className='content'>
             <div className='dashboard'>
-                {partitionItems(all_items)}
+                {getMsg()}
             </div>
         </div>
     );

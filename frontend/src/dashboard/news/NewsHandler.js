@@ -13,9 +13,9 @@ import axios from "axios";
     }
 }*/
 
-export async function newsQuery(prefs){
+export async function newsQuery(prefs) {
     const query = prefs.length > 0 ? prefs.join('||') : "sports";
-    return await axios.get('http://localhost:5000/news/' + query).then((res) => {
-        return res.data.articles;
-    });
+    return await axios.get('http://localhost:5000/news/' + query).then((data) => {
+        return data.data.articles;
+    })
 }
