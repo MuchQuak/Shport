@@ -27,7 +27,7 @@ export default function Login(props) {
         const response = await axios.post(url, {"username":username,"password":password});
 
         props.setToken(response.data);
-        console.log(response);
+        //console.log(response);
         if (response.status === 201){
           navigate('../');    
           return response.data;

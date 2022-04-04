@@ -26,7 +26,7 @@ function decode(req) {
     //Getting the 2nd part of the auth hearder (the token)
     const token = authHeader && authHeader.split(' ')[1];
     
-    console.log(token);
+    //console.log(token);
     return jwt.verify(token, process.env.TOKEN_SECRET);
 }
 
@@ -145,20 +145,17 @@ app.post('/login', async(req, res) => {
 app.get('/preferences', async(req, res) => {
     const username = decode(req).username;
     const userPref = await userServices.getUserPreferences(username);
-    console.log(userPref);
     if (userPref){
-        res.status(201).send(userPref);
+        res.status(201).send(userPref.prefs);
     } else {
         res.status(500).end();
     }
 });
 
-
 // changing preferences
 app.post('/preferences', async(req, res) => {
     const username = decode(req).username;
-    const prefs = req.body.prefs
-    console.log("prefs:***************************************" + Object.keys(req.body.sports));
+    const prefs = req.body
 
     const userPref = await userServices.setUserPreferences(username, prefs);
     if (userPref){

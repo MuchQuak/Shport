@@ -21,7 +21,6 @@ export default function App(props) {
 
     // change to auth token once implemented
     const auth_token = props.cookies.auth_token;
-    console.log(props.cookies.auth_token);
     // change to username retrieval using token
     const username = "Guest";
     const { isLoading, isError, error } = useQuery(['prefs', auth_token], () => prefsQuery(auth_token), {
