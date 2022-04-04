@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import '../style/dashboard.scss';
 import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
@@ -7,7 +7,7 @@ import StandingsTable from './sport/StandingsTable';
 import Schedule from './sport/Schedule';
 import Article from './news/Article';
 import {sportsQuery} from "./sport/SportHandler";
-import {fetchNews} from "./news/NewsHandler";
+import {newsQuery} from "./news/NewsHandler";
 import {getInterestedSports} from "../settings/PrefHandler";
 import {useQuery} from "react-query";
 
@@ -24,11 +24,7 @@ function default_items(prefs, sports) {
         </CloseableItem>)
     ]
 }
-
-//
-
 function article_items(prefs, news) {
-    //console.log("prefs " + prefs);
     return news.map((article, idx) =>
         (<CloseableItem title={article.publishBy} key={article.url}>
             <Article news={article} key={article.url}/>
@@ -62,50 +58,34 @@ export default function Dashboard(props) {
     const [sports, setSports] = useState([]);
     const [news, setNews] = useState([]);
     const user = props.user;
-
     const sportsResult = useQuery(['sports'], () => sportsQuery(), {
         onSuccess: (data) => {
             setSports(data);
         }
     });
-    useEffect(() => {
-        fetchNews(getInterestedSports(user.prefs)).then(result => {
-            if (result)
-                setNews(result);
-        });
-    }, [] );
-
-    if (!props || sportsResult.isLoading) {
-        return (
-            <div className='content'>
-                <div className='dashboard'>
-                    {}
-                    <p className='nomargin'>Loading...</p>
-                </div>
-            </div>
-        );
-    } else if (!user) {
-        return (
-            <div className='content'>
-                <div className='dashboard'>
-                    <p className='nomargin'>Loading user...</p>
-                </div>
-            </div>
-        );
-    } else if (!user.prefs) {
-        return (
-            <div className='content'>
-                <div className='dashboard'>
-                    <p className='nomargin'>Loading prefs...</p>
-                </div>
-            </div>
-        );
+    const interested = getInterestedSports(user.prefs);
+    const newsResult = useQuery(['news', interested], () => newsQuery(interested), {
+        onSuccess: (data) => {
+            setNews(data);
+        }
+    });
+    const getMsg = () => {
+        if (!props || sportsResult.isLoading || newsResult.isLoading) {
+            return <p className='nomargin'>Loading...</p>;
+        } else if (!user) {
+            return <p className='nomargin'>Loading user...</p>;
+        } else if (!user.prefs) {
+            return <p className='nomargin'>Loading prefs...</p>
+        } else if (user.prefs && sportsResult.isSuccess && newsResult.isSuccess) {
+            return partitionItems(default_items(user.prefs, sports).concat(article_items(user.prefs, news)));
+        } else {
+            return <p className='nomargin'>Error loading!</p>;
+        }
     }
-    const all_items = default_items(user.prefs, sports).concat(article_items(user.prefs, news));
     return (
         <div className='content'>
             <div className='dashboard'>
-                {partitionItems(all_items)}
+                {getMsg()}
             </div>
         </div>
     );

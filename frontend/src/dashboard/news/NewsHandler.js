@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function fetchNews(prefs){
+/*export async function fetchNews(prefs){
     const query = prefs.length > 0 ? prefs.join('||') : "sports";
     //const test = 'warriors||hawks'
     try {
@@ -11,4 +11,11 @@ export async function fetchNews(prefs){
         console.log(error);
         return false;
     }
+}*/
+
+export async function newsQuery(prefs) {
+    const query = prefs.length > 0 ? prefs.join('||') : "sports";
+    return await axios.get('http://localhost:5000/news/' + query).then((data) => {
+        return data.data.articles;
+    })
 }
