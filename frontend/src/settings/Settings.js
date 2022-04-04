@@ -55,7 +55,8 @@ function SettingsBox(props) {
         event.preventDefault();
         user.prefs = createPrefsObject(allLeagues, leagues, teams);
         props.setUser(user);
-        setUserPrefs(user.prefs).then(r => {
+        console.log("HandleSumbit"+ user.prefs.sports.NBA.teams)
+        setUserPrefs(user).then(r => {
             if (r.status === 201) {
                 navigate('/');
             } else {

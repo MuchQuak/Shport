@@ -10,9 +10,10 @@ export async function addUser(user){
     }
 }
 
-export async function setUserPrefs(prefs){
+export async function setUserPrefs(user){
     try {
-        return await axios.patch('http://localhost:5000/preferences', prefs);
+        const config = {headers: {"authorization": `Bearer ${user.auth_token}`}};
+        return await axios.post('http://localhost:5000/preferences', user.prefs, config);
     }
     catch (error){
         console.log(error);
@@ -22,7 +23,7 @@ export async function setUserPrefs(prefs){
 
 export async function prefsQuery(auth_token) {
     const url = 'http://localhost:5000/preferences';
-    const config = {headers: {"auth_token": auth_token}};
+    const config = {headers: {"authorization": `Bearer ${auth_token}`}};
     return await axios.get(url, config).then((res) => {
         if (res.status === 201){
             return res.data;

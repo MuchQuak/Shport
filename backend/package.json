@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "dev": "nodemon backend.js",
-    "start": "node backend.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
