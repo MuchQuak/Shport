@@ -26,7 +26,6 @@ function decode(req) {
     //Getting the 2nd part of the auth hearder (the token)
     const token = authHeader && authHeader.split(' ')[1];
     
-    //console.log(token);
     return jwt.verify(token, process.env.TOKEN_SECRET);
 }
 
@@ -54,7 +53,6 @@ function authenticateUser(req, res, next) {
         // we use to code/sign the token
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET)   
         // in our case, we used the username to sign the token
-        console.log(decoded);
         next()
       } catch (error) {
         console.log(error);
