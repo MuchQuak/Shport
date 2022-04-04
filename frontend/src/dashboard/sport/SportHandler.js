@@ -1,9 +1,21 @@
 import axios from "axios";
 import {getImageSrc} from "../AssetHandler";
 
+export async function sportsQuery() {
+    return await axios.get('http://localhost:5000/sport').then((res) => {
+        return res.data;
+    });
+}
+
 export async function standingsQuery(sport){
     return await axios.get('http://localhost:5000/' + sport + '/standings').then((res) => {
         return res.data.teams;
+    });
+}
+
+export async function gamesQuery(sport, dayOffset){
+    return await axios.get('http://localhost:5000/' + sport + '/games/' + dayOffset).then((res) => {
+        return res.data.games;
     });
 }
 
@@ -71,48 +83,23 @@ export function NFL_logo(abbreviation, divId) {
     );
 }
 
-export async function sportsQuery() {
-    const response = await axios.get('http://localhost:5000/sport')
-    return response.data;
-}
-
-export async function gamesQuery(sport, dayOffset){
-    return await axios.get('http://localhost:5000/' + sport + '/games/' + dayOffset).then((res) => {
-        return res.data.games;
-    });
-}
-
-export async function fetchNBAGames(dayOffset){
-    try {
-        const response = await axios.get('http://localhost:5000/NBA/games/' + dayOffset);
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-
-export async function fetchNHLGames(dayOffset){
-    try {
-        const response = await axios.get('http://localhost:5000/NHL/games/' + dayOffset);
-        return response.data.games;
-    }
-    catch (error){
-        console.log(error);
-        return false;
-    }
-}
-
 // Retrieves a sport by its code (ex: "NBA", "NFL")
 // sports is a sports object, like one retrieved by fetchSports() within a Component
 export function byCode(sports, code) {
     return sports.find(sport => sport["sport"] === code);
 }
 
-export function UTCtoLocal(UTC) {
+Date.prototype.isDST = function () {
+    return this.getTimezoneOffset() <
+        Math.max(new Date(this.getFullYear(), 0, 1).getTimezoneOffset(), new Date(this.getFullYear(), 6, 1).getTimezoneOffset());
+}
+
+export function UTCtoLocal(UTC, league) {
     const today = new Date(UTC);
     let hours = today.getHours();
+    if (today.isDST() && league === "NBA") {
+        hours -= 1;
+    }
     const period = hours > 12 ? "PM" : "AM";
     if (hours > 12) {
         hours -= 12;

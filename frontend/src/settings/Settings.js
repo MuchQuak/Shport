@@ -42,22 +42,15 @@ function SettingsBox(props) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [sports, setSports] = useState([]);
     const user = props.user;
-
-    console.log("SettingsBox:" + props.user.auth_token)
-
-    const { isLoading, isError, error } = useQuery('sports', () => sportsQuery, {
+    const spq = useQuery('sports', () => sportsQuery, {
         onSuccess: (data) => {
-            setSports(data);
-            setSelectedLeagues(getSportsFollowed(user.prefs));
-            setSelectedTeams(getAllTeamsFollowed(user.prefs, data));
+            data.then((sp) => {
+                setSports(sp);
+                setSelectedLeagues(getSportsFollowed(user.prefs));
+                setSelectedTeams(getAllTeamsFollowed(user.prefs, sp.data));
+            });
         }
     });
-    if (isLoading) {
-        return <span>Loading...</span>;
-    }
-    if (isError) {
-        return <span>Error: {error.message}</span>;
-    }
     function handleSubmit(event, allLeagues, leagues, teams) {
         event.preventDefault();
         user.prefs = createPrefsObject(allLeagues, leagues, teams);
@@ -74,24 +67,25 @@ function SettingsBox(props) {
     return (
         <div className='boxed margin-bottom-10'>
             <h1 className='boxed-header'>Settings</h1>
-            <div className='wrapper'>
-                <Form>
-                    <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="username" value={user.info.name} readOnly={true}/>
-                    </Form.Group>
-                    <Form.Group className="inputForm" id="passwordForm" size="lg" controlId="password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" value={"pass"} readOnly={true}/>
-                    </Form.Group>
-                </Form>
-            </div>
-            <div className='wrapper'>
-                <p className='settings-category-header'>Preferences</p>
-                <LeaguePreferenceSelector prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
-                <TeamPreferenceSelector prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-                <button className='themed-button' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
-            </div>
+                <div className='wrapper'>
+                    <Form>
+                        <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="username" value={user.info.name} readOnly={true}/>
+                        </Form.Group>
+                    </Form>
+                </div>
+                    <div className='wrapper'>
+                    <p className='settings-category-header'>Preferences</p>
+                        {spq.isLoading && <p className='nomargin'>Loading...</p>}
+                        {spq.isSuccess && sports.length > 0 &&
+                            <>
+                                <LeaguePreferenceSelector sports={sports} prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
+                                <TeamPreferenceSelector sports={sports} prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
+                                <button className='themed-button' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
+                            </>
+                        }
+                </div>
         </div>
     );
 }
