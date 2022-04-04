@@ -1,23 +1,24 @@
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {QueryClient, QueryClientProvider} from "react-query";
-import App from './App';
-import Login from './login-signup/Login';
-import SignUp from './login-signup/SignUp';
+import {CookiesProvider} from 'react-cookie'
+import Root from './Root';
 import './style/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// For React Query context
-const queryClient = new QueryClient();
-
 ReactDOM.render(
-   <QueryClientProvider client={queryClient}>
-       <BrowserRouter>
-           <Routes>
-             <Route path="/*" element={<App />} />
-             <Route path="login" element={<Login />} />
-             <Route path="signup" element={<SignUp />} />
-           </Routes>
-       </BrowserRouter>
-   </QueryClientProvider>, document.getElementById('root')
+        <CookiesProvider>
+         <Root />
+        </CookiesProvider>, document.getElementById('root')
+  /*
+    <QueryClientProvider client={queryClient}>
+        <CookiesProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/*" element={<App />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+            </Routes>
+        </BrowserRouter>
+        </CookiesProvider>
+    </QueryClientProvider>, document.getElementById('root')
+    */
 );

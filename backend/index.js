@@ -18,7 +18,16 @@ const sportInfoServices = require("./models/sport/sportInfoServices");
 const leagueServices = require('./models/sport/leagueService');
 
 function generateAccessToken(username) {
-    return jwt.sign({"username": username}, process.env.TOKEN_SECRET, { expiresIn: "60s" });
+    return jwt.sign({"username": username}, process.env.TOKEN_SECRET, { expiresIn: "60000s" });
+}
+
+function decode(req) {
+    const authHeader = req.headers["authorization"];
+    //Getting the 2nd part of the auth hearder (the token)
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    console.log(token);
+    return jwt.verify(token, process.env.TOKEN_SECRET);
 }
 
 app.get('/', (req, res) => {
@@ -134,9 +143,9 @@ app.post('/login', async(req, res) => {
 
 // gettingPreferences
 app.get('/preferences', async(req, res) => {
-    const username = req.headers["username"];
+    const username = decode(req).username;
     const userPref = await userServices.getUserPreferences(username);
-    
+    console.log(userPref);
     if (userPref){
         res.status(201).send(userPref);
     } else {
@@ -146,9 +155,12 @@ app.get('/preferences', async(req, res) => {
 
 
 // changing preferences
-app.patch('/preferences', async(req, res) => {
-    const user = req.body;
-    const userPref = await userServices.setUserPreferences(user.username, user.prefs);
+app.post('/preferences', async(req, res) => {
+    const username = decode(req).username;
+    const prefs = req.body.prefs
+    console.log("prefs:***************************************" + Object.keys(req.body.sports));
+
+    const userPref = await userServices.setUserPreferences(username, prefs);
     if (userPref){
         res.status(201).send(userPref);
     } else {
