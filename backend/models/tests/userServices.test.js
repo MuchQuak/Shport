@@ -218,14 +218,14 @@ test("Deleting a user by Id -- inexisting id", async () => {
 });
 
 
-test("Adding user w/ validation-- successful path", async () => {
+test("Adding user w/o validation-- successful path", async () => {
   let user = {
     "username": "HarryPotter",
     "email": "youngWizard@gmail.com",
     "password": "Srr$pffle%%44*5"
   };
 
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
 
   expect(result).toBeTruthy();
   expect(result.username).toBe(user.username);
@@ -234,7 +234,7 @@ test("Adding user w/ validation-- successful path", async () => {
   expect(result).toHaveProperty("_id");
 });
 
-test("Adding user w/ validation -- success path with valid id", async () => {
+test("Adding user w/o validation -- success path with valid id", async () => {
   let user = {
     "_id":"6132b9d47cefd0cc1916b6a9",
     "username": "HarryPotter",
@@ -242,11 +242,11 @@ test("Adding user w/ validation -- success path with valid id", async () => {
     "password": "dderr$pffle%%44*5",
   };
 
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
   expect(result).toBeTruthy();
 });
 
-test("Adding user w/ validation -- failure path with invalid id", async () => {
+test("Adding user w/o validation -- failure path with invalid id", async () => {
   let user = {
     "_id":"123",
     "username": "HarryPotter",
@@ -254,17 +254,17 @@ test("Adding user w/ validation -- failure path with invalid id", async () => {
     "password": "dderr$pffle%%44*5",
   };
 
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
 
-test("Adding user w/ validation -- failure path with already taken id", async () => {
+test("Adding user w/o validation -- failure path with already taken id", async () => {
   let user = {
     "username": "HarryPotter",
     "email": "youngWizard@gmail.com",
     "password": "dderr$pffle%%44*5",
   };
-  const addedUser = await userServices.validateAndSignUp(user);
+  const addedUser = await userServices.signUpUser(user);
 
   const anotheruser = {
     "_id": addedUser.id,
@@ -274,35 +274,37 @@ test("Adding user w/ validation -- failure path with already taken id", async ()
     "prefs" : {"sports" : {}}
 
   };
-  const result = await userServices.validateAndSignUp(anotheruser);
+  const result = await userServices.signUpUser(anotheruser);
   expect(result).toBeFalsy();
 });
 
 
-test("Adding user  w/ validation-- failure path with already taken username", async () => {
+test("Adding user  w/o validation-- success path with already taken username", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5"
   };
-  const addedUser = await userServices.validateAndSignUp(user);
+  const addedUser = await userServices.signUpUser(user);
 
   const anotheruser = {
     "username": addedUser.username,
     "email": "youngWizard2@gmail.com",
     "password": "Sample%%44*5"
   };
-  const result = await userServices.validateAndSignUp(anotheruser);
-  expect(result).toBeFalsy();
+  const result = await userServices.signUpUser(anotheruser);
+  expect(result.username).toBe(user.username);
+  expect(result.email).toBe(anotheruser.email);
+  expect(result.validPassword(anotheruser.password));
 });
 
-test("Adding user w/ validation -- failure path with already taken email", async () => {
+test("Adding user w/o validation -- success path with already taken email", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5"
   };
-  const addedUser = await userServices.validateAndSignUp(user);
+  const addedUser = await userServices.signUpUser(user);
 
   const anotherUser = {
     "username": "Ron",
@@ -310,27 +312,28 @@ test("Adding user w/ validation -- failure path with already taken email", async
     "password": "Sample%%44*5"
   };
 
-  const result = await userServices.validateAndSignUp(anotherUser);
-  expect(result).toBeFalsy();
-});
+  const result = await userServices.signUpUser(anotherUser);
+  expect(result.username).toBe(anotherUser.username);
+  expect(result.email).toBe(user.email);
+  expect(result.validPassword(anotherUser.password));});
 
 
-test("Adding user w/ validation -- failure path with no username", async () => {
+test("Adding user w/o validation -- failure path with no username", async () => {
   const user = {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   }
 
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
 
-test("Adding user w/ validation -- failure path with no email", async () => {
+test("Adding user w/o validation -- failure path with no email", async () => {
   const user = {
     "username": "Harry Potter",
     "password": "Sample%%44*5",
     };
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
 
@@ -340,7 +343,7 @@ test("Logging in user -- Success", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
 
   const loginResult = await userServices.login(user);
 
@@ -353,7 +356,7 @@ test("Logging in user -- Password Failure", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
   user.password = "Differentpass55$";
 
   const loginResult = await userServices.login(user);
@@ -367,7 +370,7 @@ test("Logging in user -- Username Failure", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
   user.username = "Ron";
 
   const loginResult = await userServices.login(user);
@@ -380,7 +383,7 @@ test("Logging in user -- no username Failure", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
 
   const loginResult = await userServices.login(user);
 
@@ -392,7 +395,7 @@ test("Logging in user -- no email Failure", async () => {
     "username": "Harry Potter",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.validateAndSignUp(user);
+  const result = await userServices.signUpUser(user);
 
   const loginResult = await userServices.login(user);
 
@@ -508,7 +511,7 @@ test("Getting user Preferences -- successful path", async () => {
     "password": "Srr$pffle%%44*5"
   };
 
-  const resultUser = await userServices.validateAndSignUp(user);
+  const resultUser = await userServices.signUpUser(user);
   const resultPref = await userServices.getUserPreferences(resultUser.username);
 
   expect(resultUser.prefs).toStrictEqual(resultPref[0].prefs._id);
@@ -523,7 +526,7 @@ test("Getting user Preferences -- Failure path", async () => {
     "password": "Srr$pffle%%44*5"
   };
 
-  const resultUser = await userServices.validateAndSignUp(user);
+  const resultUser = await userServices.signUpUser(user);
   resultUser.username = "Ron";
   const resultPref = await userServices.getUserPreferences(resultUser.username);
   expect(resultPref.length).toBe(0);
@@ -549,7 +552,7 @@ test("Setting user Preferences -- Success path", async () => {
     }
   };
 
-  const resultUser = await userServices.validateAndSignUp(user);
+  const resultUser = await userServices.signUpUser(user);
   const orginalPrefs = await userServices.getUserPreferences(resultUser.username);
   await userServices.setUserPreferences(resultUser.username, newPrefs );
   const newPref = await userServices.getUserPreferences(resultUser.username);
