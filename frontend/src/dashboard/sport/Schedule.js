@@ -57,7 +57,7 @@ export default function Schedule(props) {
     if (nbaYesterday.isLoading || nbaToday.isLoading || nbaTomorrow.isLoading ||
         nhlYesterday.isLoading || nhlToday.isLoading || nhlTomorrow.isLoading ||
         !props || !props.prefs || !props.sports || !games) {
-        return null;
+        return <p className='nomargin bold'>Loading...</p>;
     }
 
     const noGames = (

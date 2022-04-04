@@ -8,6 +8,7 @@ import {getLabels, sportsQuery} from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";
 import {setUserPrefs} from "../login-signup/UserHandler";
+import {toast, Toaster} from "react-hot-toast";
 
 function createPrefsObject(allLeagues, leagues, teams) {
     const leagueLabels = getLabels(allLeagues);
@@ -54,10 +55,15 @@ function SettingsBox(props) {
         user.prefs = createPrefsObject(allLeagues, leagues, teams);
         props.setUser(user);
         //console.log("HandleSumbit"+ user.prefs.sports.NBA.teams)
-        setUserPrefs(user).then(r => {
-            if (r.status === 201) {
-                navigate('/');
-            } else {
+        toast.promise(
+            setUserPrefs(user),
+            {
+                loading: 'Saving...',
+                success: <b>Settings saved!</b>,
+                error: <b>Could not save.</b>,
+            }
+        ).then(r => {
+            if (r.status !== 201) {
                 console.log("Error" + r.status);
             }
         });
@@ -75,12 +81,13 @@ function SettingsBox(props) {
                 </div>
                     <div className='wrapper'>
                     <p className='settings-category-header'>Preferences</p>
-                        {sportsResult.isLoading && <p className='nomargin'>Loading...</p>}
+                        {sportsResult.isLoading && <p className='nomargin bold'>Loading...</p>}
                         {sportsResult.isSuccess && sports.length > 0 &&
                             <>
                                 <LeaguePreferenceSelector sports={sports} prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
                                 <TeamPreferenceSelector sports={sports} prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-                                <button className='themed-button' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
+                                <button className='themed-button margin-bottom-5' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
+                                <button className='themed-button' onClick={() => navigate('/')}>Done</button>
                             </>
                         }
                 </div>
@@ -98,5 +105,8 @@ export default function Settings(props) {
             navigate('/signup', {replace:true});
         }
     });*/
-    return <SettingsBox user={props.user} setUser={props.setUser}/>;
+    return (<>
+        <Toaster position="top-center" reverseOrder={false}/>
+        <SettingsBox user={props.user} setUser={props.setUser}/>
+    </>);
 }

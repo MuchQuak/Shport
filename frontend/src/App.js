@@ -35,13 +35,11 @@ export default function App(props) {
             setUser(temp);
         }
     });
-
     if (isLoading) {
-        return <span>App loading...</span>;
+        return <p className='nomargin'>App loading...</p>;
     } else if (isError) {
-        return <span>App error: {error}...</span>;
+        return <p className='nomargin'>App error: {error}...</p>;
     }
-
     return (
         <>
             <NavBar user={user}/>

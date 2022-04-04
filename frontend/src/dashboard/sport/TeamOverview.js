@@ -85,7 +85,7 @@ export default function TeamOverview(props) {
         }
     });
     if (nba.isLoading || nhl.isLoading || !props || !props.prefs) {
-        return null;
+        return <p className='nomargin bold'>Loading...</p>;
     }
     const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);
     if (leaguesFollowed.length === 0 || Object.keys(standings).length === 0) {

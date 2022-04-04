@@ -73,7 +73,7 @@ export default function StandingsTable(props) {
         }
     });
     if (nba.isLoading || nhl.isLoading || !props || !props.prefs || !props.sports) {
-        return null;
+        return <p className='nomargin bold'>Loading...</p>;
     }
     const leaguesFollowed = getSportsFollowed(props.prefs);
     if (leaguesFollowed.length === 0) {
