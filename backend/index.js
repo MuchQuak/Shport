@@ -142,7 +142,7 @@ app.post('/login', async(req, res) => {
 });
 
 // gettingPreferences
-app.get('/preferences', async(req, res) => {
+app.get('/preferences',authenticateUser, async(req, res) => {
     const username = decode(req).username;
     const userPref = await userServices.getUserPreferences(username);
     if (userPref){
@@ -153,7 +153,7 @@ app.get('/preferences', async(req, res) => {
 });
 
 // changing preferences
-app.post('/preferences', async(req, res) => {
+app.post('/preferences',authenticateUser, async(req, res) => {
     const username = decode(req).username;
     const prefs = req.body
 

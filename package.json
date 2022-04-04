@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "mongodb-memory-server": "^8.4.0"
+  }
+}
