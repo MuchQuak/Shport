@@ -103,23 +103,6 @@ async function setUserPreferences(name, newPrefs) {
     return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})
 }
 
-//just for testing
-async function getUsers(username, email) {
-    const userModel = getDbConnection().model("user", User.schema);
-    try {
-        if (username === undefined && email === undefined) {
-            return await userModel.find();
-        } else if (username && email === undefined) {
-            return await findUserByUsername(username);
-        } else{
-            return await findUserByEmail(email);
-        }
-    } catch(error) {
-        console.log(error);
-        return false;
-    }   
-}
-
 async function findUserByUsername(name){
     const userModel = getDbConnection().model("user", User.schema);
     return userModel.find({'username': name});
@@ -153,7 +136,6 @@ async function login(user){
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;
-exports.TESTGetUsers = getUsers;
 exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;

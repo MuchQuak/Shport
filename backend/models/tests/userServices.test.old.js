@@ -1,35 +1,39 @@
 /* -- Testing userServices */
 const mongoose = require("mongoose");
-const mockingoose = require("mockingoose");
-
 const UserSchema = require("../user/userSchema");
 const PrefSchema = require("../user/prefSchema");
 const userServices = require("../user/userServices");
+const { MongoMemoryServer } = require("mongodb-memory-server");
 
+let mongoServer;
+let conn;
 let userModel;
 let prefModel;
 
 beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create();
+  const uri = mongoServer.getUri();
 
+  const mongooseOpts = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  };
+
+  conn = await mongoose.createConnection(uri, mongooseOpts);
+
+  userModel = conn.model("user", UserSchema.schema);
+  prefModel = conn.model("pref", PrefSchema.schema);
+  
+  userServices.setConnection(conn);
 });
 
 afterAll(async () => {
-
+  await conn.dropDatabase();
+  await conn.close();
+  await mongoServer.stop();
 });
 
 beforeEach(async () => {
-let users = [
-  {
-    "username": "ChuckNorris",
-    "email": "chuck@gmail.com",
-    "password": "Sample$aa"
-  },
-  {
-    
-  }
-]
-
-
   // USER -- 1
   let user = {
     "username": "ChuckNorris",
