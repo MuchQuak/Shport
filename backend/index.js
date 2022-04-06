@@ -13,9 +13,9 @@ const nbaServices = require('./models/sport/nbaServices');
 const mlbServices = require('./models/sport/mlbServices');
 const nflServices = require('./models/sport/nflServices');
 const news = require('./models/news/newsServices');
+
 const userServices = require('./models/user/userServices');
 const sportInfoServices = require("./models/sport/sportInfoServices");
-const leagueServices = require('./models/sport/leagueService');
 
 function generateAccessToken(username) {
     return jwt.sign({"username": username}, process.env.TOKEN_SECRET, { expiresIn: "60000s" });
@@ -116,8 +116,7 @@ app.get('/users', async (req, res) => {
         let result = await userServices.findUserByUsername(username)
         res.status(200).send(result);
     } else {
-        const allUsers = await userServices.TESTGetUsers();
-        res.status(200).send(allUsers);
+        res.status(409).send("No username provided");
     }
 });
 
