@@ -83,29 +83,6 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Currently just uses name to look up but would like to change this
-app.get('/users/:name/pref', async (req, res) => {
-    const name = req.params.name;
-    const pref = await userServices.getUserPreferences(name);
-    if (pref) {
-        res.status(200).send(pref);
-    } else {
-        res.status(500).end();
-    }
-});
-
-// Currently just uses name to look up but would like to change this
-app.put('/users/:name/pref', async (req, res) => {
-    const name = req.params.name;
-    const prefs = req.body;
-    const pref = await userServices.setUserPreferences(name, prefs);
-    if (pref) {
-        res.status(200).end();
-    } else {
-        res.status(500).end();
-    }
-});
-
 // FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const username = req.query.username;

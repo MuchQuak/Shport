@@ -1,7 +1,6 @@
 const leagues = require('../sport/leagueService');
 const axios = require("axios");
 
-
 test('TESTING: leagueServices Constructor', () => {
   let leageueConst = new leagues.LeagueService("API endpoint");
 

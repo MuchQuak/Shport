@@ -21,6 +21,7 @@
     "process": "^0.11.10"
   },
   "devDependencies": {
+    "mockingoose": "^2.15.2",
     "nodemon": "^2.0.15"
   },
   "description": ""
