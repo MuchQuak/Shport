@@ -51,6 +51,7 @@ async function signUpUser(user) {
         userToAdd.setPassword(user.password);
         const savedUser = await userToAdd.save();
         return savedUser;
+
     } catch(error) {
         console.log(error);
         return false;

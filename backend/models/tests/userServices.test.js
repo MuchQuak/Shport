@@ -10,7 +10,8 @@ let userModel;
 let prefModel;
 
 beforeAll(async () => {
-
+  userModel = mongoose.model("user", UserSchema.schema);
+  prefModel = mongoose.model("pref", PrefSchema.schema);
 });
 
 afterAll(async () => {
@@ -18,105 +19,12 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-let users = [
-  {
-    "username": "ChuckNorris",
-    "email": "chuck@gmail.com",
-    "password": "Sample$aa"
-  },
-  {
-    
-  }
-]
-
-
-  // USER -- 1
-  let user = {
-    "username": "ChuckNorris",
-    "email": "chuck@gmail.com"
-  };
-
-  let userToAdd = new userModel(user);
-
-  let userPrefs = new prefModel({
-    user: userToAdd._id,
-    sports: {
-        following: true,
-    }
-    });
-    
-  userToAdd.prefId = userPrefs._id;
-  await userPrefs.save();
-
-  userToAdd.setPassword("Sample$aa");
-  await userToAdd.save();
-
-  // USER -- 2
-  user = {
-    "username": "Ted Lasso",
-    "email": "ted@email.com"
-  };
-
-  userToAdd = new userModel(user);
-
-  userPrefs = new prefModel({
-    user: userToAdd._id,
-    sports: {
-        following: true,
-    }
-  });
-
-    userToAdd.prefId = userPrefs._id;
-    await userPrefs.save();
-
-    userToAdd.setPassword("Sampff2%f3le$aa");
-    await userToAdd.save();
-
-    // USER -- 3
-    user = {
-      "username": "Larry Fare",
-      "email": "fare@yahoo.com",
-    };
-  
-    userToAdd = new userModel(user);
-  
-    userPrefs = new prefModel({
-      user: userToAdd._id,
-      sports: {
-          following: true,
-      }
-      });
-  
-    userToAdd.prefId = userPrefs._id;
-    await userPrefs.save();
-  
-    userToAdd.setPassword("Samaffee@@ple$aa");
-    await userToAdd.save();
-  
-  // USER -- 4
-  user = {
-    "username": "Pepe Guardiola",
-    "email": "pepe@gmail.com",
-  };
-
-  userToAdd = new userModel(user);
-
-  userPrefs = new prefModel({
-    user: userToAdd._id,
-    sports: {
-        following: true,
-    }
-  });
-
-  userToAdd.prefId = userPrefs._id;
-  await userPrefs.save();
-
-  userToAdd.setPassword("rwftg88ff2%f3le$aa");
-  await userToAdd.save();
+  jest.clearAllMocks();
+  mockingoose.resetAll();
 });
 
 afterEach(async () => {
-  await userModel.deleteMany();
+
 });
 
 
@@ -413,7 +321,7 @@ test("Adding user w/o validation -- successful path", async () => {
   expect(result.validPassword("Sample%%44*5")).toBeTruthy();
   expect(result).toHaveProperty("_id");
 });
-
+//-----------------------------
 test("Adding user w/o validation -- failure path with invalid id", async () => {
   const user = {
     "_id": "123",
@@ -529,11 +437,24 @@ test("Getting user Preferences -- Failure path", async () => {
 });
 
 test("Setting user Preferences -- Success path", async () => {
-  let user = {
-    "username": "HarryPotter",
-    "email": "youngWizard@gmail.com",
-    "password": "Srr$pffle%%44*5"
+  let resultUser = {
+    username: 'HarryPotter',
+    email: 'youngWizard@gmail.com',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };
+
+  let originalPrefs = {
+    sport: {
+
+    },
+    following:true,
+    user: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef")
+
+  }
 
   let newPrefs = {
     "sports": {
@@ -548,13 +469,17 @@ test("Setting user Preferences -- Success path", async () => {
     }
   };
 
-  const resultUser = await userServices.signUpUser(user);
-  const orginalPrefs = await userServices.getUserPreferences(resultUser.username);
+  mockingoose(userModel).toReturn(resultUser, 'findUserByUsername');
+  mockingoose(userModel).toReturn(newPrefs, 'findOneAndUpdate');
+  mockingoose(userModel).toReturn(originalPrefs, 'findOne');
+
+
+  const oPrefs = await userServices.getUserPreferences(resultUser.username);
   await userServices.setUserPreferences(resultUser.username, newPrefs );
   const newPref = await userServices.getUserPreferences(resultUser.username);
 
-  expect(orginalPrefs[0].prefs.user).toStrictEqual(newPref[0].prefs.user);
-  expect(orginalPrefs[0].prefs._id).toStrictEqual(newPref[0].prefs._id);
-  expect(orginalPrefs[0].prefs.sports).not.toStrictEqual(newPref[0].prefs.sports)
+  expect(oPrefs[0].prefs.user).toStrictEqual(newPref[0].prefs.user);
+  expect(oPrefs[0].prefs._id).toStrictEqual(newPref[0].prefs._id);
+  expect(oPrefs[0].prefs.sports).not.toStrictEqual(newPref[0].prefs.sports)
 
 });
