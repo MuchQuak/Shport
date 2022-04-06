@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649270548031" clover="3.2.0">
-  <project timestamp="1649270548031" name="All files">
-    <metrics statements="233" coveredstatements="99" conditionals="42" coveredconditionals="6" methods="45" coveredmethods="20" elements="320" coveredelements="125" complexity="0" loc="233" ncloc="233" packages="2" files="7" classes="7"/>
+<coverage generated="1649273932890" clover="3.2.0">
+  <project timestamp="1649273932890" name="All files">
+    <metrics statements="233" coveredstatements="101" conditionals="42" coveredconditionals="6" methods="45" coveredmethods="18" elements="320" coveredelements="125" complexity="0" loc="233" ncloc="233" packages="2" files="7" classes="7"/>
     <package name="sport">
       <metrics statements="148" coveredstatements="53" conditionals="24" coveredconditionals="4" methods="29" coveredmethods="14"/>
       <file name="leagueService.js" path="C:\personal\tech\308-309_Project\backend\models\sport\leagueService.js">
@@ -166,7 +166,7 @@
       </file>
     </package>
     <package name="user">
-      <metrics statements="85" coveredstatements="46" conditionals="18" coveredconditionals="2" methods="16" coveredmethods="6"/>
+      <metrics statements="85" coveredstatements="48" conditionals="18" coveredconditionals="2" methods="16" coveredmethods="4"/>
       <file name="prefSchema.js" path="C:\personal\tech\308-309_Project\backend\models\user\prefSchema.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
@@ -184,38 +184,38 @@
         <line num="8" count="2" type="stmt"/>
         <line num="10" count="2" type="stmt"/>
         <line num="34" count="2" type="stmt"/>
-        <line num="36" count="2" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="39" count="10" type="stmt"/>
         <line num="44" count="2" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
         <line num="52" count="2" type="stmt"/>
       </file>
       <file name="userServices.js" path="C:\personal\tech\308-309_Project\backend\models\user\userServices.js">
-        <metrics statements="67" coveredstatements="28" conditionals="18" coveredconditionals="2" methods="14" coveredmethods="4"/>
+        <metrics statements="67" coveredstatements="30" conditionals="18" coveredconditionals="2" methods="14" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="14" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="16" type="cond" truecount="2" falsecount="0"/>
         <line num="15" count="1" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
+        <line num="20" count="16" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
+        <line num="31" count="8" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
+        <line num="35" count="8" type="stmt"/>
+        <line num="37" count="8" type="stmt"/>
+        <line num="40" count="8" type="stmt"/>
+        <line num="47" count="8" type="stmt"/>
+        <line num="49" count="8" type="stmt"/>
+        <line num="51" count="8" type="stmt"/>
+        <line num="52" count="8" type="stmt"/>
+        <line num="53" count="5" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
         <line num="63" count="0" type="stmt"/>
         <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="65" count="0" type="stmt"/>
@@ -228,18 +228,18 @@
         <line num="74" count="0" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
-        <line num="87" count="1" type="stmt"/>
-        <line num="88" count="1" type="stmt"/>
-        <line num="90" count="1" type="stmt"/>
-        <line num="91" count="1" type="stmt"/>
-        <line num="92" count="1" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="91" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
         <line num="94" count="0" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
-        <line num="101" count="1" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
-        <line num="104" count="1" type="stmt"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="109" count="1" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="109" count="0" type="stmt"/>
         <line num="113" count="0" type="stmt"/>
         <line num="114" count="0" type="stmt"/>
         <line num="119" count="0" type="cond" truecount="0" falsecount="2"/>

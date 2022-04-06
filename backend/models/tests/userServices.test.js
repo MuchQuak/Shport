@@ -272,20 +272,33 @@ test("Adding user w/o validation -- failure path with invalid id", async () => {
   expect(result).toBeFalsy();
 });
 
+// ---- TESTS DONE ----
 test("Adding user w/o validation -- failure path with already taken id", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
+  let resultUser1 = {
+    username: user.username,
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+
+  mockingoose(userModel).toReturn(resultUser1, 'save');
   const addedUser = await userServices.signUpUser(user);
 
   const anotherUser = {
-    "_id": addedUser.id,
     "username": "Ron",
     "email": "youngWizard2@gmail.com",
     "password": "Sample%%44*5",
-  };
+    "_id": resultUser1._id
+  }
+
+  mockingoose(userModel).toReturn(false, 'save');
   const result = await userServices.signUpUser(anotherUser);
   expect(result).toBeFalsy();
 });
@@ -297,30 +310,66 @@ test("Adding user  w/o validation -- success path with already taken username", 
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
+  let resultUser1 = {
+    username: user.username,
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+
+  mockingoose(userModel).toReturn(resultUser1, 'save');
   const addedUser = await userServices.signUpUser(user);
 
   const anotherUser = {
+    "username": "Ron",
+    "email": "youngWizard2",
+    "password": "Sample%%44*5"
+  }
+
+  const resultUser2 = {
     "username": addedUser.username,
-    "email": "youngWizard2@gmail.com",
-    "password": "Sample%%44*5",
+    "email": anotherUser.email,
+    "salt":"4851f9d5d78683c72ceff482545bc17d",
+    "hash":"8007c506749c89aab137fd2d64defa4139a96ade44834c8ac8d5b34e4e6d8d1662b6b2058e36244c16f204f6267815fb08dbcfdee3fcfae2c419b9bd5fd6417e"
   };
+  mockingoose(userModel).toReturn(resultUser2, 'save');
   const result = await userServices.signUpUser(anotherUser);
   expect(result).toBeTruthy();
 });
 
-test("Adding user w/ validation -- success path with already taken email", async () => {
+test("Adding user w/o validation -- success path with already taken email", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
+  let resultUser1 = {
+    username: 'HarryPotter',
+    email: 'youngWizard@gmail.com',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+
+  mockingoose(userModel).toReturn(resultUser1, 'save');
   const addedUser = await userServices.signUpUser(user);
 
   const anotherUser = {
     "username": "Ron",
     "email": addedUser.email,
-    "password": "Sample%%44*5",
+    "password": "Sample%%44*5"
+  }
+
+  const resultUser2 = {
+    "username": "Ron",
+    "email": addedUser.email,
+    "salt":"4851f9d5d78683c72ceff482545bc17d",
+    "hash":"8007c506749c89aab137fd2d64defa4139a96ade44834c8ac8d5b34e4e6d8d1662b6b2058e36244c16f204f6267815fb08dbcfdee3fcfae2c419b9bd5fd6417e"
   };
+  mockingoose(userModel).toReturn(resultUser2, 'save');
 
   const result = await userServices.signUpUser(anotherUser);
   expect(result).toBeTruthy();
@@ -333,6 +382,16 @@ test("Adding user w/o validation -- failure path with no username", async () => 
     "password": "Sample%%44*5",
   }
 
+  let resultUser = {
+    username: 'HarryPotter',
+    email: 'youngWizard@gmail.com',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+  mockingoose(userModel).toReturn(resultUser, 'save');
+
   const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
@@ -342,10 +401,21 @@ test("Adding user w/o validation -- failure path with no email", async () => {
     "username": "Harry Potter",
     "password": "Sample%%44*5",
     };
+
+  let resultUser = {
+      username: 'HarryPotter',
+      email: 'youngWizard@gmail.com',
+      _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+      prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+      salt: '6d473c07369d5bec999d91c8182afe43',
+      hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+    };  
+    mockingoose(userModel).toReturn(resultUser, 'save');
+
   const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
-
+/*
 test("Getting user Preferences -- successful path", async () => {
   let user = {
     "username": "HarryPotter",
@@ -421,3 +491,4 @@ test("Setting user Preferences -- Success path", async () => {
   expect(oPrefs[0].prefs.sports).not.toStrictEqual(newPref[0].prefs.sports)
 
 });
+*/
