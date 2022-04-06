@@ -19,6 +19,16 @@ export async function gamesQuery(sport, dayOffset){
     });
 }
 
+export async function informativeGamesQuery(sport, dayOffset, dayName){
+    return await axios.get('http://localhost:5000/' + sport + '/games/' + dayOffset).then((res) => {
+        return {
+            sport: sport,
+            dayName: dayName,
+            data: res.data.games
+        };
+    });
+}
+
 export function NBA_logo(abbreviation, divId) {
     if (abbreviation === "" || abbreviation === "NBA") {
         return (

@@ -12,27 +12,23 @@ const queryClient = new QueryClient();
 
 export default function Root() {
     const [cookies, setCookie] = useCookies(['auth_token']);
-
     function setToken(token) {
-        setCookie('auth_token', token, 
+        setCookie('auth_token', token,
             {
                 maxAge: 18000,
                 path: '/'
             }
         )
     }
-
     return (
-        <>
-            <QueryClientProvider client={queryClient}>
-                    <BrowserRouter>
-                        <Routes>
-                        <Route path="/*" element={<App cookies={cookies}/>} />
-                        <Route path="login" element={<Login setToken = {setToken}/>} />
-                        <Route path="signup" element={<SignUp />} />
-                        </Routes>
-                    </BrowserRouter>
-            </QueryClientProvider>
-        </>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                <Route path="/*" element={<App cookies={cookies}/>} />
+                <Route path="login" element={<Login setToken = {setToken}/>} />
+                <Route path="signup" element={<SignUp />} />
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
     );
 }
