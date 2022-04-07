@@ -160,12 +160,14 @@ test("Adding user w/o validation -- success path with already taken email", asyn
   expect(result.validPassword(anotherUser.password));});
 
 
+// --- TESTS BELOW DONE ----
 test("Adding user w/o validation -- failure path with no username", async () => {
   const user = {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   }
 
+  mockingoose(userModel).toReturn(false, 'save');
   const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
@@ -175,18 +177,34 @@ test("Adding user w/o validation -- failure path with no email", async () => {
     "username": "Harry Potter",
     "password": "Sample%%44*5",
     };
+
+  mockingoose(userModel).toReturn(false, 'save');
+
   const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
+
 
 test("Logging in user -- Success", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
-    "password": "Sample%%44*5",
+    "password": "1",
   };
-  const result = await userServices.signUpUser(user);
 
+  let resultUser1 = {
+    username:user.username,
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '0ab6e8e2c911609a81101f83b9044267',
+    hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
+  }; 
+
+  mockingoose(userModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn([resultUser1], 'find');
+  
+  const result = await userServices.signUpUser(user);
   const loginResult = await userServices.login(user);
 
   expect(loginResult).toBeTruthy();
@@ -198,6 +216,19 @@ test("Logging in user -- Password Failure", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
+
+  let resultUser1 = {
+    username:user.username,
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '0ab6e8e2c911609a81101f83b9044267',
+    hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
+  }; 
+
+  mockingoose(userModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn(false, 'find');
+
   const result = await userServices.signUpUser(user);
   user.password = "Differentpass55$";
 
@@ -212,6 +243,19 @@ test("Logging in user -- Username Failure", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
+
+  let resultUser1 = {
+    username:user.username,
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '0ab6e8e2c911609a81101f83b9044267',
+    hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
+  }; 
+
+  mockingoose(userModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn(false, 'find');
+
   const result = await userServices.signUpUser(user);
   user.username = "Ron";
 
@@ -225,8 +269,17 @@ test("Logging in user -- no username Failure", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.signUpUser(user);
+  let resultUser1 = {
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '0ab6e8e2c911609a81101f83b9044267',
+    hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
+  }; 
+  mockingoose(userModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn(false, 'find');
 
+  const result = await userServices.signUpUser(user);
   const loginResult = await userServices.login(user);
 
   expect(loginResult).toBeFalsy();
@@ -237,13 +290,22 @@ test("Logging in user -- no email Failure", async () => {
     "username": "Harry Potter",
     "password": "Sample%%44*5",
   };
-  const result = await userServices.signUpUser(user);
+  let resultUser1 = {
+    username: user.username,
+    email: undefined,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '0ab6e8e2c911609a81101f83b9044267',
+    hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
+  }; 
+  mockingoose(userModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn(false, 'find');
 
+  const result = await userServices.signUpUser(user);
   const loginResult = await userServices.login(user);
 
   expect(loginResult).toBeFalsy();
 });
-
 
 test("Adding user w/o validation -- successful path", async () => {
   const user = {
@@ -251,15 +313,24 @@ test("Adding user w/o validation -- successful path", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
+  let resultUser1 = {
+    username: user.username,
+    email: user.email,
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '0ab6e8e2c911609a81101f83b9044267',
+    hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
+  }; 
+  mockingoose(userModel).toReturn(resultUser1, 'save');
   const result = await userServices.signUpUser(user);
 
   expect(result).toBeTruthy();
   expect(result.username).toBe(user.username);
   expect(result.email).toBe(user.email);
-  expect(result.validPassword("Sample%%44*5")).toBeTruthy();
+  expect(result.validPassword("1")).toBeTruthy();
   expect(result).toHaveProperty("_id");
 });
-//-----------------------------
+
 test("Adding user w/o validation -- failure path with invalid id", async () => {
   const user = {
     "_id": "123",
@@ -267,12 +338,12 @@ test("Adding user w/o validation -- failure path with invalid id", async () => {
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5",
   };
-
+  mockingoose(userModel).toReturn(false, 'save');
   const result = await userServices.signUpUser(user);
+
   expect(result).toBeFalsy();
 });
 
-// ---- TESTS DONE ----
 test("Adding user w/o validation -- failure path with already taken id", async () => {
   const user = {
     "username": "Harry Potter",
