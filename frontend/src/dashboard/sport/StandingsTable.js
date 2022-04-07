@@ -8,6 +8,7 @@ import {
 } from "./SportHandler";
 import {useState} from "react";
 import {useQuery} from "react-query";
+import {loading} from "../../util/Util";
 
 function get_teams(standings, conference) {
     const team_stats = [];
@@ -73,7 +74,7 @@ export default function StandingsTable(props) {
         }
     });
     if (nba.isLoading || nhl.isLoading || !props || !props.prefs || !props.sports) {
-        return <p className='nomargin bold'>Loading...</p>;
+        return loading;
     }
     const leaguesFollowed = getSportsFollowed(props.prefs);
     if (leaguesFollowed.length === 0) {

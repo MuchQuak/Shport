@@ -10,6 +10,7 @@ import {sportsQuery} from "./sport/SportHandler";
 import {newsQuery} from "./news/NewsHandler";
 import {getInterestedSports} from "../settings/PrefHandler";
 import {useQuery} from "react-query";
+import {errorSuffix, loading, loadingSuffix} from "../util/Util";
 
 function default_items(prefs, sports) {
     return [
@@ -71,15 +72,13 @@ export default function Dashboard(props) {
     });
     const getMsg = () => {
         if (!props || sportsResult.isLoading || newsResult.isLoading) {
-            return <p className='nomargin'>Loading...</p>;
-        } else if (!user) {
-            return <p className='nomargin'>Loading user...</p>;
-        } else if (!user.prefs) {
-            return <p className='nomargin'>Loading prefs...</p>
+            return loading;
+        } else if (!user || !user.prefs) {
+            return loadingSuffix("user");
         } else if (user.prefs && sportsResult.isSuccess && newsResult.isSuccess) {
             return partitionItems(default_items(user.prefs, sports).concat(article_items(user.prefs, news)));
         } else {
-            return <p className='nomargin'>Error loading!</p>;
+            return errorSuffix("loading");
         }
     }
     return (

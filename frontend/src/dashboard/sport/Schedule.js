@@ -3,7 +3,7 @@ import Tabbed from "../Tabbed";
 import {getInterestedSports, getPreferredSportIndex} from "../../settings/PrefHandler";
 import {capitalizeFirstLetter, getLeagueLogo, informativeGamesQuery} from "./SportHandler";
 import Game from "./Game";
-import {allQueriesSuccessful, cartesian} from "../../util/Util";
+import {allQueriesSuccessful, cartesian, loading} from "../../util/Util";
 import {useQueries} from "react-query";
 
 const noGames = <p className='nomargin bold'>No Games</p>;
@@ -58,7 +58,7 @@ export default function Schedule(props) {
         }
     }));
     if (!allQueriesSuccessful(gamesQuery) || !props || !props.prefs || !props.sports) {
-        return <p className='nomargin bold'>Loading...</p>;
+        return loading;
     }
     const leaguesFollowed = getInterestedSports(props.prefs);
     if (leaguesFollowed.length === 0) {

@@ -7,6 +7,7 @@ import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
 import {prefsQuery} from "./login-signup/UserHandler";
 import {useQuery} from "react-query";
+import {errorSuffix, loadingSuffix} from "./util/Util";
 
 
 const user = {
@@ -36,9 +37,9 @@ export default function App(props) {
         }
     });
     if (isLoading) {
-        return <p className='nomargin'>App loading...</p>;
+        return loadingSuffix("app");
     } else if (isError) {
-        return <p className='nomargin'>App error: {error}...</p>;
+        return errorSuffix(error);
     }
     return (
         <>

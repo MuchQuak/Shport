@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import {useQuery} from "react-query";
 import {setUserPrefs} from "../login-signup/UserHandler";
 import {toast, Toaster} from "react-hot-toast";
+import {loading} from "../util/Util";
 
 function createPrefsObject(allLeagues, leagues, teams) {
     const leagueLabels = getLabels(allLeagues);
@@ -72,25 +73,23 @@ function SettingsBox(props) {
         <div className='boxed margin-bottom-10'>
             <h1 className='boxed-header'>Settings</h1>
                 <div className='wrapper'>
-                    <Form>
-                        <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" value={user.info.name} readOnly={true}/>
-                        </Form.Group>
-                    </Form>
-                </div>
-                    <div className='wrapper'>
-                    <p className='settings-category-header'>Preferences</p>
-                        {sportsResult.isLoading && <p className='nomargin bold'>Loading...</p>}
-                        {sportsResult.isSuccess && sports.length > 0 &&
-                            <>
-                                <LeaguePreferenceSelector sports={sports} prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
-                                <TeamPreferenceSelector sports={sports} prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
-                                <button className='themed-button margin-bottom-5' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
-                                <button className='themed-button' onClick={() => navigate('/')}>Done</button>
-                            </>
-                        }
-                </div>
+                <Form>
+                    <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="username" value={user.info.name} readOnly={true}/>
+                    </Form.Group>
+                </Form>
+                <p className='settings-category-header'>Preferences</p>
+                    {sportsResult.isLoading && loading}
+                    {sportsResult.isSuccess && sports.length > 0 &&
+                        <>
+                            <LeaguePreferenceSelector sports={sports} prefs={user.prefs} selected={selectedLeagues} setSelected={setSelectedLeagues}/>
+                            <TeamPreferenceSelector sports={sports} prefs={user.prefs} selected={selectedTeams} setSelected={setSelectedTeams}/>
+                            <button className='themed-button margin-bottom-5' onClick={e => handleSubmit(e, sports, selectedLeagues, selectedTeams)}>Save Changes</button>
+                            <button className='themed-button' onClick={() => navigate('/')}>Done</button>
+                        </>
+                    }
+            </div>
         </div>
     );
 }
