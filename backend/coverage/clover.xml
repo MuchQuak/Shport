@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649441670164" clover="3.2.0">
-  <project timestamp="1649441670164" name="All files">
-    <metrics statements="232" coveredstatements="101" conditionals="40" coveredconditionals="4" methods="45" coveredmethods="19" elements="317" coveredelements="124" complexity="0" loc="232" ncloc="232" packages="2" files="7" classes="7"/>
+<coverage generated="1649442236443" clover="3.2.0">
+  <project timestamp="1649442236443" name="All files">
+    <metrics statements="232" coveredstatements="103" conditionals="40" coveredconditionals="6" methods="45" coveredmethods="19" elements="317" coveredelements="128" complexity="0" loc="232" ncloc="232" packages="2" files="7" classes="7"/>
     <package name="sport">
-      <metrics statements="148" coveredstatements="53" conditionals="24" coveredconditionals="4" methods="29" coveredmethods="14"/>
-      <file name="leagueService.js" path="C:\personal\tech\308-309_Project\backend\models\sport\leagueService.js">
+      <metrics statements="148" coveredstatements="51" conditionals="24" coveredconditionals="4" methods="29" coveredmethods="13"/>
+      <file name="leagueService.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/sport/leagueService.js">
         <metrics statements="33" coveredstatements="16" conditionals="8" coveredconditionals="1" methods="9" coveredmethods="7"/>
         <line num="1" count="2" type="stmt"/>
         <line num="5" count="10" type="stmt"/>
@@ -40,7 +40,7 @@
         <line num="67" count="1" type="stmt"/>
         <line num="71" count="2" type="stmt"/>
       </file>
-      <file name="nhlServices.js" path="C:\personal\tech\308-309_Project\backend\models\sport\nhlServices.js">
+      <file name="nhlServices.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/sport/nhlServices.js">
         <metrics statements="64" coveredstatements="7" conditionals="6" coveredconditionals="0" methods="12" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -107,30 +107,30 @@
         <line num="103" count="0" type="stmt"/>
         <line num="191" count="1" type="stmt"/>
       </file>
-      <file name="sportInfoServices.js" path="C:\personal\tech\308-309_Project\backend\models\sport\sportInfoServices.js">
-        <metrics statements="46" coveredstatements="25" conditionals="10" coveredconditionals="3" methods="8" coveredmethods="5"/>
+      <file name="sportInfoServices.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/sport/sportInfoServices.js">
+        <metrics statements="46" coveredstatements="23" conditionals="10" coveredconditionals="3" methods="8" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="6" count="5" type="stmt"/>
-        <line num="7" count="5" type="cond" truecount="1" falsecount="1"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="13" count="5" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
-        <line num="32" count="4" type="stmt"/>
-        <line num="33" count="4" type="stmt"/>
-        <line num="34" count="4" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="43" count="2" type="stmt"/>
-        <line num="45" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="46" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="45" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="0" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
@@ -156,7 +156,7 @@
         <line num="88" count="1" type="stmt"/>
         <line num="89" count="1" type="stmt"/>
       </file>
-      <file name="sportSchema.js" path="C:\personal\tech\308-309_Project\backend\models\sport\sportSchema.js">
+      <file name="sportSchema.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/sport/sportSchema.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -166,15 +166,15 @@
       </file>
     </package>
     <package name="user">
-      <metrics statements="84" coveredstatements="48" conditionals="16" coveredconditionals="0" methods="16" coveredmethods="5"/>
-      <file name="prefSchema.js" path="C:\personal\tech\308-309_Project\backend\models\user\prefSchema.js">
+      <metrics statements="84" coveredstatements="52" conditionals="16" coveredconditionals="2" methods="16" coveredmethods="6"/>
+      <file name="prefSchema.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/user/prefSchema.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
       </file>
-      <file name="userSchema.js" path="C:\personal\tech\308-309_Project\backend\models\user\userSchema.js">
+      <file name="userSchema.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/user/userSchema.js">
         <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -184,15 +184,15 @@
         <line num="8" count="2" type="stmt"/>
         <line num="10" count="2" type="stmt"/>
         <line num="34" count="2" type="stmt"/>
-        <line num="36" count="18" type="stmt"/>
-        <line num="39" count="18" type="stmt"/>
+        <line num="36" count="28" type="stmt"/>
+        <line num="39" count="28" type="stmt"/>
         <line num="44" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
-        <line num="48" count="2" type="stmt"/>
+        <line num="45" count="5" type="stmt"/>
+        <line num="48" count="5" type="stmt"/>
         <line num="52" count="2" type="stmt"/>
       </file>
-      <file name="userServices.js" path="C:\personal\tech\308-309_Project\backend\models\user\userServices.js">
-        <metrics statements="66" coveredstatements="30" conditionals="16" coveredconditionals="0" methods="14" coveredmethods="3"/>
+      <file name="userServices.js" path="/Users/loganwilt/CSC_308/308-309_Project/backend/models/user/userServices.js">
+        <metrics statements="66" coveredstatements="34" conditionals="16" coveredconditionals="2" methods="14" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -202,18 +202,18 @@
         <line num="26" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
-        <line num="41" count="16" type="stmt"/>
-        <line num="43" count="16" type="stmt"/>
-        <line num="45" count="16" type="stmt"/>
-        <line num="47" count="16" type="stmt"/>
-        <line num="50" count="16" type="stmt"/>
-        <line num="57" count="16" type="stmt"/>
-        <line num="59" count="16" type="stmt"/>
-        <line num="61" count="16" type="stmt"/>
-        <line num="62" count="16" type="stmt"/>
-        <line num="63" count="9" type="stmt"/>
-        <line num="66" count="7" type="stmt"/>
-        <line num="67" count="7" type="stmt"/>
+        <line num="41" count="25" type="stmt"/>
+        <line num="43" count="25" type="stmt"/>
+        <line num="45" count="25" type="stmt"/>
+        <line num="47" count="25" type="stmt"/>
+        <line num="50" count="25" type="stmt"/>
+        <line num="57" count="25" type="stmt"/>
+        <line num="59" count="25" type="stmt"/>
+        <line num="61" count="25" type="stmt"/>
+        <line num="62" count="25" type="stmt"/>
+        <line num="63" count="17" type="stmt"/>
+        <line num="66" count="8" type="stmt"/>
+        <line num="67" count="8" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
         <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="75" count="0" type="stmt"/>
@@ -240,11 +240,11 @@
         <line num="119" count="0" type="stmt"/>
         <line num="123" count="0" type="stmt"/>
         <line num="124" count="0" type="stmt"/>
-        <line num="129" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
+        <line num="129" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="130" count="2" type="stmt"/>
+        <line num="131" count="2" type="stmt"/>
         <line num="132" count="0" type="stmt"/>
-        <line num="135" count="0" type="stmt"/>
+        <line num="135" count="1" type="stmt"/>
         <line num="139" count="5" type="stmt"/>
         <line num="140" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="141" count="0" type="stmt"/>
