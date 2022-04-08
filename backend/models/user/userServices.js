@@ -124,14 +124,16 @@ async function findUserByEmail(email){
     return userModel.find({'email': email});
 }
 
-async function findUserById(id){
-    
+async function findUserById(id) {
     if(mongoose.Types.ObjectId.isValid(id)){
-        let obj = new mongoose.Types.ObjectId(id);
+
+        let objId = new mongoose.Types.ObjectId(id);
         const userModel = mongoose.model("user", User.schema);
-        return userModel.find({'_id': obj});
+
+        return userModel.find({'_id': objId});
     }
-    else{
+    else {
+
         return undefined;
     }
 }
@@ -152,5 +154,5 @@ exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
-exports.validate = validate;
+exports.validateUserInfo = validate;
 exports.login = login;

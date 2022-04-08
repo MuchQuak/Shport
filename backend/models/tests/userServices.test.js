@@ -40,9 +40,11 @@ test("Succesful findUserbyId", async () => {
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };  
 
-  mockingoose(userModel).toReturn(resultUser1, 'find');
+  mockingoose(userModel).toReturn(resultUser1, 'findById');
+  //mockingoose(userModel).toReturn(resultUser1, 'find');
 
   const user = await userServices.findUserById(anyId);
+  console.log(user);
   expect(user._id).toBe(anyId);
 });
 
@@ -124,7 +126,7 @@ test("signup - failure path with invalid id", async () => {
   };  
   
   mockingoose(prefModel).toReturn(resultUser1, 'save');
-  mockingoose(userModel).toReturn(false, 'save');
+  mockingoose(userModel).toReturn({}, 'save');
 
   const result = await userServices.signUpUser(user);
 
@@ -138,15 +140,10 @@ test("validate -- success", async () => {
     "password": "Sample%%44*5"
   };
 
-  const email = jest.fn(userServices.findUserByEmail);
-  const id = jest.fn(userServices.findUserById);
-  const username = jest.fn(userServices.findUserByUsername);
+  mockingoose(userModel).toReturn({}, 'find');
+  mockingoose(userModel).toReturn({}, 'findById');
 
-  expect(email.mock.results[0].value).toBe([]);
-  expect(id.mock.results[0].value).toBe([]);
-  expect(username.mock.results[0].value).toBe([]);
-
-  expect(validate(user)).toBeTruthy();
+  expect(userServices.validateUserInfo(user)).toBeTruthy();
 });
 
 test("validate -- failure path with already taken id", async () => {
@@ -156,19 +153,8 @@ test("validate -- failure path with already taken id", async () => {
     "password": "Sample%%44*5"
   };
 
-  const email = jest.fn(userServices.findUserByEmail);
-  const id = jest.fn(userServices.findUserById);
-  const username = jest.fn(userServices.findUserByUsername);
-
-  expect(email.mock.calls.length).toBe(1);
-  expect(email.mock.calls[0][0]).toBe(user);
-  expect(email.mock.results[0].value).toBe([]);
-  expect(id.mock.calls[0][0]).toBe(user);
-  expect(id.mock.results[0].value).toBe([user]);
-  expect(username.mock.calls[0][0]).toBe(user);
-  expect(username.mock.results[0].value).toBe([]);
-
-  expect(validate(user)).toBeFalsy();
+  mockingoose(userModel).toReturn(user, 'find');
+  expect(userServices.validateUserInfo(user)).resolves.toBeFalsy();
 });
 
 test("validate -- failure path with already taken username", async () => {
@@ -178,15 +164,8 @@ test("validate -- failure path with already taken username", async () => {
     "password": "Sample%%44*5"
   };
 
-  const email = jest.fn(userServices.findUserByEmail);
-  const id = jest.fn(userServices.findUserById);
-  const username = jest.fn(userServices.findUserByUsername);
-
-  expect(email.mock.results[0].value).toBe([]);
-  expect(id.mock.results[0].value).toBe([]);
-  expect(username.mock.results[0].value).toBe([user]);
-
-  expect(validate(user)).toBeFalsy();
+  mockingoose(userModel).toReturn(user, 'find');
+  expect(userServices.validateUserInfo(user)).resolves.toBeFalsy();
 });
 
 test("validate -- failure path with already taken email", async () => {
@@ -197,20 +176,9 @@ test("validate -- failure path with already taken email", async () => {
   };
 
   mockingoose(userModel).toReturn(user, 'find');
-  /*
-  const email = jest.fn(userServices.findUserByEmail);
-  const id = jest.fn(userServices.findUserById);
-  const username = jest.fn(userServices.findUserByUsername);
-
-  expect(email.mock.results[0].value).toBe([user]);
-  expect(id.mock.results[0].value).toBe([]);
-  expect(username.mock.results[0].value).toBe([]);
-  */
-
-  expect(validate(user)).toBeFalsy();
+  expect(userServices.validateUserInfo(user)).resolves.toBeFalsy();
   });
 
-  
 // --- TESTS BELOW DONE ----
 
 test("Adding user w/o validation -- failure path with no username", async () => {
