@@ -94,8 +94,8 @@ async function validate(u) {
 }
 
 async function getUserPreferences(name) {
-    const userModel = mongoose().model("user", User.schema);
-    const prefModel = mongoose().model("pref", Pref.schema);
+    const userModel = mongoose.model("user", User.schema);
+    const prefModel = mongoose.model("pref", Pref.schema);
     
     try {
         const query = userModel.findOne({'username': name}).populate({ path: 'prefs', model: 'pref' });
@@ -108,19 +108,19 @@ async function getUserPreferences(name) {
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
-    const prefModel = mongoose().model("pref", Pref.schema);     
+    const prefModel = mongoose.model("pref", Pref.schema);     
     const user = await findUserByUsername(name);
 
     return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})
 }
 
 async function findUserByUsername(name){
-    const userModel = mongoose().model("user", User.schema);
+    const userModel = mongoose.model("user", User.schema);
     return userModel.find({'username': name});
 }
 
 async function findUserByEmail(email){
-    const userModel = mongoose().model("user", User.schema);
+    const userModel = mongoose.model("user", User.schema);
     return userModel.find({'email': email});
 }
 
@@ -128,7 +128,7 @@ async function findUserById(id){
     
     if(mongoose.Types.ObjectId.isValid(id)){
         let obj = new mongoose.Types.ObjectId(id);
-        const userModel = mongoose().model("user", User.schema);
+        const userModel = mongoose.model("user", User.schema);
         return userModel.find({'_id': obj});
     }
     else{

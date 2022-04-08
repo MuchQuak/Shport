@@ -336,7 +336,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -357,10 +357,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -469,8 +469,8 @@ async function <span class="fstat-no" title="function not covered" >validate(</s
 }
 &nbsp;
 async function <span class="fstat-no" title="function not covered" >getUserPreferences(</span>name) {
-    const userModel = <span class="cstat-no" title="statement not covered" >mongoose().model("user", User.schema);</span>
-    const prefModel = <span class="cstat-no" title="statement not covered" >mongoose().model("pref", Pref.schema);</span>
+    const userModel = <span class="cstat-no" title="statement not covered" >mongoose.model("user", User.schema);</span>
+    const prefModel = <span class="cstat-no" title="statement not covered" >mongoose.model("pref", Pref.schema);</span>
     
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const query = <span class="cstat-no" title="statement not covered" >userModel.findOne({'username': name}).populate({ path: 'prefs', model: 'pref' });</span>
@@ -483,27 +483,27 @@ async function <span class="fstat-no" title="function not covered" >getUserPrefe
 &nbsp;
 // update preferences
 async function <span class="fstat-no" title="function not covered" >setUserPreferences(</span>name, newPrefs) {
-    const prefModel = <span class="cstat-no" title="statement not covered" >mongoose().model("pref", Pref.schema);     </span>
+    const prefModel = <span class="cstat-no" title="statement not covered" >mongoose.model("pref", Pref.schema);     </span>
     const user = <span class="cstat-no" title="statement not covered" >await findUserByUsername(name);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})</span>
 }
 &nbsp;
 async function findUserByUsername(name){
-    const userModel = mongoose().model("user", User.schema);
-<span class="cstat-no" title="statement not covered" >    return userModel.find({'username': name});</span>
+    const userModel = mongoose.model("user", User.schema);
+    return userModel.find({'username': name});
 }
 &nbsp;
 async function <span class="fstat-no" title="function not covered" >findUserByEmail(</span>email){
-    const userModel = <span class="cstat-no" title="statement not covered" >mongoose().model("user", User.schema);</span>
+    const userModel = <span class="cstat-no" title="statement not covered" >mongoose.model("user", User.schema);</span>
 <span class="cstat-no" title="statement not covered" >    return userModel.find({'email': email});</span>
 }
 &nbsp;
 async function findUserById(id){
     
-    if(mongoose.Types.ObjectId.isValid(id)){
-        let obj = new mongoose.Types.ObjectId(id);
-        const userModel = mongoose().model("user", User.schema);
+<span class="cstat-no" title="statement not covered" >    if(mongoose.Types.ObjectId.isValid(id)){</span>
+        let obj = <span class="cstat-no" title="statement not covered" >new mongoose.Types.ObjectId(id);</span>
+        const userModel = <span class="cstat-no" title="statement not covered" >mongoose.model("user", User.schema);</span>
 <span class="cstat-no" title="statement not covered" >        return userModel.find({'_id': obj});</span>
     }
     else{
@@ -511,11 +511,11 @@ async function findUserById(id){
     }
 }
 async function login(user){
-    return await findUserByUsername(user.username).then( <span class="fstat-no" title="function not covered" >re</span>sult =&gt;{
-<span class="cstat-no" title="statement not covered" >        if(result.length === 1){</span>
-<span class="cstat-no" title="statement not covered" >            return result[0].validPassword(user.password);</span>
+    return await findUserByUsername(user.username).then( result =&gt;{
+        if(result.length === 1){
+            return result[0].validPassword(user.password);
         }
-<span class="cstat-no" title="statement not covered" >        return false;</span>
+        return false;
     } );
 }
 &nbsp;
@@ -535,7 +535,7 @@ exports.login = login;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Apr 08 2022 11:23:56 GMT-0700 (Pacific Daylight Time)
+                at Fri Apr 08 2022 11:29:41 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

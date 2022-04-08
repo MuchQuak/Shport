@@ -24,21 +24,21 @@ afterEach(async () => {
 });
 
 test("Fetch all sports", async () => {
-    mockingoose(sportModel).toReturn(true, 'find');
+    mockingoose(sportModel).toReturn({}, 'find');
     const result = await sportInfoServices.getSports();
-    expect(result).toBeTruthy();
+    expect(result).toMatchObject({});
 });
 
 test("Fetch One Sport -- Success", async () => {
     let sport = "NBA";
-    mockingoose(sportModel).toReturn(true, 'find');
+    mockingoose(sportModel).toReturn({}, 'findOne');
     const result = await sportInfoServices.getSport(sport);
-    expect(result).toBeTruthy();
+    expect(result).toMatchObject({});
 });
 
 test("Fetch Teams By Sport -- Success", async () => {
     let sport = "NHL";
-    mockingoose(sportModel).toReturn(true, 'find');
+    mockingoose(sportModel).toReturn({}, 'findOne');
     const result = await sportInfoServices.getTeams(sport);
-    expect(result).toBeTruthy();
+    expect(result).toMatchObject({});
 });

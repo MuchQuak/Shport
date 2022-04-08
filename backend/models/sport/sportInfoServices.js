@@ -13,6 +13,7 @@ function getDbConnection() {
     return dbConnection;
 }
 
+
 function setConnection(newConn){
     dbConnection = newConn;
     return dbConnection;
