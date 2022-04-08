@@ -83,6 +83,16 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+app.get('/username', authenticateUser, async (req, res) => {
+    const username = decode(req);
+
+    if (username) {
+        res.status(200).send(username);
+    } else {
+        res.status(500).end("Server Error");
+    }
+})
+
 // FOR TESTING ONLY
 app.get('/users', async (req, res) => {
     const username = req.query.username;
