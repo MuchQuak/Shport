@@ -6,7 +6,7 @@ import Game from "./Game";
 import {allQueriesSuccessful, cartesian, loading} from "../../util/Util";
 import {useQueries} from "react-query";
 
-const noGames = <p className='nomargin bold'>No Games</p>;
+const noGames = <p className='nomargin bold'>No games.</p>;
 
 function Games(gameData, league, props) {
     if (gameData.length < 1) {
@@ -28,8 +28,8 @@ function getTabIndex(tabNames, preferred) {
 }
 
 function tab(games, props, league, index) {
-    if (games.length > 0) {
-        const dates = games.filter(g => g.sport === league);
+    const dates = games.filter(g => g.sport === league);
+    if (games.length > 0 && dates.length > 0) {
         const dayNames = dates.map(d => d.dayName);
         return (
             <Tabbed titles={dayNames.map(capitalizeFirstLetter)} default={getTabIndex(dayNames, "Today")} key={index}>
@@ -62,7 +62,7 @@ export default function Schedule(props) {
     }
     const leaguesFollowed = getInterestedSports(props.prefs);
     if (leaguesFollowed.length === 0) {
-        return <p className='nomargin bold'>No Leagues Followed</p>;
+        return <p className='nomargin bold'>No leagues followed.</p>;
     }
     return (
         <Tabbed titles={leaguesFollowed}

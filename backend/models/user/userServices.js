@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 const User = require('./userSchema');
 const Pref = require('./prefSchema');
-
 const dotenv = require('dotenv');
 const axios = require('axios');
 
@@ -9,6 +8,9 @@ const axios = require('axios');
 dotenv.config();
 
 let dbConnection;
+
+const userModel = getDbConnection().model("user", User.schema);
+const prefModel = getDbConnection().model("pref", Pref.schema);
 
 function getDbConnection() {
     if (!dbConnection) {
@@ -23,19 +25,12 @@ function getDbConnection() {
 function setConnection(newConn){
     dbConnection = newConn;
     return dbConnection;
-  }
-
+}
 
 async function signUpUser(user) {
-    //Users Collection
-    const userModel = getDbConnection().model("user", User.schema);
-    //Prefs Collection
-    const prefModel = getDbConnection().model("pref", Pref.schema);
-    
     try {
         //New user
         let userToAdd = new userModel(user);
-
         //New Preferences linked to user
         let userPrefs = new prefModel({
             user: userToAdd._id,
@@ -43,14 +38,10 @@ async function signUpUser(user) {
                 following: true,
             }
         });
-
         userToAdd.prefs = userPrefs._id;
-
         await userPrefs.save();
-
         userToAdd.setPassword(user.password);
-        const savedUser = await userToAdd.save();
-        return savedUser;
+        return await userToAdd.save();
     } catch(error) {
         console.log(error);
         return false;
@@ -58,34 +49,22 @@ async function signUpUser(user) {
 }
 
 async function validate(u) {
-    
-    return await findUserByUsername(u.username).then( result =>{
-        if(result.length === 0){
-            return findUserByEmail(u.email).then(result2 =>{
-                if(u._id == undefined && result2.length === 0){
+    return await findUserByUsername(u.username).then(result => {
+        if (result.length === 0){
+            return findUserByEmail(u.email).then(result2 => {
+                if (u._id === undefined && result2.length === 0){
                     return true;
-                }
-                else if(result2.length === 0){
-                    return findUserById(u._id).then( result3 => {
-                        if(result3 !== undefined && result3.length === 0){
-                            return true;
-                        }
-                        return false;
-                    })
+                } else if (result2.length === 0){
+                    return findUserById(u._id).then(result3 => result3 !== undefined && result3.length === 0)
                 }
                 return false;
-
             });
         }
         return false;
-
-    } );
+    });
 }
 
 async function getUserPreferences(name) {
-    const userModel = getDbConnection().model("user", User.schema);
-    const prefModel = getDbConnection().model("pref", Pref.schema);
-    
     try {
         const query = userModel.findOne({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query.select('prefs');
@@ -97,21 +76,18 @@ async function getUserPreferences(name) {
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
-    const prefModel = getDbConnection().model("pref", Pref.schema);     
     const user = await findUserByUsername(name);
-
     return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})
 }
 
 //just for testing
 async function getUsers(username, email) {
-    const userModel = getDbConnection().model("user", User.schema);
     try {
         if (username === undefined && email === undefined) {
             return await userModel.find();
         } else if (username && email === undefined) {
             return await findUserByUsername(username);
-        } else{
+        } else {
             return await findUserByEmail(email);
         }
     } catch(error) {
@@ -121,33 +97,25 @@ async function getUsers(username, email) {
 }
 
 async function findUserByUsername(name){
-    const userModel = getDbConnection().model("user", User.schema);
     return userModel.find({'username': name});
 }
 
 async function findUserByEmail(email){
-    const userModel = getDbConnection().model("user", User.schema);
     return userModel.find({'email': email});
 }
 
 async function findUserById(id){
-    
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if (mongoose.Types.ObjectId.isValid(id)){
         let obj = new mongoose.Types.ObjectId(id);
-        const userModel = getDbConnection().model("user", User.schema);
         return userModel.find({'_id': obj});
-    }
-    else{
+    } else {
         return undefined;
     }
 }
+
 async function login(user){
-    return await findUserByUsername(user.username).then( result =>{
-        if(result.length === 1){
-            return result[0].validPassword(user.password);
-        }
-        return false;
-    } );
+    return await findUserByUsername(user.username)
+        .then(result => result.length === 1 ? result[0].validPassword(user.password) : false);
 }
 
 exports.signUpUser = signUpUser;

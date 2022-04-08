@@ -1,7 +1,7 @@
 import '../style/settings.scss'
 import {useNavigate} from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {getAllTeamsFollowed, getSportsFollowed} from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import {getLabels, sportsQuery} from "../dashboard/sport/SportHandler";

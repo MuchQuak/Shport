@@ -5,26 +5,20 @@ import NavBar from './dashboard/NavBar';
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
-import {prefsQuery} from "./login-signup/UserHandler";
+import {getUsername, prefsQuery} from "./login-signup/UserHandler";
 import {useQuery} from "react-query";
 import {errorSuffix, loadingSuffix} from "./util/Util";
 
-
-const user = {
-    info: {
-        name: "",
-    },
-    prefs: {} // prefs object
-}
-
 export default function App(props) {
     const [user, setUser] = useState({});
-
-    // change to auth token once implemented
+    const [username, setUsername] = useState("Guest");
     const auth_token = props.cookies.auth_token;
-    // change to username retrieval using token
-    const username = "Guest";
-    const { isLoading, isError, error } = useQuery(['prefs', auth_token], () => prefsQuery(auth_token), {
+    const nameQuery = useQuery(['username', auth_token], () => getUsername(auth_token), {
+        onSuccess: (data) => {
+            setUsername(data);
+        }
+    });
+    const prefQuery = useQuery(['prefs', auth_token], () => prefsQuery(auth_token), {
         onSuccess: (data) => {
             const temp = {
                 info: {
@@ -36,10 +30,12 @@ export default function App(props) {
             setUser(temp);
         }
     });
-    if (isLoading) {
+    if (prefQuery.isLoading || nameQuery.isLoading) {
         return loadingSuffix("app");
-    } else if (isError) {
-        return errorSuffix(error);
+    } else if (prefQuery.isError) {
+        return errorSuffix(prefQuery.error);
+    } else if (nameQuery.isError) {
+        return errorSuffix(nameQuery.error);
     }
     return (
         <>
