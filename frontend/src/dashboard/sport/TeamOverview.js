@@ -71,7 +71,7 @@ function overviews(prefs, standings, league, isAlertVisible, openAlert, closeAle
                                 </div>
                             </div>
                             <div className='dialog-body'>
-                                <TeamOverviewExpanded team={team} />
+                                <TeamOverviewExpanded team={code} league={league} stats={stats} />
                             </div>
                         </div>
                     </Modal>
