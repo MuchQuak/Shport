@@ -22,11 +22,15 @@ function generateAccessToken(username) {
 }
 
 function decode(req) {
+    try {
     const authHeader = req.headers["authorization"];
     //Getting the 2nd part of the auth hearder (the token)
     const token = authHeader && authHeader.split(' ')[1];
     
     return jwt.verify(token, process.env.TOKEN_SECRET);
+    } catch(error) {
+        return false;
+    }
 }
 
 app.get('/', (req, res) => {
@@ -82,6 +86,16 @@ app.post('/signup', async (req, res) => {
         }
     }
 });
+
+app.get('/username', authenticateUser, async (req, res) => {
+    const username = decode(req);
+
+    if (username) {
+        res.status(200).send(username);
+    } else {
+        res.status(500).end("Server Error");
+    }
+})
 
 // FOR TESTING ONLY
 app.get('/users', async (req, res) => {
