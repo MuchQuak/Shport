@@ -26,7 +26,7 @@ beforeEach(async () => {
 afterEach(async () => {
 
 });
-
+/*
 test("Fetching by invalid id format", async () => {
   const anyId = "123";
   const user = await userServices.findUserById(anyId);
@@ -159,7 +159,7 @@ test("Adding user w/o validation -- success path with already taken email", asyn
   expect(result.email).toBe(user.email);
   expect(result.validPassword(anotherUser.password));});
 
-
+*/
 // --- TESTS BELOW DONE ----
 
 test("Adding user w/o validation -- failure path with no username", async () => {
