@@ -13,6 +13,7 @@ export default function Article(props) {
                     className='article-img'
                     src={props.news.image}/>
             </a>
+            <p className='article-date'>{props.news.date}</p>
             <p className='article-desc'>{props.news.description}</p>
         </div>
     );
