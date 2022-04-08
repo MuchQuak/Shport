@@ -10,8 +10,8 @@ async function getNews(req, res) {
         id = 'sports'
     const options = {
       host: host,
-      //path: '/v2/top-headlines?country=us&category=sports&apikey=' + process.env.NEWSAPI_KEY,
-      path: '/v2/everything?q=' + id + '&pageSize=100&apiKey=' + process.env.NEWSAPI_KEY, 
+      //path: '/v2/top-headlines?category=sports&country=us&q=' + 'mlb' + '&apikey=' + process.env.NEWSAPI_KEY,
+      path: '/v2/everything?q=' + id + '&pageSize=100&Language=en&sortBy=publishedAt&domains=espn.com,cnn.com,sportingnews.com,yahoo.com,cbssports.com,usatoday.com,foxnews.com,reuters.com&apiKey=' + process.env.NEWSAPI_KEY, 
       method: 'GET'
     }
     http.request(options, function (response) {
@@ -23,7 +23,7 @@ async function getNews(req, res) {
           res.send(formatNewsData(body));
       });
     }).end();
-  }
+}
 
   function removeTags(str) {
     if ((str===null) || (str===''))
@@ -34,11 +34,11 @@ async function getNews(req, res) {
  }
 
   function formatNewsData(responseData) {
-    const articles = JSON.parse(responseData).articles;
+    const res = JSON.parse(responseData);
     const new_articles = [];
   
-    for (let i = 1; i < 20; i++) {
-        const article = articles[i];
+    for (let i = 1; i < res.totalResults; i++) {
+        const article = res.articles[i];
         const new_article = {}
         new_article.title = article.title;
         new_article.description = removeTags(article.description);

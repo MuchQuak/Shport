@@ -22,11 +22,15 @@ function generateAccessToken(username) {
 }
 
 function decode(req) {
+    try {
     const authHeader = req.headers["authorization"];
     //Getting the 2nd part of the auth hearder (the token)
     const token = authHeader && authHeader.split(' ')[1];
     
     return jwt.verify(token, process.env.TOKEN_SECRET);
+    } catch(error) {
+        return false;
+    }
 }
 
 app.get('/', (req, res) => {
