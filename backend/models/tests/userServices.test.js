@@ -159,7 +159,7 @@ test("Adding user w/o validation -- success path with already taken email", asyn
   expect(result.email).toBe(user.email);
   expect(result.validPassword(anotherUser.password));});
 
-
+  
 // --- TESTS BELOW DONE ----
 
 test("Adding user w/o validation -- failure path with no username", async () => {
