@@ -9,7 +9,7 @@ const axios = require('axios');
 dotenv.config();
 
 let dbConnection;
-
+/*
 function getDbConnection() {
     if (!dbConnection) {
         dbConnection = mongoose.createConnection(process.env.MONGODB_URI, {
@@ -18,7 +18,17 @@ function getDbConnection() {
         });
     }
     return dbConnection;
-}
+}*/
+
+
+function createDbConnection() {
+    // if (!mongoose.connection) {
+      mongoose.connect(process.env.MONGODB_URI, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+      });
+    // }
+  }
 
 function setConnection(newConn){
     dbConnection = newConn;
@@ -28,9 +38,9 @@ function setConnection(newConn){
 
 async function signUpUser(user) {
     //Users Collection
-    const userModel = getDbConnection().model("user", User.schema);
+    const userModel = mongoose.model("user", User.schema);
     //Prefs Collection
-    const prefModel = getDbConnection().model("pref", Pref.schema);
+    const prefModel = mongoose.model("pref", Pref.schema);
     
     try {
         //New user
@@ -84,8 +94,8 @@ async function validate(u) {
 }
 
 async function getUserPreferences(name) {
-    const userModel = getDbConnection().model("user", User.schema);
-    const prefModel = getDbConnection().model("pref", Pref.schema);
+    const userModel = mongoose().model("user", User.schema);
+    const prefModel = mongoose().model("pref", Pref.schema);
     
     try {
         const query = userModel.findOne({'username': name}).populate({ path: 'prefs', model: 'pref' });
@@ -98,19 +108,19 @@ async function getUserPreferences(name) {
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
-    const prefModel = getDbConnection().model("pref", Pref.schema);     
+    const prefModel = mongoose().model("pref", Pref.schema);     
     const user = await findUserByUsername(name);
 
     return prefModel.findOneAndUpdate({'user': user[0]._id}, {'sports': newPrefs.sports})
 }
 
 async function findUserByUsername(name){
-    const userModel = getDbConnection().model("user", User.schema);
+    const userModel = mongoose().model("user", User.schema);
     return userModel.find({'username': name});
 }
 
 async function findUserByEmail(email){
-    const userModel = getDbConnection().model("user", User.schema);
+    const userModel = mongoose().model("user", User.schema);
     return userModel.find({'email': email});
 }
 
@@ -118,7 +128,7 @@ async function findUserById(id){
     
     if(mongoose.Types.ObjectId.isValid(id)){
         let obj = new mongoose.Types.ObjectId(id);
-        const userModel = getDbConnection().model("user", User.schema);
+        const userModel = mongoose().model("user", User.schema);
         return userModel.find({'_id': obj});
     }
     else{
@@ -134,6 +144,7 @@ async function login(user){
     } );
 }
 
+exports.createDbConnection = createDbConnection;
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;

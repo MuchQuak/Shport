@@ -222,6 +222,7 @@ test("Adding user w/o validation -- success path with already taken email", asyn
 
 
 // --- TESTS BELOW DONE ----
+
 test("Adding user w/o validation -- failure path with no username", async () => {
   const user = {
     "email": "youngWizard@gmail.com",
@@ -256,8 +257,8 @@ test("Logging in user -- Success", async () => {
   let resultUser1 = {
     username:user.username,
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '0ab6e8e2c911609a81101f83b9044267',
     hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
   }; 
@@ -281,8 +282,8 @@ test("Logging in user -- Password Failure", async () => {
   let resultUser1 = {
     username:user.username,
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '0ab6e8e2c911609a81101f83b9044267',
     hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
   }; 
@@ -308,8 +309,8 @@ test("Logging in user -- Username Failure", async () => {
   let resultUser1 = {
     username:user.username,
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '0ab6e8e2c911609a81101f83b9044267',
     hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
   }; 
@@ -332,8 +333,8 @@ test("Logging in user -- no username Failure", async () => {
   };
   let resultUser1 = {
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '0ab6e8e2c911609a81101f83b9044267',
     hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
   }; 
@@ -354,8 +355,8 @@ test("Logging in user -- no email Failure", async () => {
   let resultUser1 = {
     username: user.username,
     email: undefined,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '0ab6e8e2c911609a81101f83b9044267',
     hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
   }; 
@@ -377,8 +378,8 @@ test("Adding user w/o validation -- successful path", async () => {
   let resultUser1 = {
     username: user.username,
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '0ab6e8e2c911609a81101f83b9044267',
     hash: '910ef94b7754121e6cd22da20c9f16d0f4778c07585c49b6ddab11c3fd60432260136e027ca6bb11e0bc85f1b97cd4fa7c812bf11f6124d7c56bac137594a067'
   }; 
@@ -414,25 +415,25 @@ test("Adding user w/o validation -- failure path with already taken id", async (
   let resultUser1 = {
     username: user.username,
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '6d473c07369d5bec999d91c8182afe43',
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };  
 
   mockingoose(userModel).toReturn(resultUser1, 'save');
-  const addedUser = await userServices.signUpUser(user);
 
   const anotherUser = {
     "username": "Ron",
     "email": "youngWizard2@gmail.com",
     "password": "Sample%%44*5",
     "_id": resultUser1._id
-  }
+  } 
+  mockingoose(userModel).toReturn({}, 'save');
+  mockingoose(prefModel).toReturn({}, 'save');
 
-  mockingoose(userModel).toReturn(false, 'save');
   const result = await userServices.signUpUser(anotherUser);
-  expect(result).toBeFalsy();
+  expect(result).toMatchObject({});
 });
 
 
@@ -445,8 +446,8 @@ test("Adding user  w/o validation -- success path with already taken username", 
   let resultUser1 = {
     username: user.username,
     email: user.email,
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '6d473c07369d5bec999d91c8182afe43',
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };  
@@ -480,8 +481,8 @@ test("Adding user w/o validation -- success path with already taken email", asyn
   let resultUser1 = {
     username: 'HarryPotter',
     email: 'youngWizard@gmail.com',
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '6d473c07369d5bec999d91c8182afe43',
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };  
@@ -517,8 +518,8 @@ test("Adding user w/o validation -- failure path with no username", async () => 
   let resultUser = {
     username: 'HarryPotter',
     email: 'youngWizard@gmail.com',
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '6d473c07369d5bec999d91c8182afe43',
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };  
@@ -537,8 +538,8 @@ test("Adding user w/o validation -- failure path with no email", async () => {
   let resultUser = {
       username: 'HarryPotter',
       email: 'youngWizard@gmail.com',
-      _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-      prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+      _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+      prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
       salt: '6d473c07369d5bec999d91c8182afe43',
       hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
     };  
@@ -547,19 +548,38 @@ test("Adding user w/o validation -- failure path with no email", async () => {
   const result = await userServices.signUpUser(user);
   expect(result).toBeFalsy();
 });
+
 /*
 test("Getting user Preferences -- successful path", async () => {
-  let user = {
-    "username": "HarryPotter",
-    "email": "youngWizard@gmail.com",
-    "password": "Srr$pffle%%44*5"
+  
+  let resultUser = {
+    username: 'HarryPotter',
+    email: 'youngWizard@gmail.com',
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217',
+    prefs: {sport: {
+        "NBA": {
+          "teams": [],
+          "following": true
+        },
+        "NFL":{
+          "teams":[],
+          "following":false
+        }
+      },
+      following:true,
+      user: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+      _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef")
+    }
   };
 
-  const resultUser = await userServices.signUpUser(user);
+  mockingoose(userModel).toReturn(originalPrefs, 'findOne');  
   const resultPref = await userServices.getUserPreferences(resultUser.username);
+  console.log("prefs" + resultPref);
 
-  expect(resultUser.prefs).toStrictEqual(resultPref[0].prefs._id);
-  expect(resultUser._id).toStrictEqual(resultPref[0].prefs.user);
+  expect(resultUser.prefs).toStrictEqual(resultPref.prefs._id);
+  expect(resultUser._id).toStrictEqual(resultPref.prefs.user);
 
 });
 
@@ -580,8 +600,8 @@ test("Setting user Preferences -- Success path", async () => {
   let resultUser = {
     username: 'HarryPotter',
     email: 'youngWizard@gmail.com',
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef"),
     salt: '6d473c07369d5bec999d91c8182afe43',
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
   };
@@ -591,8 +611,8 @@ test("Setting user Preferences -- Success path", async () => {
 
     },
     following:true,
-    user: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef")
+    user: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef")
 
   }
 

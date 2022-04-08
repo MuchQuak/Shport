@@ -17,6 +17,8 @@ const news = require('./models/news/newsServices');
 const userServices = require('./models/user/userServices');
 const sportInfoServices = require("./models/sport/sportInfoServices");
 
+userServices.createDbConnection();
+
 function generateAccessToken(username) {
     return jwt.sign({"username": username}, process.env.TOKEN_SECRET, { expiresIn: "60000s" });
 }
