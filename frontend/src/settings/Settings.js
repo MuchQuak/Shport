@@ -73,12 +73,10 @@ function SettingsBox(props) {
         <div className='boxed margin-bottom-10'>
             <h1 className='boxed-header'>Settings</h1>
                 <div className='wrapper'>
-                <Form>
-                    <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="username" value={user.info.name} readOnly={true}/>
-                    </Form.Group>
-                </Form>
+                <Form.Group className="inputForm" id="usernameForm" size="lg" controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="username" value={user.info.name} readOnly={true}/>
+                </Form.Group>
                 <p className='settings-category-header'>Preferences</p>
                     {sportsResult.isLoading && loading}
                     {sportsResult.isSuccess && sports.length > 0 &&

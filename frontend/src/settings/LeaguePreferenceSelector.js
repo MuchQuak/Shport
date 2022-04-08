@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {getLabels, getLeagueLogo, sportsQuery} from "../dashboard/sport/SportHandler";
 import {useQuery} from "react-query";
+import {loading} from "../util/Util";
 
 export function LeagueOption(props){
     if (!props || !props.league || !props.click) {
@@ -26,7 +27,7 @@ export function LeagueOption(props){
 
 export default function LeaguePreferenceSelector(props) {
     if (!props || !props.sports || !props.selected || !props.setSelected) {
-        return null;
+        return loading;
     }
     const sports = props.sports;
     const selectedLeagues = props.selected;
@@ -43,9 +44,7 @@ export default function LeaguePreferenceSelector(props) {
     }
     return (
         <div className='league-wrapper'>
-            {labels.map((league, index) => {
-                return (<LeagueOption league={league} key={index} click={() => checkSportOption(league)} disabled={false} active={selectedLeagues.includes(league)}/>);
-            })}
+            {labels.map((league, index) => <LeagueOption league={league} key={index} click={() => checkSportOption(league)} disabled={false} active={selectedLeagues.includes(league)}/>)}
         </div>
     );
 }
