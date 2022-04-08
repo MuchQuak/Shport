@@ -30,10 +30,10 @@ function createDbConnection() {
     // }
   }
 
-function setConnection(newConn){
+function setConnection(newConn) {
     dbConnection = newConn;
     return dbConnection;
-  }
+}
 
 
 async function signUpUser(user) {

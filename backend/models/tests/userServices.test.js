@@ -5,6 +5,7 @@ const mockingoose = require("mockingoose");
 const UserSchema = require("../user/userSchema");
 const PrefSchema = require("../user/prefSchema");
 const userServices = require("../user/userServices");
+const { validate } = require("../user/prefSchema");
 
 let userModel;
 let prefModel;
@@ -27,68 +28,85 @@ afterEach(async () => {
 
 });
 
-test("Fetching by invalid id format", async () => {
-  const anyId = "123";
+test("Succesful findUserbyId", async () => {
+  const anyId = "624ddbd7f9bbb3ab16c362ee";
+
+  let resultUser1 = {
+    username: 'Jeff',
+    email: 'j@mail',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+
+  mockingoose(userModel).toReturn(resultUser1, 'find');
+
   const user = await userServices.findUserById(anyId);
-  expect(user).toBeUndefined();
+  expect(user._id).toBe(anyId);
 });
 
-test("Fetching by valid id and not finding", async () => {
-  const anyId = "6132b9d47cefd0cc1916b6a9";
-  const user = await userServices.findUserById(anyId);
-  expect(user.length).toBe(0);
+test("Succesful findUserbyUsername", async () => {
+  const username = "Jeff";
+
+  let resultUser1 = {
+    username: 'Jeff',
+    email: 'j@mail',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+
+  mockingoose(userModel).toReturn(resultUser1, 'find');
+
+  const user = await userServices.findUserByUsername(username);
+  expect(user.username).toBe(username);
 });
 
-test("Fetching by valid id and finding", async () => {
-  let user = {
-    "username": "HarryPotter",
-    "email": "youngWizard@gmail.com",
-    "password": "Sample%%44*5",
-  };
+test("Succesful findUserbyEmail", async () => {
+  const email = "j@mail";
 
-  let userToAdd = new userModel(user);
+  let resultUser1 = {
+    username: 'Jeff',
+    email: 'j@mail',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
 
-  userToAdd.setPassword("Sample%%44*5");
-  const addedUser = await userToAdd.save();
+  mockingoose(userModel).toReturn(resultUser1, 'find');
 
-  const foundUser = await userServices.findUserById(addedUser._id);
-  expect(foundUser[0]).toBeDefined();
-  expect(foundUser[0]._id).toStrictEqual(addedUser._id);
-  expect(foundUser[0].username).toStrictEqual(addedUser.username);
-  expect(foundUser[0].email).toStrictEqual(addedUser.email);
-  expect(foundUser[0].validPassword("Sample%%44*5")).toBeTruthy();
-  expect(foundUser[0].prefs).toBe(addedUser.prefs);
+  const user = await userServices.findUserByEmail(email);
+  expect(user.email).toBe(email);
 });
 
-test("Adding user w/o validation-- successful path", async () => {
-  let user = {
+test("sign up - successful", async () => {
+  const user = {
     "username": "HarryPotter",
     "email": "youngWizard@gmail.com",
     "password": "Srr$pffle%%44*5"
   };
 
+  let resultUser1 = {
+    username: 'HarryPotter',
+    email: 'youngWizard@gmail.com',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+  
+  mockingoose(prefModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn(resultUser1, 'save');
+
   const result = await userServices.signUpUser(user);
 
   expect(result).toBeTruthy();
-  expect(result.username).toBe(user.username);
-  expect(result.email).toBe(user.email);
-  expect(result.validPassword("Srr$pffle%%44*5")).toBeTruthy();
-  expect(result).toHaveProperty("_id");
 });
 
-test("Adding user w/o validation -- success path with valid id", async () => {
-  let user = {
-    "_id":"6132b9d47cefd0cc1916b6a9",
-    "username": "HarryPotter",
-    "email": "youngWizard@gmail.com",
-    "password": "dderr$pffle%%44*5",
-  };
-
-  const result = await userServices.signUpUser(user);
-  expect(result).toBeTruthy();
-});
-
-test("Adding user w/o validation -- failure path with invalid id", async () => {
+test("signup - failure path with invalid id", async () => {
   let user = {
     "_id":"123",
     "username": "HarryPotter",
@@ -96,68 +114,101 @@ test("Adding user w/o validation -- failure path with invalid id", async () => {
     "password": "dderr$pffle%%44*5",
   };
 
+  let resultUser1 = {
+    username: 'HarryPotter',
+    email: 'youngWizard@gmail.com',
+    _id: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    prefs: new mongoose.ObjectId("624ddbd7f9bbb3ab16c362ef"),
+    salt: '6d473c07369d5bec999d91c8182afe43',
+    hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217'
+  };  
+  
+  mockingoose(prefModel).toReturn(resultUser1, 'save');
+  mockingoose(userModel).toReturn(false, 'save');
+
   const result = await userServices.signUpUser(user);
+
   expect(result).toBeFalsy();
 });
 
-test("Adding user w/o validation -- failure path with already taken id", async () => {
-  let user = {
-    "username": "HarryPotter",
-    "email": "youngWizard@gmail.com",
-    "password": "dderr$pffle%%44*5",
-  };
-  const addedUser = await userServices.signUpUser(user);
-
-  const anotheruser = {
-    "_id": addedUser.id,
-    "username": "Ron",
-    "email": "youngWizard2@gmail.com",
-    "password": "Sample%%44*5",
-    "prefs" : {"sports" : {}}
-
-  };
-  const result = await userServices.signUpUser(anotheruser);
-  expect(result).toBeFalsy();
-});
-
-
-test("Adding user  w/o validation-- success path with already taken username", async () => {
+test("validate -- success", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5"
   };
-  const addedUser = await userServices.signUpUser(user);
 
-  const anotheruser = {
-    "username": addedUser.username,
-    "email": "youngWizard2@gmail.com",
-    "password": "Sample%%44*5"
-  };
-  const result = await userServices.signUpUser(anotheruser);
-  expect(result.username).toBe(user.username);
-  expect(result.email).toBe(anotheruser.email);
-  expect(result.validPassword(anotheruser.password));
+  const email = jest.fn(userServices.findUserByEmail);
+  const id = jest.fn(userServices.findUserById);
+  const username = jest.fn(userServices.findUserByUsername);
+
+  expect(email.mock.results[0].value).toBe([]);
+  expect(id.mock.results[0].value).toBe([]);
+  expect(username.mock.results[0].value).toBe([]);
+
+  expect(validate(user)).toBeTruthy();
 });
 
-test("Adding user w/o validation -- success path with already taken email", async () => {
+test("validate -- failure path with already taken id", async () => {
   const user = {
     "username": "Harry Potter",
     "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5"
   };
-  const addedUser = await userServices.signUpUser(user);
 
-  const anotherUser = {
-    "username": "Ron",
-    "email": addedUser.email,
+  const email = jest.fn(userServices.findUserByEmail);
+  const id = jest.fn(userServices.findUserById);
+  const username = jest.fn(userServices.findUserByUsername);
+
+  expect(email.mock.calls.length).toBe(1);
+  expect(email.mock.calls[0][0]).toBe(user);
+  expect(email.mock.results[0].value).toBe([]);
+  expect(id.mock.calls[0][0]).toBe(user);
+  expect(id.mock.results[0].value).toBe([user]);
+  expect(username.mock.calls[0][0]).toBe(user);
+  expect(username.mock.results[0].value).toBe([]);
+
+  expect(validate(user)).toBeFalsy();
+});
+
+test("validate -- failure path with already taken username", async () => {
+  const user = {
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
     "password": "Sample%%44*5"
   };
 
-  const result = await userServices.signUpUser(anotherUser);
-  expect(result.username).toBe(anotherUser.username);
-  expect(result.email).toBe(user.email);
-  expect(result.validPassword(anotherUser.password));});
+  const email = jest.fn(userServices.findUserByEmail);
+  const id = jest.fn(userServices.findUserById);
+  const username = jest.fn(userServices.findUserByUsername);
+
+  expect(email.mock.results[0].value).toBe([]);
+  expect(id.mock.results[0].value).toBe([]);
+  expect(username.mock.results[0].value).toBe([user]);
+
+  expect(validate(user)).toBeFalsy();
+});
+
+test("validate -- failure path with already taken email", async () => {
+  const user = {
+    "username": "Harry Potter",
+    "email": "youngWizard@gmail.com",
+    "password": "Sample%%44*5"
+  };
+
+  mockingoose(userModel).toReturn(user, 'find');
+  /*
+  const email = jest.fn(userServices.findUserByEmail);
+  const id = jest.fn(userServices.findUserById);
+  const username = jest.fn(userServices.findUserByUsername);
+
+  expect(email.mock.results[0].value).toBe([user]);
+  expect(id.mock.results[0].value).toBe([]);
+  expect(username.mock.results[0].value).toBe([]);
+  */
+
+  expect(validate(user)).toBeFalsy();
+  });
 
   
 // --- TESTS BELOW DONE ----
