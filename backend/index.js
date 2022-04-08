@@ -1,7 +1,6 @@
 const cors = require('cors');
 const express = require('express');
 const jwt = require('jsonwebtoken');
-
 const app = express();
 const port = 5000;
 app.use(cors());
@@ -23,12 +22,12 @@ function generateAccessToken(username) {
 
 function decode(req) {
     try {
-    const authHeader = req.headers["authorization"];
-    //Getting the 2nd part of the auth hearder (the token)
-    const token = authHeader && authHeader.split(' ')[1];
-    
-    return jwt.verify(token, process.env.TOKEN_SECRET);
-    } catch(error) {
+        const authHeader = req.headers["authorization"];
+        //Getting the 2nd part of the auth hearder (the token)
+        const token = authHeader && authHeader.split(' ')[1];
+
+        return jwt.verify(token, process.env.TOKEN_SECRET);
+    } catch (error) {
         return false;
     }
 }
@@ -36,7 +35,6 @@ function decode(req) {
 app.get('/', (req, res) => {
     res.send("Backend Landing");
 });
-
 
 /* Using this funcion as a "middleware" function for
   all the endpoints that need access control protecion */
@@ -115,17 +113,15 @@ app.get('/users', async (req, res) => {
 app.post('/login', async(req, res) => {
     const user = req.body;
 
-    if(user.username && user.password){
-        let result = await userServices.login(user);
-
+    if (user.username && user.password){
+        const result = await userServices.login(user);
         if (result){
             const token = generateAccessToken(user.username);
             res.status(201).send(token);
         } else {
             res.status(401).end("Unauthorized");
         }
-    }
-    else{
+    } else {
         res.status(400).end("Bad Request");
     }
 });
@@ -134,6 +130,7 @@ app.post('/login', async(req, res) => {
 app.get('/preferences',authenticateUser, async(req, res) => {
     const username = decode(req).username;
     const userPref = await userServices.getUserPreferences(username);
+
     if (userPref){
         res.status(201).send(userPref.prefs);
     } else {

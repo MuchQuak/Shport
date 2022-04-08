@@ -11,6 +11,7 @@ import React, {useState} from "react";
 import {useQuery} from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
+import {TeamOverviewExpanded} from "./TeamOverviewExpanded";
 
 const modalStyle = {
     content: {
@@ -70,17 +71,17 @@ function overviews(prefs, standings, league, isAlertVisible, openAlert, closeAle
                                 </div>
                             </div>
                             <div className='dialog-body'>
-                                <p>Expanded team information.</p>
+                                <TeamOverviewExpanded team={team} />
                             </div>
                         </div>
                     </Modal>
                     <div className='overview' key={index} onClick={() => openAlert()}>
                         {getTeamLogo(league, code, "overview-logo")}
                         <div className='overview-header'>
-                            <div><p className='overview-team-name'>{name}</p></div>
+                            <div><p className='overview-team-name noselect'>{name}</p></div>
                             <div className='break'/>
-                            <div><p className='overview-stats'>{rank} in the {conference}</p></div>
-                            <div><p className='overview-stats'>{wins}-{losses}</p></div>
+                            <div><p className='overview-stats noselect'>{rank} in the {conference}</p></div>
+                            <div><p className='overview-stats noselect'>{wins}-{losses}</p></div>
                         </div>
                     </div>
                 </>

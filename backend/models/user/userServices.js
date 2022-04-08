@@ -68,7 +68,7 @@ async function getUserPreferences(name) {
     try {
         const query = userModel.findOne({'username': name}).populate({ path: 'prefs', model: 'pref' });
         return query.select('prefs');
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return false;
     }
