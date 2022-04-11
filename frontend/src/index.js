@@ -1,13 +1,14 @@
-import ReactDOM from 'react-dom';
-import {CookiesProvider} from 'react-cookie'
-import Root from './Root';
-import './style/index.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import ReactDOM from "react-dom";
+import { CookiesProvider } from "react-cookie";
+import Root from "./Root";
+import "./style/index.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
-        <CookiesProvider>
-         <Root />
-        </CookiesProvider>, document.getElementById('root')
+  <CookiesProvider>
+    <Root />
+  </CookiesProvider>,
+  document.getElementById("root")
   /*
     <QueryClientProvider client={queryClient}>
         <CookiesProvider>
