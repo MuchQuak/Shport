@@ -27,7 +27,7 @@ async function getNews(req, res) {
 
   function removeTags(str) {
     if ((str===null) || (str===''))
-      return false;
+      return '';
     else
       str = str.toString();
     return str.replace( /(<([^>]+)>)/ig, '');
@@ -40,13 +40,14 @@ async function getNews(req, res) {
     for (let i = 1; i < res.totalResults; i++) {
         const article = res.articles[i];
         const new_article = {}
-        new_article.title = article.title;
-        new_article.description = removeTags(article.description);
-        new_article.url = article.url;
-        new_article.image = article.urlToImage;
-        new_article.date = article.publishedAt.split('T')[0];
-        new_article.publishBy = article.source.name;
-    
+        if (article) {
+            new_article.title = article.title ? article.title : 'Untitled';
+            new_article.description = removeTags(article.description);
+            new_article.url = article.url;
+            new_article.image = article.urlToImage;
+            new_article.date = article.publishedAt.split('T')[0];
+            new_article.publishBy = article.source.name;
+        }
         new_articles.push(new_article);
     }
     return {
