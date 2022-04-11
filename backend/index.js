@@ -86,20 +86,7 @@ app.get("/username", authenticateUser, async (req, res) => {
   if (username) {
     res.status(200).send(username);
   } else {
-    res.status(500).end("Server Error");
-  }
-});
-
-// FOR TESTING ONLY
-app.get("/users", async (req, res) => {
-  const username = req.query.username;
-
-  if (username !== undefined) {
-    let result = await userServices.findUserByUsername(username);
-    res.status(200).send(result);
-  } else {
-    const allUsers = await userServices.TESTGetUsers();
-    res.status(200).send(allUsers);
+    res.status(404).end('User not found');
   }
 });
 

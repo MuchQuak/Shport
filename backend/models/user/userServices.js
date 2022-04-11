@@ -87,22 +87,6 @@ async function setUserPreferences(name, newPrefs) {
   );
 }
 
-//just for testing
-async function getUsers(username, email) {
-  try {
-    if (username === undefined && email === undefined) {
-      return await userModel.find();
-    } else if (username && email === undefined) {
-      return await findUserByUsername(username);
-    } else {
-      return await findUserByEmail(email);
-    }
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
 async function findUserByUsername(name) {
   return userModel.find({ username: name });
 }
@@ -129,7 +113,6 @@ async function login(user) {
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;
-exports.TESTGetUsers = getUsers;
 exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;
