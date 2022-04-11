@@ -59,7 +59,6 @@ function authenticateUser(req, res, next) {
         // in our case, we used the username to sign the token
         next()
       } catch (error) {
-        console.log(error);
         return res.status(401).end();  
       }
     }
