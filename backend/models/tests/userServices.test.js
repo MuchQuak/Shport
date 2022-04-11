@@ -26,7 +26,7 @@ beforeEach(async () => {
 afterEach(async () => {
 
 });
-/*
+
 test("Fetching by invalid id format", async () => {
   const anyId = "123";
   const user = await userServices.findUserById(anyId);
@@ -159,7 +159,7 @@ test("Adding user w/o validation -- success path with already taken email", asyn
   expect(result.email).toBe(user.email);
   expect(result.validPassword(anotherUser.password));});
 
-*/
+
 // --- TESTS BELOW DONE ----
 
 test("Adding user w/o validation -- failure path with no username", async () => {
@@ -255,7 +255,7 @@ test("Logging in user -- Username Failure", async () => {
   }; 
 
   mockingoose(userModel).toReturn(resultUser1, 'save');
-  mockingoose(userModel).toReturn(false, 'find');
+  mockingoose(userModel).toReturn({}, 'find');
 
   const result = await userServices.signUpUser(user);
   user.username = "Ron";
@@ -488,51 +488,79 @@ test("Adding user w/o validation -- failure path with no email", async () => {
   expect(result).toBeFalsy();
 });
 
-/*
+
 test("Getting user Preferences -- successful path", async () => {
-  
+
+
+  let originalPrefs = { sport: {
+      "NBA": {
+        "teams": [],
+        "following": true
+      },
+      "NFL":{
+        "teams":[],
+        "following":false
+      }
+    },
+    user: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+    _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef")
+}
+
   let resultUser = {
     username: 'HarryPotter',
     email: 'youngWizard@gmail.com',
     _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
     salt: '6d473c07369d5bec999d91c8182afe43',
     hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217',
-    prefs: {sport: {
-        "NBA": {
-          "teams": [],
-          "following": true
-        },
-        "NFL":{
-          "teams":[],
-          "following":false
-        }
-      },
-      following:true,
-      user: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
-      _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef")
-    }
+    prefs: originalPrefs,
+    following:true,
+ 
   };
 
-  mockingoose(userModel).toReturn(originalPrefs, 'findOne');  
-  const resultPref = await userServices.getUserPreferences(resultUser.username);
-  console.log("prefs" + resultPref);
+  mockingoose(userModel).toReturn(originalPrefs, 'findOne'); 
 
-  expect(resultUser.prefs).toStrictEqual(resultPref.prefs._id);
-  expect(resultUser._id).toStrictEqual(resultPref.prefs.user);
+  const resultPref = await userServices.getUserPreferences(resultUser.username);
+  expect(resultUser.prefs._id).toStrictEqual(resultPref._id);
 
 });
 
 test("Getting user Preferences -- Failure path", async () => {
-  let user = {
-    "username": "HarryPotter",
+  const user = {
+    "username":"Harrry Potter",
     "email": "youngWizard@gmail.com",
-    "password": "Srr$pffle%%44*5"
+    "password": "Sample%%44*5",
   };
 
-  const resultUser = await userServices.signUpUser(user);
-  resultUser.username = "Ron";
-  const resultPref = await userServices.getUserPreferences(resultUser.username);
-  expect(resultPref.length).toBe(0);
+  let originalPrefs = { sport: {
+    "NBA": {
+      "teams": [],
+      "following": true
+    },
+    "NFL":{
+      "teams":[],
+      "following":false
+    }
+  },
+  user: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+  _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ef")
+}
+
+let resultUser1 = {
+  username: 'HarryPotter',
+  email: 'youngWizard@gmail.com',
+  _id: new mongoose.Types.ObjectId("624ddbd7f9bbb3ab16c362ee"),
+  salt: '6d473c07369d5bec999d91c8182afe43',
+  hash: '998f340af637d182d4f7f11675f0a331d1a92cdb73841dc4aa4684c0845b228d55318e613dff2a9302d1e5525bc12e403123bf0c6b4dabe538e6d9e64e74c217',
+  prefs: originalPrefs,
+  following:true,
+
+};
+
+  user.username = "Ron";
+
+  mockingoose(userModel).toReturn({}, 'findOne'); 
+  const resultPref = await userServices.getUserPreferences(resultUser1.username);
+  expect(resultPref).toMatchObject({});
 });
 
 test("Setting user Preferences -- Success path", async () => {
@@ -568,18 +596,20 @@ test("Setting user Preferences -- Success path", async () => {
     }
   };
 
-  mockingoose(userModel).toReturn(resultUser, 'findUserByUsername');
-  mockingoose(userModel).toReturn(newPrefs, 'findOneAndUpdate');
+  mockingoose(userModel).toReturn([resultUser],"find");
+  mockingoose(prefModel).toReturn(newPrefs, 'findOneAndUpdate');
   mockingoose(userModel).toReturn(originalPrefs, 'findOne');
+  mockingoose(prefModel).toReturn(originalPrefs, 'findOne');
 
 
   const oPrefs = await userServices.getUserPreferences(resultUser.username);
   await userServices.setUserPreferences(resultUser.username, newPrefs );
   const newPref = await userServices.getUserPreferences(resultUser.username);
 
-  expect(oPrefs[0].prefs.user).toStrictEqual(newPref[0].prefs.user);
-  expect(oPrefs[0].prefs._id).toStrictEqual(newPref[0].prefs._id);
-  expect(oPrefs[0].prefs.sports).not.toStrictEqual(newPref[0].prefs.sports)
+  console.log(oPrefs);
+  console.log(newPref);
+
+
+  expect(oPrefs._id).toStrictEqual(newPref._id);
 
 });
-*/
