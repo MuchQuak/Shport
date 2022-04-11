@@ -7,8 +7,26 @@ import {
     getTeamLogo,
     standingsQuery
 } from "./SportHandler";
-import {useState} from "react";
+import React, {useState} from "react";
 import {useQuery} from "react-query";
+import Modal from "react-modal";
+import CloseButton from "react-bootstrap/CloseButton";
+import {TeamOverviewExpanded} from "./TeamOverviewExpanded";
+
+const modalStyle = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        height: 'auto',
+        width: '45%',
+        border: 'none',
+        padding: '0'
+    },
+};
 
 function suffix(i) {
     const j = i % 10, k = i % 100;
@@ -24,7 +42,7 @@ function suffix(i) {
     return i + "th";
 }
 
-function overviews(prefs, standings, league) {
+function overviews(prefs, standings, league, isAlertVisible, openAlert, closeAlert) {
     const teams = getTeamsFollowedForSport(prefs, league);
     if (teams.length < 1) {
         return <p className='nomargin'>No teams followed.</p>;
@@ -40,27 +58,45 @@ function overviews(prefs, standings, league) {
             const name = stat['city'] + ' ' + stat['name'];
             const conference = capitalizeFirstLetter(stat['conference']);
             return (
-                <div className='overview' key={index}>
-                    {getTeamLogo(league, code, "overview-logo")}
-                    <div className='overview-header'>
-                        <div><p className='overview-team-name'>{name}</p></div>
-                        <div className='break'></div>
-                        <div><p className='overview-stats'>{rank} in the {conference}</p></div>
-                        <div><p className='overview-stats'>{wins}-{losses}</p></div>
+                <>
+                    <Modal isOpen={isAlertVisible} onRequestClose={closeAlert} style={modalStyle} contentLabel='alert'>
+                        <div className='expanded-team-overview'>
+                            <div className='expanded-team-overview-header'>
+                                <div className='leftSpace' />
+                                <div className='middleSpace'>
+                                    <p>Team Overview</p>
+                                </div>
+                                <div className='rightSpace'>
+                                    <CloseButton className='closeButton' variant='white' aria-label='Hide' onClick={closeAlert}/>
+                                </div>
+                            </div>
+                            <div className='dialog-body'>
+                                <TeamOverviewExpanded team={code} league={league} stats={stats} />
+                            </div>
+                        </div>
+                    </Modal>
+                    <div className='overview' key={index} onClick={() => openAlert()}>
+                        {getTeamLogo(league, code, "overview-logo")}
+                        <div className='overview-header'>
+                            <div><p className='overview-team-name noselect'>{name}</p></div>
+                            <div className='break'/>
+                            <div><p className='overview-stats noselect'>{rank} in the {conference}</p></div>
+                            <div><p className='overview-stats noselect'>{wins}-{losses}</p></div>
+                        </div>
                     </div>
-                </div>
+                </>
             );
         }
         return null;
     });
 }
 
-function tabs(prefs, standings, tabNames) {
+function tabs(prefs, standings, tabNames, isAlertVisible, openAlert, closeAlert) {
     return tabNames.map((league, index) => {
         if (standings.hasOwnProperty(league)) {
             return (
                 <div className='overviews' key={index}>
-                    {overviews(prefs, standings, league)}
+                    {overviews(prefs, standings, league, isAlertVisible, openAlert, closeAlert)}
                 </div>
             );
         }
@@ -70,6 +106,7 @@ function tabs(prefs, standings, tabNames) {
 
 export default function TeamOverview(props) {
     const [standings, setStandings] = useState({});
+    const [isAlertVisible, setAlertVisible] = useState(false);
     const nba = useQuery(['NBAStandings', "NBA"], () => standingsQuery("NBA"), {
         onSuccess: (data) => {
             const temp = { ...standings };
@@ -84,6 +121,7 @@ export default function TeamOverview(props) {
             setStandings(temp);
         }
     });
+    Modal.setAppElement('#root');
     if (nba.isLoading || nhl.isLoading || !props || !props.prefs) {
         return <p className='nomargin bold'>Loading...</p>;
     }
@@ -94,9 +132,18 @@ export default function TeamOverview(props) {
     const icons = leaguesFollowed.map((league, index) => {
         return getLeagueLogo(String(league));
     });
+
+    function openAlert(){
+        setAlertVisible(true);
+    }
+
+    function closeAlert(){
+        setAlertVisible(false);
+    }
+
     return (
         <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
-            {tabs(props.prefs, standings, leaguesFollowed)}
+            {tabs(props.prefs, standings, leaguesFollowed, isAlertVisible, openAlert, closeAlert)}
         </Tabbed>
     );
 }

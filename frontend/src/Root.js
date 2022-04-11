@@ -11,7 +11,7 @@ import {useCookies } from 'react-cookie'
 const queryClient = new QueryClient();
 
 export default function Root() {
-    const [cookies, setCookie] = useCookies(['auth_token']);
+    const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
     function setToken(token) {
         setCookie('auth_token', token,
             {
@@ -24,7 +24,7 @@ export default function Root() {
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
-                <Route path="/*" element={<App cookies={cookies}/>} />
+                <Route path="/*" element={<App cookies={cookies} removeCookie={removeCookie}/>} />
                 <Route path="login" element={<Login setToken = {setToken}/>} />
                 <Route path="signup" element={<SignUp />} />
                 </Routes>

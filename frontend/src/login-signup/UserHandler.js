@@ -14,8 +14,18 @@ export async function setUserPrefs(user){
     try {
         const config = {headers: {"authorization": `Bearer ${user.auth_token}`}};
         return await axios.post('http://localhost:5000/preferences', user.prefs, config);
+    } catch (error){
+        console.log(error);
+        return false;
     }
-    catch (error){
+}
+
+export async function getUsername(auth_token){
+    try {
+        const config = {headers: {"authorization": `Bearer ${auth_token}`}};
+        return await axios.get('http://localhost:5000/username', config)
+            .then(data => data.data.username);
+    } catch (error){
         console.log(error);
         return false;
     }
