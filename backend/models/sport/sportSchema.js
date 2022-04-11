@@ -1,19 +1,19 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const sportSchema = new mongoose.Schema(
-    {
-        sport: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        teams: []
+  {
+    sport: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    {
-        collection : "sports"
-    }
+    teams: [],
+  },
+  {
+    collection: "sports",
+  }
 );
 
-const sports = module.exports = mongoose.model('sports', sportSchema); 
+const sports = (module.exports = mongoose.model("sports", sportSchema));

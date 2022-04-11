@@ -1,6 +1,6 @@
 /* -- Testing sportInfoServices */
 const mongoose = require("mongoose");
-const axios = require('axios');
+const axios = require("axios");
 const sportSchema = require("../sport/sportSchema");
 const sportsInfoServices = require("../sport/sportInfoServices");
 const { MongoMemoryServer } = require("mongodb-memory-server");
@@ -31,53 +31,52 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
-
 beforeEach(async () => {
   let dummySport = {
-    sport:"NBA",
-    teams: [  {
-              "code":"ATL",
-              "city":"Atlanta",
-              "name":"Hawks"
-              },
-              {
-                "code":"GSW",
-                "city":"Golden State",
-                "name":"Warriors"
-              },
-              {
-                "code":"LAL",
-                "city":"Los Angeles",
-                "name":"Lakers"
-              }
-            
-            ]
+    sport: "NBA",
+    teams: [
+      {
+        code: "ATL",
+        city: "Atlanta",
+        name: "Hawks",
+      },
+      {
+        code: "GSW",
+        city: "Golden State",
+        name: "Warriors",
+      },
+      {
+        code: "LAL",
+        city: "Los Angeles",
+        name: "Lakers",
+      },
+    ],
   };
   let result = new sportModel(dummySport);
   await result.save();
-  
+
   dummySport = {
-    sport:"NHL",
-    teams: [{
-              "code":"13",
-              "city":"Florida",
-              "name":"Panthers"
-            },
-            {
-              "code":"7",
-              "city":"Buffalo",
-              "name":"Sabres"
-            },
-            {
-              "code":"28",
-              "city":"San Jose",
-              "name":"Sharks"
-            }
-  ]
+    sport: "NHL",
+    teams: [
+      {
+        code: "13",
+        city: "Florida",
+        name: "Panthers",
+      },
+      {
+        code: "7",
+        city: "Buffalo",
+        name: "Sabres",
+      },
+      {
+        code: "28",
+        city: "San Jose",
+        name: "Sharks",
+      },
+    ],
   };
   result = new sportModel(dummySport);
   await result.save();
-
 });
 
 afterEach(async () => {
@@ -89,15 +88,13 @@ test("Fetch all sports", async () => {
   expect(allSports.length).toBe(2);
 });
 
-
 test("Fetch One Sport -- Success", async () => {
   let sport = "NBA";
   let sportFetched = await sportsInfoServices.getSport(sport);
- 
+
   expect(sportFetched).toBeDefined();
   expect(sportFetched.sport).toBe(sport);
 });
-
 
 test("Fetch One Sport -- Failure", async () => {
   let sport = "FIFA";

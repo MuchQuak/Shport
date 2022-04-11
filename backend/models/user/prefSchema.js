@@ -1,56 +1,56 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const prefsSchema = new mongoose.Schema(
   {
-      user: { 
-          type: Schema.Types.ObjectId, 
-          ref: 'user',
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: false,
+    },
+    sports: {
+      following: {
+        type: Boolean,
+        required: false,
+        trim: true,
+      },
+      NBA: {
+        following: {
+          type: Boolean,
           required: false,
+          trim: true,
         },
-      sports: {
-          following: {
-              type: Boolean,
-              required: false,
-              trim: true,
-          },
-          NBA: {
-              following: {
-                  type: Boolean,
-                  required: false,
-                  trim: true,
-              },
-              teams: []
-          },
-          NFL: {
-              following: {
-                  type: Boolean,
-                  required: false,
-                  trim: true,
-              },
-              teams: []
-          },
-          NHL: {
-              following: {
-                  type: Boolean,
-                  required: false,
-                  trim: true,
-              },
-              teams: []
-          },
-          MLB: {
-              following: {
-                  type: Boolean,
-                  required: false,
-                  trim: true,
-              },
-              teams: []
-          }
-      }
+        teams: [],
+      },
+      NFL: {
+        following: {
+          type: Boolean,
+          required: false,
+          trim: true,
+        },
+        teams: [],
+      },
+      NHL: {
+        following: {
+          type: Boolean,
+          required: false,
+          trim: true,
+        },
+        teams: [],
+      },
+      MLB: {
+        following: {
+          type: Boolean,
+          required: false,
+          trim: true,
+        },
+        teams: [],
+      },
+    },
   },
   {
-      collection : 'prefs'
+    collection: "prefs",
   }
 );
 
-const Pref = module.exports = mongoose.model('pref', prefsSchema);
+const Pref = (module.exports = mongoose.model("pref", prefsSchema));
