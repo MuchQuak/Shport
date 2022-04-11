@@ -22,6 +22,12 @@ export default function NavBar(props) {
         </svg>
     );
   }
+
+  function signOut(){
+    props.removeCookie('auth_token');
+    navigate('/login');
+  }
+
   return (
     <div className="header">
         <div className="header-nav">
@@ -37,7 +43,7 @@ export default function NavBar(props) {
               <Dropdown.Menu>
                 <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
                 <Dropdown.Item onClick={() => navigate('/settings')}><div className='icon-text'>{gear()} Settings</div></Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate('/login')}>Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

@@ -39,7 +39,7 @@ export default function App(props) {
     }
     return (
         <>
-            <NavBar user={user}/>
+            <NavBar user={user} removeCookie={props.removeCookie}/>
             <Routes>
                 <Route index element={<Dashboard user={user}/>} />
                 <Route path="settings" element={<Settings user={user} setUser={setUser}/>} />
