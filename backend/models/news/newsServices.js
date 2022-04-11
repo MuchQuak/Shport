@@ -39,16 +39,16 @@ async function getNews(req, res) {
   
     for (let i = 1; i < res.totalResults; i++) {
         const article = res.articles[i];
-        const new_article = {}
         if (article) {
+            const new_article = {}
             new_article.title = article.title ? article.title : 'Untitled';
             new_article.description = removeTags(article.description);
             new_article.url = article.url;
             new_article.image = article.urlToImage;
             new_article.date = article.publishedAt.split('T')[0];
             new_article.publishBy = article.source.name;
+            new_articles.push(new_article);
         }
-        new_articles.push(new_article);
     }
     return {
         articles: new_articles
