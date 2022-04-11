@@ -23,4 +23,4 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           prettier_options: --write **/*.{js,jsx,ts,tsx}
-          working_directory: frontend
+          working_directory: app/frontend/src/
