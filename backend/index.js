@@ -86,7 +86,7 @@ app.get("/username", authenticateUser, async (req, res) => {
   if (username) {
     res.status(200).send(username);
   } else {
-    res.status(404).end('User not found');
+    res.status(404).end("User not found");
   }
 });
 
