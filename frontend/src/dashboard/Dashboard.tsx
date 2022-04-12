@@ -12,7 +12,7 @@ import { getInterestedSports } from "../settings/PrefHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loading, loadingSuffix } from "../util/Util";
 
-function default_items(prefs, sports) {
+function default_items(prefs: any, sports: never[]) {
   return [
     <CloseableItem title="Schedule" prefs={prefs} sports={sports} key={0}>
       <Schedule className="nbaSchedule" sports={sports} />
@@ -25,7 +25,7 @@ function default_items(prefs, sports) {
     </CloseableItem>,
   ];
 }
-function article_items(prefs, news) {
+function article_items(prefs: any, news: any[]) {
   return news.map((article, idx) => (
     <CloseableItem title={article.publishBy} key={article.url}>
       <Article news={article} key={article.url} />
@@ -33,10 +33,10 @@ function article_items(prefs, news) {
   ));
 }
 
-function partitionItems(items) {
-  const one = [];
-  const two = [];
-  const three = [];
+function partitionItems(items: any[]) {
+  const one: any[] = [];
+  const two: any[] = [];
+  const three: any[] = [];
   items.forEach((item, index) => {
     if (index % 3 === 0) {
       one.push(item);
@@ -55,7 +55,7 @@ function partitionItems(items) {
   );
 }
 
-export default function Dashboard(props) {
+export default function Dashboard(props: { user: any; }) {
   const [sports, setSports] = useState([]);
   const [news, setNews] = useState([]);
   const user = props.user;

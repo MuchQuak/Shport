@@ -12,6 +12,7 @@ import {
 import Game from "./Game";
 import { allQueriesSuccessful, cartesian, loading } from "../../util/Util";
 import { useQueries } from "react-query";
+import React from "react";
 
 const noGames = <p className="nomargin bold">No games.</p>;
 

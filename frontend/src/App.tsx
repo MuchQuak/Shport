@@ -9,7 +9,7 @@ import { getUsername, prefsQuery } from "./login-signup/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 
-export default function App(props) {
+export default function App(props: { cookies: { auth_token?: string; }; removeCookie?: any; }) {
   const [user, setUser] = useState({});
   const [username, setUsername] = useState("Guest");
   const auth_token = props.cookies.auth_token;
