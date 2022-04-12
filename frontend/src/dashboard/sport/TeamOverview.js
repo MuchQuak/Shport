@@ -71,10 +71,10 @@ function overviews(
       return (
         <div className="overview" key={index} onClick={() => openAlert()}>
           <Modal
-              isOpen={isAlertVisible}
-              onRequestClose={closeAlert}
-              style={modalStyle}
-              contentLabel="alert"
+            isOpen={isAlertVisible}
+            onRequestClose={closeAlert}
+            style={modalStyle}
+            contentLabel="alert"
           >
             <div className="expanded-team-overview">
               <div className="expanded-team-overview-header">
@@ -84,18 +84,18 @@ function overviews(
                 </div>
                 <div className="rightSpace">
                   <CloseButton
-                      className="closeButton"
-                      variant="white"
-                      aria-label="Hide"
-                      onClick={closeAlert}
+                    className="closeButton"
+                    variant="white"
+                    aria-label="Hide"
+                    onClick={closeAlert}
                   />
                 </div>
               </div>
               <div className="dialog-body">
                 <TeamOverviewExpanded
-                    team={code}
-                    league={league}
-                    stats={stats}
+                  team={code}
+                  league={league}
+                  stats={stats}
                 />
               </div>
             </div>
