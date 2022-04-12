@@ -9,7 +9,7 @@ import { getUsername, prefsQuery } from "./login-signup/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 
-export default function App(props: { cookies: { auth_token?: string; }; removeCookie?: any; }) {
+export default function App(props: { cookies: { auth_token: string; }; removeCookie: void; }) {
   const [user, setUser] = useState({});
   const [username, setUsername] = useState("Guest");
   const auth_token = props.cookies.auth_token;
@@ -17,9 +17,7 @@ export default function App(props: { cookies: { auth_token?: string; }; removeCo
     ["username", auth_token],
     () => getUsername(auth_token),
     {
-      onSuccess: (data) => {
-        setUsername(data);
-      },
+      onSuccess: (data) => setUsername(data)
     }
   );
   const prefQuery = useQuery(

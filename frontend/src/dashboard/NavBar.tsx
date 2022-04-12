@@ -1,9 +1,10 @@
+import React from "react";
 import "../style/navbar.scss";
 import "../style/app.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 
-export default function NavBar(props) {
+export default function NavBar(props: any) {
   const navigate = useNavigate();
   const user = props.user;
 

@@ -60,18 +60,14 @@ export default function Dashboard(props: { user: any; }) {
   const [news, setNews] = useState([]);
   const user = props.user;
   const sportsResult = useQuery(["sports"], () => sportsQuery(), {
-    onSuccess: (data) => {
-      setSports(data);
-    },
+    onSuccess: (data) => setSports(data),
   });
   const interested = getInterestedSports(user.prefs);
   const newsResult = useQuery(
     ["news", interested],
     () => newsQuery(interested),
     {
-      onSuccess: (data) => {
-        setNews(data);
-      },
+      onSuccess: (data) => setNews(data),
     }
   );
   const getMsg = () => {
