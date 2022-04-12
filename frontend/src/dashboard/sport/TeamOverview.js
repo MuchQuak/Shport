@@ -69,12 +69,12 @@ function overviews(
       const name = stat["city"] + " " + stat["name"];
       const conference = capitalizeFirstLetter(stat["conference"]);
       return (
-        <>
+        <div className="overview" key={index} onClick={() => openAlert()}>
           <Modal
-            isOpen={isAlertVisible}
-            onRequestClose={closeAlert}
-            style={modalStyle}
-            contentLabel="alert"
+              isOpen={isAlertVisible}
+              onRequestClose={closeAlert}
+              style={modalStyle}
+              contentLabel="alert"
           >
             <div className="expanded-team-overview">
               <div className="expanded-team-overview-header">
@@ -84,42 +84,40 @@ function overviews(
                 </div>
                 <div className="rightSpace">
                   <CloseButton
-                    className="closeButton"
-                    variant="white"
-                    aria-label="Hide"
-                    onClick={closeAlert}
+                      className="closeButton"
+                      variant="white"
+                      aria-label="Hide"
+                      onClick={closeAlert}
                   />
                 </div>
               </div>
               <div className="dialog-body">
                 <TeamOverviewExpanded
-                  team={code}
-                  league={league}
-                  stats={stats}
+                    team={code}
+                    league={league}
+                    stats={stats}
                 />
               </div>
             </div>
           </Modal>
-          <div className="overview" key={index} onClick={() => openAlert()}>
-            {getTeamLogo(league, code, "overview-logo")}
-            <div className="overview-header">
-              <div>
-                <p className="overview-team-name noselect">{name}</p>
-              </div>
-              <div className="break" />
-              <div>
-                <p className="overview-stats noselect">
-                  {rank} in the {conference}
-                </p>
-              </div>
-              <div>
-                <p className="overview-stats noselect">
-                  {wins}-{losses}
-                </p>
-              </div>
+          {getTeamLogo(league, code, "overview-logo")}
+          <div className="overview-header">
+            <div>
+              <p className="overview-team-name noselect">{name}</p>
+            </div>
+            <div className="break" />
+            <div>
+              <p className="overview-stats noselect">
+                {rank} in the {conference}
+              </p>
+            </div>
+            <div>
+              <p className="overview-stats noselect">
+                {wins}-{losses}
+              </p>
             </div>
           </div>
-        </>
+        </div>
       );
     }
     return null;
