@@ -11,6 +11,9 @@ class NbaService extends league.LeagueService {
   getStandingsEndPoint() {
     return this.host + "/10s/prod/v1/current/standings_conference.json";
   }
+  getPlayersEndPoint(currentYear) {
+    return this.host + "/10s/prod/v1/" + currentYear + "/players.json"
+  }
 
   formatGamesData(responseData, date) {
     const games = responseData["games"];
@@ -69,12 +72,17 @@ class NbaService extends league.LeagueService {
         new_team_data.rank = String(division_data["confRank"]);
         new_team_data.wins = String(division_data["win"]);
         new_team_data.losses = String(division_data["loss"]);
+        new_team_data.api_code = String(division_data["teamId"]);
         all_data[code] = new_team_data;
       });
     }
     return {
       teams: all_data,
     };
+  }
+
+  formatPlayersData(responseData) {
+    return responseData["league"]["standard"];
   }
 }
 

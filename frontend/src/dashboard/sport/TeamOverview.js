@@ -15,6 +15,7 @@ import { useQuery } from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
+import { loading } from "../../util/Util";
 
 const modalStyle = {
   content: {
@@ -31,7 +32,7 @@ const modalStyle = {
   },
 };
 
-function suffix(i) {
+export function suffix(i) {
   const j = i % 10,
     k = i % 100;
   if (j === 1 && k !== 11) {
@@ -51,8 +52,7 @@ function overviews(
   standings,
   league,
   isAlertVisible,
-  openAlert,
-  closeAlert
+  setAlertVisible
 ) {
   const teams = getTeamsFollowedForSport(prefs, league);
   if (teams.length < 1) {
@@ -69,12 +69,12 @@ function overviews(
       const name = stat["city"] + " " + stat["name"];
       const conference = capitalizeFirstLetter(stat["conference"]);
       return (
-        <div className="overview" key={index} onClick={() => openAlert()}>
+          <>
           <Modal
-            isOpen={isAlertVisible}
-            onRequestClose={closeAlert}
-            style={modalStyle}
-            contentLabel="alert"
+              isOpen={isAlertVisible}
+              onRequestClose={() => setAlertVisible(false)}
+              style={modalStyle}
+              contentLabel="alert"
           >
             <div className="expanded-team-overview">
               <div className="expanded-team-overview-header">
@@ -84,22 +84,23 @@ function overviews(
                 </div>
                 <div className="rightSpace">
                   <CloseButton
-                    className="closeButton"
-                    variant="white"
-                    aria-label="Hide"
-                    onClick={closeAlert}
+                      className="closeButton"
+                      variant="white"
+                      aria-label="Hide"
+                      onClick={() => setAlertVisible(false)}
                   />
                 </div>
               </div>
               <div className="dialog-body">
                 <TeamOverviewExpanded
-                  team={code}
-                  league={league}
-                  stats={stats}
+                    team={code}
+                    league={league}
+                    stats={stats}
                 />
               </div>
             </div>
           </Modal>
+        <div className="overview" key={index} onClick={() => setAlertVisible(true)}>
           {getTeamLogo(league, code, "overview-logo")}
           <div className="overview-header">
             <div>
@@ -118,6 +119,7 @@ function overviews(
             </div>
           </div>
         </div>
+          </>
       );
     }
     return null;
@@ -174,7 +176,7 @@ export default function TeamOverview(props) {
   });
   Modal.setAppElement("#root");
   if (nba.isLoading || nhl.isLoading || !props || !props.prefs) {
-    return <p className="nomargin bold">Loading...</p>;
+    return loading;
   }
   const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);
   if (leaguesFollowed.length === 0 || Object.keys(standings).length === 0) {
@@ -184,14 +186,6 @@ export default function TeamOverview(props) {
     return getLeagueLogo(String(league));
   });
 
-  function openAlert() {
-    setAlertVisible(true);
-  }
-
-  function closeAlert() {
-    setAlertVisible(false);
-  }
-
   return (
     <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
       {tabs(
@@ -199,8 +193,7 @@ export default function TeamOverview(props) {
         standings,
         leaguesFollowed,
         isAlertVisible,
-        openAlert,
-        closeAlert
+        setAlertVisible
       )}
     </Tabbed>
   );

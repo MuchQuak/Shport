@@ -49,10 +49,28 @@ class LeagueService {
     }
   }
 
+  async getPlayers(req, res) {
+    const id = req.params["id"];
+    try {
+      const players = await axios.get(await this.getPlayersEndPoint("2021"));
+      const formatted = this.formatPlayersData(players.data);
+      if (id === undefined) {
+        res.send(formatted);
+      } else {
+        res.send(formatted.find((player) => player["personId"] === id));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async getGamesEndPoint(currentDate) {
     throw new Error("Abstract Method has no implementation");
   }
   async getStandingsEndPoint() {
+    throw new Error("Abstract Method has no implementation");
+  }
+  async getPlayersEndPoint(currentYear) {
     throw new Error("Abstract Method has no implementation");
   }
 
@@ -68,6 +86,9 @@ class LeagueService {
     throw new Error("Abstract Method has no implementation");
   }
   formatStandingsData(responseData) {
+    throw new Error("Abstract Method has no implementation");
+  }
+  formatPlayersData(responseData) {
     throw new Error("Abstract Method has no implementation");
   }
 }
