@@ -4,7 +4,10 @@ import "../style/app.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 
-export default function NavBar(props: any) {
+export default function NavBar(props: {
+  user: { info: { name: string }, auth_token: string, prefs: any };
+  removeCookie: (s: string) => void;
+  }) {
   const navigate = useNavigate();
   const user = props.user;
 
