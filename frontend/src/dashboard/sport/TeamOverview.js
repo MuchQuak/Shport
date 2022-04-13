@@ -47,13 +47,7 @@ export function suffix(i) {
   return i + "th";
 }
 
-function overviews(
-  prefs,
-  standings,
-  league,
-  isAlertVisible,
-  setAlertVisible
-) {
+function overviews(prefs, standings, league, isAlertVisible, setAlertVisible) {
   const teams = getTeamsFollowedForSport(prefs, league);
   if (teams.length < 1) {
     return <p className="nomargin">No teams followed.</p>;
@@ -69,12 +63,12 @@ function overviews(
       const name = stat["city"] + " " + stat["name"];
       const conference = capitalizeFirstLetter(stat["conference"]);
       return (
-          <>
+        <>
           <Modal
-              isOpen={isAlertVisible}
-              onRequestClose={() => setAlertVisible(false)}
-              style={modalStyle}
-              contentLabel="alert"
+            isOpen={isAlertVisible}
+            onRequestClose={() => setAlertVisible(false)}
+            style={modalStyle}
+            contentLabel="alert"
           >
             <div className="expanded-team-overview">
               <div className="expanded-team-overview-header">
@@ -84,42 +78,46 @@ function overviews(
                 </div>
                 <div className="rightSpace">
                   <CloseButton
-                      className="closeButton"
-                      variant="white"
-                      aria-label="Hide"
-                      onClick={() => setAlertVisible(false)}
+                    className="closeButton"
+                    variant="white"
+                    aria-label="Hide"
+                    onClick={() => setAlertVisible(false)}
                   />
                 </div>
               </div>
               <div className="dialog-body">
                 <TeamOverviewExpanded
-                    team={code}
-                    league={league}
-                    stats={stats}
+                  team={code}
+                  league={league}
+                  stats={stats}
                 />
               </div>
             </div>
           </Modal>
-        <div className="overview" key={index} onClick={() => setAlertVisible(true)}>
-          {getTeamLogo(league, code, "overview-logo")}
-          <div className="overview-header">
-            <div>
-              <p className="overview-team-name noselect">{name}</p>
-            </div>
-            <div className="break" />
-            <div>
-              <p className="overview-stats noselect">
-                {rank} in the {conference}
-              </p>
-            </div>
-            <div>
-              <p className="overview-stats noselect">
-                {wins}-{losses}
-              </p>
+          <div
+            className="overview"
+            key={index}
+            onClick={() => setAlertVisible(true)}
+          >
+            {getTeamLogo(league, code, "overview-logo")}
+            <div className="overview-header">
+              <div>
+                <p className="overview-team-name noselect">{name}</p>
+              </div>
+              <div className="break" />
+              <div>
+                <p className="overview-stats noselect">
+                  {rank} in the {conference}
+                </p>
+              </div>
+              <div>
+                <p className="overview-stats noselect">
+                  {wins}-{losses}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-          </>
+        </>
       );
     }
     return null;
