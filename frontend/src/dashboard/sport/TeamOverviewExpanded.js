@@ -1,7 +1,17 @@
-import { getTeamLogo } from "./SportHandler";
+import {getTeamLogo, playersQuery, standingsQuery} from "./SportHandler";
 import {suffix} from "./TeamOverview";
+import {useQuery} from "react-query";
+import {useState} from "react";
+import {loading} from "../../util/Util";
 
 export function TeamOverviewExpanded(props) {
+  const [players, setPlayers] = useState([]);
+  const pq = useQuery(["players", "NBA"], () => playersQuery("NBA"), {
+    onSuccess: (data) => setPlayers(data)
+  });
+  if (pq.isLoading) {
+    return loading;
+  }
   if (!props || !props.team || !props.league) {
     return <p className="nomargin">No team information</p>;
   }
@@ -11,11 +21,15 @@ export function TeamOverviewExpanded(props) {
     const wins = stat["wins"];
     const losses = stat["losses"];
     const name = stat["city"] + " " + stat["name"];
+    const api_code = stat["api_code"];
   const league = props.league;
   return (
     <div className="expanded-team-overview-info">
       {getTeamLogo(league, team, "overview-logo")}
       <p>{name} {wins}-{losses}</p>
+      {players.filter((p) => p["teamId"] === api_code)
+          .map(p =>
+          <p>{p["firstName"]} {p["lastName"]} [{p["teamSitesOnly"]["posFull"]}]</p>)}
     </div>
   );
 }
