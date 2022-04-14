@@ -27,19 +27,19 @@ export function TeamOverviewExpanded(props) {
     <div className="expanded-team-overview-info">
       <div className="expanded-team-overview-info-name">
         {getTeamLogo(league, team, "overview-logo")}
-        <p>
-          {name} {wins}-{losses}
-        </p>
+        <p>{name} {wins}-{losses}</p>
       </div>
-      {players
-        .filter((p) => p["teamId"] === api_code)
-        .map((p) => (
-          <div className="overview-player">
-            <p>
-              {p["firstName"]} {p["lastName"]} [{p["teamSitesOnly"]["posFull"]}]
-            </p>
-          </div>
-        ))}
+      <p style={{fontWeight: "bold", textDecoration: "underline"}}>Roster</p>
+      <div className="expanded-team-overview-players">
+        {players.filter(p => p["teamId"] === api_code).map(p =>
+            <div className="overview-player">
+              {p["firstName"]} {p["lastName"]}
+              <div className="overview-player-position">
+                {p["teamSitesOnly"]["posFull"]}
+              </div>
+            </div>
+          )}
+      </div>
     </div>
   );
 }

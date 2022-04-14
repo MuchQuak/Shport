@@ -70,8 +70,8 @@ function overviews(prefs, standings, league, isAlertVisible, setAlertVisible) {
             style={modalStyle}
             contentLabel="alert"
           >
-            <div className="expanded-team-overview">
-              <div className="expanded-team-overview-header">
+            <div className="dialog" id="expanded-team-overview">
+              <div className="dialog-header" id="expanded-team-overview-header">
                 <div className="leftSpace" />
                 <div className="middleSpace">
                   <p>Team Overview</p>

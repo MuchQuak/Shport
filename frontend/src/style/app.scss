@@ -235,8 +235,11 @@
 .dialog {
     margin: 0;
     border-radius: 8px;
-    border: 2px solid #ff4747;
     width: 100%;
+}
+
+#error-dialog {
+    border: 2px solid #ff4747;
 }
 
 .dialog-header {
@@ -250,6 +253,9 @@
     align-content: center;
     justify-items: center;
     justify-content: center;
+}
+
+#error-header {
     background-color: #ff4747;
 }
 
