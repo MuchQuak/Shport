@@ -104,13 +104,13 @@ class NhlService extends league.LeagueService {
   formatStandingsData(responseData) {
     const all_data = {};
     const data = responseData["records"];
-    data.forEach(division_data => {
+    data.forEach((division_data) => {
       const div_name = division_data["division"]["nameShort"];
       const records = division_data["teamRecords"];
-      records.forEach(team_data => {
+      records.forEach((team_data) => {
         const new_team_data = {};
         new_team_data.code = String(team_data["team"]["id"]);
-        new_team_data.name = team_data["team"]["name"]
+        new_team_data.name = team_data["team"]["name"];
         new_team_data.city = "";
         new_team_data.conference = div_name;
         new_team_data.rank = String(team_data["divisionRank"]);

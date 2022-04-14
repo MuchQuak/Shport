@@ -34,9 +34,11 @@ export function TeamOverviewExpanded(props) {
       {players
         .filter((p) => p["teamId"] === api_code)
         .map((p) => (
-          <div className="overview-player"><p>
-            {p["firstName"]} {p["lastName"]} [{p["teamSitesOnly"]["posFull"]}]
-          </p></div>
+          <div className="overview-player">
+            <p>
+              {p["firstName"]} {p["lastName"]} [{p["teamSitesOnly"]["posFull"]}]
+            </p>
+          </div>
         ))}
     </div>
   );
