@@ -39,46 +39,51 @@ class NhlService extends league.LeagueService {
   async getSpecificGameInfo(link) {
     try {
       const info = await (await axios.get(this.host + link)).data;
-      return this.parseSpecificGameInfo(info);
+      return this.parseSpecificGameInfo(info).then(data => data);
     } catch (e) {
       console.log(e);
     }
   }
 
-  formatGamesData(responseData, date) {
+  async formatGamesData(responseData, date) {
     const data = responseData["dates"].find((element) => element.date === date);
     if (data === undefined) {
       return;
     }
     const games = data["games"];
-    //console.log(responseData['dates'].find(element => element.date === date));
     const new_games = [];
-
     for (let i = 0; i < games.length; i++) {
       const game = games[i];
       const new_game = {};
-      const specificInfo = this.getSpecificGameInfo(game.link);
       new_game.status = this.getStatus(game.status.codedGameState);
-      new_game.clock = specificInfo[1];
-      new_game.halftime = specificInfo[2];
       new_game.arena = game.venue.name;
-      new_game.currentQtr = specificInfo[0];
       new_game.maxQtr = 3;
       new_game.home = game.teams.home.team.name;
       new_game.home_score = game.teams.home.score;
       new_game.home_record =
-        game.teams.home.leagueRecord.wins +
-        "-" +
-        game.teams.home.leagueRecord.losses;
+          game.teams.home.leagueRecord.wins +
+          "-" +
+          game.teams.home.leagueRecord.losses;
       new_game.home_code = String(game.teams.home.team.id);
       new_game.away = game.teams.away.team.name;
       new_game.away_score = game.teams.away.score;
       new_game.away_record =
-        game.teams.away.leagueRecord.wins +
-        "-" +
-        game.teams.away.leagueRecord.losses;
+          game.teams.away.leagueRecord.wins +
+          "-" +
+          game.teams.away.leagueRecord.losses;
       new_game.away_code = String(game.teams.away.team.id);
       new_game.startTimeUTC = game.gameDate;
+      if (new_game.status === 1) {
+        const specificInfo = await this.getSpecificGameInfo(game.link);
+        console.log(specificInfo);
+        new_game.currentQtr = specificInfo[0];
+        new_game.clock = specificInfo[1];
+        new_game.halftime = specificInfo[2];
+      } else {
+        new_game.currentQtr = 3;
+        new_game.clock = "00:00";
+        new_game.halftime = false;
+      }
       new_games.push(new_game);
     }
     return {

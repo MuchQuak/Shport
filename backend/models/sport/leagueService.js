@@ -28,8 +28,7 @@ class LeagueService {
 
     try {
       const games = await axios.get(await this.getGamesEndPoint(currentDate));
-
-      res.send(this.formatGamesData(games.data, currentDate));
+      res.send(await this.formatGamesData(games.data, currentDate));
     } catch (e) {
       console.error(e);
     }
