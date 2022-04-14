@@ -75,7 +75,6 @@ class NhlService extends league.LeagueService {
       new_game.startTimeUTC = game.gameDate;
       if (new_game.status === 1) {
         const specificInfo = await this.getSpecificGameInfo(game.link);
-        console.log(specificInfo);
         new_game.currentQtr = specificInfo[0];
         new_game.clock = specificInfo[1];
         new_game.halftime = specificInfo[2];
@@ -86,9 +85,7 @@ class NhlService extends league.LeagueService {
       }
       new_games.push(new_game);
     }
-    return {
-      games: new_games,
-    };
+    return new_games;
   }
 
   getStatus(codedGameState) {
@@ -107,24 +104,22 @@ class NhlService extends league.LeagueService {
   formatStandingsData(responseData) {
     const all_data = {};
     const data = responseData["records"];
-    data.forEach((division_data, index) => {
+    data.forEach(division_data => {
       const div_name = division_data["division"]["nameShort"];
       const records = division_data["teamRecords"];
-      records.forEach((team_data, index) => {
+      records.forEach(team_data => {
         const new_team_data = {};
-        new_team_data.code = String(team_data.team.id);
-        new_team_data.name = team_data.team.name;
+        new_team_data.code = String(team_data["team"]["id"]);
+        new_team_data.name = team_data["team"]["name"]
         new_team_data.city = "";
         new_team_data.conference = div_name;
-        new_team_data.rank = String(team_data.divisionRank);
-        new_team_data.wins = String(team_data.leagueRecord.wins);
-        new_team_data.losses = String(team_data.leagueRecord.losses);
+        new_team_data.rank = String(team_data["divisionRank"]);
+        new_team_data.wins = String(team_data["leagueRecord"]["wins"]);
+        new_team_data.losses = String(team_data["leagueRecord"]["losses"]);
         all_data[new_team_data.code] = new_team_data;
       });
     });
-    return {
-      teams: all_data,
-    };
+    return all_data;
   }
 }
 

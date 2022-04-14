@@ -63,7 +63,7 @@ function overviews(prefs, standings, league, isAlertVisible, setAlertVisible) {
       const name = stat["city"] + " " + stat["name"];
       const conference = capitalizeFirstLetter(stat["conference"]);
       return (
-        <>
+        <div key={index}>
           <Modal
             isOpen={isAlertVisible}
             onRequestClose={() => setAlertVisible(false)}
@@ -117,7 +117,7 @@ function overviews(prefs, standings, league, isAlertVisible, setAlertVisible) {
               </div>
             </div>
           </div>
-        </>
+        </div>
       );
     }
     return null;

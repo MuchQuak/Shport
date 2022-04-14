@@ -38,10 +38,11 @@ class LeagueService {
     const id = req.params["id"];
     try {
       const standings = await axios.get(await this.getStandingsEndPoint());
+      const formatted = this.formatStandingsData(standings.data);
       if (id === undefined) {
-        res.send(this.formatStandingsData(standings.data));
+        res.send(formatted);
       } else {
-        res.send(this.formatStandingsData(standings.data).teams[id]);
+        res.send(formatted[id]);
       }
     } catch (e) {
       console.error(e);

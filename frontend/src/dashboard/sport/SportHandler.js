@@ -11,7 +11,7 @@ export async function standingsQuery(sport) {
   return await axios
     .get("http://localhost:5000/" + sport + "/standings")
     .then((res) => {
-      return res.data.teams;
+      return res.data;
     });
 }
 
@@ -19,7 +19,7 @@ export async function gamesQuery(sport, dayOffset) {
   return await axios
     .get("http://localhost:5000/" + sport + "/games/" + dayOffset)
     .then((res) => {
-      return res.data.games;
+      return res.data;
     });
 }
 
@@ -38,7 +38,7 @@ export async function informativeGamesQuery(sport, dayOffset, dayName) {
       return {
         sport: sport,
         dayName: dayName,
-        data: res.data.games,
+        data: res.data,
       };
     });
 }

@@ -38,9 +38,7 @@ class NbaService extends league.LeagueService {
       new_game.startTimeUTC = this.ESTtoUTC(game.startTimeEastern);
       new_games.push(new_game);
     }
-    return {
-      games: new_games,
-    };
+    return new_games;
   }
 
   getStatus(codedGameState) {
@@ -61,7 +59,7 @@ class NbaService extends league.LeagueService {
     const object_data = responseData["league"]["standard"]["conference"];
     for (const conf of Object.keys(object_data)) {
       const data = object_data[conf];
-      data.forEach((division_data, index) => {
+      data.forEach((division_data) => {
         const div_name = String(conf);
         const new_team_data = {};
         const code = String(division_data["teamSitesOnly"]["teamTricode"]);
@@ -76,9 +74,7 @@ class NbaService extends league.LeagueService {
         all_data[code] = new_team_data;
       });
     }
-    return {
-      teams: all_data,
-    };
+    return all_data;
   }
 
   formatPlayersData(responseData) {
