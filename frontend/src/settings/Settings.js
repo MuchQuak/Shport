@@ -20,7 +20,8 @@ function createPrefsObject(allLeagues, leagues, teams) {
       current[item].following = true;
     }
     return current;
-  }, {});
+  },
+      {});
   if (followingAll) {
     leagueObj.following = true;
   }
