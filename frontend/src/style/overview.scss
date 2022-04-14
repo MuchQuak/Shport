@@ -60,6 +60,7 @@
     border-radius: 8px;
     border: 2px solid theme.$current_border;
     width: 100%;
+    display: flex;
 }
 
 .expanded-team-overview-header {
@@ -84,4 +85,35 @@
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
+}
+
+.expanded-team-overview-info {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.expanded-team-overview-info-name {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: left;
+    align-items: center;
+    font-weight: bold;
+}
+
+.overview-player {
+    width: 50%;
+    margin: 2px;
+    padding: 3px;
+    background-color: theme.$current-accent;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.overview-player p {
+    width: auto;
 }

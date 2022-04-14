@@ -25,16 +25,18 @@ export function TeamOverviewExpanded(props) {
   const league = props.league;
   return (
     <div className="expanded-team-overview-info">
-      {getTeamLogo(league, team, "overview-logo")}
-      <p>
-        {name} {wins}-{losses}
-      </p>
+      <div className="expanded-team-overview-info-name">
+        {getTeamLogo(league, team, "overview-logo")}
+        <p>
+          {name} {wins}-{losses}
+        </p>
+      </div>
       {players
         .filter((p) => p["teamId"] === api_code)
         .map((p) => (
-          <p>
+          <div className="overview-player"><p>
             {p["firstName"]} {p["lastName"]} [{p["teamSitesOnly"]["posFull"]}]
-          </p>
+          </p></div>
         ))}
     </div>
   );
