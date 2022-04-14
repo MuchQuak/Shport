@@ -39,7 +39,7 @@ class NhlService extends league.LeagueService {
   async getSpecificGameInfo(link) {
     try {
       const info = await (await axios.get(this.host + link)).data;
-      return this.parseSpecificGameInfo(info).then(data => data);
+      return this.parseSpecificGameInfo(info).then((data) => data);
     } catch (e) {
       console.log(e);
     }
@@ -61,16 +61,16 @@ class NhlService extends league.LeagueService {
       new_game.home = game.teams.home.team.name;
       new_game.home_score = game.teams.home.score;
       new_game.home_record =
-          game.teams.home.leagueRecord.wins +
-          "-" +
-          game.teams.home.leagueRecord.losses;
+        game.teams.home.leagueRecord.wins +
+        "-" +
+        game.teams.home.leagueRecord.losses;
       new_game.home_code = String(game.teams.home.team.id);
       new_game.away = game.teams.away.team.name;
       new_game.away_score = game.teams.away.score;
       new_game.away_record =
-          game.teams.away.leagueRecord.wins +
-          "-" +
-          game.teams.away.leagueRecord.losses;
+        game.teams.away.leagueRecord.wins +
+        "-" +
+        game.teams.away.leagueRecord.losses;
       new_game.away_code = String(game.teams.away.team.id);
       new_game.startTimeUTC = game.gameDate;
       if (new_game.status === 1) {
