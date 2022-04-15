@@ -1,7 +1,5 @@
 import "../../style/overview.scss";
-import {
-  getAllTeamsFollowed,
-} from "../../settings/PrefHandler";
+import { getAllTeamsFollowed } from "../../settings/PrefHandler";
 import {
   capitalizeFirstLetter,
   getTeamLogo,
@@ -12,7 +10,7 @@ import { useQuery } from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
-import {loading, suffix} from "../../util/Util";
+import { loading, suffix } from "../../util/Util";
 
 const modalStyle = {
   content: {
@@ -47,63 +45,58 @@ function Overview(props) {
     const name = stat["city"] + " " + stat["name"];
     const conference = capitalizeFirstLetter(stat["conference"]);
     return (
-        <>
-          <Modal
-              isOpen={isAlertVisible}
-              onRequestClose={() => setAlertVisible(false)}
-              style={modalStyle}
-              contentLabel="alert"
-          >
-            <div className="dialog" id="expanded-team-overview">
-              <div className="dialog-header" id="expanded-team-overview-header">
-                <div className="leftSpace"/>
-                <div className="middleSpace">
-                  <p>Team Overview</p>
-                </div>
-                <div className="rightSpace">
-                  <CloseButton
-                      className="closeButton"
-                      variant="white"
-                      aria-label="Hide"
-                      onClick={() => setAlertVisible(false)}
-                  />
-                </div>
+      <>
+        <Modal
+          isOpen={isAlertVisible}
+          onRequestClose={() => setAlertVisible(false)}
+          style={modalStyle}
+          contentLabel="alert"
+        >
+          <div className="dialog" id="expanded-team-overview">
+            <div className="dialog-header" id="expanded-team-overview-header">
+              <div className="leftSpace" />
+              <div className="middleSpace">
+                <p>Team Overview</p>
               </div>
-              <div className="dialog-body">
-                <TeamOverviewExpanded
-                    team={code}
-                    league={team.sport}
-                    stats={stats}
+              <div className="rightSpace">
+                <CloseButton
+                  className="closeButton"
+                  variant="white"
+                  aria-label="Hide"
+                  onClick={() => setAlertVisible(false)}
                 />
               </div>
             </div>
-          </Modal>
-          <div
-              className="overview"
-              onClick={() => setAlertVisible(true)}
-          >
-            {getTeamLogo(team.sport, code, "overview-logo")}
-            <div className="overview-header">
-              <div>
-                <p className="overview-team-name noselect">{name}</p>
-              </div>
-              <div className="break"/>
-              <div>
-                <p className="overview-stats noselect">
-                  {team.sport}
-                </p>
-                <p className="overview-stats noselect">
-                  {rank} in the {conference}
-                </p>
-              </div>
-              <div>
-                <p className="overview-stats noselect">
-                  {wins}-{losses}
-                </p>
-              </div>
+            <div className="dialog-body">
+              <TeamOverviewExpanded
+                team={code}
+                league={team.sport}
+                stats={stats}
+              />
             </div>
           </div>
-        </>
+        </Modal>
+        <div className="overview" onClick={() => setAlertVisible(true)}>
+          {getTeamLogo(team.sport, code, "overview-logo")}
+          <div className="overview-header">
+            <div>
+              <p className="overview-team-name noselect">{name}</p>
+            </div>
+            <div className="break" />
+            <div>
+              <p className="overview-stats noselect">{team.sport}</p>
+              <p className="overview-stats noselect">
+                {rank} in the {conference}
+              </p>
+            </div>
+            <div>
+              <p className="overview-stats noselect">
+                {wins}-{losses}
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }
@@ -133,7 +126,9 @@ export default function TeamOverview(props) {
   }
   return (
     <div className="overviews">
-      {teams.map((team, index) => <Overview team={team} standings={standings} />)}
+      {teams.map((team, index) => (
+        <Overview team={team} standings={standings} />
+      ))}
     </div>
   );
 }
