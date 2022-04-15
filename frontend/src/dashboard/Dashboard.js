@@ -15,10 +15,10 @@ import { errorSuffix, loading, loadingSuffix } from "../util/Util";
 function default_items(prefs, sports) {
   return [
     <CloseableItem title="Schedule" prefs={prefs} sports={sports} key={0}>
-      <Schedule className="nbaSchedule" sports={sports} />
+      <Schedule />
     </CloseableItem>,
-    <CloseableItem title="Teams" prefs={prefs} key={1}>
-      <TeamOverview sports={sports} />
+    <CloseableItem title="Teams" prefs={prefs} sports={sports} key={1}>
+      <TeamOverview />
     </CloseableItem>,
     <CloseableItem title="Standings" prefs={prefs} sports={sports} key={2}>
       <StandingsTable />

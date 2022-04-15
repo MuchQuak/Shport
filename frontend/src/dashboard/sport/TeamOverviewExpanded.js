@@ -1,8 +1,7 @@
 import { getTeamLogo, playersQuery, standingsQuery } from "./SportHandler";
-import { suffix } from "./TeamOverview";
 import { useQuery } from "react-query";
 import { useState } from "react";
-import { loading } from "../../util/Util";
+import {loading, suffix} from "../../util/Util";
 
 export function TeamOverviewExpanded(props) {
   const [players, setPlayers] = useState([]);
