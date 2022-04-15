@@ -1,7 +1,8 @@
 import "../../style/overview.scss";
 import { getAllTeamsFollowed } from "../../settings/PrefHandler";
 import {
-  capitalizeFirstLetter, getLeagueLogo,
+  capitalizeFirstLetter,
+  getLeagueLogo,
   getTeamLogo,
   standingsQuery,
 } from "./SportHandler";
