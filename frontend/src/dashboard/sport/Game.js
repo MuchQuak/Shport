@@ -37,21 +37,19 @@ export default function Game(props) {
   //if (!props.sports[league] || !props.sports[league].teams.includes(game.home_code) || !props.sports[league].teams.includes(game.away_code)) {
   //    return null;
   //}
-  function halftime() {
+  function is_break() {
     return (
       game.status === 1 &&
-      (game.halftime || (clock_data === "" && game.currentQtr === 2))
+      (game.break || (clock_data === "" && game.currentQtr === 2))
     );
   }
   function clock() {
     if (game.status === 2) {
       return <p>Final Score</p>;
     }
-    if (halftime()) {
+    if (is_break()) {
       return (
-        <p>
-          <b>Halftime</b>
-        </p>
+        <p className="nomargin" style={{fontWeight: "bold"}}>{game.break_string}</p>
       );
     }
     if (clock_data === "" || game.status === 0) {

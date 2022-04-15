@@ -1,7 +1,7 @@
 import "../../style/overview.scss";
 import { getAllTeamsFollowed } from "../../settings/PrefHandler";
 import {
-  capitalizeFirstLetter,
+  capitalizeFirstLetter, getLeagueLogo,
   getTeamLogo,
   standingsQuery,
 } from "./SportHandler";
@@ -80,11 +80,13 @@ function Overview(props) {
           {getTeamLogo(team.sport, code, "overview-logo")}
           <div className="overview-header">
             <div>
-              <p className="overview-team-name noselect">{name}</p>
+              <p className="overview-team-name noselect">
+                {getLeagueLogo(team.sport)}
+                {name}
+              </p>
             </div>
             <div className="break" />
             <div>
-              <p className="overview-stats noselect">{team.sport}</p>
               <p className="overview-stats noselect">
                 {rank} in the {conference}
               </p>

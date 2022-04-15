@@ -73,15 +73,16 @@ class NhlService extends league.LeagueService {
         game.teams.away.leagueRecord.losses;
       new_game.away_code = String(game.teams.away.team.id);
       new_game.startTimeUTC = game.gameDate;
+      new_game.break_string = "Intermission";
       if (new_game.status === 1) {
         const specificInfo = await this.getSpecificGameInfo(game.link);
         new_game.currentQtr = specificInfo[0];
         new_game.clock = specificInfo[1];
-        new_game.halftime = specificInfo[2];
+        new_game.break = specificInfo[2];
       } else {
         new_game.currentQtr = 3;
         new_game.clock = "00:00";
-        new_game.halftime = false;
+        new_game.break = false;
       }
       new_games.push(new_game);
     }

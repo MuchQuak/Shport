@@ -23,7 +23,8 @@ class NbaService extends league.LeagueService {
       const new_game = {};
       new_game.status = this.getStatus(game.statusNum);
       new_game.clock = game.clock;
-      new_game.halftime = game.period.isHalftime;
+      new_game.break = game.period.isHalftime;
+      new_game.break_string = "Halftime";
       new_game.arena = game.arena.name;
       new_game.currentQtr = game.period.current;
       new_game.maxQtr = game.period.maxRegular;

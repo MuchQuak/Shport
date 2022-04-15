@@ -32,7 +32,12 @@
 }
 
 .overview-team-name {
-    font-size: 23px;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 22px;
 }
 
 .overview-stats {
