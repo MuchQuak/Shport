@@ -49,7 +49,9 @@ export default function Game(props) {
     }
     if (is_break()) {
       return (
-        <p className="nomargin" style={{fontWeight: "bold"}}>{game.break_string}</p>
+        <p className="nomargin" style={{ fontWeight: "bold" }}>
+          {game.break_string}
+        </p>
       );
     }
     if (clock_data === "" || game.status === 0) {
