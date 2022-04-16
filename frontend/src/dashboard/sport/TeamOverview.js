@@ -82,7 +82,6 @@ function Overview(props) {
               {getLeagueLogo(team.sport)}
               <p>{name}</p>
             </div>
-            <div className="break" />
             <p className="overview-stats noselect">
               {rank} in the {conference}
             </p>

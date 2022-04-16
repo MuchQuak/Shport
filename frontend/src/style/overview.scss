@@ -32,29 +32,34 @@
 }
 
 .overview-team-name {
+    width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    gap: 10px;
+    gap: 5px;
     justify-content: flex-start;
     align-items: center;
-    font-size: 22px;
 }
 
 .overview-team-name p {
     width: auto;
-    margin: 0;
+    margin: 0 !important;
+    font-size: 23px;
+    font-weight: bold;
 }
 
 .overview-stats {
     font-size: 18px;
+    margin: 0 !important;
 }
 
-.overview p {
-    flex-basis: 70%;
-    font-weight: bold;
-    margin: 0 auto;
-    padding-left: 5px;
-    padding-top: 5px;
+.overview-header {
+    margin: 0;
+    padding-left: 10px;
+    width: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 2px;
 }
 
 .break {
