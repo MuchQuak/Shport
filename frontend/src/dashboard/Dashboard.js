@@ -8,7 +8,11 @@ import Schedule from "./sport/Schedule";
 import Article from "./news/Article";
 import { sportsQuery } from "./sport/SportHandler";
 import { newsQuery } from "./news/NewsHandler";
-import {getAllTeamsFollowed, getInterestedSports, getSportsFollowed} from "../settings/PrefHandler";
+import {
+  getAllTeamsFollowed,
+  getInterestedSports,
+  getSportsFollowed,
+} from "../settings/PrefHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loading, loadingSuffix } from "../util/Util";
 
@@ -59,16 +63,24 @@ export default function Dashboard(props) {
   const [teamNews, setTeamNews] = useState([]);
   const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
-  const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(t =>
-      "(" + t.name + " AND " + t.sport + ") OR "
-  + t.city + " " + t.name);
+  const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(
+    (t) => "(" + t.name + " AND " + t.sport + ") OR " + t.city + " " + t.name
+  );
   const league_interest = getSportsFollowed(user.prefs);
-  const tnr = useQuery(["teamnews", team_interest], () => newsQuery(team_interest), {
-    onSuccess: (data) => setTeamNews(data)
-  });
-  const lnr = useQuery(["leaguenews", league_interest], () => newsQuery(league_interest), {
-    onSuccess: (data) => setTeamNews(data)
-  });
+  const tnr = useQuery(
+    ["teamnews", team_interest],
+    () => newsQuery(team_interest),
+    {
+      onSuccess: (data) => setTeamNews(data),
+    }
+  );
+  const lnr = useQuery(
+    ["leaguenews", league_interest],
+    () => newsQuery(league_interest),
+    {
+      onSuccess: (data) => setTeamNews(data),
+    }
+  );
   const getMsg = () => {
     if (!props || tnr.isLoading || lnr.isLoading) {
       return loading;
@@ -77,10 +89,8 @@ export default function Dashboard(props) {
     } else if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
       return partitionItems(
         default_items(user.prefs, props.sports)
-            .concat(
-                article_items(user.prefs, teamNews)).concat(
-          article_items(user.prefs, leagueNews)
-        )
+          .concat(article_items(user.prefs, teamNews))
+          .concat(article_items(user.prefs, leagueNews))
       );
     } else {
       return errorSuffix("loading");

@@ -9,7 +9,7 @@ import { prefsQuery, usernameQuery } from "./login-signup/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
-import {sportsQuery} from "./dashboard/sport/SportHandler";
+import { sportsQuery } from "./dashboard/sport/SportHandler";
 
 const userModel = {
   info: {
