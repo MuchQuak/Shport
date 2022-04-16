@@ -205,7 +205,12 @@ app.get("/MLB/games/:offset", async (req, res) => {
   await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
-  await mlb.getStandings(req, res);
+  //await mlb.getStandings(req, res);
+
+  mlb.getStandingsScrape().then( result => {
+    res.send(result);
+  } )
+  
 });
 app.get("/MLB/standings/:id", async (req, res) => {
   await mlb.getStandings(req, res);

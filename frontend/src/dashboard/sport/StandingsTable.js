@@ -83,6 +83,13 @@ export default function StandingsTable(props) {
       setStandings(temp);
     },
   });
+  const mlb = useQuery(["MLBStandings", "MLB"], () => standingsQuery("MLB"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["MLB"] = data;
+      setStandings(temp);
+    },
+  });
   if (
     nba.isLoading ||
     nhl.isLoading ||
@@ -104,6 +111,7 @@ export default function StandingsTable(props) {
     const divs = sportInfo["divisions"];
     const data = divs.map((div, index) => {
       if (standings.hasOwnProperty(league)) {
+        console.log(standings);
         return (
           <div className="conference" key={index}>
             {Conf(league, standings[league], String(div).toLowerCase(), props)}
