@@ -225,7 +225,9 @@ app.get("/NFL/games/:offset", async (req, res) => {
   await nfl.getGames(req, res);
 });
 app.get("/NFL/standings", async (req, res) => {
-  await nfl.getStandings(req, res);
+  nfl.getStandingsScrape().then( result => {
+    res.send(result);
+  } )
 });
 app.get("/NFL/standings/:id", async (req, res) => {
   await nfl.getStandings(req, res);

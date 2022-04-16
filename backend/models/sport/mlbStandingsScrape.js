@@ -78,11 +78,12 @@ function createMlbObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
         sportObj["teams"][natCodes[i]]["name"] = natLeague[i];
         sportObj["teams"][natCodes[i]]["city"]= "";
         sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
-        sportObj["teams"][natCodes[i]]["rank"] = k++;
+        sportObj["teams"][natCodes[i]]["rank"] = k.toString();
         sportObj["teams"][natCodes[i]]["wins"] = mlbScores[j];
-        sportObj["teams"][natCodes[i]]["loses"] = mlbScores[j+1];
+        sportObj["teams"][natCodes[i]]["losses"] = mlbScores[j+1];
 
         j += 2;
+        k += 1;
 
         if(i < 5){
             sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "East";
@@ -103,6 +104,43 @@ function createMlbObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
 
 }
 
+function createNflObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, start){
+    let j = 0;
+    let k = 1 ;
+
+    for(let i = 0; i <natLeague.length; i++){
+        sportObj["teams"][natCodes[i]] = {};
+        sportObj["teams"][natCodes[i]]["name"] = natLeague[i];
+        sportObj["teams"][natCodes[i]]["city"]= "";
+        sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
+        sportObj["teams"][natCodes[i]]["rank"] = k.toString();
+        sportObj["teams"][natCodes[i]]["wins"] = mlbScores[j];
+        sportObj["teams"][natCodes[i]]["losses"] = mlbScores[j+1];
+
+        j += 2;
+        k += 1;
+
+        if(i < 4){
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "East";
+        }
+        else if(i < 8){
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "North";
+        }
+        else if(i < 12){
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "South";
+
+        }
+        else{
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "West";
+        }
+
+        if(k == 4){
+            k = 1;
+        }
+}
+
+}
+
 function getMlbSportStanding(){
     return getSportStanding("mlb").then(
         response => {
@@ -112,16 +150,31 @@ function getMlbSportStanding(){
             };
             
             createMlbObj(sportObj, "AL ", response["amLeague"], response["amCodes"], response["scores"],0);
-            createMlbObj(sportObj, "NL ", response["natLeague"], response["natCodes"], response["scores"], 27);
+            createMlbObj(sportObj, "NL ", response["natLeague"], response["natCodes"], response["scores"], 28);
 
-            console.log(sportObj);
+            return sportObj;
+        }
+    )
+}
+
+function getNflSportStanding(){
+    return getSportStanding("nfl").then(
+        response => {
+            let sportObj = {
+                "teams": {}
+            }
+
+            createNflObj(sportObj, "AFC ", response["amLeague"], response["amCodes"], response["scores"],0);
+            createNflObj(sportObj, "NFC ", response["natLeague"], response["natCodes"], response["scores"], 0);
+
+
             return sportObj;
         }
     )
 }
 
 exports.getMlbSportStanding = getMlbSportStanding;
-
+exports.getNflSportStanding = getNflSportStanding;
 /*
     let amLeagueArray = amLeague.split(/(?<![A-Z\W])(?=[A-Z])/);
     let natLeageArray = natLeague.split(/(?<![A-Z\W])(?=[A-Z])/);

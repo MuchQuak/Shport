@@ -90,9 +90,11 @@ export default function StandingsTable(props) {
       setStandings(temp);
     },
   });
+
   if (
     nba.isLoading ||
     nhl.isLoading ||
+    mlb.isLoading ||
     !props ||
     !props.prefs ||
     !props.sports
