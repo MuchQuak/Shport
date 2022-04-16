@@ -77,23 +77,22 @@ function createMlbObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
         sportObj["teams"][natCodes[i]] = {};
         sportObj["teams"][natCodes[i]]["name"] = natLeague[i];
         sportObj["teams"][natCodes[i]]["city"]= "";
-        sportObj["teams"][natCodes[i]]["codes"] = natCodes[i];
+        sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
         sportObj["teams"][natCodes[i]]["rank"] = k++;
         sportObj["teams"][natCodes[i]]["wins"] = mlbScores[j];
         sportObj["teams"][natCodes[i]]["loses"] = mlbScores[j+1];
-        sportObj["teams"][natCodes[i]]["subLeague"] = currentLeague;
 
         j += 2;
 
         if(i < 5){
-            sportObj["teams"][natCodes[i]]["conference"] = "east";
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "East";
         }
         else if(i < 10){
-            sportObj["teams"][natCodes[i]]["conference"] = "central";
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "Central";
 
         }
         else{
-            sportObj["teams"][natCodes[i]]["conference"] = "west";
+            sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "West";
 
         }
 
@@ -112,9 +111,10 @@ function getMlbSportStanding(){
              "teams": {}
             };
             
-            createMlbObj(sportObj, "american", response["amLeague"], response["amCodes"], response["scores"],0);
-            createMlbObj(sportObj, "national", response["natLeague"], response["natCodes"], response["scores"], 27);
+            createMlbObj(sportObj, "AL ", response["amLeague"], response["amCodes"], response["scores"],0);
+            createMlbObj(sportObj, "NL ", response["natLeague"], response["natCodes"], response["scores"], 27);
 
+            console.log(sportObj);
             return sportObj;
         }
     )
