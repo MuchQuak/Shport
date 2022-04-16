@@ -8,7 +8,7 @@ import Schedule from "./sport/Schedule";
 import Article from "./news/Article";
 import { sportsQuery } from "./sport/SportHandler";
 import { newsQuery } from "./news/NewsHandler";
-import { getInterestedSports } from "../settings/PrefHandler";
+import {getAllTeamsFollowed, getInterestedSports, getSportsFollowed} from "../settings/PrefHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loading, loadingSuffix } from "../util/Util";
 
@@ -27,7 +27,7 @@ function default_items(prefs, sports) {
 }
 function article_items(prefs, news) {
   return news.map((article, idx) => (
-    <CloseableItem title={article.publishBy} key={article.url}>
+    <CloseableItem title={article.publishBy} key={article.url + String(idx)}>
       <Article news={article} key={article.url} />
     </CloseableItem>
   ));
@@ -56,33 +56,30 @@ function partitionItems(items) {
 }
 
 export default function Dashboard(props) {
-  const [sports, setSports] = useState([]);
-  const [news, setNews] = useState([]);
+  const [teamNews, setTeamNews] = useState([]);
+  const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
-  const sportsResult = useQuery(["sports"], () => sportsQuery(), {
-    onSuccess: (data) => {
-      setSports(data);
-    },
+  const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(t =>
+      "(" + t.name + " AND " + t.sport + ") OR "
+  + t.city + " " + t.name);
+  const league_interest = getSportsFollowed(user.prefs);
+  const tnr = useQuery(["teamnews", team_interest], () => newsQuery(team_interest), {
+    onSuccess: (data) => setTeamNews(data)
   });
-  const interested = getInterestedSports(user.prefs);
-  const newsResult = useQuery(
-    ["news", interested],
-    () => newsQuery(interested),
-    {
-      onSuccess: (data) => {
-        setNews(data);
-      },
-    }
-  );
+  const lnr = useQuery(["leaguenews", league_interest], () => newsQuery(league_interest), {
+    onSuccess: (data) => setTeamNews(data)
+  });
   const getMsg = () => {
-    if (!props || sportsResult.isLoading || newsResult.isLoading) {
+    if (!props || tnr.isLoading || lnr.isLoading) {
       return loading;
     } else if (!user || !user.prefs) {
       return loadingSuffix("user");
-    } else if (user.prefs && sportsResult.isSuccess && newsResult.isSuccess) {
+    } else if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
       return partitionItems(
-        default_items(user.prefs, sports).concat(
-          article_items(user.prefs, news)
+        default_items(user.prefs, props.sports)
+            .concat(
+                article_items(user.prefs, teamNews)).concat(
+          article_items(user.prefs, leagueNews)
         )
       );
     } else {

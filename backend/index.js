@@ -214,7 +214,7 @@ app.get("/NFL/standings/:id", async (req, res) => {
 
 //articles api Calls
 //app.get('/news', async (req, res) => {await news.getNews(req, res)});
-app.get("/news/:id", async (req, res) => {
+app.get("/news/:query", async (req, res) => {
   await news.getNews(req, res);
 });
 

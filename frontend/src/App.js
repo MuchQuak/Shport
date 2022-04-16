@@ -9,6 +9,7 @@ import { prefsQuery, usernameQuery } from "./login-signup/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
+import {sportsQuery} from "./dashboard/sport/SportHandler";
 
 const userModel = {
   info: {
@@ -17,6 +18,14 @@ const userModel = {
   auth_token: "",
   prefs: null,
 };
+
+function SportContext(props) {
+  const sportsResult = useQuery(["sports"], () => sportsQuery());
+  if (sportsResult.isSuccess) {
+    return <Dashboard sports={sportsResult.data} user={props.user} />;
+  }
+  return loadingSuffix("sports");
+}
 
 export default function App(props) {
   const [user, setUser] = useState(userModel);
@@ -63,7 +72,7 @@ export default function App(props) {
     <>
       <NavBar user={user} removeCookie={props.removeCookie} />
       <Routes>
-        <Route index element={<Dashboard user={user} />} />
+        <Route index element={<SportContext user={user} />} />
         <Route
           path="settings"
           element={<Settings user={user} setUser={setUser} />}

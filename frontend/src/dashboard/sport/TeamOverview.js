@@ -33,11 +33,9 @@ function Overview(props) {
   const team = props.team;
   const stats = standings[team.sport];
   const code = String(team.code).trim().toUpperCase();
-  console.log(stats);
-  console.log(code);
-  console.log(stats.hasOwnProperty(code));
+  const index = props.index;
   Modal.setAppElement("#root");
-  if (stats.hasOwnProperty(code)) {
+  if (standings && stats && stats.hasOwnProperty(code)) {
     const stat = stats[code];
     const rank = suffix(stat["rank"]);
     const wins = stat["wins"];
@@ -79,28 +77,23 @@ function Overview(props) {
         <div className="overview" onClick={() => setAlertVisible(true)}>
           {getTeamLogo(team.sport, code, "overview-logo")}
           <div className="overview-header">
-            <div>
-              <p className="overview-team-name noselect">
-                {getLeagueLogo(team.sport)}
-                {name}
-              </p>
+            <div className="overview-team-name noselect">
+              {getLeagueLogo(team.sport)}
+              <p>{name}</p>
             </div>
             <div className="break" />
-            <div>
-              <p className="overview-stats noselect">
-                {rank} in the {conference}
-              </p>
-            </div>
-            <div>
-              <p className="overview-stats noselect">
-                {wins}-{losses}
-              </p>
-            </div>
+            <p className="overview-stats noselect">
+              {rank} in the {conference}
+            </p>
+            <p className="overview-stats noselect">
+              {wins}-{losses}
+            </p>
           </div>
         </div>
       </>
     );
   }
+  return null;
 }
 
 export default function TeamOverview(props) {
@@ -129,7 +122,7 @@ export default function TeamOverview(props) {
   return (
     <div className="overviews">
       {teams.map((team, index) => (
-        <Overview team={team} standings={standings} />
+        <Overview team={team} standings={standings} key={index} />
       ))}
     </div>
   );
