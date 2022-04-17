@@ -2,6 +2,16 @@ import { getTeamLogo, playersQuery, standingsQuery } from "./SportHandler";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { loading, suffix } from "../../util/Util";
+import {getImageSrc} from "../AssetHandler";
+
+function silhouette(league, city, name) {
+  const source = "https://cdn.statmuse.com/img/" + league.toLowerCase() + "/teams/" + city.split(" ").join("-") + "-" + name.split(" ").join("-") + "-Silhouette.png";
+  return (
+      <div className="logo-container logo-container-sport" id={name + "-silhouette"}>
+        <img className="logo" src={source} alt="logo" />
+      </div>
+  )
+}
 
 export function TeamOverviewExpanded(props) {
   const [players, setPlayers] = useState([]);
@@ -44,6 +54,7 @@ export function TeamOverviewExpanded(props) {
           .filter((p) => p["teamId"] === api_code)
           .map((p) => (
             <div className="overview-player">
+              {silhouette(league, stat["city"], stat["name"])}
               {p["firstName"]} {p["lastName"]}
               <div className="overview-player-position">
                 {p["teamSitesOnly"]["posFull"]}
