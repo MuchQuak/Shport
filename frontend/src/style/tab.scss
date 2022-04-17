@@ -22,8 +22,12 @@
     flex-basis: 100%;
 }
 
-.tab-title {
-    margin: 0 auto 2px;
+.tab {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 2px;
     padding: 4px;
     color: #FFFFFF;
     border-radius: 3px;
@@ -33,7 +37,7 @@
     background-color: theme.$current;
 }
 
-.tab-title:hover {
+.tab:hover {
     background-color: theme.$current-accent;
 }
 
