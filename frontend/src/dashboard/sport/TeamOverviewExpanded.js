@@ -2,15 +2,25 @@ import { getTeamLogo, playersQuery, standingsQuery } from "./SportHandler";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { loading, suffix } from "../../util/Util";
-import {getImageSrc} from "../AssetHandler";
+import { getImageSrc } from "../AssetHandler";
 
 function silhouette(league, city, name) {
-  const source = "https://cdn.statmuse.com/img/" + league.toLowerCase() + "/teams/" + city.split(" ").join("-") + "-" + name.split(" ").join("-") + "-Silhouette.png";
+  const source =
+    "https://cdn.statmuse.com/img/" +
+    league.toLowerCase() +
+    "/teams/" +
+    city.split(" ").join("-") +
+    "-" +
+    name.split(" ").join("-") +
+    "-Silhouette.png";
   return (
-      <div className="logo-container logo-container-sport" id={name + "-silhouette"}>
-        <img className="logo" src={source} alt="logo" />
-      </div>
-  )
+    <div
+      className="logo-container logo-container-sport"
+      id={name + "-silhouette"}
+    >
+      <img className="logo" src={source} alt="logo" />
+    </div>
+  );
 }
 
 export function TeamOverviewExpanded(props) {
