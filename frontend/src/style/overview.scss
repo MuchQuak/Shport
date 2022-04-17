@@ -105,6 +105,12 @@
     font-weight: bold;
 }
 
+.expanded-team-overview-stats {
+    margin: 0;
+    display: flex;
+    flex-flow: column wrap;
+}
+
 .expanded-team-overview-players {
     width: 100%;
     max-height: 200px;
