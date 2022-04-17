@@ -7,7 +7,7 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
 }
 
 #schedule-logo-container {
@@ -16,15 +16,15 @@
 }
 
 .game {
-    margin: 0 auto 3px;
-    padding: 5px;
+    margin: 0;
+    padding: 4px;
     width: 100%;
     display: flex;
     border-radius: 8px;
     flex-flow: column nowrap;
     background-color: theme.$current;
     color: #FFFFFF;
-    box-shadow: inset 0px 0px 2px 1px theme.$current-accent, 0px 3px theme.$current-border;
+    box-shadow: 0px 2px theme.$current-border;
     line-height: 1.15em;
 }
 

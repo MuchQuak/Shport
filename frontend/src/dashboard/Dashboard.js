@@ -6,11 +6,9 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from "./sport/StandingsTable";
 import Schedule from "./sport/Schedule";
 import Article from "./news/Article";
-import { sportsQuery } from "./sport/SportHandler";
 import { newsQuery } from "./news/NewsHandler";
 import {
   getAllTeamsFollowed,
-  getInterestedSports,
   getSportsFollowed,
 } from "../settings/PrefHandler";
 import { useQuery } from "react-query";
@@ -21,7 +19,7 @@ function default_items(prefs, sports) {
     <CloseableItem title="Schedule" prefs={prefs} sports={sports} key={0}>
       <Schedule />
     </CloseableItem>,
-    <CloseableItem title="Teams" prefs={prefs} sports={sports} key={1}>
+    <CloseableItem title="Followed Teams" prefs={prefs} sports={sports} key={1}>
       <TeamOverview />
     </CloseableItem>,
     <CloseableItem title="Standings" prefs={prefs} sports={sports} key={2}>
