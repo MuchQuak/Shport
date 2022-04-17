@@ -124,7 +124,7 @@ function overviews(
         </>
       );
     }
-    return <div><p>Error!</p></div>;
+    return <div><p>Error! Team with code {team} not loaded!</p></div>;
   });
 }
 
