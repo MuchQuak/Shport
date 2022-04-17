@@ -27,12 +27,8 @@ export function TeamOverviewExpanded(props) {
       <div className="expanded-team-overview-info-name">
         {getTeamLogo(league, team, "overview-logo")}
         <div className="expanded-team-overview-stats">
-          <p className="nomargin">
-            {name}
-          </p>
-          <p className="nomargin">
-            {rank}
-          </p>
+          <p className="nomargin">{name}</p>
+          <p className="nomargin">{rank}</p>
           <p className="nomargin">
             {wins}-{losses}
           </p>

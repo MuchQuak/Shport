@@ -8,8 +8,7 @@ export function Tab(props) {
   const icon = props.icon ? props.icon : null;
   function className() {
     return (
-      "tab noselect " +
-      (props.active === true ? "tab-active" : "tab-inactive")
+      "tab noselect " + (props.active === true ? "tab-active" : "tab-inactive")
     );
   }
   return (
