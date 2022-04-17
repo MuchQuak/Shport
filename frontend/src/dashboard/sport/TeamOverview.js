@@ -58,6 +58,7 @@ function overviews(
   if (teams.length < 1) {
     return <p className="nomargin">No teams followed.</p>;
   }
+
   const stats = standings[league];
   return teams.map((team, index) => {
     const code = String(team).trim().toUpperCase();
@@ -68,6 +69,7 @@ function overviews(
       const losses = stat["losses"];
       const name = stat["city"] + " " + stat["name"];
       const conference = capitalizeFirstLetter(stat["conference"]);
+
       return (
         <>
           <Modal
@@ -122,7 +124,7 @@ function overviews(
         </>
       );
     }
-    return null;
+    return <div><p>Error!</p></div>;
   });
 }
 
@@ -160,6 +162,7 @@ function tabs(
 export default function TeamOverview(props) {
   const [standings, setStandings] = useState({});
   const [isAlertVisible, setAlertVisible] = useState(false);
+  
   const nba = useQuery(["NBAStandings", "NBA"], () => standingsQuery("NBA"), {
     onSuccess: (data) => {
       const temp = { ...standings };
@@ -174,8 +177,22 @@ export default function TeamOverview(props) {
       setStandings(temp);
     },
   });
+  const mlb = useQuery(["MLBStandings", "MLB"], () => standingsQuery("MLB"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["MLB"] = data;
+      setStandings(temp);
+    },
+  });
+  const nfl = useQuery(["NFLStandings", "NFL"], () => standingsQuery("NFL"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["NFL"] = data;
+      setStandings(temp);
+    },
+  });
   Modal.setAppElement("#root");
-  if (nba.isLoading || nhl.isLoading || !props || !props.prefs) {
+  if (nfl.isLoading || mlb.isLoading || nba.isLoading || nhl.isLoading || !props || !props.prefs) {
     return <p className="nomargin bold">Loading...</p>;
   }
   const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);

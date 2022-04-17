@@ -72,7 +72,7 @@ async function getSportStanding(league, sep){
 }
 
 function createMlbObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, start){
-    let j = 0;
+    let j = start;
     let k = 1 ;
 
     for(let i = 0; i <natLeague.length; i++){
@@ -92,7 +92,6 @@ function createMlbObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
         }
         else if(i < 10){
             sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "Central";
-
         }
         else{
             sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "West";
@@ -107,7 +106,7 @@ function createMlbObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
 }
 
 function createNflObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, start){
-    let j = 0;
+    let j = start;
     let k = 1 ;
 
     for(let i = 0; i <natLeague.length; i++){
@@ -130,13 +129,12 @@ function createNflObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
         }
         else if(i < 12){
             sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "South";
-
         }
         else{
             sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "West";
         }
 
-        if(k == 4){
+        if(k == 5){
             k = 1;
         }
 }
@@ -167,7 +165,7 @@ function getNflSportStanding(){
             }
 
             createNflObj(sportObj, "AFC ", response["amLeague"], response["amCodes"], response["scores"],0);
-            createNflObj(sportObj, "NFC ", response["natLeague"], response["natCodes"], response["scores"], 0);
+            createNflObj(sportObj, "NFC ", response["natLeague"], response["natCodes"], response["scores"], 28);
 
 
             return sportObj;
