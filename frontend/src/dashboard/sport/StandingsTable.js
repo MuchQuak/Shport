@@ -91,10 +91,19 @@ export default function StandingsTable(props) {
     },
   });
 
+  const nfl = useQuery(["NFLStandings", "NFL"], () => standingsQuery("NFL"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["NFL"] = data;
+      setStandings(temp);
+    },
+  });
+
   if (
     nba.isLoading ||
     nhl.isLoading ||
     mlb.isLoading ||
+    nfl.isLoading ||
     !props ||
     !props.prefs ||
     !props.sports

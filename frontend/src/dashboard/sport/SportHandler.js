@@ -85,9 +85,12 @@ export function MLB_logo(id, divId) {
     );
   }
   const url =
-    "https://www.mlbstatic.com/team-logos/team-cap-on-light/" +
+  "https://a.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/" +
+  id.toLowerCase() +
+  ".png&h=200&w=200";
+    /*"https://www.mlbstatic.com/team-logos/team-cap-on-light/" +
     id.toLowerCase() +
-    ".svg";
+    ".svg";*/
   return (
     <div className="logo-container" id={divId}>
       <img className="logo" src={url} alt="logo" />

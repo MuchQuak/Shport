@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const league = require("./leagueService");
-const sportScraper = require("./mlbStandingsScrape");
+const sportScraper = require("../../scraper/standingsScrape");
 
 class NflService extends league.LeagueService {
   constructor(host) {

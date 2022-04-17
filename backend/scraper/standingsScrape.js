@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 //const fs = require('fs');
 
 
-async function getSportStanding(league){
+async function getSportStanding(league, sep){
     return await axios.get('https://www.espn.com/' +  league + '/standings')
     .then((response) => {
         let $ = cheerio.load(response.data);
@@ -42,12 +42,14 @@ async function getSportStanding(league){
         let scores = [];
         i = 0;
         $('.stat-cell').each((index, element) => {
+            
+            
             if( i < 2){
                 scores.push($(element).text());
             }
             i++;
 
-            if(i == 11) 
+            if(i == sep) 
                 i = 0;
         });
 
@@ -142,7 +144,7 @@ function createNflObj(sportObj, currentLeague, natLeague, natCodes, mlbScores, s
 }
 
 function getMlbSportStanding(){
-    return getSportStanding("mlb").then(
+    return getSportStanding("mlb", 11).then(
         response => {
 
             let sportObj = {
@@ -158,7 +160,7 @@ function getMlbSportStanding(){
 }
 
 function getNflSportStanding(){
-    return getSportStanding("nfl").then(
+    return getSportStanding("nfl", 12).then(
         response => {
             let sportObj = {
                 "teams": {}
