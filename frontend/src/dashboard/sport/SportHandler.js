@@ -87,10 +87,7 @@ export function MLB_logo(id, divId) {
   const url =
   "https://a.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/" +
   id.toLowerCase() +
-  ".png&h=200&w=200";
-    /*"https://www.mlbstatic.com/team-logos/team-cap-on-light/" +
-    id.toLowerCase() +
-    ".svg";*/
+  ".png";
   return (
     <div className="logo-container" id={divId}>
       <img className="logo" src={url} alt="logo" />
@@ -106,9 +103,8 @@ export function NFL_logo(abbreviation, divId) {
       </div>
     );
   }
-  const url =
-    "https://static.www.nfl.com/t_headshot_desktop_2x/f_auto/league/api/clubs/logos/" +
-    abbreviation.toLowerCase();
+  const url = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/" + abbreviation.toLowerCase() + ".png"
+
   return (
     <div className="logo-container" id={divId}>
       <img className="logo" src={url} alt="logo" />
@@ -197,3 +193,13 @@ export function getAllTeams(sports) {
   });
   return allTeams;
 }
+
+
+/*
+Links to old team photos
+  
+    "https://static.www.nfl.com/t_headshot_desktop_2x/f_auto/league/api/clubs/logos/" + abbreviation.toLowerCase();
+    
+    "https://www.mlbstatic.com/team-logos/team-cap-on-light/" + id.toLowerCase() + ".svg";
+    
+  */
