@@ -76,7 +76,7 @@ export default function Dashboard(props) {
     ["leaguenews", league_interest],
     () => newsQuery(league_interest),
     {
-      onSuccess: (data) => setTeamNews(data),
+      onSuccess: (data) => setLeagueNews(data),
     }
   );
   const getMsg = () => {
