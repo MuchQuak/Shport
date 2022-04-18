@@ -1,10 +1,11 @@
 import "../style/navbar.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {ThemeContext} from "../App";
 import {useHover} from "../util/Util";
 import ThemeSelector from "./ThemeSelector";
+import {Toaster} from "react-hot-toast";
 
 export default function NavBar(props) {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -53,45 +54,48 @@ export default function NavBar(props) {
   console.log(linkStyle);
 
   return (
-    <div className="header" style={{backgroundColor: theme.base, boxShadow: "0px 5px " + theme.border}}>
-      <div className="header-nav">
-        <div className="header-left">
-          <div className="header-text-link" onClick={() => navigate("/")}>
-            <h1 className="header-text"
-                style={textStyle}
-                onMouseEnter={textHover}
-                onMouseLeave={textUnhover}
-            >DASHBOARD</h1>
+      <>
+        <Toaster position="top-center" reverseOrder={false} />
+        <div className="header" style={{backgroundColor: theme.base, boxShadow: "0px 5px " + theme.border}}>
+          <div className="header-nav">
+            <div className="header-left">
+              <div className="header-text-link" onClick={() => navigate("/")}>
+                <h1 className="header-text"
+                    style={textStyle}
+                    onMouseEnter={textHover}
+                    onMouseLeave={textUnhover}
+                >DASHBOARD</h1>
+              </div>
+            </div>
+            <div className="header-right">
+              <ThemeSelector theme={theme} setTheme={setTheme} />
+              <p
+                  className="header-link"
+                  id="header-about"
+                  onClick={() => navigate("/about")}
+                  style={linkStyle}
+                  onMouseEnter={linkHover}
+                  onMouseLeave={linkUnhover}
+              >
+                About Us
+              </p>
+              <Dropdown className="nomargin">
+                <Dropdown.Toggle id="header-dropdown"
+                                 style={dropdownStyle}
+                                 onMouseEnter={dropdownHover}
+                                 onMouseLeave={dropdownUnhover}
+                >{icon()}</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
+                  <Dropdown.Item onClick={() => navigate("/settings")}>
+                    <div className="icon-text">{gear()} Settings</div>
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </div>
         </div>
-        <div className="header-right">
-          <ThemeSelector theme={theme} setTheme={setTheme} />
-          <p
-            className="header-link"
-            id="header-about"
-            onClick={() => navigate("/about")}
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkUnhover}
-          >
-            About Us
-          </p>
-          <Dropdown className="nomargin">
-            <Dropdown.Toggle id="header-dropdown"
-                             style={dropdownStyle}
-                             onMouseEnter={dropdownHover}
-                             onMouseLeave={dropdownUnhover}
-            >{icon()}</Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
-              <Dropdown.Item onClick={() => navigate("/settings")}>
-                <div className="icon-text">{gear()} Settings</div>
-              </Dropdown.Item>
-              <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
-    </div>
+      </>
   );
 }
