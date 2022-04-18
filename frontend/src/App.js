@@ -1,5 +1,5 @@
 import "./style/app.scss";
-import React, { useEffect, useState } from "react";
+import React, {createContext, useEffect, useState} from "react";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./dashboard/NavBar";
 import Dashboard from "./dashboard/Dashboard";
@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
 import { sportsQuery } from "./dashboard/sport/SportHandler";
+import {themes} from "./dashboard/Theme";
 
 const userModel = {
   info: {
@@ -18,6 +19,8 @@ const userModel = {
   auth_token: "",
   prefs: null,
 };
+
+export const ThemeContext = createContext(themes.blue);
 
 function SportContext(props) {
   const sportsResult = useQuery(["sports"], () => sportsQuery());
@@ -29,6 +32,7 @@ function SportContext(props) {
 
 export default function App(props) {
   const [user, setUser] = useState(userModel);
+  const [theme, setTheme] = useState(themes.blue);
   const navigate = useNavigate();
   const auth_token = props.cookies.auth_token;
   useEffect(() => {
@@ -69,7 +73,7 @@ export default function App(props) {
     return errorSuffix(nameQuery.error);
   }
   return (
-    <>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       <NavBar user={user} removeCookie={props.removeCookie} />
       <Routes>
         <Route index element={<SportContext user={user} />} />
@@ -79,6 +83,6 @@ export default function App(props) {
         />
         <Route path="about" element={<About />} />
       </Routes>
-    </>
+    </ThemeContext.Provider>
   );
 }

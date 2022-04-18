@@ -1,11 +1,18 @@
 import "../style/navbar.scss";
-import "../style/app.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
+import {useContext, useState} from "react";
+import {ThemeContext} from "../App";
+import {useHover} from "../util/Util";
+import ThemeSelector from "./ThemeSelector";
 
 export default function NavBar(props) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const user = props.user;
+  const [textHover, textUnhover, textStyle] = useHover({ textShadow: "0px 1px 1px " + theme.border }, { color: theme.accent }, { color: "#FFFFFF" }, theme);
+  const [linkHover, linkUnhover, linkStyle] = useHover({}, { color: theme.border }, { color: theme.base }, theme);
+  const [dropdownHover, dropdownUnhover, dropdownStyle] = useHover({ backgroundColor: "#FFFFFF" }, { color: theme.border }, { color: theme.base }, theme);
 
   function gear() {
     return (
@@ -42,24 +49,39 @@ export default function NavBar(props) {
     navigate("/login");
   }
 
+  console.log(textStyle);
+  console.log(linkStyle);
+
   return (
-    <div className="header">
+    <div className="header" style={{backgroundColor: theme.base, boxShadow: "0px 5px " + theme.border}}>
       <div className="header-nav">
         <div className="header-left">
           <div className="header-text-link" onClick={() => navigate("/")}>
-            <h1 className="header-text">DASHBOARD</h1>
+            <h1 className="header-text"
+                style={textStyle}
+                onMouseEnter={textHover}
+                onMouseLeave={textUnhover}
+            >DASHBOARD</h1>
           </div>
         </div>
         <div className="header-right">
+          <ThemeSelector theme={theme} setTheme={setTheme} />
           <p
             className="header-link"
             id="header-about"
             onClick={() => navigate("/about")}
+            style={linkStyle}
+            onMouseEnter={linkHover}
+            onMouseLeave={linkUnhover}
           >
             About Us
           </p>
           <Dropdown className="nomargin">
-            <Dropdown.Toggle id="header-dropdown">{icon()}</Dropdown.Toggle>
+            <Dropdown.Toggle id="header-dropdown"
+                             style={dropdownStyle}
+                             onMouseEnter={dropdownHover}
+                             onMouseLeave={dropdownUnhover}
+            >{icon()}</Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
               <Dropdown.Item onClick={() => navigate("/settings")}>

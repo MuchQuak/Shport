@@ -6,12 +6,13 @@ import {
   getTeamLogo,
   standingsQuery,
 } from "./SportHandler";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { useQuery } from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
 import { loading, suffix } from "../../util/Util";
+import {ThemeContext} from "../../App";
 
 const modalStyle = {
   content: {
@@ -29,6 +30,7 @@ const modalStyle = {
 };
 
 function Overview(props) {
+  const { theme } = useContext(ThemeContext);
   const [isAlertVisible, setAlertVisible] = useState(false);
   const standings = props.standings;
   const team = props.team;
@@ -51,8 +53,8 @@ function Overview(props) {
           style={modalStyle}
           contentLabel="alert"
         >
-          <div className="dialog" id="expanded-team-overview">
-            <div className="dialog-header" id="expanded-team-overview-header">
+          <div className="dialog" id="expanded-team-overview" style={{ border: "2px solid " + theme.border }}>
+            <div className="dialog-header" id="expanded-team-overview-header" style={{ backgroundColor: theme.base }}>
               <div className="leftSpace" />
               <div className="middleSpace">
                 <p>Team Overview</p>
@@ -75,7 +77,7 @@ function Overview(props) {
             </div>
           </div>
         </Modal>
-        <div className="overview" onClick={() => setAlertVisible(true)}>
+        <div className="overview" onClick={() => setAlertVisible(true)} style={{ backgroundColor: theme.base, boxShadow: "0px 2px " + theme.border }}>
           {getTeamLogo(team.sport, code, "overview-logo")}
           <div className="overview-header">
             <div className="overview-team-name noselect">

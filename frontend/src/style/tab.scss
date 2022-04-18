@@ -34,19 +34,5 @@
     flex-basis: 100%;
     cursor: pointer;
     font-weight: bold;
-    background-color: theme.$current;
-}
-
-.tab:hover {
-    background-color: theme.$current-accent;
-}
-
-.tab-active {
-    background-color: theme.$current-accent;
-    text-decoration: underline;
     text-decoration-color: #FFFFFF;
-}
-
-.tab-inactive {
-    background-color: theme.$current;
 }

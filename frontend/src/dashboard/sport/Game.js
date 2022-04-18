@@ -1,5 +1,7 @@
 import "../../style/game-schedule.scss";
 import { getTeamLogo, UTCtoLocal, getFullName } from "./SportHandler";
+import {useContext} from "react";
+import {ThemeContext} from "../../App";
 
 function score(game, score_info) {
   if (score_info === "" || game.status < 1) {
@@ -28,6 +30,7 @@ function getTeamName(homeOrAway, game, league, sports) {
 }
 
 export default function Game(props) {
+  const { theme, setTheme } = useContext(ThemeContext);
   if (!props || !props.game || !props.sports || !props.prefs) {
     return null;
   }
@@ -88,7 +91,7 @@ export default function Game(props) {
     return classN;
   }
   return (
-    <div className="game">
+    <div className="game" style={{ backgroundColor: theme.base, boxShadow: "0px 2px " + theme.border }}>
       <div className="game-data">
         <div className="game-left">
           {getTeamLogo(league, game.home_code, "schedule-logo-container")}

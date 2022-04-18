@@ -282,3 +282,13 @@
     border-radius: 2px;
     border: 1px solid #FFFFFF;
 }
+
+.blue-theme {
+    background-color: theme.$current !important;
+    color: #FFFFFF;
+}
+
+.red-theme {
+    background-color: #ff4747 !important;
+    color: #FFFFFF;
+}

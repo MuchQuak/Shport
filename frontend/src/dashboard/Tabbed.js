@@ -1,18 +1,17 @@
 import "../style/tab.scss";
-import React from "react";
+import React, {useContext} from "react";
+import {ThemeContext} from "../App";
+import {useHoverActive} from "../util/Util";
 
 export function Tab(props) {
+  const { theme } = useContext(ThemeContext);
+  const [tabHover, tabUnhover, tabStyle] = useHoverActive({}, { backgroundColor: theme.accent }, { backgroundColor: theme.base }, theme, props.active)
   if (!props || !props.title || !props.click) {
     return null;
   }
   const icon = props.icon ? props.icon : null;
-  function className() {
-    return (
-      "tab noselect " + (props.active === true ? "tab-active" : "tab-inactive")
-    );
-  }
   return (
-    <div className={className()} onClick={props.click}>
+    <div className="tab noselect" onClick={props.click} onMouseEnter={tabHover} onMouseLeave={tabUnhover} style={tabStyle}>
       <div className="logo-name-record">
         {icon}
         {props.title}

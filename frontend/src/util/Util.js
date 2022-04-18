@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 export function allQueriesSuccessful(queries) {
   for (let query of queries) {
@@ -37,4 +37,40 @@ export function suffix(i) {
     return i + "rd";
   }
   return i + "th";
+}
+
+export function useHover(baseStyle, hoverStyle, unhoverStyle, dep) {
+  const [style, setStyle] = useState({...baseStyle, ...unhoverStyle});
+  useEffect(() => {
+    setStyle({...baseStyle, ...unhoverStyle});
+  }, [dep]);
+  function hover() {
+    setStyle({...baseStyle, ...hoverStyle});
+  }
+  function unhover() {
+    setStyle({...baseStyle, ...unhoverStyle});
+  }
+  return [hover, unhover, style];
+}
+
+export function useHoverActive(baseStyle, hoverStyle, unhoverStyle, dep, active) {
+  const [style, setStyle] = useState({...baseStyle, ...unhoverStyle});
+  useEffect(() => {
+    if (active) {
+      setStyle({...baseStyle, ...hoverStyle});
+    } else {
+      setStyle({...baseStyle, ...unhoverStyle});
+    }
+  }, [dep, active]);
+  function hover() {
+    if (!active) {
+      setStyle({...baseStyle, ...hoverStyle});
+    }
+  }
+  function unhover() {
+    if (!active) {
+      setStyle({...baseStyle, ...unhoverStyle});
+    }
+  }
+  return [hover, unhover, style];
 }

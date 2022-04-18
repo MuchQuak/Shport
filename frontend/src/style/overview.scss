@@ -18,9 +18,7 @@
     flex-flow: row wrap;
     text-align: left;
     border-radius: 8px;
-    background-color: theme.$current;
     color: #FFFFFF;
-    box-shadow: 0px 2px theme.$current-border;
     cursor: pointer;
 }
 
@@ -70,14 +68,6 @@
     flex-basis: 100%;
 }
 
-#expanded-team-overview {
-    border: 2px solid theme.$current_border;
-}
-
-#expanded-team-overview-header {
-    background-color: theme.$current;
-}
-
 #expanded-team-overview-header p {
     margin: 0 auto;
     padding: 0;
@@ -123,7 +113,6 @@
 .overview-player {
     width: 100%;
     padding: 5px;
-    background-color: theme.$current-accent;
     color: #FFFFFF;
     border-radius: 5px;
     font-weight: bold;
@@ -139,5 +128,4 @@
     border-radius: 5px;
     background-color: #FFFFFF !important;
     font-weight: normal !important;
-    color: theme.$current-border;
 }
