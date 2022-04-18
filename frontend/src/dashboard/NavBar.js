@@ -8,7 +8,7 @@ import ThemeSelector from "./ThemeSelector";
 import {Toaster} from "react-hot-toast";
 
 export default function NavBar(props) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const user = props.user;
   const [textHover, textUnhover, textStyle] = useHover({ textShadow: "0px 1px 1px " + theme.border }, { color: theme.accent }, { color: "#FFFFFF" }, theme);
@@ -68,7 +68,7 @@ export default function NavBar(props) {
               </div>
             </div>
             <div className="header-right">
-              <ThemeSelector theme={theme} setTheme={setTheme} />
+              <ThemeSelector />
               <p
                   className="header-link"
                   id="header-about"

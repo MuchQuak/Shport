@@ -1,22 +1,21 @@
 import {themes} from "./Theme";
-import {errorSuffix} from "../util/Util";
 import {toast} from "react-hot-toast";
 import {Dropdown} from "react-bootstrap";
+import {useContext} from "react";
+import {ThemeContext} from "../App";
 
-export default function ThemeSelector(props) {
-    if (!props || !props.theme || !props.setTheme) {
-        return errorSuffix("loading themes");
-    }
-    function setTheme(theme) {
-        props.setTheme(theme);
+export default function ThemeSelector() {
+    const { theme, setTheme } = useContext(ThemeContext);
+    function setAndToast(th) {
+        setTheme(th);
         toast.success("Theme updated!");
     }
     return (
         <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-autoclose-true" style={{ border: "0", backgroundColor: "#FFFFFF", color: props.theme.base }} />
+            <Dropdown.Toggle variant="success" id="dropdown-autoclose-true" style={{ border: "0", backgroundColor: "#FFFFFF", color: theme.base }} />
             <Dropdown.Menu style={{ padding: "5px" }}>
                 <div className="theme-selector">
-                    {Object.keys(themes).map((th, index) => <div className="theme-selection" key={index} onClick={() => setTheme(themes[th])} style={{backgroundColor: themes[th].base}} />)}
+                    {Object.keys(themes).map((th, index) => <div className="theme-selection" key={index} onClick={() => setAndToast(themes[th])} style={{backgroundColor: themes[th].base}} />)}
                 </div>
             </Dropdown.Menu>
         </Dropdown>
