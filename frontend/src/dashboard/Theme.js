@@ -10,5 +10,11 @@ export const themes = {
         accent: "#C7222F",
         border: "#78060F",
         light: "#F23A49"
+    },
+    green: {
+        base: "#01aa00",
+        accent: "#006b00",
+        border: "#003200",
+        light: "#48cc14"
     }
 }
