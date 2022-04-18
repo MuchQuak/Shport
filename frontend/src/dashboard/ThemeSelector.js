@@ -13,10 +13,10 @@ export default function ThemeSelector(props) {
     }
     return (
         <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ border: "0", backgroundColor: "#FFFFFF", color: props.theme.base }} />
+            <Dropdown.Toggle variant="success" id="dropdown-autoclose-true" style={{ border: "0", backgroundColor: "#FFFFFF", color: props.theme.base }} />
             <Dropdown.Menu style={{ padding: "5px" }}>
                 <div className="theme-selector">
-                    {Object.keys(themes).map((th) => <div className="theme-selection" onClick={() => setTheme(themes[th])} style={{backgroundColor: themes[th].base}} />)}
+                    {Object.keys(themes).map((th, index) => <div className="theme-selection" key={index} onClick={() => setTheme(themes[th])} style={{backgroundColor: themes[th].base}} />)}
                 </div>
             </Dropdown.Menu>
         </Dropdown>
