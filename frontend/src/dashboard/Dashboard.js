@@ -62,7 +62,7 @@ export default function Dashboard(props) {
   const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
   const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(
-    (t) => "(" + t.name + " AND " + t.sport + ") OR " + t.city + " " + t.name
+    (t) => "(" + t.name + " AND " + t.sport + ") OR " + "(" + t.city + " " + t.name + ") OR (" + t.city + " AND " + t.name + ")"
   );
   const league_interest = getSportsFollowed(user.prefs);
   const tnr = useQuery(
