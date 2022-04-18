@@ -1,14 +1,11 @@
-const http = require("http");
-const host = "newsapi.org";
 //apikey = 'ae61e309e55d47469fd1c8e1cc89cf86'
-const dotenv = require("dotenv");
 const NewsAPI = require("newsapi");
 
 async function getNews(req, res) {
   let query = req.params["query"];
   if (query === undefined) query = "sports";
-  const newsapi = new NewsAPI(process.env.NEWSAPI_KEY);
   try {
+    const newsapi = new NewsAPI(process.env.NEWSAPI_KEY);
     newsapi.v2
       .everything({
         q: query,

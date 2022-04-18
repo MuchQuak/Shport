@@ -22,5 +22,17 @@ export const themes = {
         accent: "#006b00",
         border: "#004000",
         light: "#48cc14"
+    },
+    cream: {
+        base: "#d4b459",
+        accent: "#e6b755",
+        border: "#8a713f",
+        light: "#ffdc94"
+    },
+    purple: {
+        base: "#9b03a6",
+        accent: "#ca20d6",
+        border: "#6a0c70",
+        light: "#f673ff"
     }
 }
