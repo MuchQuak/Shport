@@ -30,7 +30,7 @@ export default function NavBar(props) {
       </svg>
     );
   }
-    function icon() {
+  function icon() {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ export default function NavBar(props) {
                 About Us
               </p>
               <Dropdown className="nomargin">
-                <Dropdown.Toggle id="header-dropdown"
+                <Dropdown.Toggle className="header-dropdown"
                                  style={dropdownStyle}
                                  onMouseEnter={dropdownHover}
                                  onMouseLeave={dropdownUnhover}
