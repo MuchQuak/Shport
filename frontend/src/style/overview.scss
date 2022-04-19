@@ -8,6 +8,8 @@
     flex-flow: column nowrap;
     align-items: center;
     gap: 7px;
+    max-height: 450px;
+    overflow-y: scroll;
 }
 
 .overview {
