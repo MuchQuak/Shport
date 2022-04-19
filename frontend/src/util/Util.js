@@ -83,3 +83,10 @@ export function useHoverActive(baseStyle, hoverStyle, unhoverStyle, dep, active)
   }
   return [hover, unhover, style];
 }
+
+export function verify(result) {
+  if (result.data === undefined || !result.data) {
+    throw new Error("Error: Retrieved no data");
+  }
+  return result.data;
+}

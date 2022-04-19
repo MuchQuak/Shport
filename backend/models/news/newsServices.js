@@ -18,11 +18,19 @@ async function getNews(req, res) {
         page: 1,
       })
       .then((response) => {
-        res.send(formatNewsData(response));
-      });
+        res.send(formatNewsData(response)).end();
+      }).catch(error => {
+        if (!error.response) {
+          // network error
+          console.log('Error: Network Error');
+        } else {
+          console.log(error.response.data.message);
+        }
+        res.send([]).end();
+    });
   } catch (e) {
     console.log(e);
-    res.end();
+    res.send([]).end();
   }
 }
 

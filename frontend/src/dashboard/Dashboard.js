@@ -79,24 +79,22 @@ export default function Dashboard(props) {
       onSuccess: (data) => setLeagueNews(data),
     }
   );
-  const getMsg = () => {
-    if (!props || tnr.isLoading || lnr.isLoading) {
-      return loading;
-    } else if (!user || !user.prefs) {
+  function getMsg() {
+    if (!props || !user || !user.prefs) {
       return loadingSuffix("user");
-    } else if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
-      return partitionItems(
-        default_items(user.prefs, props.sports)
-          .concat(article_items(user.prefs, teamNews))
-          .concat(article_items(user.prefs, leagueNews))
-      );
-    } else {
-      return errorSuffix("loading");
     }
+    let items = default_items(user.prefs, props.sports);
+    if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
+      items = items.concat(article_items(user.prefs, teamNews)).concat(article_items(user.prefs, leagueNews));
+    }
+    return partitionItems(items);
   };
   return (
     <div className="content">
-      <div className="dashboard">{getMsg()}</div>
+      {(tnr.isError || lnr.isError) && errorSuffix("loading news")}
+      <div className="dashboard">
+        {getMsg()}
+      </div>
     </div>
   );
 }

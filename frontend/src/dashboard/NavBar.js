@@ -30,7 +30,7 @@ export default function NavBar(props) {
       </svg>
     );
   }
-  function icon() {
+    function icon() {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -49,10 +49,6 @@ export default function NavBar(props) {
     props.removeCookie("auth_token");
     navigate("/login");
   }
-
-  console.log(textStyle);
-  console.log(linkStyle);
-
   return (
       <>
         <Toaster position="top-center" reverseOrder={false} />
