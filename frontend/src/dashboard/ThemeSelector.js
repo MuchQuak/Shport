@@ -11,7 +11,7 @@ export default function ThemeSelector() {
         toast.success("Theme updated!");
     }
     return (
-        <Dropdown>
+        <Dropdown autoClose={true}>
             <Dropdown.Toggle variant="success" id="dropdown-autoclose-true" style={{ border: "0", backgroundColor: "#FFFFFF", color: theme.base }} />
             <Dropdown.Menu style={{ padding: "5px" }}>
                 <div className="theme-selector">

@@ -264,7 +264,6 @@
     flex-flow: row nowrap;
     align-items: center;
     gap: 5px;
-    background-color: theme.$current;
     border-radius: 5px;
 }
 
@@ -283,12 +282,11 @@
     border: 1px solid #FFFFFF;
 }
 
-.blue-theme {
-    background-color: theme.$current !important;
-    color: #FFFFFF;
-}
-
-.red-theme {
-    background-color: #ff4747 !important;
-    color: #FFFFFF;
+.loading {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
 }

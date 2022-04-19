@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Spinner} from "react-bootstrap";
 
 export function allQueriesSuccessful(queries) {
   for (let query of queries) {
@@ -18,10 +19,18 @@ export const errorSuffix = (suffix) => (
   <p className="error nomargin bold">Error {suffix}!</p>
 );
 
-export const loading = <p className="nomargin bold">Loading...</p>;
+export const loading = (
+      <div className="loading nomargin">
+        <p className="nomargin bold">Loading...</p>
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
 
 export const loadingSuffix = (suffix) => (
-  <p className="nomargin bold">Loading {suffix}...</p>
+    <div className="loading nomargin">
+      <p className="nomargin bold">Loading {suffix}...</p>
+      <Spinner animation="border" variant="primary" />
+    </div>
 );
 
 export function suffix(i) {
