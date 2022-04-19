@@ -8,6 +8,8 @@
     flex-flow: column nowrap;
     align-items: center;
     gap: 7px;
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 #schedule-logo-container {
