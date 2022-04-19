@@ -19,17 +19,23 @@ export const errorSuffix = (suffix) => (
   <p className="error nomargin bold">Error {suffix}!</p>
 );
 
+const loadSpinner = (
+    <Spinner animation="grow" role="status" variant="dark">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+);
+
 export const loading = (
       <div className="loading nomargin">
         <p className="nomargin bold">Loading...</p>
-        <Spinner animation="border" variant="primary" />
+        {loadSpinner}
       </div>
     );
 
 export const loadingSuffix = (suffix) => (
     <div className="loading nomargin">
       <p className="nomargin bold">Loading {suffix}...</p>
-      <Spinner animation="border" variant="primary" />
+      {loadSpinner}
     </div>
 );
 
