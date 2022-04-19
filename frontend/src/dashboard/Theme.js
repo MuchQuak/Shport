@@ -13,9 +13,9 @@ export const themes = {
     },
     yellow: {
         base: "#deaa00",
-        accent: "#e6c300",
-        border: "#A38A00",
-        light: "#e6ce53"
+        accent: "#b38900",
+        border: "#7d6000",
+        light: "#ffc812"
     },
     green: {
         base: "#01aa00",
@@ -23,16 +23,16 @@ export const themes = {
         border: "#004000",
         light: "#48cc14"
     },
-    cream: {
-        base: "#d4b459",
-        accent: "#e6b755",
-        border: "#8a713f",
-        light: "#ffdc94"
-    },
     purple: {
-        base: "#9b03a6",
-        accent: "#ca20d6",
+        base: "#ca20d6",
+        accent: "#9b03a6",
         border: "#6a0c70",
         light: "#f673ff"
-    }
+    },
+    grey: {
+        base: "#383838",
+        accent: "#2b2b2b",
+        border: "#1f1f1f",
+        light: "#4a4a4a"
+    },
 }
