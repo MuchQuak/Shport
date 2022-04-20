@@ -90,8 +90,8 @@ app.get("/username", authenticateUser, async (req, res) => {
 });
 
 app.get("/theme", authenticateUser, async (req, res) => {
-  const decodedUser = decode(req);
-  res.status(200).send("red");
+  //const decodedUser = decode(req);
+  res.status(200).send("blue");
   /*if (decodedUser && decodedUser.theme) {
     res.status(200).send(decodedUser.theme);
   } else {
