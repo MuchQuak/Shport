@@ -50,7 +50,8 @@
     width: 20%;
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    gap: 4px;
     align-items: center;
     align-content: center;
     flex-basis: 20%;
@@ -90,4 +91,23 @@
     font-weight: bold;
     font-style: italic;
     text-decoration: underline;
+}
+
+.game-playoffs-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.game-playoffs-record {
+    margin: 0;
+    size: 24px;
+}
+
+.game-series {
+    margin: 0;
+    size: 20px;
+    font-weight: bold;
 }

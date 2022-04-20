@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   getLabels,
-  getLeagueLogo,
-  sportsQuery,
+  getLeagueLogo
 } from "../dashboard/sport/SportHandler";
-import { useQuery } from "react-query";
 import { loading } from "../util/Util";
 
 export function LeagueOption(props) {

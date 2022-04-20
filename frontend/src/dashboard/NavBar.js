@@ -3,17 +3,38 @@ import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import React, {useContext} from "react";
 import {ThemeContext} from "../App";
-import {useHover} from "../util/Util";
 import ThemeSelector from "./ThemeSelector";
 import {Toaster} from "react-hot-toast";
+import {StyleSheet, css} from "aphrodite";
+
+const styles = (th) => StyleSheet.create({
+  text: {
+    textShadow: "0px 1px 1px " + th.border,
+    color: "#FFFFFF",
+    ':hover': {
+      color: th.accent
+    },
+  },
+  link: {
+    color: th.base,
+    ':hover': {
+      color: th.border
+    }
+  },
+  dropdown: {
+    backgroundColor: "#FFFFFF",
+    color: th.base,
+    ':hover': {
+      color: th.border
+    }
+  }
+});
 
 export default function NavBar(props) {
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const user = props.user;
-  const [textHover, textUnhover, textStyle] = useHover({ textShadow: "0px 1px 1px " + theme.border }, { color: theme.accent }, { color: "#FFFFFF" }, theme);
-  const [linkHover, linkUnhover, linkStyle] = useHover({}, { color: theme.border }, { color: theme.base }, theme);
-  const [dropdownHover, dropdownUnhover, dropdownStyle] = useHover({ backgroundColor: "#FFFFFF" }, { color: theme.border }, { color: theme.base }, theme);
+  const styled = styles(theme);
 
   function gear() {
     return (
@@ -44,7 +65,6 @@ export default function NavBar(props) {
       </svg>
     );
   }
-
   function signOut() {
     props.removeCookie("auth_token");
     navigate("/login");
@@ -56,30 +76,20 @@ export default function NavBar(props) {
           <div className="header-nav">
             <div className="header-left">
               <div className="header-text-link" onClick={() => navigate("/")}>
-                <h1 className="header-text"
-                    style={textStyle}
-                    onMouseEnter={textHover}
-                    onMouseLeave={textUnhover}
-                >DASHBOARD</h1>
+                <h1 className={css(styled.text) + " header-text"}>DASHBOARD</h1>
               </div>
             </div>
             <div className="header-right">
-              <ThemeSelector />
+              <ThemeSelector styled={styled} />
               <p
-                  className="header-link"
+                  className={css(styled.link) + " header-link"}
                   id="header-about"
                   onClick={() => navigate("/about")}
-                  style={linkStyle}
-                  onMouseEnter={linkHover}
-                  onMouseLeave={linkUnhover}
               >
                 About Us
               </p>
               <Dropdown className="nomargin">
-                <Dropdown.Toggle className="header-dropdown"
-                                 style={dropdownStyle}
-                                 onMouseEnter={dropdownHover}
-                                 onMouseLeave={dropdownUnhover}
+                <Dropdown.Toggle className={css(styled.dropdown) + " header-dropdown"}
                 >{icon()}</Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>

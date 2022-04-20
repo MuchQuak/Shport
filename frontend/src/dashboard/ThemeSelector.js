@@ -3,6 +3,7 @@ import {toast} from "react-hot-toast";
 import {Dropdown} from "react-bootstrap";
 import {useContext} from "react";
 import {ThemeContext} from "../App";
+import {css} from "aphrodite";
 
 function icon() {
     return (
@@ -14,7 +15,7 @@ function icon() {
     );
 }
 
-export default function ThemeSelector() {
+export default function ThemeSelector(props) {
     const { theme, setTheme } = useContext(ThemeContext);
     function setAndToast(th) {
         setTheme(th);
@@ -22,7 +23,7 @@ export default function ThemeSelector() {
     }
     return (
         <Dropdown autoClose={true} className="nomargin">
-            <Dropdown.Toggle variant="success" className="header-dropdown" style={{ backgroundColor: "#FFFFFF", color: theme.base }} >
+            <Dropdown.Toggle variant="success" className={props.styled ? css(props.styled.dropdown) + " header-dropdown" : "header-dropdown"} style={{ backgroundColor: "#FFFFFF", color: theme.base }} >
                 {icon()}
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ padding: "5px" }}>

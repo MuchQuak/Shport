@@ -13,10 +13,16 @@ export function allQueriesSuccessful(queries) {
 export const cartesian = (...a) =>
   a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
-export const error = <p className="error nomargin bold">Error!</p>;
+export const error = (
+    <div className="error">
+      <p className="bold">Error!</p>
+    </div>
+)
 
 export const errorSuffix = (suffix) => (
-  <p className="error nomargin bold">Error {suffix}!</p>
+    <div className="error">
+      <p className="bold">Error {suffix}!</p>
+    </div>
 );
 
 const loadSpinner = (
@@ -26,14 +32,14 @@ const loadSpinner = (
 );
 
 export const loading = (
-      <div className="loading nomargin">
+      <div className="loading">
         <p className="nomargin bold">Loading...</p>
         {loadSpinner}
       </div>
     );
 
 export const loadingSuffix = (suffix) => (
-    <div className="loading nomargin">
+    <div className="loading">
       <p className="nomargin bold">Loading {suffix}...</p>
       {loadSpinner}
     </div>
@@ -52,42 +58,6 @@ export function suffix(i) {
     return i + "rd";
   }
   return i + "th";
-}
-
-export function useHover(baseStyle, hoverStyle, unhoverStyle, dep) {
-  const [style, setStyle] = useState({...baseStyle, ...unhoverStyle});
-  useEffect(() => {
-    setStyle({...baseStyle, ...unhoverStyle});
-  }, [dep, baseStyle, unhoverStyle]);
-  function hover() {
-    setStyle({...baseStyle, ...hoverStyle});
-  }
-  function unhover() {
-    setStyle({...baseStyle, ...unhoverStyle});
-  }
-  return [hover, unhover, style];
-}
-
-export function useHoverActive(baseStyle, hoverStyle, unhoverStyle, dep, active) {
-  const [style, setStyle] = useState({...baseStyle, ...unhoverStyle});
-  useEffect(() => {
-    if (active) {
-      setStyle({...baseStyle, ...hoverStyle});
-    } else {
-      setStyle({...baseStyle, ...unhoverStyle});
-    }
-  }, [dep, active, baseStyle, hoverStyle, unhoverStyle]);
-  function hover() {
-    if (!active) {
-      setStyle({...baseStyle, ...hoverStyle});
-    }
-  }
-  function unhover() {
-    if (!active) {
-      setStyle({...baseStyle, ...unhoverStyle});
-    }
-  }
-  return [hover, unhover, style];
 }
 
 export function verify(result) {

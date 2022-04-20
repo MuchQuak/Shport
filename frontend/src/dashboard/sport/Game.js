@@ -48,7 +48,7 @@ export default function Game(props) {
   }
   function clock() {
     if (game.status === 2) {
-      return <p>Final Score</p>;
+      return <p className="nomargin">Final Score</p>;
     }
     if (is_break()) {
       return (
@@ -58,17 +58,15 @@ export default function Game(props) {
       );
     }
     if (clock_data === "" || game.status === 0) {
-      return <p>{UTCtoLocal(game.startTimeUTC, league)}</p>;
+      return <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>;
     }
     return (
       <>
         <p>
-          <b>{clock_data}</b>
+          <b className="nomargin">{clock_data}</b>
         </p>
-        <p>
-          <b>
-            {game.currentQtr} of {game.maxQtr}
-          </b>
+        <p className="nomargin bold">
+          {game.currentQtr} of {game.maxQtr}
         </p>
       </>
     );
@@ -90,11 +88,17 @@ export default function Game(props) {
     }
     return classN;
   }
+  const numInSeries = game.numInSeries ? game.numInSeries : 0;
+  const homePlayoffs = game.homePlayoffs ? game.homePlayoffs : false;
+  const awayPlayoffs = game.awayPlayoffs ? game.awayPlayoffs : false;
   return (
     <div className="game" style={{ backgroundColor: theme.base, boxShadow: "0px 2px " + theme.border }}>
       <div className="game-data">
         <div className="game-left">
-          {getTeamLogo(league, game.home_code, "schedule-logo-container")}
+          <div className="game-playoffs-wrapper">
+            {getTeamLogo(league, game.home_code, "schedule-logo-container")}
+            {homePlayoffs && <p className="game-playoffs-record">{homePlayoffs}</p> }
+          </div>
           <p
             className={classes(
               game.home_code,
@@ -108,10 +112,14 @@ export default function Game(props) {
         </div>
         <div className="game-center">
           {clock()}
+          {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p> }
           <p className="game-footer">{game.arena}</p>
         </div>
         <div className="game-right">
-          {getTeamLogo(league, game.away_code, "schedule-logo-container")}
+          <div className="game-playoffs-wrapper">
+            {awayPlayoffs && <p className="game-playoffs-record">{awayPlayoffs}</p> }
+            {getTeamLogo(league, game.away_code, "schedule-logo-container")}
+          </div>
           <p
             className={classes(
               game.away_code,
