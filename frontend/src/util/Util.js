@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Spinner} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 
 export function allQueriesSuccessful(queries) {
   for (let query of queries) {
@@ -14,35 +14,35 @@ export const cartesian = (...a) =>
   a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
 export const error = (
-    <div className="error">
-      <p className="bold">Error!</p>
-    </div>
-)
+  <div className="error">
+    <p className="bold">Error!</p>
+  </div>
+);
 
 export const errorSuffix = (suffix) => (
-    <div className="error">
-      <p className="bold">Error {suffix}!</p>
-    </div>
+  <div className="error">
+    <p className="bold">Error {suffix}!</p>
+  </div>
 );
 
 const loadSpinner = (
-    <Spinner animation="grow" role="status" variant="dark">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
+  <Spinner animation="grow" role="status" variant="dark">
+    <span className="visually-hidden">Loading...</span>
+  </Spinner>
 );
 
 export const loading = (
-      <div className="loading">
-        <p className="nomargin bold">Loading...</p>
-        {loadSpinner}
-      </div>
-    );
+  <div className="loading">
+    <p className="nomargin bold">Loading...</p>
+    {loadSpinner}
+  </div>
+);
 
 export const loadingSuffix = (suffix) => (
-    <div className="loading">
-      <p className="nomargin bold">Loading {suffix}...</p>
-      {loadSpinner}
-    </div>
+  <div className="loading">
+    <p className="nomargin bold">Loading {suffix}...</p>
+    {loadSpinner}
+  </div>
 );
 
 export function suffix(i) {

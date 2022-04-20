@@ -1,5 +1,5 @@
 import axios from "axios";
-import {verify} from "../../util/Util";
+import { verify } from "../../util/Util";
 
 export async function newsQuery(prefs) {
   const query = prefs.length > 0 ? prefs.join(" OR ") : "sports";

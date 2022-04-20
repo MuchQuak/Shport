@@ -1,6 +1,6 @@
 import InfoContent from "./InfoContent";
-import {useContext} from "react";
-import {ThemeContext} from "../../App";
+import { useContext } from "react";
+import { ThemeContext } from "../../App";
 
 export function GitHubUser(props) {
   const { theme } = useContext(ThemeContext);
@@ -32,7 +32,10 @@ export default function About() {
       </p>
       <p>We currently provide support for the NBA and NHL.</p>
       <br />
-      <p className="nomargin" style={{ fontWeight: "bold", textDecoration: "underline" }}>
+      <p
+        className="nomargin"
+        style={{ fontWeight: "bold", textDecoration: "underline" }}
+      >
         The Team
       </p>
       <GitHubUser username="HRen5577" name="Humberto Rendon" />

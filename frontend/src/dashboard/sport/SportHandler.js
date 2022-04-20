@@ -135,7 +135,7 @@ function isDST(date) {
       new Date(date.getFullYear(), 6, 1).getTimezoneOffset()
     )
   );
-};
+}
 
 export function UTCtoLocal(UTC, league) {
   const today = new Date(UTC);

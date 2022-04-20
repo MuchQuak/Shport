@@ -1,7 +1,7 @@
 import "../style/item.scss";
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import CloseButton from "react-bootstrap/CloseButton";
-import {ThemeContext} from "../App";
+import { ThemeContext } from "../App";
 
 export default function CloseableItem(props) {
   const [itemVisible, setItemVisible] = useState(true);

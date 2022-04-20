@@ -1,7 +1,7 @@
 import "../../style/game-schedule.scss";
 import { getTeamLogo, UTCtoLocal, getFullName } from "./SportHandler";
-import {useContext} from "react";
-import {ThemeContext} from "../../App";
+import { useContext } from "react";
+import { ThemeContext } from "../../App";
 
 function score(game, score_info) {
   if (score_info === "" || game.status < 1) {
@@ -58,7 +58,9 @@ export default function Game(props) {
       );
     }
     if (clock_data === "" || game.status === 0) {
-      return <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>;
+      return (
+        <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>
+      );
     }
     return (
       <>
@@ -92,12 +94,20 @@ export default function Game(props) {
   const homePlayoffs = game.homePlayoffs ? game.homePlayoffs : false;
   const awayPlayoffs = game.awayPlayoffs ? game.awayPlayoffs : false;
   return (
-    <div className="game" style={{ backgroundColor: theme.base, boxShadow: "0px 2px " + theme.border }}>
+    <div
+      className="game"
+      style={{
+        backgroundColor: theme.base,
+        boxShadow: "0px 2px " + theme.border,
+      }}
+    >
       <div className="game-data">
         <div className="game-left">
           <div className="game-playoffs-wrapper">
             {getTeamLogo(league, game.home_code, "schedule-logo-container")}
-            {homePlayoffs && <p className="game-playoffs-record">{homePlayoffs}</p> }
+            {homePlayoffs && (
+              <p className="game-playoffs-record">{homePlayoffs}</p>
+            )}
           </div>
           <p
             className={classes(
@@ -112,12 +122,14 @@ export default function Game(props) {
         </div>
         <div className="game-center">
           {clock()}
-          {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p> }
+          {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
           <p className="game-footer">{game.arena}</p>
         </div>
         <div className="game-right">
           <div className="game-playoffs-wrapper">
-            {awayPlayoffs && <p className="game-playoffs-record">{awayPlayoffs}</p> }
+            {awayPlayoffs && (
+              <p className="game-playoffs-record">{awayPlayoffs}</p>
+            )}
             {getTeamLogo(league, game.away_code, "schedule-logo-container")}
           </div>
           <p

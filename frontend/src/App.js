@@ -1,21 +1,25 @@
 import "./style/app.scss";
-import React, {createContext, useEffect, useState} from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./dashboard/NavBar";
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
-import {prefsQuery, themeQuery, usernameQuery} from "./login-signup/UserHandler";
+import {
+  prefsQuery,
+  themeQuery,
+  usernameQuery,
+} from "./login-signup/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
 import { sportsQuery } from "./dashboard/sport/SportHandler";
-import {themes} from "./dashboard/Theme";
+import { themes } from "./dashboard/Theme";
 
 const userModel = {
   info: {
     name: "Guest",
-    theme: themes.blue
+    theme: themes.blue,
   },
   auth_token: "",
   prefs: null,
@@ -67,18 +71,18 @@ export default function App(props) {
     }
   );
   const thQuery = useQuery(
-      ["theme", auth_token],
-      () => themeQuery(auth_token),
-      {
-        onSuccess: (data) => {
-          if (data && data !== "") {
-            setTheme(themes[data]);
-          }
-        },
-        refetchOnWindowFocus: false,
-        refetchOnmount: false,
-        refetchOnReconnect: false
-      }
+    ["theme", auth_token],
+    () => themeQuery(auth_token),
+    {
+      onSuccess: (data) => {
+        if (data && data !== "") {
+          setTheme(themes[data]);
+        }
+      },
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+    }
   );
   if (prefQuery.isLoading || nameQuery.isLoading || thQuery.isLoading) {
     return loadingSuffix("app");

@@ -9,7 +9,11 @@ export default function Article(props) {
     <div className="article">
       <a href={props.news.url} target="_blank" rel="noreferrer">
         <p className="article-title">{props.news.title}</p>
-        <img className="article-img" src={props.news.image} alt={props.news.title} />
+        <img
+          className="article-img"
+          src={props.news.image}
+          alt={props.news.title}
+        />
       </a>
       <p className="article-date">{props.news.date}</p>
       <p className="article-desc">{props.news.description}</p>

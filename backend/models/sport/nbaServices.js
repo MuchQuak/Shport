@@ -39,8 +39,10 @@ class NbaService extends league.LeagueService {
       new_game.startTimeUTC = this.ESTtoUTC(game.startTimeEastern);
       if (game.playoffs) {
         new_game.numInSeries = game.playoffs.gameNumInSeries;
-        new_game.homePlayoffs = game.playoffs.hTeam.seriesWin + "-" + game.playoffs.vTeam.seriesWin;
-        new_game.awayPlayoffs = game.playoffs.vTeam.seriesWin + "-" + game.playoffs.hTeam.seriesWin;
+        new_game.homePlayoffs =
+          game.playoffs.hTeam.seriesWin + "-" + game.playoffs.vTeam.seriesWin;
+        new_game.awayPlayoffs =
+          game.playoffs.vTeam.seriesWin + "-" + game.playoffs.hTeam.seriesWin;
       } else {
         new_game.numInSeries = 0;
         new_game.homePlayoffs = false;

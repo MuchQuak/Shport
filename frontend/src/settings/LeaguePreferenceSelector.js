@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  getLabels,
-  getLeagueLogo
-} from "../dashboard/sport/SportHandler";
+import { getLabels, getLeagueLogo } from "../dashboard/sport/SportHandler";
 import { loading } from "../util/Util";
 
 export function LeagueOption(props) {

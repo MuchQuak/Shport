@@ -1,19 +1,20 @@
 import "../style/tab.scss";
-import React, {useContext, useState} from "react";
-import {ThemeContext} from "../App";
-import {css, StyleSheet} from "aphrodite";
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "../App";
+import { css, StyleSheet } from "aphrodite";
 
-const styles = (th) => StyleSheet.create({
-  tab: {
-    backgroundColor: th.base,
-    ':hover': {
-      backgroundColor: th.accent
+const styles = (th) =>
+  StyleSheet.create({
+    tab: {
+      backgroundColor: th.base,
+      ":hover": {
+        backgroundColor: th.accent,
+      },
     },
-  },
-  tabActive: {
-    backgroundColor: th.accent
-  }
-});
+    tabActive: {
+      backgroundColor: th.accent,
+    },
+  });
 
 export function Tab(props) {
   const { theme } = useContext(ThemeContext);
@@ -23,7 +24,12 @@ export function Tab(props) {
   const icon = props.icon ? props.icon : null;
   const styled = styles(theme);
   return (
-    <div className={css(props.active ? styled.tabActive : styled.tab) + " tab noselect"} onClick={props.click}>
+    <div
+      className={
+        css(props.active ? styled.tabActive : styled.tab) + " tab noselect"
+      }
+      onClick={props.click}
+    >
       <div className="logo-name-record">
         {icon}
         {props.title}

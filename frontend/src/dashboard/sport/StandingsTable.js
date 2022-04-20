@@ -7,10 +7,10 @@ import {
   getTeamLogo,
   standingsQuery,
 } from "./SportHandler";
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { loading } from "../../util/Util";
-import {ThemeContext} from "../../App";
+import { ThemeContext } from "../../App";
 
 function get_teams(standings, conference) {
   const team_stats = [];
@@ -33,7 +33,15 @@ function get_teams(standings, conference) {
 function Conf(league, standings, conference, props, theme) {
   return get_teams(standings, conference).map((row, index) => {
     return (
-      <div className="standing" id={index} key={index} style={{ backgroundColor: theme.light, textShadow: "0 1px 2px " + theme.border }}>
+      <div
+        className="standing"
+        id={index}
+        key={index}
+        style={{
+          backgroundColor: theme.light,
+          textShadow: "0 1px 2px " + theme.border,
+        }}
+      >
         <div className="standing-left">
           <pre className="standing-rank">
             {row.rank.toString().padEnd(2, " ")}
@@ -108,7 +116,13 @@ export default function StandingsTable(props) {
       if (standings.hasOwnProperty(league)) {
         return (
           <div className="conference" key={index}>
-            {Conf(league, standings[league], String(div).toLowerCase(), props, theme)}
+            {Conf(
+              league,
+              standings[league],
+              String(div).toLowerCase(),
+              props,
+              theme
+            )}
           </div>
         );
       }

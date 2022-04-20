@@ -1,34 +1,35 @@
 import "../style/navbar.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import React, {useContext} from "react";
-import {ThemeContext} from "../App";
+import React, { useContext } from "react";
+import { ThemeContext } from "../App";
 import ThemeSelector from "./ThemeSelector";
-import {Toaster} from "react-hot-toast";
-import {StyleSheet, css} from "aphrodite";
+import { Toaster } from "react-hot-toast";
+import { StyleSheet, css } from "aphrodite";
 
-const styles = (th) => StyleSheet.create({
-  text: {
-    textShadow: "0px 1px 1px " + th.border,
-    color: "#FFFFFF",
-    ':hover': {
-      color: th.accent
+const styles = (th) =>
+  StyleSheet.create({
+    text: {
+      textShadow: "0px 1px 1px " + th.border,
+      color: "#FFFFFF",
+      ":hover": {
+        color: th.accent,
+      },
     },
-  },
-  link: {
-    color: th.base,
-    ':hover': {
-      color: th.border
-    }
-  },
-  dropdown: {
-    backgroundColor: "#FFFFFF",
-    color: th.base,
-    ':hover': {
-      color: th.border
-    }
-  }
-});
+    link: {
+      color: th.base,
+      ":hover": {
+        color: th.border,
+      },
+    },
+    dropdown: {
+      backgroundColor: "#FFFFFF",
+      color: th.base,
+      ":hover": {
+        color: th.border,
+      },
+    },
+  });
 
 export default function NavBar(props) {
   const { theme } = useContext(ThemeContext);
@@ -70,38 +71,47 @@ export default function NavBar(props) {
     navigate("/login");
   }
   return (
-      <>
-        <Toaster position="top-center" reverseOrder={false} />
-        <div className="header" style={{backgroundColor: theme.base, boxShadow: "0px 5px " + theme.border}}>
-          <div className="header-nav">
-            <div className="header-left">
-              <div className="header-text-link" onClick={() => navigate("/")}>
-                <h1 className={css(styled.text) + " header-text"}>DASHBOARD</h1>
-              </div>
-            </div>
-            <div className="header-right">
-              <ThemeSelector styled={styled} />
-              <p
-                  className={css(styled.link) + " header-link"}
-                  id="header-about"
-                  onClick={() => navigate("/about")}
-              >
-                About Us
-              </p>
-              <Dropdown className="nomargin">
-                <Dropdown.Toggle className={css(styled.dropdown) + " header-dropdown"}
-                >{icon()}</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
-                  <Dropdown.Item onClick={() => navigate("/settings")}>
-                    <div className="icon-text">{gear()} Settings</div>
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <div
+        className="header"
+        style={{
+          backgroundColor: theme.base,
+          boxShadow: "0px 5px " + theme.border,
+        }}
+      >
+        <div className="header-nav">
+          <div className="header-left">
+            <div className="header-text-link" onClick={() => navigate("/")}>
+              <h1 className={css(styled.text) + " header-text"}>DASHBOARD</h1>
             </div>
           </div>
+          <div className="header-right">
+            <ThemeSelector styled={styled} />
+            <p
+              className={css(styled.link) + " header-link"}
+              id="header-about"
+              onClick={() => navigate("/about")}
+            >
+              About Us
+            </p>
+            <Dropdown className="nomargin">
+              <Dropdown.Toggle
+                className={css(styled.dropdown) + " header-dropdown"}
+              >
+                {icon()}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
+                <Dropdown.Item onClick={() => navigate("/settings")}>
+                  <div className="icon-text">{gear()} Settings</div>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
-      </>
+      </div>
+    </>
   );
 }

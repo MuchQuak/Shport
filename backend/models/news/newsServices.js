@@ -19,15 +19,16 @@ async function getNews(req, res) {
       })
       .then((response) => {
         res.send(formatNewsData(response)).end();
-      }).catch(error => {
+      })
+      .catch((error) => {
         if (!error.response) {
           // network error
-          console.log('Error: Network Error');
+          console.log("Error: Network Error");
         } else {
           console.log(error.response.data.message);
         }
         res.send([]).end();
-    });
+      });
   } catch (e) {
     console.log(e);
     res.send([]).end();
