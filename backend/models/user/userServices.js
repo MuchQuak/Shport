@@ -69,7 +69,7 @@ async function validate(u) {
 
 async function getUserPreferences(name) {
   const userModel = getDbConnection().model("user", User.schema);
-  const prefModel = getDbConnection().model("pref", Pref.schema);  
+  const prefModel = getDbConnection().model("pref", Pref.schema);
   try {
     const query = userModel
       .findOne({ username: name })
