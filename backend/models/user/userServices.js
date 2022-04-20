@@ -84,7 +84,6 @@ async function getUserPreferences(name) {
 // update preferences
 async function setUserPreferences(name, newPrefs) {
   const prefModel = getDbConnection().model("pref", Pref.schema);
-
   const user = await findUserByUsername(name);
   return prefModel.findOneAndUpdate(
     { user: user[0]._id },

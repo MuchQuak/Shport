@@ -155,7 +155,6 @@ function getMlbSportStanding() {
       teams: {},
     };
 
-    console.log(sportObj["teams"]);
     createMlbObj(
       sportObj,
       "AL ",
