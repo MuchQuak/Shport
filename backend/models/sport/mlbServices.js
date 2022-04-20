@@ -19,8 +19,10 @@ class MlbService extends league.LeagueService {
     //example: return this.host + '/api/v1/standings';
   }
 
-  getStandingsScrape(){
-    return sportScraper.getMlbSportStanding().then( result => {return result} );
+  getStandingsScrape() {
+    return sportScraper.getMlbSportStanding().then((result) => {
+      return result;
+    });
   }
 
   formatGamesData(responseData, date) {}
