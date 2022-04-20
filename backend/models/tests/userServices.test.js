@@ -552,7 +552,5 @@ test("Setting user Preferences -- Success path", async () => {
   console.log(orginalPrefs);
   expect(orginalPrefs.prefs.user).toStrictEqual(newPref.prefs.user);
   expect(orginalPrefs.prefs._id).toStrictEqual(newPref.prefs._id);
-  expect(orginalPrefs.prefs.sports).not.toStrictEqual(
-    newPref.prefs.sports
-  );
+  expect(orginalPrefs.prefs.sports).not.toStrictEqual(newPref.prefs.sports);
 });

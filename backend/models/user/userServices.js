@@ -27,7 +27,7 @@ function setConnection(newConn) {
 async function signUpUser(user) {
   const userModel = getDbConnection().model("user", User.schema);
   const prefModel = getDbConnection().model("pref", Pref.schema);
-  
+
   try {
     //New user
     let userToAdd = new userModel(user);
@@ -84,7 +84,7 @@ async function getUserPreferences(name) {
 // update preferences
 async function setUserPreferences(name, newPrefs) {
   const prefModel = getDbConnection().model("pref", Pref.schema);
-  
+
   const user = await findUserByUsername(name);
   return prefModel.findOneAndUpdate(
     { user: user[0]._id },
@@ -111,18 +111,18 @@ async function getUsers(username, email) {
 }
 
 async function findUserByUsername(name) {
-  const userModel = getDbConnection().model("user", User.schema);  
+  const userModel = getDbConnection().model("user", User.schema);
   return userModel.find({ username: name });
 }
 
 async function findUserByEmail(email) {
-  const userModel = getDbConnection().model("user", User.schema);  
+  const userModel = getDbConnection().model("user", User.schema);
   return userModel.find({ email: email });
 }
 
 async function findUserById(id) {
   const userModel = getDbConnection().model("user", User.schema);
-  
+
   if (mongoose.Types.ObjectId.isValid(id)) {
     let obj = new mongoose.Types.ObjectId(id);
     return userModel.find({ _id: obj });
