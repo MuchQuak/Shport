@@ -505,8 +505,8 @@ test("Getting user Preferences -- successful path", async () => {
   const resultUser = await userServices.signUpUser(user);
   const resultPref = await userServices.getUserPreferences(resultUser.username);
 
-  expect(resultUser.prefs).toStrictEqual(resultPref[0].prefs._id);
-  expect(resultUser._id).toStrictEqual(resultPref[0].prefs.user);
+  expect(resultUser.prefs).toStrictEqual(resultPref.prefs._id);
+  expect(resultUser._id).toStrictEqual(resultPref.prefs.user);
 });
 
 test("Getting user Preferences -- Failure path", async () => {
@@ -519,7 +519,7 @@ test("Getting user Preferences -- Failure path", async () => {
   const resultUser = await userServices.signUpUser(user);
   resultUser.username = "Ron";
   const resultPref = await userServices.getUserPreferences(resultUser.username);
-  expect(resultPref.length).toBe(0);
+  expect(resultPref).toBeNull();
 });
 
 test("Setting user Preferences -- Success path", async () => {
@@ -549,9 +549,10 @@ test("Setting user Preferences -- Success path", async () => {
   await userServices.setUserPreferences(resultUser.username, newPrefs);
   const newPref = await userServices.getUserPreferences(resultUser.username);
 
-  expect(orginalPrefs[0].prefs.user).toStrictEqual(newPref[0].prefs.user);
-  expect(orginalPrefs[0].prefs._id).toStrictEqual(newPref[0].prefs._id);
-  expect(orginalPrefs[0].prefs.sports).not.toStrictEqual(
-    newPref[0].prefs.sports
+  console.log(orginalPrefs);
+  expect(orginalPrefs.prefs.user).toStrictEqual(newPref.prefs.user);
+  expect(orginalPrefs.prefs._id).toStrictEqual(newPref.prefs._id);
+  expect(orginalPrefs.prefs.sports).not.toStrictEqual(
+    newPref.prefs.sports
   );
 });
