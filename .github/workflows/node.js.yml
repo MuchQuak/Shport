@@ -9,13 +9,12 @@ on:
   pull_request:
     branches: [ standingsBranch ]
 
+defaults:
+  run:
+    working-directory: /backend
   
 jobs:
   build:
-    defaults:
-     run:
-      working-directory: ./backend
-
     runs-on: ubuntu-latest
 
     strategy:
