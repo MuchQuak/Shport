@@ -1,7 +1,7 @@
 import "../style/navbar.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {ThemeContext} from "../App";
 import {useHover} from "../util/Util";
 import ThemeSelector from "./ThemeSelector";

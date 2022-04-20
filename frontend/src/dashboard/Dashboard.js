@@ -12,7 +12,7 @@ import {
   getSportsFollowed,
 } from "../settings/PrefHandler";
 import { useQuery } from "react-query";
-import { errorSuffix, loading, loadingSuffix } from "../util/Util";
+import { errorSuffix, loadingSuffix } from "../util/Util";
 
 function default_items(prefs, sports) {
   return [
@@ -62,7 +62,7 @@ export default function Dashboard(props) {
   const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
   const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(
-    (t) => "(" + t.name + " AND " + t.sport + ") OR " + "(" + t.city + " " + t.name + ") OR (" + t.city + " AND " + t.name + ")"
+    (t) => "(" + t.name + " AND " + t.sport + ") OR (" + t.city + " " + t.name + ") OR (" + t.city + " AND " + t.name + ")"
   );
   const league_interest = getSportsFollowed(user.prefs);
   const tnr = useQuery(

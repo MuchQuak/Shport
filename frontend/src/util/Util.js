@@ -58,7 +58,7 @@ export function useHover(baseStyle, hoverStyle, unhoverStyle, dep) {
   const [style, setStyle] = useState({...baseStyle, ...unhoverStyle});
   useEffect(() => {
     setStyle({...baseStyle, ...unhoverStyle});
-  }, [dep]);
+  }, [dep, baseStyle, unhoverStyle]);
   function hover() {
     setStyle({...baseStyle, ...hoverStyle});
   }
@@ -76,7 +76,7 @@ export function useHoverActive(baseStyle, hoverStyle, unhoverStyle, dep, active)
     } else {
       setStyle({...baseStyle, ...unhoverStyle});
     }
-  }, [dep, active]);
+  }, [dep, active, baseStyle, hoverStyle, unhoverStyle]);
   function hover() {
     if (!active) {
       setStyle({...baseStyle, ...hoverStyle});

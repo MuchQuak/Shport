@@ -1,7 +1,7 @@
 import {themes} from "./Theme";
 import {toast} from "react-hot-toast";
 import {Dropdown} from "react-bootstrap";
-import {useContext, useRef} from "react";
+import {useContext} from "react";
 import {ThemeContext} from "../App";
 
 function icon() {

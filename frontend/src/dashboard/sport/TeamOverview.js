@@ -36,7 +36,6 @@ function Overview(props) {
   const team = props.team;
   const stats = standings[team.sport];
   const code = String(team.code).trim().toUpperCase();
-  const index = props.index;
   Modal.setAppElement("#root");
   if (standings && stats && stats.hasOwnProperty(code)) {
     const stat = stats[code];

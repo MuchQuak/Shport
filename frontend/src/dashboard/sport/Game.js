@@ -30,7 +30,7 @@ function getTeamName(homeOrAway, game, league, sports) {
 }
 
 export default function Game(props) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   if (!props || !props.game || !props.sports || !props.prefs) {
     return null;
   }

@@ -1,4 +1,4 @@
-import { getTeamLogo, playersQuery, standingsQuery } from "./SportHandler";
+import { getTeamLogo, playersQuery } from "./SportHandler";
 import { useQuery } from "react-query";
 import {useContext, useState} from "react";
 import { loading, suffix } from "../../util/Util";

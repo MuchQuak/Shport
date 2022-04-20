@@ -12,8 +12,6 @@ import {
 import Game from "./Game";
 import { allQueriesSuccessful, cartesian, loading } from "../../util/Util";
 import { useQueries } from "react-query";
-import {useContext} from "react";
-import {ThemeContext} from "../../App";
 
 const noGames = <p className="nomargin bold">No games.</p>;
 
@@ -72,7 +70,6 @@ function tab(games, props, league, index) {
 export default function Schedule(props) {
   const leagues = ["NBA", "NHL"];
   const days = [{ Yesterday: -1 }, { Today: 0 }, { Tomorrow: 1 }];
-  const { theme, setTheme } = useContext(ThemeContext);
   const gamesQuery = useQueries(
     cartesian(leagues, days).map((pair) => {
       const league = pair[0];
