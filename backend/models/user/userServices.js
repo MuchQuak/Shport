@@ -38,6 +38,7 @@ async function signUpUser(user) {
         following: true,
       },
     });
+
     userToAdd.prefs = userPrefs._id;
     await userPrefs.save();
     userToAdd.setPassword(user.password);
@@ -67,7 +68,8 @@ async function validate(u) {
 }
 
 async function getUserPreferences(name) {
-  const userModel = getDbConnection().model("user", User.schema);  
+  const userModel = getDbConnection().model("user", User.schema);
+  const prefModel = getDbConnection().model("pref", Pref.schema);  
   try {
     const query = userModel
       .findOne({ username: name })
