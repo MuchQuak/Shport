@@ -9,7 +9,6 @@
     height: auto;
     color: #d1d1d1;
     border-radius: 8px;
-    border: 0px solid theme.$current;
     overflow: hidden;
 }
 
@@ -33,8 +32,6 @@
     align-items: center;
     justify-items: center;
     justify-content: center;
-    background-color: theme.$current;
-    box-shadow:inset 0px 0px 2px 1px theme.$current-accent;
 }
 
 .item-title p {

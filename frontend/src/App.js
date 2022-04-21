@@ -1,23 +1,31 @@
 import "./style/app.scss";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./dashboard/NavBar";
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 import About from "./dashboard/about/About";
-import { prefsQuery, usernameQuery } from "./login-signup/UserHandler";
+import {
+  prefsQuery,
+  themeQuery,
+  usernameQuery,
+} from "./login-signup/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
 import { sportsQuery } from "./dashboard/sport/SportHandler";
+import { themes } from "./dashboard/Theme";
 
 const userModel = {
   info: {
     name: "Guest",
+    theme: themes.blue,
   },
   auth_token: "",
   prefs: null,
 };
+
+export const ThemeContext = createContext(themes.blue);
 
 function SportContext(props) {
   const sportsResult = useQuery(["sports"], () => sportsQuery());
@@ -29,6 +37,7 @@ function SportContext(props) {
 
 export default function App(props) {
   const [user, setUser] = useState(userModel);
+  const [theme, setTheme] = useState(themes.blue);
   const navigate = useNavigate();
   const auth_token = props.cookies.auth_token;
   useEffect(() => {
@@ -61,15 +70,32 @@ export default function App(props) {
       },
     }
   );
-  if (prefQuery.isLoading || nameQuery.isLoading) {
+  const thQuery = useQuery(
+    ["theme", auth_token],
+    () => themeQuery(auth_token),
+    {
+      onSuccess: (data) => {
+        if (data && data !== "") {
+          setTheme(themes[data]);
+        }
+      },
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+    }
+  );
+  if (prefQuery.isLoading || nameQuery.isLoading || thQuery.isLoading) {
     return loadingSuffix("app");
   } else if (prefQuery.isError) {
-    return errorSuffix(prefQuery.error);
+    return errorSuffix("retrieving preferences");
   } else if (nameQuery.isError) {
-    return errorSuffix(nameQuery.error);
+    return errorSuffix("retrieving name");
+  } else if (thQuery.isError) {
+    //return errorSuffix("retrieving theme")
+    // NO-OP, the program should be able to use the default theme just fine.
   }
   return (
-    <>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       <NavBar user={user} removeCookie={props.removeCookie} />
       <Routes>
         <Route index element={<SportContext user={user} />} />
@@ -79,6 +105,6 @@ export default function App(props) {
         />
         <Route path="about" element={<About />} />
       </Routes>
-    </>
+    </ThemeContext.Provider>
   );
 }

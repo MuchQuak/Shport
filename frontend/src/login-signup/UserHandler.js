@@ -1,4 +1,5 @@
 import axios from "axios";
+import { verify } from "../util/Util";
 
 export async function addUser(user) {
   try {
@@ -29,10 +30,20 @@ export async function usernameQuery(auth_token) {
     .get("http://localhost:5000/username", config)
     .then((res) => {
       if (res.status === 200) {
-        return res.data.username;
+        return verify(res);
       }
       throw new Error("Error " + res.status + ": Could not retrieve username.");
     });
+}
+
+export async function themeQuery(auth_token) {
+  const config = { headers: { authorization: `Bearer ${auth_token}` } };
+  return await axios.get("http://localhost:5000/theme", config).then((res) => {
+    if (res.status === 200) {
+      return verify(res);
+    }
+    throw new Error("Error " + res.status + ": Could not retrieve theme.");
+  });
 }
 
 export async function prefsQuery(auth_token) {
@@ -40,7 +51,7 @@ export async function prefsQuery(auth_token) {
   const config = { headers: { authorization: `Bearer ${auth_token}` } };
   return await axios.get(url, config).then((res) => {
     if (res.status === 201) {
-      return res.data;
+      return verify(res);
     }
     throw new Error(
       "Error " + res.status + ": Could not retrieve preferences."

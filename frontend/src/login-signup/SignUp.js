@@ -86,8 +86,8 @@ export default function SignUp(props) {
           style={modalStyle}
           contentLabel="alert"
         >
-          <div className="dialog">
-            <div className="dialog-header">
+          <div className="dialog" id="error-dialog">
+            <div className="dialog-header" id="error-header">
               <div className="leftSpace" />
               <div className="middleSpace">
                 <p>Failed to sign up</p>

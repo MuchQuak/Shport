@@ -81,19 +81,27 @@ app.post("/signup", async (req, res) => {
 });
 
 app.get("/username", authenticateUser, async (req, res) => {
-  const username = decode(req);
-
-  if (username) {
-    res.status(200).send(username);
+  const decodedUser = decode(req);
+  if (decodedUser) {
+    res.status(200).send(decodedUser.username);
   } else {
     res.status(404).end("User not found");
   }
 });
 
+app.get("/theme", authenticateUser, async (req, res) => {
+  //const decodedUser = decode(req);
+  res.status(200).send("blue");
+  /*if (decodedUser && decodedUser.theme) {
+    res.status(200).send(decodedUser.theme);
+  } else {
+    res.status(404).end("User not found");
+  }*/
+});
+
 // Validating Login
 app.post("/login", async (req, res) => {
   const user = req.body;
-
   if (user.username && user.password) {
     const result = await userServices.login(user);
     if (result) {
@@ -109,27 +117,29 @@ app.post("/login", async (req, res) => {
 
 // gettingPreferences
 app.get("/preferences", authenticateUser, async (req, res) => {
-  const username = decode(req).username;
-  const userPref = await userServices.getUserPreferences(username);
-
-  if (userPref) {
-    res.status(201).send(userPref.prefs);
-  } else {
-    res.status(500).end();
+  const decodedUser = decode(req);
+  if (decodedUser) {
+    const username = decodedUser.username;
+    const userPref = await userServices.getUserPreferences(username);
+    if (userPref) {
+      res.status(201).send(userPref.prefs);
+    }
   }
+  res.status(500).end();
 });
 
 // changing preferences
 app.post("/preferences", authenticateUser, async (req, res) => {
-  const username = decode(req).username;
-  const prefs = req.body;
-
-  const userPref = await userServices.setUserPreferences(username, prefs);
-  if (userPref) {
-    res.status(201).send(userPref);
-  } else {
-    res.status(500).end();
+  const decodedUser = decode(req);
+  if (decodedUser) {
+    const username = decodedUser.username;
+    const prefs = req.body;
+    const userPref = await userServices.setUserPreferences(username, prefs);
+    if (userPref) {
+      res.status(201).send(userPref);
+    }
   }
+  res.status(500).end();
 });
 
 // -----------  Sport API Calls   ------------

@@ -7,9 +7,10 @@ import {
   getTeamLogo,
   standingsQuery,
 } from "./SportHandler";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { loading } from "../../util/Util";
+import { ThemeContext } from "../../App";
 
 function get_teams(standings, conference) {
   const team_stats = [];
@@ -29,10 +30,18 @@ function get_teams(standings, conference) {
     return team.rank.localeCompare(other.rank, "en", { numeric: true });
   });
 }
-function Conf(league, standings, conference, props) {
+function Conf(league, standings, conference, props, theme) {
   return get_teams(standings, conference).map((row, index) => {
     return (
-      <div className="standing" id={index} key={index}>
+      <div
+        className="standing"
+        id={index}
+        key={index}
+        style={{
+          backgroundColor: theme.light,
+          textShadow: "0 1px 2px " + theme.border,
+        }}
+      >
         <div className="standing-left">
           <pre className="standing-rank">
             {row.rank.toString().padEnd(2, " ")}
@@ -68,6 +77,7 @@ function classes(code, league, props) {
 }
 
 export default function StandingsTable(props) {
+  const { theme } = useContext(ThemeContext);
   const [standings, setStandings] = useState({});
   const nba = useQuery(["NBAStandings", "NBA"], () => standingsQuery("NBA"), {
     onSuccess: (data) => {
@@ -106,7 +116,13 @@ export default function StandingsTable(props) {
       if (standings.hasOwnProperty(league)) {
         return (
           <div className="conference" key={index}>
-            {Conf(league, standings[league], String(div).toLowerCase(), props)}
+            {Conf(
+              league,
+              standings[league],
+              String(div).toLowerCase(),
+              props,
+              theme
+            )}
           </div>
         );
       }

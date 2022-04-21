@@ -1,8 +1,8 @@
-import { getTeamLogo, playersQuery, standingsQuery } from "./SportHandler";
+import { getTeamLogo, playersQuery } from "./SportHandler";
 import { useQuery } from "react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { loading, suffix } from "../../util/Util";
-import { getImageSrc } from "../AssetHandler";
+import { ThemeContext } from "../../App";
 
 function silhouette(league, city, name) {
   const source =
@@ -24,6 +24,7 @@ function silhouette(league, city, name) {
 }
 
 export function TeamOverviewExpanded(props) {
+  const { theme } = useContext(ThemeContext);
   const [players, setPlayers] = useState([]);
   const pq = useQuery(["players", "NBA"], () => playersQuery("NBA"), {
     onSuccess: (data) => setPlayers(data),
@@ -59,10 +60,16 @@ export function TeamOverviewExpanded(props) {
         {players
           .filter((p) => p["teamId"] === api_code)
           .map((p) => (
-            <div className="overview-player">
+            <div
+              className="overview-player"
+              style={{ backgroundColor: theme.accent }}
+            >
               {silhouette(league, stat["city"], stat["name"])}
               {p["firstName"]} {p["lastName"]}
-              <div className="overview-player-position">
+              <div
+                className="overview-player-position"
+                style={{ color: theme.border }}
+              >
                 {p["teamSitesOnly"]["posFull"]}
               </div>
             </div>
