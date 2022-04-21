@@ -57,15 +57,22 @@ function partitionItems(items) {
 }
 
 export default function Dashboard(props) {
-  const tnr = useNews("league", createTeamQuery(getAllTeamsFollowed(props.user.prefs, props.sports)));
+  const tnr = useNews(
+    "league",
+    createTeamQuery(getAllTeamsFollowed(props.user.prefs, props.sports))
+  );
   const lnr = useNews("league", getSportsFollowed(props.user.prefs));
   function getMsg() {
     if (!props.user.prefs) {
       return loadingSuffix("user");
     }
     const defaultDashItems = defaultItems(props.user.prefs, props.sports);
-    return partitionItems((props.user.prefs && tnr.isSuccess && lnr.isSuccess) ? defaultDashItems.concat(
-        articleItems(props.user.prefs, joinArticles(tnr.data, lnr.data))) : defaultDashItems
+    return partitionItems(
+      props.user.prefs && tnr.isSuccess && lnr.isSuccess
+        ? defaultDashItems.concat(
+            articleItems(props.user.prefs, joinArticles(tnr.data, lnr.data))
+          )
+        : defaultDashItems
     );
   }
   return (

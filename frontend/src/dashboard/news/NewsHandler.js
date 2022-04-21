@@ -4,16 +4,23 @@ import { useQuery } from "react-query";
 
 // returns an object where article list can be accessed through data attribute (make sure isSuccess first)
 export function useNews(key, interests) {
-  return useQuery([key, interests], async () => {
-    const query = interests.length > 0 ? "(" + interests.join(") OR (") + ")" : "sports";
-    return await axios.get("http://localhost:5000/news/" + query).then((res) => {
-      return verify(res);
-    });
-  }, {
-    refetchOnWindowFocus: false,
-    refetchOnmount: false,
-    refetchOnReconnect: false,
-  });
+  return useQuery(
+    [key, interests],
+    async () => {
+      const query =
+        interests.length > 0 ? "(" + interests.join(") OR (") + ")" : "sports";
+      return await axios
+        .get("http://localhost:5000/news/" + query)
+        .then((res) => {
+          return verify(res);
+        });
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+    }
+  );
 }
 
 // returns a list of queries than can be joined to create a query ready to be sent
