@@ -1,4 +1,4 @@
-import React from "react";
+import { Spinner } from "react-bootstrap";
 
 export function allQueriesSuccessful(queries) {
   for (let query of queries) {
@@ -12,16 +12,36 @@ export function allQueriesSuccessful(queries) {
 export const cartesian = (...a) =>
   a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
-export const error = <p className="error nomargin bold">Error!</p>;
-
-export const errorSuffix = (suffix) => (
-  <p className="error nomargin bold">Error {suffix}!</p>
+export const error = (
+  <div className="error">
+    <p className="bold">Error!</p>
+  </div>
 );
 
-export const loading = <p className="nomargin bold">Loading...</p>;
+export const errorSuffix = (suffix) => (
+  <div className="error">
+    <p className="bold">Error {suffix}!</p>
+  </div>
+);
+
+const loadSpinner = (
+  <Spinner animation="grow" role="status" variant="dark">
+    <span className="visually-hidden">Loading...</span>
+  </Spinner>
+);
+
+export const loading = (
+  <div className="loading">
+    <p className="nomargin bold">Loading...</p>
+    {loadSpinner}
+  </div>
+);
 
 export const loadingSuffix = (suffix) => (
-  <p className="nomargin bold">Loading {suffix}...</p>
+  <div className="loading">
+    <p className="nomargin bold">Loading {suffix}...</p>
+    {loadSpinner}
+  </div>
 );
 
 export function suffix(i) {
@@ -37,4 +57,15 @@ export function suffix(i) {
     return i + "rd";
   }
   return i + "th";
+}
+
+export function verify(result) {
+  if (result.data === undefined || !result.data) {
+    throw new Error("Error: Retrieved no data");
+  }
+  return result.data;
+}
+
+export function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
 }

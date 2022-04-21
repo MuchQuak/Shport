@@ -84,6 +84,9 @@ class NhlService extends league.LeagueService {
         new_game.clock = "00:00";
         new_game.break = false;
       }
+      new_game.numInSeries = 0;
+      new_game.homePlayoffs = false;
+      new_game.awayPlayoffs = false;
       new_games.push(new_game);
     }
     return new_games;

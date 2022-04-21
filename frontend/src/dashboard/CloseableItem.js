@@ -1,9 +1,11 @@
 import "../style/item.scss";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CloseButton from "react-bootstrap/CloseButton";
+import { ThemeContext } from "../App";
 
 export default function CloseableItem(props) {
   const [itemVisible, setItemVisible] = useState(true);
+  const { theme } = useContext(ThemeContext);
   if (!props) {
     return null;
   }
@@ -32,7 +34,7 @@ export default function CloseableItem(props) {
   if (itemVisible) {
     return (
       <div className="item">
-        <div className="item-title">
+        <div className="item-title" style={{ backgroundColor: theme.base }}>
           <div className="leftSpace">{logo()}</div>
           <div className="middleSpace">
             <p>{title()}</p>

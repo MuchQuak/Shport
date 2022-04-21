@@ -264,7 +264,6 @@
     flex-flow: row nowrap;
     align-items: center;
     gap: 5px;
-    background-color: theme.$current;
     border-radius: 5px;
 }
 
@@ -281,4 +280,32 @@
     width: 20px;
     border-radius: 2px;
     border: 1px solid #FFFFFF;
+}
+
+.loading {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 2px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff4747;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.error p {
+    margin: 0;
+    width: auto;
 }

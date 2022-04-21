@@ -6,13 +6,12 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from "./sport/StandingsTable";
 import Schedule from "./sport/Schedule";
 import Article from "./news/Article";
-import { newsQuery } from "./news/NewsHandler";
+import { createTeamQuery, joinArticles, useNews } from "./news/NewsHandler";
 import {
   getAllTeamsFollowed,
   getSportsFollowed,
 } from "../settings/PrefHandler";
-import { useQuery } from "react-query";
-import { errorSuffix, loading, loadingSuffix } from "../util/Util";
+import { errorSuffix, loadingSuffix } from "../util/Util";
 
 function default_items(prefs, sports) {
   return [
@@ -61,41 +60,26 @@ export default function Dashboard(props) {
   const [teamNews, setTeamNews] = useState([]);
   const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
-  const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(
-    (t) => "(" + t.name + " AND " + t.sport + ") OR " + t.city + " " + t.name
+  const team_interest = createTeamQuery(
+    getAllTeamsFollowed(user.prefs, props.sports)
   );
-  const league_interest = getSportsFollowed(user.prefs);
-  const tnr = useQuery(
-    ["teamnews", team_interest],
-    () => newsQuery(team_interest),
-    {
-      onSuccess: (data) => setTeamNews(data),
-    }
-  );
-  const lnr = useQuery(
-    ["leaguenews", league_interest],
-    () => newsQuery(league_interest),
-    {
-      onSuccess: (data) => setLeagueNews(data),
-    }
-  );
-  const getMsg = () => {
-    if (!props || tnr.isLoading || lnr.isLoading) {
-      return loading;
-    } else if (!user || !user.prefs) {
+  const tnr = useNews("league", team_interest, setTeamNews);
+  const lnr = useNews("league", getSportsFollowed(user.prefs), setLeagueNews);
+  function getMsg() {
+    if (!props || !user || !user.prefs) {
       return loadingSuffix("user");
-    } else if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
-      return partitionItems(
-        default_items(user.prefs, props.sports)
-          .concat(article_items(user.prefs, teamNews))
-          .concat(article_items(user.prefs, leagueNews))
-      );
-    } else {
-      return errorSuffix("loading");
     }
-  };
+    let items = default_items(user.prefs, props.sports);
+    if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
+      items = items.concat(
+        article_items(user.prefs, joinArticles(teamNews, leagueNews))
+      );
+    }
+    return partitionItems(items);
+  }
   return (
     <div className="content">
+      {(tnr.isError || lnr.isError) && errorSuffix("loading news")}
       <div className="dashboard">{getMsg()}</div>
     </div>
   );

@@ -2,12 +2,14 @@
 
 .schedule {
     margin: 0 auto;
-    padding: 0;
+    padding: 0 0 2px;
     width: 100%;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     gap: 7px;
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 #schedule-logo-container {
@@ -22,9 +24,7 @@
     display: flex;
     border-radius: 8px;
     flex-flow: column nowrap;
-    background-color: theme.$current;
     color: #FFFFFF;
-    box-shadow: 0px 2px theme.$current-border;
     line-height: 1.15em;
 }
 
@@ -50,7 +50,8 @@
     width: 20%;
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    gap: 4px;
     align-items: center;
     align-content: center;
     flex-basis: 20%;
@@ -90,4 +91,23 @@
     font-weight: bold;
     font-style: italic;
     text-decoration: underline;
+}
+
+.game-playoffs-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.game-playoffs-record {
+    margin: 0;
+    size: 24px;
+}
+
+.game-series {
+    margin: 0;
+    size: 20px;
+    font-weight: bold;
 }
