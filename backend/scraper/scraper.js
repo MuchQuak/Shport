@@ -2,6 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
+// base example for scraping with cheerio
 // run isolated scraper -> node scraper.js
 
 axios.get('https://www.espn.com/mlb/')
