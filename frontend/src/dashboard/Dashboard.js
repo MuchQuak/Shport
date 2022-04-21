@@ -6,12 +6,11 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from "./sport/StandingsTable";
 import Schedule from "./sport/Schedule";
 import Article from "./news/Article";
-import { newsQuery } from "./news/NewsHandler";
+import {createTeamQuery, joinArticles, useNews} from "./news/NewsHandler";
 import {
   getAllTeamsFollowed,
   getSportsFollowed,
 } from "../settings/PrefHandler";
-import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "../util/Util";
 
 function default_items(prefs, sports) {
@@ -61,46 +60,16 @@ export default function Dashboard(props) {
   const [teamNews, setTeamNews] = useState([]);
   const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
-  const team_interest = getAllTeamsFollowed(user.prefs, props.sports).map(
-    (t) =>
-      "(" +
-      t.name +
-      " AND " +
-      t.sport +
-      ") OR (" +
-      t.city +
-      " " +
-      t.name +
-      ") OR (" +
-      t.city +
-      " AND " +
-      t.name +
-      ")"
-  );
-  const league_interest = getSportsFollowed(user.prefs);
-  const tnr = useQuery(
-    ["teamnews", team_interest],
-    () => newsQuery(team_interest),
-    {
-      onSuccess: (data) => setTeamNews(data),
-    }
-  );
-  const lnr = useQuery(
-    ["leaguenews", league_interest],
-    () => newsQuery(league_interest),
-    {
-      onSuccess: (data) => setLeagueNews(data),
-    }
-  );
+  const team_interest = createTeamQuery(getAllTeamsFollowed(user.prefs, props.sports));
+  const tnr = useNews("league", team_interest, setTeamNews);
+  const lnr = useNews("league", getSportsFollowed(user.prefs), setLeagueNews);
   function getMsg() {
     if (!props || !user || !user.prefs) {
       return loadingSuffix("user");
     }
     let items = default_items(user.prefs, props.sports);
     if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
-      items = items
-        .concat(article_items(user.prefs, teamNews))
-        .concat(article_items(user.prefs, leagueNews));
+      items = items.concat(article_items(user.prefs, joinArticles(teamNews, leagueNews)));
     }
     return partitionItems(items);
   }

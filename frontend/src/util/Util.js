@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 
 export function allQueriesSuccessful(queries) {
@@ -65,4 +64,8 @@ export function verify(result) {
     throw new Error("Error: Retrieved no data");
   }
   return result.data;
+}
+
+export function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
 }
