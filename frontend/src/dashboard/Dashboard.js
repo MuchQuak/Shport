@@ -13,7 +13,7 @@ import {
 } from "../settings/PrefHandler";
 import { errorSuffix, loadingSuffix } from "../util/Util";
 
-function default_items(prefs, sports) {
+function defaultItems(prefs, sports) {
   return [
     <CloseableItem title="Schedule" prefs={prefs} sports={sports} key={0}>
       <Schedule />
@@ -26,7 +26,7 @@ function default_items(prefs, sports) {
     </CloseableItem>,
   ];
 }
-function article_items(prefs, news) {
+function articleItems(prefs, news) {
   return news.map((article, idx) => (
     <CloseableItem title={article.publishBy} key={article.url + String(idx)}>
       <Article news={article} key={article.url} />
@@ -57,25 +57,16 @@ function partitionItems(items) {
 }
 
 export default function Dashboard(props) {
-  const [teamNews, setTeamNews] = useState([]);
-  const [leagueNews, setLeagueNews] = useState([]);
-  const user = props.user;
-  const team_interest = createTeamQuery(
-    getAllTeamsFollowed(user.prefs, props.sports)
-  );
-  const tnr = useNews("league", team_interest, setTeamNews);
-  const lnr = useNews("league", getSportsFollowed(user.prefs), setLeagueNews);
+  const tnr = useNews("league", createTeamQuery(getAllTeamsFollowed(props.user.prefs, props.sports)));
+  const lnr = useNews("league", getSportsFollowed(props.user.prefs));
   function getMsg() {
-    if (!props || !user || !user.prefs) {
+    if (!props.user.prefs) {
       return loadingSuffix("user");
     }
-    let items = default_items(user.prefs, props.sports);
-    if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
-      items = items.concat(
-        article_items(user.prefs, joinArticles(teamNews, leagueNews))
-      );
-    }
-    return partitionItems(items);
+    const defaultDashItems = defaultItems(props.user.prefs, props.sports);
+    return partitionItems((props.user.prefs && tnr.isSuccess && lnr.isSuccess) ? defaultDashItems.concat(
+        articleItems(props.user.prefs, joinArticles(tnr.data, lnr.data))) : defaultDashItems
+    );
   }
   return (
     <div className="content">

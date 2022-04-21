@@ -108,3 +108,21 @@ export default function App(props) {
     </ThemeContext.Provider>
   );
 }
+
+/*
+export async function newsQuery(interests) {
+  const query = interests.length > 0 ? "(" + interests.join(") OR (") + ")" : "sports";
+  return await axios.get("http://localhost:5000/news/" + query).then((res) => {
+    return verify(res);
+  });
+}
+
+// returns an object where article list can be accessed through data attribute (make sure isSuccess first)
+export async function useNews(key, interests) {
+  return useQuery([key, interests], () => newsQuery(interests), {
+    refetchOnWindowFocus: false,
+    refetchOnmount: false,
+    refetchOnReconnect: false,
+  });
+}
+ */

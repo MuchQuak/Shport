@@ -2,22 +2,21 @@ import axios from "axios";
 import { verify } from "../../util/Util";
 import { useQuery } from "react-query";
 
-export async function newsQuery(prefs) {
-  const query = prefs.length > 0 ? "(" + prefs.join(") OR (") + ")" : "sports";
-  return await axios.get("http://localhost:5000/news/" + query).then((res) => {
-    return verify(res);
-  });
-}
-
-export function useNews(key, interest, setter) {
-  return useQuery([key, interest], () => newsQuery(interest), {
-    onSuccess: (data) => setter(data),
+// returns an object where article list can be accessed through data attribute (make sure isSuccess first)
+export function useNews(key, interests) {
+  return useQuery([key, interests], async () => {
+    const query = interests.length > 0 ? "(" + interests.join(") OR (") + ")" : "sports";
+    return await axios.get("http://localhost:5000/news/" + query).then((res) => {
+      return verify(res);
+    });
+  }, {
     refetchOnWindowFocus: false,
     refetchOnmount: false,
     refetchOnReconnect: false,
   });
 }
 
+// returns a list of queries than can be joined to create a query ready to be sent
 export function createTeamQuery(teams) {
   return teams
     .filter((t) => t.name && t.sport && t.city)
