@@ -6,7 +6,7 @@ import ThirdContent from "./ThirdContent";
 import StandingsTable from "./sport/StandingsTable";
 import Schedule from "./sport/Schedule";
 import Article from "./news/Article";
-import {createTeamQuery, joinArticles, useNews} from "./news/NewsHandler";
+import { createTeamQuery, joinArticles, useNews } from "./news/NewsHandler";
 import {
   getAllTeamsFollowed,
   getSportsFollowed,
@@ -60,7 +60,9 @@ export default function Dashboard(props) {
   const [teamNews, setTeamNews] = useState([]);
   const [leagueNews, setLeagueNews] = useState([]);
   const user = props.user;
-  const team_interest = createTeamQuery(getAllTeamsFollowed(user.prefs, props.sports));
+  const team_interest = createTeamQuery(
+    getAllTeamsFollowed(user.prefs, props.sports)
+  );
   const tnr = useNews("league", team_interest, setTeamNews);
   const lnr = useNews("league", getSportsFollowed(user.prefs), setLeagueNews);
   function getMsg() {
@@ -69,7 +71,9 @@ export default function Dashboard(props) {
     }
     let items = default_items(user.prefs, props.sports);
     if (user.prefs && tnr.isSuccess && lnr.isSuccess) {
-      items = items.concat(article_items(user.prefs, joinArticles(teamNews, leagueNews)));
+      items = items.concat(
+        article_items(user.prefs, joinArticles(teamNews, leagueNews))
+      );
     }
     return partitionItems(items);
   }
