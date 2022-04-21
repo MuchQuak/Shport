@@ -1,10 +1,16 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { time } = require('console');
 const fs = require('fs');
 
 // run isolated scraper -> node scraper.js
 
 function parseTeamName(hrefString, cityStr) {
+
+    if(hrefString === undefined) {
+        return "";
+    }
+
     //Gets City TeamName out of Href
     let delimited = hrefString.split('/');
     delimited = (delimited[delimited.length -1]).split('-')
@@ -29,6 +35,14 @@ function parseTeamName(hrefString, cityStr) {
     return result;
 }
 
+function parsingGameId(hrefString) {
+    if(hrefString === undefined) {
+        return "";
+    }
+    let delimited = hrefString.split('=');
+    return delimited[1];
+}
+
 function capatilize(str) {
     if(str.length > 1) {
 
@@ -38,9 +52,39 @@ function capatilize(str) {
     return str.toUpperCase();
 }
 
+async function scrapeGameScore(sportCode, gId) {
+
+    let scores = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
+                .then((response) => {
+                    let $ = cheerio.load(response.data);
+                    let scoreData = {
+                        away: 0,
+                        home: 0
+                    }
+
+                    let teams = $('div.competitors');
+
+                    const awayS = teams.find('.team.away').find('.score.icon-font-after').text().trim();
+                    const homeS = teams.find('.team.home').find('.score.icon-font-before').text().trim();
+
+                    if(awayS !== '') {
+                        scoreData.away = awayS;
+                    }
+                    if(homeS !== '') {
+                        scoreData.home = homeS;
+                    }
+
+                    return scoreData;
+                });
+
+    //console.log("a: " + scores.away + " h: " +  scores.home + " " + gId);
+
+    return scores;
+}
+
 async function scrapeSchedule(sportCode) {
 
-    var gameSchedule = await axios.get(`https://www.espn.com/${sportCode}/schedule` )
+    var gameSchedule = await axios.get(`https://www.espn.com/${sportCode}/schedule`)
     .then((response) => {
         let $ = cheerio.load(response.data);
         var games = [];
@@ -49,9 +93,13 @@ async function scrapeSchedule(sportCode) {
             $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
                 let game = {
                     away: "",
+                    away_score: 0,
                     home: "",
-                    time: ""
+                    home_score: 0,
+                    time: "",
+                    GId: ""
                 }
+
                 let aTeam = $(tr).find('.events__col.Table__TD').find('a');
                 let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
 
@@ -63,54 +111,84 @@ async function scrapeSchedule(sportCode) {
                     game.home = 'TBA' : 
                     game.home = parseTeamName(hTeam.attr().href, hTeam.text().trim());
 
-                game.time = $(tr).find('.date__col.Table__TD').find('a').text().trim();
+                let dateElem = $(tr).find('.date__col.Table__TD');
+
+                if(dateElem.find('a').attr('href') === undefined) {
+                    game.time = "Game Finished";
+                    game.GId = parsingGameId($(tr).find('.teams__col.Table__TD:first').find('a').attr('href'));
+                    //Parse Score from finished maybe
+                } else {
+                    game.time = dateElem.find('a').text().trim();
+                    game.GId = parsingGameId(dateElem.find('a').attr('href'));
+                }
+
+                scrapeGameScore(sportCode, gId);
+
+                //console.log(game);
                 
                 games.push(game); 
             });
         });
-
+ 
         return games;
     })
     .catch((error) => {
         console.log(error);
     });
 
-    //console.log(gameSchedule);
-
     return gameSchedule;
 }
 
-var p = Promise.resolve( scrapeSchedule('nhl'));
+function scrapeGames(sportCode) {
+    var p = Promise.resolve(scrapeSchedule(sportCode));
+    var fullyPopluatedGames = [];
+
+    p.then(function(games) {
+
+        for(let i = 0; i < games.length; i++) {
+            games[i];
+            let score = Promise.resolve(scrapeGameScore(sportCode, games[i].GId));
+
+            games[i] = score.then(function(res) {
+                games[i].home_score = res.home;
+                games[i].away_score = res.away;
+
+                fullyPopluatedGames.push(games);
+            });
+        }
+        //console.log(games);
+        //return games;
+    });
+
+    //console.log(fullyPopluatedGames);
+
+    return fullyPopluatedGames;
+}
+/*
+new_game = {
+    status: "",
+    clock: "",
+    halftime: "",
+    arena: "",
+    currentQtr: "",
+    maxQtr: "",
+    home: "",
+    home_code: "",
+    home_score: "",
+    home_record: "",
+    away: "",
+    away_code: "",
+    away_score: "",
+    away_record: "",
+    startTimeUTC: ""
+}
+*/
+
+console.log(scrapeGames('mlb'))
+
+//var p = Promise.resolve(scrapeGameId('mlb', 401354416));
+/*
 p.then(function(v) {
   console.log(v); // 1
 });
-
-/*
- axios.get('https://www.espn.com/mlb/scoreboard' )
-    .then((response) => {
-        let $ = cheerio.load(response.data);
-        let schedule = {
-            games: []
-        }
-
-        var page = $.root();
-
-        $('#events ').each((i, g) => {
-            let game = {
-                away: "",
-                home: "",
-                time: ""
-            }
-            //game.away = $(g).find('.away').find('.sb-team-short').text().trim();
-            //game.home = $(swrap).find('.home').find('a').text().trim();
-            //game.time = $(tr).find('.date__col.Table__TD').find('a').text().trim();
-            let val = $(g).html();
-            //let val = $(g).find('.sb-team-short:first')[0].tagName;
-
-            console.log(i + 1 + " " + val);
-        });
-    })
-    .catch((error) => {
-        console.log(error);
- });
- */
+*/
