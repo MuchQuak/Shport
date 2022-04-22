@@ -124,7 +124,11 @@ function overviews(
         </>
       );
     }
-    return <div><p>Error! Team with code {team} not loaded!</p></div>;
+    return (
+      <div>
+        <p>Error! Team with code {team} not loaded!</p>
+      </div>
+    );
   });
 }
 
@@ -162,7 +166,7 @@ function tabs(
 export default function TeamOverview(props) {
   const [standings, setStandings] = useState({});
   const [isAlertVisible, setAlertVisible] = useState(false);
-  
+
   const nba = useQuery(["NBAStandings", "NBA"], () => standingsQuery("NBA"), {
     onSuccess: (data) => {
       const temp = { ...standings };
@@ -192,7 +196,14 @@ export default function TeamOverview(props) {
     },
   });
   Modal.setAppElement("#root");
-  if (nfl.isLoading || mlb.isLoading || nba.isLoading || nhl.isLoading || !props || !props.prefs) {
+  if (
+    nfl.isLoading ||
+    mlb.isLoading ||
+    nba.isLoading ||
+    nhl.isLoading ||
+    !props ||
+    !props.prefs
+  ) {
     return <p className="nomargin bold">Loading...</p>;
   }
   const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);

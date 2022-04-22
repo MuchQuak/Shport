@@ -1,87 +1,100 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const fs = require('fs');
+const axios = require("axios");
+const cheerio = require("cheerio");
+const fs = require("fs");
 
 // run isolated scraper -> node scraper.js
 
 function parseTeamName(hrefString, cityStr) {
-    //Gets City TeamName out of Href
-    let delimited = hrefString.split('/');
-    delimited = (delimited[delimited.length -1]).split('-')
+  //Gets City TeamName out of Href
+  let delimited = hrefString.split("/");
+  delimited = delimited[delimited.length - 1].split("-");
 
-    //Find how many words are in the city name
-    const lastCityIndex = cityStr.split(' ').length;
-    const teamName = delimited.slice(lastCityIndex);
+  //Find how many words are in the city name
+  const lastCityIndex = cityStr.split(" ").length;
+  const teamName = delimited.slice(lastCityIndex);
 
-    //Join and Capatilize team name
-    let result = "";
-    for(let i = 0; i < teamName.length; i++) {
-        teamName[i] = capatilize(teamName[i]);
+  //Join and Capatilize team name
+  let result = "";
+  for (let i = 0; i < teamName.length; i++) {
+    teamName[i] = capatilize(teamName[i]);
 
-        if(i === 0) {
-            result = teamName[i];
-        }
-        else {
-            result += " " + teamName[i]
-        }
+    if (i === 0) {
+      result = teamName[i];
+    } else {
+      result += " " + teamName[i];
     }
+  }
 
-    return result;
+  return result;
 }
 
 function capatilize(str) {
-    if(str.length > 1) {
+  if (str.length > 1) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
 
-        return str[0].toUpperCase() + str.slice(1);
-    }
-
-    return str.toUpperCase();
+  return str.toUpperCase();
 }
 
 async function scrapeSchedule(sportCode) {
-
-    var gameSchedule = await axios.get(`https://www.espn.com/${sportCode}/schedule` )
+  var gameSchedule = await axios
+    .get(`https://www.espn.com/${sportCode}/schedule`)
     .then((response) => {
-        let $ = cheerio.load(response.data);
-        var games = [];
+      let $ = cheerio.load(response.data);
+      var games = [];
 
-        $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each((i, schedule) => {
-            $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
-                let game = {
-                    away: "",
-                    home: "",
-                    time: ""
-                }
-                let aTeam = $(tr).find('.events__col.Table__TD').find('a');
-                let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
+      $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each(
+        (i, schedule) => {
+          $(schedule)
+            .find(".Table__TBODY")
+            .find("tr")
+            .each((j, tr) => {
+              let game = {
+                away: "",
+                home: "",
+                time: "",
+              };
+              let aTeam = $(tr).find(".events__col.Table__TD").find("a");
+              let hTeam = $(tr).find(".colspan__col.Table__TD").find("a");
 
-                aTeam.attr() === undefined ? 
-                    game.away = 'TBA' : 
-                    game.away = parseTeamName(aTeam.attr().href, aTeam.text().trim());
+              aTeam.attr() === undefined
+                ? (game.away = "TBA")
+                : (game.away = parseTeamName(
+                    aTeam.attr().href,
+                    aTeam.text().trim()
+                  ));
 
-                hTeam.attr() === undefined ? 
-                    game.home = 'TBA' : 
-                    game.home = parseTeamName(hTeam.attr().href, hTeam.text().trim());
+              hTeam.attr() === undefined
+                ? (game.home = "TBA")
+                : (game.home = parseTeamName(
+                    hTeam.attr().href,
+                    hTeam.text().trim()
+                  ));
 
-                game.time = $(tr).find('.date__col.Table__TD').find('a').text().trim();
-                
-                games.push(game); 
+              game.time = $(tr)
+                .find(".date__col.Table__TD")
+                .find("a")
+                .text()
+                .trim();
+
+              games.push(game);
             });
-        });
+        }
+      );
 
-        return games;
+      return games;
     })
     .catch((error) => {
-        console.log(error);
+      console.log(error);
     });
 
-    //console.log(gameSchedule);
+  //console.log(gameSchedule);
 
-    return gameSchedule;
+  return gameSchedule;
 }
 
-var p = Promise.resolve( scrapeSchedule('nhl'));
-p.then(function(v) {
+var p = Promise.resolve(scrapeSchedule("nhl"));
+p.then(function (v) {
   console.log(v); // 1
 });
 
