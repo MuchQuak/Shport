@@ -92,8 +92,9 @@ app.get("/username", authenticateUser, async (req, res) => {
 
 app.get("/theme", authenticateUser, async (req, res) => {
   const decodedUser = decode(req).username;
-  const theme = (await userServices.getUserPreferences(decodedUser)).prefs.theme;
-    
+  const theme = (await userServices.getUserPreferences(decodedUser)).prefs
+    .theme;
+
   if (decodedUser && theme) {
     res.status(200).send(theme);
   } else {

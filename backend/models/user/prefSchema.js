@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const prefsSchema = new mongoose.Schema(
   {
-    theme:String,
+    theme: String,
     user: {
       type: Schema.Types.ObjectId,
       ref: "user",
