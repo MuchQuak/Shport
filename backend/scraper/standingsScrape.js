@@ -1,8 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-//const fs = require('fs');
 
-async function getSportStanding(league, sep) {
+async function getSportStanding(league, scoreSep) {
   return await axios
     .get("https://www.espn.com/" + league + "/standings")
     .then((response) => {
@@ -48,8 +47,7 @@ async function getSportStanding(league, sep) {
           scores.push($(element).text());
         }
         i++;
-
-        if (i == sep) i = 0;
+        if (i == scoreSep) i = 0;
       });
 
       let sportsInfo = {
@@ -59,7 +57,6 @@ async function getSportStanding(league, sep) {
         amCodes: amCodes,
         scores: scores,
       };
-
       return sportsInfo;
     })
     .catch((error) => {
@@ -72,7 +69,7 @@ function createMlbObj(
   currentLeague,
   natLeague,
   natCodes,
-  mlbScores,
+  scores,
   start
 ) {
   let j = start;
@@ -84,8 +81,8 @@ function createMlbObj(
     sportObj["teams"][natCodes[i]]["city"] = "";
     sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
     sportObj["teams"][natCodes[i]]["rank"] = k.toString();
-    sportObj["teams"][natCodes[i]]["wins"] = mlbScores[j];
-    sportObj["teams"][natCodes[i]]["losses"] = mlbScores[j + 1];
+    sportObj["teams"][natCodes[i]]["wins"] = scores[j];
+    sportObj["teams"][natCodes[i]]["losses"] = scores[j + 1];
 
     j += 2;
     k += 1;
@@ -109,7 +106,7 @@ function createNflObj(
   currentLeague,
   natLeague,
   natCodes,
-  mlbScores,
+  scores,
   start
 ) {
   let j = start;
@@ -121,8 +118,8 @@ function createNflObj(
     sportObj["teams"][natCodes[i]]["city"] = "";
     sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
     sportObj["teams"][natCodes[i]]["rank"] = k.toString();
-    sportObj["teams"][natCodes[i]]["wins"] = mlbScores[j];
-    sportObj["teams"][natCodes[i]]["losses"] = mlbScores[j + 1];
+    sportObj["teams"][natCodes[i]]["wins"] = scores[j];
+    sportObj["teams"][natCodes[i]]["losses"] = scores[j + 1];
 
     j += 2;
     k += 1;
@@ -163,7 +160,7 @@ function getMlbSportStanding() {
       response["natLeague"],
       response["natCodes"],
       response["scores"],
-      28
+      30
     );
 
     return sportObj;
@@ -190,7 +187,7 @@ function getNflSportStanding() {
       response["natLeague"],
       response["natCodes"],
       response["scores"],
-      28
+      32
     );
 
     return sportObj;
@@ -199,7 +196,10 @@ function getNflSportStanding() {
 
 exports.getMlbSportStanding = getMlbSportStanding;
 exports.getNflSportStanding = getNflSportStanding;
+
 /*
+    --- IGNORE THIS ---
+    Used to use RegEx to seperate the team names and codes but no longer needed currently, I think
     let amLeagueArray = amLeague.split(/(?<![A-Z\W])(?=[A-Z])/);
     let natLeageArray = natLeague.split(/(?<![A-Z\W])(?=[A-Z])/);
 */
