@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "aphrodite": "^2.4.0",
+    "react-markdown": "^8.0.3"
+  }
+}

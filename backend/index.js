@@ -91,13 +91,14 @@ app.get("/username", authenticateUser, async (req, res) => {
 });
 
 app.get("/theme", authenticateUser, async (req, res) => {
-  //const decodedUser = decode(req);
-  res.status(200).send("blue");
-  /*if (decodedUser && decodedUser.theme) {
-    res.status(200).send(decodedUser.theme);
+  const decodedUser = decode(req).username;
+  const theme = (await userServices.getUserPreferences(decodedUser)).prefs.theme;
+    
+  if (decodedUser && theme) {
+    res.status(200).send(theme);
   } else {
     res.status(404).end("User not found");
-  }*/
+  }
 });
 
 // Validating Login

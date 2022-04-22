@@ -33,6 +33,7 @@ async function signUpUser(user) {
     let userToAdd = new userModel(user);
     //New Preferences linked to user
     let userPrefs = new prefModel({
+      theme:"blue",
       user: userToAdd._id,
       sports: {
         following: true,
