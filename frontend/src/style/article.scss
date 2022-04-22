@@ -13,25 +13,32 @@
 }
 
 .article a {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
     width: 100%;
     text-decoration: none;
     font-weight: bold;
 }
 
 .article-title {
+    margin: 0;
     letter-spacing: 0.3px;
-    margin-bottom: 5px;
     text-align: center;
     width: 100%;
     flex-basis: 100%;
     font-size: 18px;
     font-weight: bold;
     font-family: 'DM Serif Display', serif;
+    line-height: 1.1em;
 }
 
 .article-img {
     height: auto;
-    width: 100%;
+    max-width: 100%;
+    max-height: 230px;
     border-radius: 4px;
     transition: 0.5s ease;
 }

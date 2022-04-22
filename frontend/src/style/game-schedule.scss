@@ -27,7 +27,7 @@
     align-items: center;
     color: #FFFFFF;
     line-height: 1.15em;
-    min-height: 115px;
+    min-height: 100px;
 }
 
 .game-left {
@@ -43,10 +43,11 @@
 
 .game-center {
     width: 30%;
+    height: 100%;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-evenly;
-    gap: 4px;
+    gap: 6px;
     align-items: center;
     align-content: center;
     flex-basis: 30%;
