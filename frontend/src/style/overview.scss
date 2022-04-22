@@ -2,7 +2,7 @@
 
 .overviews {
     margin: 0;
-    padding: 0 0 2px;
+    padding: 0;
     width: 100%;
     display: flex;
     flex-flow: column nowrap;
@@ -13,8 +13,8 @@
 }
 
 .overview {
-    margin: 0;
-    padding: 5px;
+    margin: 0 0 2px;
+    padding: 8px;
     width: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -29,13 +29,21 @@
     padding: 1px;
     width: 125px;
     height: 125px;
+    transition: 0.5s ease;
+}
+
+#overview-logo:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    transition: 0.5s ease;
 }
 
 .overview-team-name {
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    gap: 10px;
+    gap: 8px;
     justify-content: flex-start;
     align-items: center;
 }

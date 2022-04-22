@@ -1,4 +1,7 @@
 .article {
+    background-color: #ededed;
+    padding: 10px;
+    border-radius: 15px;
     margin: 0 auto;
     width: 100%;
     display: flex;
@@ -11,31 +14,52 @@
 
 .article a {
     width: 100%;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .article-title {
+    letter-spacing: 0.3px;
+    margin-bottom: 5px;
     text-align: center;
     width: 100%;
     flex-basis: 100%;
+    font-size: 18px;
     font-weight: bold;
+    font-family: 'DM Serif Display', serif;
 }
 
 .article-img {
     height: auto;
     width: 100%;
     border-radius: 4px;
+    transition: 0.5s ease;
+}
+
+.article-img:hover{
+    -webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
+    transition: 0.5s ease;
 }
 
 .article-desc {
     margin: 0;
     width: 100%;
     flex-basis: 100%;
+    font-size: 15px;
+    color: #383838;
+    font-family: 'Rubik', sans-serif;
+    line-height: 1.2em;
 }
 
 .article-date {
     margin: 0;
+    padding: 0;
     width: 100%;
     flex-basis: 100%;
     font-weight: bold;
+    font-size: 15px;
+    font-family: 'Rubik', sans-serif;
 }
 
