@@ -35,11 +35,44 @@
 }
 
 .item-title p {
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     width: 100%;
-    line-height: 1.5em;
+    line-height: 1.1em;
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
+}
+
+.leftSpace {
+    margin: 0;
+    padding: 10px;
+    height: 100%;
+    flex-basis: 10%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.middleSpace {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    flex-basis: 80%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.rightSpace {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    flex-basis: 10%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
 }

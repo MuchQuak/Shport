@@ -23,7 +23,7 @@ async function getNews(req, res) {
       .catch((error) => {
         if (!error.response) {
           // network error
-          console.log("Error: Network Error");
+          console.log(String(error).split(": You")[0]);
         } else {
           console.log(error.response.data.message);
         }

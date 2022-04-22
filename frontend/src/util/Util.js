@@ -1,7 +1,7 @@
 import { Spinner } from "react-bootstrap";
 
 export function allQueriesSuccessful(queries) {
-  for (let query of queries) {
+  for (const query of queries) {
     if (!query.isSuccess) {
       return false;
     }
