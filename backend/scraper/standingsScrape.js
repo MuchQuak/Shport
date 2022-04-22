@@ -1,11 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-/* Main function that gets the standing. Currently works for the NFL and MLB
-    league --> league name
-    sep --> is the seperator between the win and losse and other game information 
-*/
-
 async function getSportStanding(league, scoreSep) {
   return await axios
     .get("https://www.espn.com/" + league + "/standings")
@@ -19,7 +14,6 @@ async function getSportStanding(league, scoreSep) {
       let natCodes = [];
 
       $(".Table__TBODY").each((index, element) => {
-        //team names
         let names = $(element)
           .find(".hide-mobile")
           .children()
@@ -27,7 +21,6 @@ async function getSportStanding(league, scoreSep) {
           .map((result) => {
             return $(result).text();
           });
-        // team code
         let codes = $(element)
           .find(".dn.show-mobile")
           .children()
@@ -54,7 +47,6 @@ async function getSportStanding(league, scoreSep) {
           scores.push($(element).text());
         }
         i++;
-
         if (i == scoreSep) i = 0;
       });
 
@@ -65,7 +57,6 @@ async function getSportStanding(league, scoreSep) {
         amCodes: amCodes,
         scores: scores,
       };
-
       return sportsInfo;
     })
     .catch((error) => {
