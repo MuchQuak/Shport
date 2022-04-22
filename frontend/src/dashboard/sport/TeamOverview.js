@@ -11,7 +11,7 @@ import { useQuery } from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
-import { loading, suffix } from "../../util/Util";
+import {loading, suffix} from "../../util/Util";
 import { ThemeContext } from "../../App";
 
 const modalStyle = {
@@ -114,7 +114,6 @@ function Overview(props) {
 
 export default function TeamOverview(props) {
   const [standings, setStandings] = useState({});
-  const [isAlertVisible, setAlertVisible] = useState(false);
   const nba = useQuery(["NBAStandings", "NBA"], () => standingsQuery("NBA"), {
     onSuccess: (data) => {
       const temp = { ...standings };
@@ -140,6 +139,7 @@ export default function TeamOverview(props) {
     onSuccess: (data) => {
       const temp = { ...standings };
       temp["NFL"] = data;
+      console.log(data);
       setStandings(temp);
     },
   });
@@ -152,7 +152,7 @@ export default function TeamOverview(props) {
     !props ||
     !props.prefs
   ) {
-    return <p className="nomargin bold">Loading...</p>;
+    return loading;
   }
   const teams = getAllTeamsFollowed(props.prefs, props.sports);
   if (teams.length < 1) {

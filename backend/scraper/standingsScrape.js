@@ -76,23 +76,23 @@ function createMlbObj(
   let k = 1;
 
   for (let i = 0; i < natLeague.length; i++) {
-    sportObj["teams"][natCodes[i]] = {};
-    sportObj["teams"][natCodes[i]]["name"] = natLeague[i];
-    sportObj["teams"][natCodes[i]]["city"] = "";
-    sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
-    sportObj["teams"][natCodes[i]]["rank"] = k.toString();
-    sportObj["teams"][natCodes[i]]["wins"] = scores[j];
-    sportObj["teams"][natCodes[i]]["losses"] = scores[j + 1];
+    sportObj[natCodes[i]] = {};
+    sportObj[natCodes[i]]["name"] = natLeague[i];
+    sportObj[natCodes[i]]["city"] = "";
+    sportObj[natCodes[i]]["code"] = natCodes[i];
+    sportObj[natCodes[i]]["rank"] = k.toString();
+    sportObj[natCodes[i]]["wins"] = scores[j];
+    sportObj[natCodes[i]]["losses"] = scores[j + 1];
 
     j += 2;
     k += 1;
 
     if (i < 5) {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "East";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "East";
     } else if (i < 10) {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "Central";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "Central";
     } else {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "West";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "West";
     }
 
     if (k == 6) {
@@ -113,25 +113,25 @@ function createNflObj(
   let k = 1;
 
   for (let i = 0; i < natLeague.length; i++) {
-    sportObj["teams"][natCodes[i]] = {};
-    sportObj["teams"][natCodes[i]]["name"] = natLeague[i];
-    sportObj["teams"][natCodes[i]]["city"] = "";
-    sportObj["teams"][natCodes[i]]["code"] = natCodes[i];
-    sportObj["teams"][natCodes[i]]["rank"] = k.toString();
-    sportObj["teams"][natCodes[i]]["wins"] = scores[j];
-    sportObj["teams"][natCodes[i]]["losses"] = scores[j + 1];
+    sportObj[natCodes[i]] = {};
+    sportObj[natCodes[i]]["name"] = natLeague[i];
+    sportObj[natCodes[i]]["city"] = "";
+    sportObj[natCodes[i]]["code"] = natCodes[i];
+    sportObj[natCodes[i]]["rank"] = k.toString();
+    sportObj[natCodes[i]]["wins"] = scores[j];
+    sportObj[natCodes[i]]["losses"] = scores[j + 1];
 
     j += 2;
     k += 1;
 
     if (i < 4) {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "East";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "East";
     } else if (i < 8) {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "North";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "North";
     } else if (i < 12) {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "South";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "South";
     } else {
-      sportObj["teams"][natCodes[i]]["conference"] = currentLeague + "West";
+      sportObj[natCodes[i]]["conference"] = currentLeague + "West";
     }
 
     if (k == 5) {
@@ -142,9 +142,7 @@ function createNflObj(
 
 function getMlbSportStanding() {
   return getSportStanding("mlb", 11).then((response) => {
-    let sportObj = {
-      teams: {},
-    };
+    let sportObj = {};
 
     createMlbObj(
       sportObj,

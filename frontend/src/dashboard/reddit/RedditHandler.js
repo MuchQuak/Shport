@@ -10,7 +10,6 @@ function getTeamSubreddit(sports, sport, teamId) {
 }
 
 function getLeagueSubreddit(sports, sport) {
-  console.log(sport);
   const league = sports.find((s) => s.sport === sport);
   return league.subreddit ? league.subreddit : "";
 }
