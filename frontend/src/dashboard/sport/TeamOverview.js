@@ -128,7 +128,30 @@ export default function TeamOverview(props) {
       setStandings(temp);
     },
   });
-  if (nba.isLoading || nhl.isLoading || !props || !props.prefs) {
+  const mlb = useQuery(["MLBStandings", "MLB"], () => standingsQuery("MLB"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["MLB"] = data;
+      setStandings(temp);
+    },
+  });
+  const nfl = useQuery(["NFLStandings", "NFL"], () => standingsQuery("NFL"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["NFL"] = data;
+      console.log(data);
+      setStandings(temp);
+    },
+  });
+  Modal.setAppElement("#root");
+  if (
+    nfl.isLoading ||
+    mlb.isLoading ||
+    nba.isLoading ||
+    nhl.isLoading ||
+    !props ||
+    !props.prefs
+  ) {
     return loading;
   }
   const teams = getAllTeamsFollowed(props.prefs, props.sports);

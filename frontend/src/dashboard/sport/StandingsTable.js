@@ -93,9 +93,27 @@ export default function StandingsTable(props) {
       setStandings(temp);
     },
   });
+  const mlb = useQuery(["MLBStandings", "MLB"], () => standingsQuery("MLB"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["MLB"] = data;
+      setStandings(temp);
+    },
+  });
+
+  const nfl = useQuery(["NFLStandings", "NFL"], () => standingsQuery("NFL"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["NFL"] = data;
+      setStandings(temp);
+    },
+  });
+
   if (
     nba.isLoading ||
     nhl.isLoading ||
+    mlb.isLoading ||
+    nfl.isLoading ||
     !props ||
     !props.prefs ||
     !props.sports
@@ -114,6 +132,7 @@ export default function StandingsTable(props) {
     const divs = sportInfo["divisions"];
     const data = divs.map((div, index) => {
       if (standings.hasOwnProperty(league)) {
+        console.log(standings);
         return (
           <div className="conference" key={index}>
             {Conf(
