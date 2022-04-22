@@ -12,7 +12,7 @@ import {
   getSportsFollowed,
 } from "../settings/PrefHandler";
 import {allQueriesSuccessful, errorSuffix, loadingSuffix} from "../util/Util";
-import {useSubreddit, useSubreddits} from "./reddit/RedditHandler";
+import {useTeamSubreddits, useLeagueSubreddits} from "./reddit/RedditHandler";
 import RedditPost from "./reddit/RedditPost";
 
 function condConcat(base, ...adds) {
@@ -86,12 +86,14 @@ function partitionItems(items) {
 
 export default function Dashboard(props) {
   const allTeams = getAllTeamsFollowed(props.user.prefs, props.sports);
+  const allLeagues = getSportsFollowed(props.user.prefs);
   const tnr = useNews(
     "league",
     createTeamQuery(allTeams)
   );
-  const lnr = useNews("league", getSportsFollowed(props.user.prefs));
-  const tr = useSubreddits(props.sports,"reddit", ...(allTeams.filter(t => t.subreddit && t.subreddit !== "").map(t => [t.sport, t.code])));
+  const lnr = useNews("league", allLeagues);
+  const tr = useTeamSubreddits(props.sports,"teamReddit", allTeams.filter(t => t.subreddit && t.subreddit !== "").map(t => [t.sport, t.code]));
+  const lr = useLeagueSubreddits(props.sports,"leagueReddit", allLeagues);
   function getMsg() {
     if (!props.user.prefs) {
       return loadingSuffix("user");
@@ -99,6 +101,7 @@ export default function Dashboard(props) {
     return partitionItems(
       condConcat(defaultItems(props.user.prefs, props.sports),
           [(props.user.prefs && allQueriesSuccessful(tr)), () => redditItems(tr.map(q => q.data).flat())],
+          [(props.user.prefs && allQueriesSuccessful(lr)), () => redditItems(lr.map(q => q.data).flat())],
           [(props.user.prefs && tnr.isSuccess && lnr.isSuccess), () => articleItems(joinArticles(tnr.data, lnr.data))])
     );
   }
