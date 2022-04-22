@@ -11,7 +11,7 @@ export async function standingsQuery(sport) {
   return await axios
     .get("http://localhost:5000/" + sport + "/standings")
     .then((res) => {
-      return res.data.teams;
+      return res.data;
     });
 }
 
@@ -19,7 +19,15 @@ export async function gamesQuery(sport, dayOffset) {
   return await axios
     .get("http://localhost:5000/" + sport + "/games/" + dayOffset)
     .then((res) => {
-      return res.data.games;
+      return res.data;
+    });
+}
+
+export async function playersQuery(sport) {
+  return await axios
+    .get("http://localhost:5000/" + sport + "/players")
+    .then((res) => {
+      return res.data;
     });
 }
 
@@ -30,7 +38,7 @@ export async function informativeGamesQuery(sport, dayOffset, dayName) {
       return {
         sport: sport,
         dayName: dayName,
-        data: res.data.games,
+        data: res.data,
       };
     });
 }
@@ -121,20 +129,20 @@ export function byCode(sports, code) {
   return sports.find((sport) => sport["sport"] === code);
 }
 
-Date.prototype.isDST = function () {
+function isDST(date) {
   return (
-    this.getTimezoneOffset() <
+    date.getTimezoneOffset() <
     Math.max(
-      new Date(this.getFullYear(), 0, 1).getTimezoneOffset(),
-      new Date(this.getFullYear(), 6, 1).getTimezoneOffset()
+      new Date(date.getFullYear(), 0, 1).getTimezoneOffset(),
+      new Date(date.getFullYear(), 6, 1).getTimezoneOffset()
     )
   );
-};
+}
 
 export function UTCtoLocal(UTC, league) {
   const today = new Date(UTC);
   let hours = today.getHours();
-  if (today.isDST() && league === "NBA") {
+  if (isDST(today) && league === "NBA") {
     hours -= 1;
   }
   const period = hours > 12 ? "PM" : "AM";

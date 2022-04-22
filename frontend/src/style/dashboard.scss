@@ -1,3 +1,6 @@
+@use 'theme';
+@use 'colors';
+
 .dashboard {
     margin: 0 auto;
     padding: 0;
@@ -8,5 +11,29 @@
     justify-content: space-evenly;
     align-items: flex-start;
     background-color: inherit;
+    text-align: center;
+}
+
+.content {
+    margin: 0;
+    padding: 0;
+}
+
+.third {
+    margin: 0;
+    flex-shrink: 0;
+    width: 31.5%;
+    min-width: 400px;
+}
+
+.items {
+    margin: 0 0 10px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 10px;
     text-align: center;
 }

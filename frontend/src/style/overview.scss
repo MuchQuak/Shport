@@ -7,20 +7,20 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
+    max-height: 450px;
+    overflow-y: scroll;
 }
 
 .overview {
-    margin: 0 auto 3px;
-    padding: 5px;
+    margin: 0 0 2px;
+    padding: 8px;
     width: 100%;
     display: flex;
     flex-flow: row wrap;
     text-align: left;
     border-radius: 8px;
-    background-color: theme.$current;
     color: #FFFFFF;
-    box-shadow: inset 0px 0px 2px 1px theme.$current-accent, 0px 3px theme.$current-border;
     cursor: pointer;
 }
 
@@ -29,22 +29,45 @@
     padding: 1px;
     width: 125px;
     height: 125px;
+    transition: 0.5s ease;
+}
+
+#overview-logo:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    transition: 0.5s ease;
 }
 
 .overview-team-name {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.overview-team-name p {
+    width: auto;
+    margin: 0 !important;
     font-size: 23px;
+    font-weight: bold;
 }
 
 .overview-stats {
     font-size: 18px;
+    margin: 0 !important;
 }
 
-.overview p {
-    flex-basis: 70%;
-    font-weight: bold;
-    margin: 0 auto;
+.overview-header {
+    margin: 0;
     padding-left: 5px;
-    padding-top: 5px;
+    width: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 2px;
 }
 
 .break {
@@ -55,28 +78,7 @@
     flex-basis: 100%;
 }
 
-.expanded-team-overview {
-    margin: 0;
-    border-radius: 8px;
-    border: 2px solid theme.$current_border;
-    width: 100%;
-}
-
-.expanded-team-overview-header {
-    width: 100%;
-    height: 2.5em;
-    margin: 0;
-    padding: 3px;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    align-content: center;
-    justify-items: center;
-    justify-content: center;
-    background-color: theme.$current;
-}
-
-.expanded-team-overview-header p {
+#expanded-team-overview-header p {
     margin: 0 auto;
     padding: 0;
     width: 100%;
@@ -84,4 +86,56 @@
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
+}
+
+.expanded-team-overview-info {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.expanded-team-overview-info-name {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    font-weight: bold;
+}
+
+.expanded-team-overview-stats {
+    margin: 0;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.expanded-team-overview-players {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: scroll;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 5px;
+}
+
+.overview-player {
+    width: 100%;
+    padding: 5px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 5px;
+}
+
+.overview-player-position {
+    margin: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    background-color: #FFFFFF !important;
+    font-weight: normal !important;
 }

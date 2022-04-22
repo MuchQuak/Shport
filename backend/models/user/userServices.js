@@ -139,7 +139,6 @@ async function login(user) {
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;
-exports.TESTGetUsers = getUsers;
 exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;

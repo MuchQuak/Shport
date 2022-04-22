@@ -1,32 +1,11 @@
 @use 'theme';
 
 .header {
-  margin: 0 auto 35px;
+  margin: 0 auto 25px;
   padding-top: 5px;
   padding-bottom: 5px;
   width: 100%;
   text-align: left;
-  background-color: theme.$current;
-  box-shadow: 0px 5px theme.$current-border;
-}
-
-.header-text {
-  margin: 0 auto;
-  font-family: 'Kanit', sans-serif;
-  font-weight: bold;
-  font-style: italic;
-  line-height: 60px;
-  color: #FFFFFF;
-  text-shadow: 0px 1px 1px theme.$current-border;
-  cursor: pointer;
-}
-
-.header-text-link {
-  text-decoration: inherit;
-}
-
-.header-text:hover {
-  color: theme.$current-border;
 }
 
 .header-nav {
@@ -35,11 +14,23 @@
   flex-flow: row nowrap;
 }
 
+.header-text {
+  margin: 0 auto;
+  font-family: 'Kanit', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 60px;
+  cursor: pointer;
+}
+
+.header-text-link {
+  text-decoration: inherit;
+}
+
 .header-link {
+  background-color: #FFFFFF;
   margin: 0;
   padding: 5px;
-  background-color: #FFFFFF;
-  color: theme.$current;
   font-weight: bold;
   font-style: normal;
   text-decoration: none;
@@ -52,16 +43,10 @@
   cursor: pointer;
 }
 
-.header-link:hover {
-  background-color: #FFFFFF;
-  color: theme.$current-border;
-}
-
-#header-dropdown {
+.header-dropdown {
+  border: 0 !important;
   margin: 0;
   padding: 5px;
-  background-color: #FFFFFF;
-  color: theme.$current;
   font-weight: bold;
   font-style: normal;
   text-decoration: none;
@@ -72,11 +57,12 @@
   align-items: center;
   gap: 3px;
   cursor: pointer;
+  border: 0;
 }
 
-#header-dropdown:hover {
-  background-color: #FFFFFF;
-  color: theme.$current-border;
+.header-dropdown svg {
+  height: 24px;
+  width: 24px;
 }
 
 .header-left {
@@ -102,4 +88,23 @@
 .person-icon {
   height: 1.5em;
   width: 1.5em;
+}
+
+.theme-selector {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 2px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.theme-selection {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border-radius: 4px;
 }
