@@ -114,6 +114,7 @@ function Overview(props) {
 
 export default function TeamOverview(props) {
   const [standings, setStandings] = useState({});
+  const [isAlertVisible, setAlertVisible] = useState(false);
   const nba = useQuery(["NBAStandings", "NBA"], () => standingsQuery("NBA"), {
     onSuccess: (data) => {
       const temp = { ...standings };
@@ -128,8 +129,30 @@ export default function TeamOverview(props) {
       setStandings(temp);
     },
   });
-  if (nba.isLoading || nhl.isLoading || !props || !props.prefs) {
-    return loading;
+  const mlb = useQuery(["MLBStandings", "MLB"], () => standingsQuery("MLB"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["MLB"] = data;
+      setStandings(temp);
+    },
+  });
+  const nfl = useQuery(["NFLStandings", "NFL"], () => standingsQuery("NFL"), {
+    onSuccess: (data) => {
+      const temp = { ...standings };
+      temp["NFL"] = data;
+      setStandings(temp);
+    },
+  });
+  Modal.setAppElement("#root");
+  if (
+    nfl.isLoading ||
+    mlb.isLoading ||
+    nba.isLoading ||
+    nhl.isLoading ||
+    !props ||
+    !props.prefs
+  ) {
+    return <p className="nomargin bold">Loading...</p>;
   }
   const teams = getAllTeamsFollowed(props.prefs, props.sports);
   if (teams.length < 1) {

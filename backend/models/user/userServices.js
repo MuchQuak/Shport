@@ -9,9 +9,6 @@ dotenv.config();
 
 let dbConnection;
 
-const userModel = getDbConnection().model("user", User.schema);
-const prefModel = getDbConnection().model("pref", Pref.schema);
-
 function getDbConnection() {
   if (!dbConnection) {
     dbConnection = mongoose.createConnection(process.env.MONGODB_URI, {
@@ -28,6 +25,9 @@ function setConnection(newConn) {
 }
 
 async function signUpUser(user) {
+  const userModel = getDbConnection().model("user", User.schema);
+  const prefModel = getDbConnection().model("pref", Pref.schema);
+
   try {
     //New user
     let userToAdd = new userModel(user);
@@ -38,6 +38,7 @@ async function signUpUser(user) {
         following: true,
       },
     });
+
     userToAdd.prefs = userPrefs._id;
     await userPrefs.save();
     userToAdd.setPassword(user.password);
@@ -67,6 +68,8 @@ async function validate(u) {
 }
 
 async function getUserPreferences(name) {
+  const userModel = getDbConnection().model("user", User.schema);
+  const prefModel = getDbConnection().model("pref", Pref.schema);
   try {
     const query = userModel
       .findOne({ username: name })
@@ -80,6 +83,7 @@ async function getUserPreferences(name) {
 
 // update preferences
 async function setUserPreferences(name, newPrefs) {
+  const prefModel = getDbConnection().model("pref", Pref.schema);
   const user = await findUserByUsername(name);
   return prefModel.findOneAndUpdate(
     { user: user[0]._id },
@@ -87,15 +91,37 @@ async function setUserPreferences(name, newPrefs) {
   );
 }
 
+//just for testing
+async function getUsers(username, email) {
+  const userModel = getDbConnection().model("user", User.schema);
+
+  try {
+    if (username === undefined && email === undefined) {
+      return await userModel.find();
+    } else if (username && email === undefined) {
+      return await findUserByUsername(username);
+    } else {
+      return await findUserByEmail(email);
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 async function findUserByUsername(name) {
+  const userModel = getDbConnection().model("user", User.schema);
   return userModel.find({ username: name });
 }
 
 async function findUserByEmail(email) {
+  const userModel = getDbConnection().model("user", User.schema);
   return userModel.find({ email: email });
 }
 
 async function findUserById(id) {
+  const userModel = getDbConnection().model("user", User.schema);
+
   if (mongoose.Types.ObjectId.isValid(id)) {
     let obj = new mongoose.Types.ObjectId(id);
     return userModel.find({ _id: obj });
