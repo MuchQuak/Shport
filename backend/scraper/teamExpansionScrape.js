@@ -21,8 +21,8 @@ async function getTopPlayers(league, acro){
             let topPlayers = [];
             
             $('.StatLeaders a').each((index, element) => {
-                let category = $(element).find('h2').first().text().trim();
-                let name = $(element).find('.Athlete__PlayerName').first().text().trim();
+                let category = $(element).find('h2:first').text().trim();
+                let name = $(element).find('.Athlete__PlayerName:first').text().trim();
                 let image = $(element).find('.Image__Wrapper.aspect-ratio--child').find('img').attr('src');
                 let position = $(element).find('.Athlete__NameDetails').text().trim();
                 let value = $(element).find('.clr-gray-01').text().trim();
