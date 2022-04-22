@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../style/dashboard.scss";
 import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
