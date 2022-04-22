@@ -11,7 +11,7 @@ import { useQuery } from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
-import {loading, suffix} from "../../util/Util";
+import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
 
 const modalStyle = {
