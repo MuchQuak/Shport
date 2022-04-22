@@ -19,8 +19,10 @@ class NflService extends league.LeagueService {
     //example: return this.host + '/api/v1/standings';
   }
 
-  getStandingsScrape(){
-    return sportScraper.getNflSportStanding().then( result => {return result} );
+  getStandingsScrape() {
+    return sportScraper.getNflSportStanding().then((result) => {
+      return result;
+    });
   }
 
   formatGamesData(responseData, date) {}
