@@ -1,8 +1,8 @@
 .article {
-    background-color: #ededed;
+    margin: 0;
     padding: 10px;
+    background-color: #ededed;
     border-radius: 15px;
-    margin: 0 auto;
     width: 100%;
     display: flex;
     flex-flow: column wrap;
@@ -41,9 +41,11 @@
     max-height: 230px;
     border-radius: 4px;
     transition: 0.5s ease;
+    overflow-y: scroll;
+    object-fit: contain;
 }
 
-.article-img:hover{
+.article-img:hover {
     -webkit-transform: scale(1.01);
     -ms-transform: scale(1.01);
     transform: scale(1.01);

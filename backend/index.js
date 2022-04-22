@@ -12,6 +12,7 @@ const nbaServices = require("./models/sport/nbaServices");
 const mlbServices = require("./models/sport/mlbServices");
 const nflServices = require("./models/sport/nflServices");
 const news = require("./models/news/newsServices");
+const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
 const leagueServices = require("./models/sport/leagueService");
@@ -226,6 +227,10 @@ app.get("/NFL/standings/:id", async (req, res) => {
 //app.get('/news', async (req, res) => {await news.getNews(req, res)});
 app.get("/news/:query", async (req, res) => {
   await news.getNews(req, res);
+});
+
+app.get("/subreddit/:query", async (req, res) => {
+  await reddit.getSubreddit(req, res);
 });
 
 app.listen(port, () => {

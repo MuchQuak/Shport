@@ -1,6 +1,6 @@
 @use 'theme';
 @use 'colors';
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600&&family=DM+Serif+Display&family=Rubik:wght@400&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600&&family=DM+Serif+Display&family=Rubik:wght@400&family=DM+Serif+Display&family=Noto+Sans&display=swap');
 
 .noselect {
     user-select: none;
@@ -168,39 +168,6 @@
 .themed-button:active {
     background-color: theme.$current-accent;
     border-color: theme.$current-border;
-}
-
-.leftSpace {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    flex-basis: 10%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.middleSpace {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    flex-basis: 80%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.rightSpace {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    flex-basis: 10%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: center;
 }
 
 .closeButton {
