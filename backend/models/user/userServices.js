@@ -98,8 +98,8 @@ async function setUserTheme(name, themeName) {
   const prefModel = getDbConnection().model("pref", Pref.schema);
   const user = await findUserByUsername(name);
   return prefModel.findOneAndUpdate(
-      { user: user[0]._id },
-      { theme: themeName }
+    { user: user[0]._id },
+    { theme: themeName }
   );
 }
 

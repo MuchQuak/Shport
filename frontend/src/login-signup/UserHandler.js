@@ -52,7 +52,9 @@ export async function setUserTheme(user, themeName) {
   try {
     const config = { headers: { authorization: `Bearer ${user.auth_token}` } };
     return await axios.post(
-        "http://localhost:5000/theme", {theme : themeName}, config
+      "http://localhost:5000/theme",
+      { theme: themeName },
+      config
     );
   } catch (error) {
     console.log(error);
