@@ -1,9 +1,11 @@
 import { themes } from "./Theme";
 import { toast } from "react-hot-toast";
 import { Dropdown } from "react-bootstrap";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../App";
 import { css } from "aphrodite";
+import {setUserTheme} from "../login-signup/UserHandler";
+import {loading} from "../util/Util";
 
 function icon() {
   return (
@@ -22,9 +24,29 @@ function icon() {
 
 export default function ThemeSelector(props) {
   const { theme, setTheme } = useContext(ThemeContext);
+  if (!props.user) {
+      return loading;
+  }
   function setAndToast(th) {
-    setTheme(th);
-    toast.success("Theme updated!");
+      try {
+          toast
+              .promise(setUserTheme(props.user, (Object.entries(themes).find((e) => e[1] === th))[0].trim()), {
+                  loading: "Saving theme...",
+                  success: <b>Theme saved!</b>,
+                  error: <b>Could not save.</b>,
+              })
+              .then((r) => {
+                  if (r.status === 201) {
+                      setTheme(th);
+                  } else {
+                      console.log("Error: " + r.status);
+                  }
+              });
+      } catch (e) {
+          console.log(e);
+          toast.error("Could not set theme");
+          return false;
+      }
   }
   return (
     <Dropdown autoClose={true} className="nomargin">

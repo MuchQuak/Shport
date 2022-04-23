@@ -132,7 +132,6 @@ export default function StandingsTable(props) {
     const divs = sportInfo["divisions"];
     const data = divs.map((div, index) => {
       if (standings.hasOwnProperty(league)) {
-        console.log(standings);
         return (
           <div className="conference" key={index}>
             {Conf(

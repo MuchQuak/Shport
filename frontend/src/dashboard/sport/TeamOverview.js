@@ -96,7 +96,7 @@ function Overview(props) {
           <div className="overview-header">
             <div className="overview-team-name noselect">
               {getLeagueLogo(team.sport)}
-              <p>{name}</p>
+              {name}
             </div>
             <p className="overview-stats noselect">
               {rank} in the {conference}
@@ -139,7 +139,6 @@ export default function TeamOverview(props) {
     onSuccess: (data) => {
       const temp = { ...standings };
       temp["NFL"] = data;
-      console.log(data);
       setStandings(temp);
     },
   });

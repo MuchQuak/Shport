@@ -82,13 +82,24 @@ async function getUserPreferences(name) {
   }
 }
 
-// update preferences
+// update (SPORTS ONLY) preferences
 async function setUserPreferences(name, newPrefs) {
   const prefModel = getDbConnection().model("pref", Pref.schema);
   const user = await findUserByUsername(name);
   return prefModel.findOneAndUpdate(
     { user: user[0]._id },
     { sports: newPrefs.sports }
+  );
+}
+
+// update theme section of preferences
+// backend will crash if client sends theme that isn't string
+async function setUserTheme(name, themeName) {
+  const prefModel = getDbConnection().model("pref", Pref.schema);
+  const user = await findUserByUsername(name);
+  return prefModel.findOneAndUpdate(
+      { user: user[0]._id },
+      { theme: themeName }
   );
 }
 
@@ -140,6 +151,7 @@ async function login(user) {
 exports.signUpUser = signUpUser;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;
+exports.setUserTheme = setUserTheme;
 exports.findUserById = findUserById;
 exports.findUserByUsername = findUserByUsername;
 exports.findUserByEmail = findUserByEmail;

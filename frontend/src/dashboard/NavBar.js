@@ -87,7 +87,7 @@ export default function NavBar(props) {
             </div>
           </div>
           <div className="header-right">
-            <ThemeSelector styled={styled} />
+            <ThemeSelector styled={styled} user={user} />
             <p
               className={css(styled.link) + " header-link"}
               id="header-about"

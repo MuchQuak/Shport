@@ -36,6 +36,7 @@ export async function usernameQuery(auth_token) {
     });
 }
 
+// retrieves the user's theme name ex: "red"
 export async function themeQuery(auth_token) {
   const config = { headers: { authorization: `Bearer ${auth_token}` } };
   return await axios.get("http://localhost:5000/theme", config).then((res) => {
@@ -44,6 +45,19 @@ export async function themeQuery(auth_token) {
     }
     throw new Error("Error " + res.status + ": Could not retrieve theme.");
   });
+}
+
+// sets theme for user given a name ex: "red"
+export async function setUserTheme(user, themeName) {
+  try {
+    const config = { headers: { authorization: `Bearer ${user.auth_token}` } };
+    return await axios.post(
+        "http://localhost:5000/theme", {theme : themeName}, config
+    );
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
 
 export async function prefsQuery(auth_token) {

@@ -64,9 +64,7 @@ export default function Game(props) {
     }
     return (
       <>
-        <p>
-          <b className="nomargin">{clock_data}</b>
-        </p>
+        <p className="nomargin bold">{clock_data}</p>
         <p className="nomargin bold">
           {game.currentQtr} of {game.maxQtr}
         </p>

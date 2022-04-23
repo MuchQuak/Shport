@@ -92,9 +92,7 @@ app.get("/username", authenticateUser, async (req, res) => {
 
 app.get("/theme", authenticateUser, async (req, res) => {
   const decodedUser = decode(req).username;
-  const theme = (await userServices.getUserPreferences(decodedUser)).prefs
-    .theme;
-
+  const theme = (await userServices.getUserPreferences(decodedUser)).prefs.theme;
   if (decodedUser && theme) {
     res.status(200).send(theme);
   } else {
@@ -138,6 +136,20 @@ app.post("/preferences", authenticateUser, async (req, res) => {
     const username = decodedUser.username;
     const prefs = req.body;
     const userPref = await userServices.setUserPreferences(username, prefs);
+    if (userPref) {
+      res.status(201).send(userPref);
+    }
+  }
+  res.status(500).end();
+});
+
+// changing theme
+app.post("/theme", authenticateUser, async (req, res) => {
+  const decodedUser = decode(req);
+  if (decodedUser) {
+    const username = decodedUser.username;
+    const theme = req.body;
+    const userPref = await userServices.setUserTheme(username, theme.theme);
     if (userPref) {
       res.status(201).send(userPref);
     }
