@@ -5,8 +5,8 @@ import { ThemeContext } from "../../App";
 
 function stream(league, homeFullName, awayFullName) {
   return "https://www.streameast.xyz/" + league.toLowerCase() + "/" +
-      homeFullName.split(" ").map((c) => c.toLowerCase()).join("-") + "-" +
-      awayFullName.split(" ").map((c) => c.toLowerCase()).join("-") + "/";
+      homeFullName.toLowerCase().replace(" ", "-") + "-" +
+      awayFullName.toLowerCase().replace(" ", "-") + "-6/";
 }
 
 function score(game, score_info) {
@@ -94,7 +94,7 @@ export default function Game(props) {
   const numInSeries = game.numInSeries ? game.numInSeries : 0;
   const homePlayoffs = game.homePlayoffs ? game.homePlayoffs : false;
   const awayPlayoffs = game.awayPlayoffs ? game.awayPlayoffs : false;
-  const winIcon = () => {
+  function winIcon() {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,7 @@ export default function Game(props) {
         <p className="game-footer">
           {game.arena}
           {game.status < 2 &&
-            <a href={stream(league, homeFullName, awayFullName)} className="stream">
+            <a href={stream(league, homeFullName, awayFullName)} className="stream" >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-play"
                    viewBox="0 0 16 16">
                 <path
