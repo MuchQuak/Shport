@@ -69,7 +69,7 @@ export default function ThemeSelector(props) {
       >
         {icon()}
       </Dropdown.Toggle>
-      <Dropdown.Menu style={{ padding: "5px" }}>
+      <Dropdown.Menu style={{ padding: "0px" }}>
         <div className="theme-selector">
           {Object.keys(themes).map((th, index) => (
             <div

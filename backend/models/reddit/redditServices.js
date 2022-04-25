@@ -18,6 +18,10 @@ async function getSubreddit(req, res) {
   }
 }
 
+function isImage(url) {
+  return url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".png") || url.endsWith(".gif")
+}
+
 function formatPostsData(responseData) {
   const newPosts = [];
   responseData.data.data.children
@@ -33,7 +37,7 @@ function formatPostsData(responseData) {
         newPost.author = post.author;
         newPost.score = post.score;
         newPost.comments = post.num_comments;
-        newPost.image = post.post_hint === "image";
+        newPost.image = post.post_hint === "image" || isImage(post.url);
         newPosts.push(newPost);
       }
     });
