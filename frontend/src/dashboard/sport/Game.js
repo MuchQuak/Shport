@@ -3,6 +3,12 @@ import { getTeamLogo, UTCtoLocal, getFullName } from "./SportHandler";
 import { useContext } from "react";
 import { ThemeContext } from "../../App";
 
+function stream(league, homeFullName, awayFullName) {
+  return "https://www.streameast.xyz/" + league.toLowerCase() + "/" +
+      homeFullName.split(" ").map((c) => c.toLowerCase()).join("-") + "-" +
+      awayFullName.split(" ").map((c) => c.toLowerCase()).join("-") + "/";
+}
+
 function score(game, score_info) {
   if (score_info === "" || game.status < 1) {
     return null;
@@ -102,6 +108,8 @@ export default function Game(props) {
       </svg>
     );
   };
+  const homeFullName = getTeamName("home", game, league, props.sports);
+  const awayFullName = getTeamName("away", game, league, props.sports);
   return (
     <div
       className="game"
@@ -118,7 +126,7 @@ export default function Game(props) {
           )}
         </div>
         <p className={classes(game.home_code)}>
-          {getTeamName("home", game, league, props.sports)}
+          {homeFullName}
         </p>
         <div className="score-win-icon">
           {score(game, game.home_score)}
@@ -130,7 +138,18 @@ export default function Game(props) {
       <div className="game-center">
         {clock()}
         {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
-        <p className="game-footer">{game.arena}</p>
+        <p className="game-footer">
+          {game.arena}
+          {game.status < 2 &&
+            <a href={stream(league, homeFullName, awayFullName)} className="stream">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-play"
+                   viewBox="0 0 16 16">
+                <path
+                    d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+              </svg>
+              <p className="nomargin">Stream</p>
+            </a>}
+        </p>
       </div>
       <div className="game-right">
         <div className="game-playoffs-wrapper">
@@ -140,7 +159,7 @@ export default function Game(props) {
           {getTeamLogo(league, game.away_code, "schedule-logo-container")}
         </div>
         <p className={classes(game.away_code)}>
-          {getTeamName("away", game, league, props.sports)}
+          {awayFullName}
         </p>
         <div className="score-win-icon">
           {parseInt(game.away_score) > parseInt(game.home_score) &&

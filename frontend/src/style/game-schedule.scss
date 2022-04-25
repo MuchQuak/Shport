@@ -18,7 +18,7 @@
 
 .game {
     margin: 0 0 2px;
-    padding: 2px;
+    padding: 4px;
     width: 100%;
     display: flex;
     border-radius: 8px;
@@ -120,4 +120,17 @@
     margin: 0;
     width: 1em;
     height: 1em;
+}
+
+.stream {
+    text-decoration: underline;
+    color: #F5F5F5;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.stream:hover {
+    color: #000000;
 }
