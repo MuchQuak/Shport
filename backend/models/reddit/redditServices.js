@@ -19,7 +19,12 @@ async function getSubreddit(req, res) {
 }
 
 function isImage(url) {
-  return url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".png") || url.endsWith(".gif")
+  return (
+    url.endsWith(".jpg") ||
+    url.endsWith(".jpeg") ||
+    url.endsWith(".png") ||
+    url.endsWith(".gif")
+  );
 }
 
 function formatPostsData(responseData) {
