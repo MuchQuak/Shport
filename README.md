@@ -4,6 +4,7 @@ Web app for gathering sports information to allow users to follow and keep up to
 To gain access you must have a .env file in backend folder with variables:
 - MONGODB_URI with credentials from mongoDB access key.
 - NEWSAPI_KEY with a valid News API key.
+- TOKEN_SECRET with a secret token.
 
 [Figma Model](https://www.figma.com/file/f0ucVt7mll86NFlnncH12G/Main?node-id=0%3A1)
 
