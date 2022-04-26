@@ -107,7 +107,7 @@ export default function Login(props) {
           </Form.Group>
           <div className="button-wrapper">
             <button
-              className="themed-button margin-bottom-5"
+              className="button margin-bottom-5"
               id="login"
               type="submit"
               disabled={!validateForm()}
@@ -118,7 +118,7 @@ export default function Login(props) {
           <Link to="/signup" className="signup-link">
             <div className="button-wrapper">
               <button
-                className="themed-button"
+                className="button"
                 id="signup"
                 size="lg"
                 type="button"

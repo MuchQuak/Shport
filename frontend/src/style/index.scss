@@ -1,3 +1,5 @@
+@use 'theme';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -15,4 +17,47 @@ code {
   margin: 0;
   background-color: #F5F5F5;
   min-height: 100vh;
+}
+
+.button {
+  border: 2px solid theme.$current-border;
+  margin: 0 auto;
+  padding: 5px;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  color: #FFFFFF;
+  font-weight: bold;
+  background-color: theme.$current;
+}
+
+.button:disabled {
+  pointer-events: none;
+  color: #FFFFFF;
+}
+
+.button:hover {
+  background-color: theme.$current-accent;
+  border-color: theme.$current-border;
+}
+
+.button:active {
+  background-color: theme.$current-accent;
+  border-color: theme.$current-border;
+}
+
+.boxed {
+  margin: 0 auto;
+  min-width: 40%;
+  max-width: 350px;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 8px;
+  color: #FFFFFF;
+  background-color: theme.$current;
 }

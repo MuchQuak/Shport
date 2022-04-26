@@ -55,9 +55,9 @@ export default function RedditPost(props) {
     <div className="reddit-post">
       <div className="reddit-post-header">{title()}</div>
       {props.post.description && props.post.description !== "" && (
-        <p className="reddit-post-description">
+        <div className="reddit-post-description">
           {formatDescription(props.post.description)}
-        </p>
+        </div>
       )}
       {props.post.image && (
         <div className="reddit-post-image-wrapper">

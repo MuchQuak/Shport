@@ -1,23 +1,50 @@
-import React from "react";
+import React, {useContext} from "react";
 import { getLabels, getLeagueLogo } from "../dashboard/sport/SportHandler";
 import { loading } from "../util/Util";
+import {css, StyleSheet} from "aphrodite";
+import {ThemeContext} from "../App";
+
+const styles = (th) =>
+    StyleSheet.create({
+      box: {
+        backgroundColor: th.base
+      },
+      button: {
+        backgroundColor: th.base,
+        border: "2px solid " + th.border,
+        ":active": {
+          backgroundColor: th.accent,
+        },
+        ":hover": {
+          backgroundColor: th.accent,
+        }
+      },
+      active: {
+        backgroundColor: th.accent,
+      },
+      inactive: {
+        backgroundColor: th.light,
+      }
+    });
 
 export function LeagueOption(props) {
+  const { theme } = useContext(ThemeContext);
+  const styled = styles(theme);
   if (!props || !props.league || !props.click) {
     return null;
   }
   const icon = getLeagueLogo(props.league);
-  const className = () => {
+  function className() {
     if (props.disabled === true) {
-      return " league-option-inactive";
+      return " league-option-inactive " + css(styled.inactive);
     } else if (props.active === true) {
-      return " league-option-active";
+      return " league-option-active " + css(styled.active);
     }
     return "";
   };
   return (
     <div
-      className={"league-option noselect" + className()}
+      className={css(styled.button) + " league-option noselect" + className()}
       onClick={props.click}
     >
       <div className="logo-name-record">

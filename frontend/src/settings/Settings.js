@@ -1,7 +1,7 @@
 import "../style/settings.scss";
 import { useNavigate } from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { getAllTeamsFollowed, getSportsFollowed } from "./PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
@@ -10,6 +10,25 @@ import { useQuery } from "react-query";
 import { setUserPrefs } from "../login-signup/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
 import { loading } from "../util/Util";
+import {css, StyleSheet} from "aphrodite";
+import {ThemeContext} from "../App";
+
+const styles = (th) =>
+    StyleSheet.create({
+      box: {
+        backgroundColor: th.base
+      },
+      button: {
+        backgroundColor: th.base,
+        border: "2px solid " + th.border,
+        ":active": {
+          backgroundColor: th.accent,
+        },
+        ":hover": {
+          backgroundColor: th.accent,
+        }
+      }
+    });
 
 function createPrefsObject(allLeagues, leagues, teams) {
   const leagueLabels = getLabels(allLeagues);
@@ -43,10 +62,12 @@ function createPrefsObject(allLeagues, leagues, teams) {
 
 function SettingsBox(props) {
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
   const [selectedLeagues, setSelectedLeagues] = useState([]);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [sports, setSports] = useState([]);
   const user = props.user;
+  const styled = styles(theme);
   const sportsResult = useQuery(["sports"], () => sportsQuery(), {
     onSuccess: (data) => {
       setSports(data);
@@ -58,7 +79,6 @@ function SettingsBox(props) {
     event.preventDefault();
     user.prefs = createPrefsObject(allLeagues, leagues, teams);
     props.setUser(user);
-    //console.log("HandleSumbit"+ user.prefs.sports.NBA.teams)
     toast
       .promise(setUserPrefs(user), {
         loading: "Saving...",
@@ -72,7 +92,7 @@ function SettingsBox(props) {
       });
   }
   return (
-    <div className="boxed margin-bottom-10">
+    <div className={css(styled.box) + " boxed settings"}>
       <h1 className="boxed-header">Settings</h1>
       <div className="wrapper">
         <Form.Group
@@ -105,14 +125,14 @@ function SettingsBox(props) {
               setSelected={setSelectedTeams}
             />
             <button
-              className="themed-button margin-bottom-5"
+              className={css(styled.button) + " button margin-bottom-5"}
               onClick={(e) =>
                 handleSubmit(e, sports, selectedLeagues, selectedTeams)
               }
             >
               Save Changes
             </button>
-            <button className="themed-button" onClick={() => navigate("/")}>
+            <button className={css(styled.button) + " button"} onClick={() => navigate("/")}>
               Done
             </button>
           </>
@@ -123,15 +143,6 @@ function SettingsBox(props) {
 }
 
 export default function Settings(props) {
-  const navigate = useNavigate();
-  /*useEffect(() => {
-        if (location.state === undefined || location.state === null ||
-            location.state.username === undefined || location.state.username === "" ||
-            location.state.username === null || location.state.username === "[ Username ]"){
-            // Navigate away if no user found
-            navigate('/signup', {replace:true});
-        }
-    });*/
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />

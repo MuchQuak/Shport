@@ -138,7 +138,7 @@ export default function SignUp(props) {
             />
           </Form.Group>
           <button
-            className="themed-button"
+            className="button"
             id="signup-button"
             type="submit"
             disabled={!validateForm()}

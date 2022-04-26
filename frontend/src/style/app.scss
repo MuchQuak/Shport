@@ -90,23 +90,6 @@
     text-decoration-color: colors.$favorite;
 }
 
-.boxed {
-    margin: 0 auto;
-    min-width: 40%;
-    max-width: 350px;
-    height: auto;
-    padding: 20px;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    background-color: theme.$current;
-    border-radius: 8px;
-    color: #FFFFFF;
-    box-shadow:inset 0px 0px 4px 2px theme.$current-accent;
-}
-
 .boxed-header {
     text-align: center;
     margin: 0 auto 10px;
@@ -140,34 +123,6 @@
     justify-items: center;
     align-content: center;
     align-items: center;
-}
-
-.themed-button {
-    margin: 0 auto;
-    padding: 5px;
-    width: 100%;
-    height: auto;
-    border: 2px solid theme.$current-border;
-    border-radius: 8px;
-    background-color: theme.$current;
-    color: #FFFFFF;
-}
-
-.themed-button:disabled {
-    background-color: theme.$current-border;
-    border-color: theme.$current-border;
-    pointer-events: none;
-    color: #FFFFFF;
-}
-
-.themed-button:hover {
-    background-color: theme.$current-accent;
-    border-color: theme.$current-border;
-}
-
-.themed-button:active {
-    background-color: theme.$current-accent;
-    border-color: theme.$current-border;
 }
 
 .closeButton {

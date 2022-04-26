@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import "../style/dashboard.scss";
 import TeamOverview from "./sport/TeamOverview";
 import CloseableItem from "./CloseableItem";
@@ -14,6 +14,8 @@ import {
 import { allQueriesSuccessful, errorSuffix, loadingSuffix } from "../util/Util";
 import { useTeamSubreddits, useLeagueSubreddits } from "./reddit/RedditHandler";
 import RedditPost from "./reddit/RedditPost";
+import {ThemeContext} from "../App";
+import {css, StyleSheet} from "aphrodite";
 
 function condConcat(base, ...adds) {
   for (const [condition, items] of adds) {
@@ -104,9 +106,18 @@ function partitionItems(items) {
   );
 }
 
+const styles = (th) =>
+    StyleSheet.create({
+      content: {
+        backgroundColor: th.background
+      }
+    });
+
 export default function Dashboard(props) {
+  const { theme } = useContext(ThemeContext);
   const allTeams = getAllTeamsFollowed(props.user.prefs, props.sports);
   const allLeagues = getSportsFollowed(props.user.prefs);
+  const styled = styles(theme);
   const tnr = useNews("league", createTeamQuery(allTeams));
   const lnr = useNews("league", allLeagues);
   const tr = useTeamSubreddits(
@@ -140,7 +151,7 @@ export default function Dashboard(props) {
     );
   }
   return (
-    <div className="content">
+    <div className={css(styled.content) + " content"}>
       {(tnr.isError || lnr.isError) && errorSuffix("loading news")}
       <div className="dashboard">{getMsg()}</div>
     </div>
