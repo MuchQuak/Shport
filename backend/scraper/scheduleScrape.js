@@ -10,7 +10,7 @@ function parseTeamName(hrefString, cityStr) {
 
     //Gets City TeamName out of Href
     let delimited = hrefString.split('/');
-    delimited = (delimited[delimited.length -1]).split('-')
+    delimited = (delimited[delimited.length -1]).split('-');
 
     //Find how many words are in the city name
     const lastCityIndex = cityStr.split(' ').length;
@@ -62,10 +62,8 @@ function parsingGameId(hrefString) {
 
 function capatilize(str) {
     if(str.length > 1) {
-
         return str[0].toUpperCase() + str.slice(1);
     }
-
     return str.toUpperCase();
 }
 
@@ -154,14 +152,14 @@ async function scrapeGames(sportCode) {
 
     //Update game scores if game is live
     for(let i = 0; i < games.length; i++) {
-        if(games[i].time === 'live') {
+        if(games[i].time === 'LIVE') {
             const scores = await scrapeScore(sportCode, games[i].gId);
             games[i].away_score = scores.away;
-            games[i].away_score = scores.home;
+            games[i].home_score = scores.home;
         }
     }
 
-    console.log(games);
+    //console.log(games);
 
     return games;
 }
@@ -186,8 +184,4 @@ new_game = {
 }
 */
 
-//scrapeGames('mlb');
-//scrapeGames('nfl');
-//scrapeGames('nhl');
-
-scrapeGames('soccer');
+exports.scrapeGames = scrapeGames;
