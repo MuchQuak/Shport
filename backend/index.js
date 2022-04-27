@@ -184,8 +184,13 @@ app.get("/NBA/standings", async (req, res) => {
 app.get("/NBA/standings/:id", async (req, res) => {
   await nba.getStandings(req, res);
 });
+
+//
 app.get("/NBA/players", async (req, res) => {
   await nba.getPlayers(req, res);
+  /*await nba.getScrapedPlayers().then((result) => {
+    res.send(result);
+  });*/
 });
 app.get("/NBA/players/:id", async (req, res) => {
   await nba.getPlayers(req, res);

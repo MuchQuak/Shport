@@ -65,7 +65,7 @@ async function getRoster(league, acro) {
             salary: '$8,326,471'
         }
     */
-  axios
+  return await axios
     .get("https://www.espn.com/" + league + "/team/roster/_/name/" + acro)
     .then((response) => {
       let $ = cheerio.load(response.data);

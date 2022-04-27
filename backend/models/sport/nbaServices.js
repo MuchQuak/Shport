@@ -1,4 +1,5 @@
 const league = require("./leagueService");
+const sportScraper = require("../../scraper/teamExpansionScrape");
 
 class NbaService extends league.LeagueService {
   constructor(host) {
@@ -13,6 +14,14 @@ class NbaService extends league.LeagueService {
   }
   getPlayersEndPoint(currentYear) {
     return this.host + "/10s/prod/v1/" + currentYear + "/players.json";
+  }
+
+  getScrapedPlayers(){
+    return sportScraper.getRoster("nba","bos").then((result) => {
+      console.log(result);
+      return result;
+    });
+
   }
 
   formatGamesData(responseData, date) {
