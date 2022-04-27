@@ -124,14 +124,14 @@ afterEach(async () => {
 });
 
 test("Fetching all users -- Success", async () => {
-  const users = await userServices.TESTGetUsers();
+  const users = await userServices.getUsers();
   expect(users).toBeDefined();
   expect(users.length).toBe(4);
 });
 
 test("Fetching users by username -- Success", async () => {
   const userName = "Ted Lasso";
-  const users = await userServices.TESTGetUsers(userName);
+  const users = await userServices.getUsers(userName);
   expect(users).toBeDefined();
   expect(users.length).toBeGreaterThan(0);
   users.forEach((user) => expect(user.username).toBe(userName));
@@ -139,14 +139,14 @@ test("Fetching users by username -- Success", async () => {
 
 test("Fetching users by username -- Failure", async () => {
   const userName = "Tommy Someone";
-  const users = await userServices.TESTGetUsers(userName);
+  const users = await userServices.getUsers(userName);
   expect(users).toBeDefined();
   expect(users.length).toBe(0);
 });
 
 test("Fetching users by email -- Success", async () => {
   const email = "ted@email.com";
-  const users = await userServices.TESTGetUsers(undefined, email);
+  const users = await userServices.getUsers(undefined, email);
   expect(users).toBeDefined();
   expect(users.length).toBeGreaterThan(0);
   users.forEach((user) => expect(user.email).toBe(email));
@@ -154,7 +154,7 @@ test("Fetching users by email -- Success", async () => {
 
 test("Fetching users by email -- Failure", async () => {
   const email = "tommy@email.com";
-  const users = await userServices.TESTGetUsers(undefined, email);
+  const users = await userServices.getUsers(undefined, email);
   expect(users).toBeDefined();
   expect(users.length).toBe(0);
 });

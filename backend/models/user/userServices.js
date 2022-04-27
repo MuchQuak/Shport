@@ -149,6 +149,7 @@ async function login(user) {
 }
 
 exports.signUpUser = signUpUser;
+exports.getUsers = getUsers;
 exports.getUserPreferences = getUserPreferences;
 exports.setUserPreferences = setUserPreferences;
 exports.setUserTheme = setUserTheme;
