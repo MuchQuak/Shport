@@ -27,9 +27,7 @@ function parseTeamName(hrefString, cityStr) {
             result += " " + teamName[i]
         }
     }
-  }
-
-  return result;
+    return result;
 }
 
 function parseFinalScore(scoreText) {
