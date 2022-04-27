@@ -221,14 +221,22 @@ app.get("/MLB/games/:offset", async (req, res) => {
   await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
-  //await mlb.getStandings(req, res);
-
   mlb.getStandingsScrape().then((result) => {
     res.send(result);
   });
 });
 app.get("/MLB/standings/:id", async (req, res) => {
   await mlb.getStandings(req, res);
+});
+
+app.get("/MLB/players", async (req, res) => {
+  res.send({});
+});
+
+app.get("/MLB/players/:id", async (req, res) => {
+    await mlb.getScrapedPlayers(req.params["id"]).then((result) => {
+      res.send(result);
+  });
 });
 
 //NFL api Calls Currently pulls nothing

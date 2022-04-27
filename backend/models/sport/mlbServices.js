@@ -2,6 +2,7 @@ const axios = require("axios");
 
 const league = require("./leagueService");
 const sportScraper = require("../../scraper/standingsScrape");
+const teamScraper = require("../../scraper/teamExpansionScrape");
 
 class MlbService extends league.LeagueService {
   constructor(host) {
@@ -21,6 +22,12 @@ class MlbService extends league.LeagueService {
 
   getStandingsScrape() {
     return sportScraper.getMlbSportStanding().then((result) => {
+      return result;
+    });
+  }
+
+  getScrapedPlayers(code){
+    return teamScraper.getRoster("mlb", code).then((result) => {
       return result;
     });
   }
