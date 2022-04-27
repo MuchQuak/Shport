@@ -23,9 +23,9 @@ export async function gamesQuery(sport, dayOffset) {
     });
 }
 
-export async function playersQuery(sport) {
+export async function playersQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/players")
+    .get("http://localhost:5000/" + sport + "/players" + "/"+ code)
     .then((res) => {
       return res.data;
     });

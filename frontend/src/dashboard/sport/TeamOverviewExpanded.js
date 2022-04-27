@@ -26,9 +26,21 @@ function silhouette(league, city, name) {
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
   const [players, setPlayers] = useState([]);
-  const pq = useQuery(["players", "NBA"], () => playersQuery("NBA"), {
+
+  function CreatePlayerQuery(league, code){
+    return useQuery(["players", league], () => playersQuery(league, code), {
+      onSuccess: (data) => setPlayers(data),
+    });
+  }
+
+
+  /*const pq = useQuery(["players", "NBA"], () => playersQuery("NBA", props.api_code), {
     onSuccess: (data) => setPlayers(data),
-  });
+  });*/
+
+  const pq = CreatePlayerQuery(props.league, props.team);
+  console.log(pq);
+
   if (pq.isLoading) {
     return loading;
   }
@@ -58,20 +70,12 @@ export function TeamOverviewExpanded(props) {
       <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Roster</p>
       <div className="expanded-team-overview-players">
         {players
-          .filter((p) => p["teamId"] === api_code)
           .map((p) => (
             <div
               className="overview-player"
               style={{ backgroundColor: theme.accent }}
             >
-              {silhouette(league, stat["city"], stat["name"])}
-              {p["firstName"]} {p["lastName"]}
-              <div
-                className="overview-player-position"
-                style={{ color: theme.border }}
-              >
-                {p["teamSitesOnly"]["posFull"]}
-              </div>
+              {p["name"]}
             </div>
           ))}
       </div>

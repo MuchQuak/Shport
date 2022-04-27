@@ -188,12 +188,13 @@ app.get("/NBA/standings/:id", async (req, res) => {
 //
 app.get("/NBA/players", async (req, res) => {
   await nba.getPlayers(req, res);
-  /*await nba.getScrapedPlayers().then((result) => {
-    res.send(result);
-  });*/
+
 });
 app.get("/NBA/players/:id", async (req, res) => {
-  await nba.getPlayers(req, res);
+  //await nba.getPlayers(req, res);
+    await nba.getScrapedPlayers(req.body.code).then((result) => {
+      res.send(result);
+  });
 });
 
 //NHL api Calls
@@ -245,8 +246,20 @@ app.get("/NFL/standings", async (req, res) => {
     res.send(result);
   });
 });
+
 app.get("/NFL/standings/:id", async (req, res) => {
   await nfl.getStandings(req, res);
+});
+
+app.get("/NFL/players", async (req, res) => {
+  res.send({});
+});
+
+app.get("/NFL/players/:id", async (req, res) => {
+  //await nba.getPlayers(req, res);
+    await nfl.getScrapedPlayers(req.params["id"]).then((result) => {
+      res.send(result);
+  });
 });
 
 //articles api Calls

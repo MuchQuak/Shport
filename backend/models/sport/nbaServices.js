@@ -16,12 +16,11 @@ class NbaService extends league.LeagueService {
     return this.host + "/10s/prod/v1/" + currentYear + "/players.json";
   }
 
-  getScrapedPlayers(){
-    return sportScraper.getRoster("nba","bos").then((result) => {
+  getScrapedPlayers(code){
+    return sportScraper.getRoster("nba", code).then((result) => {
       console.log(result);
       return result;
     });
-
   }
 
   formatGamesData(responseData, date) {
