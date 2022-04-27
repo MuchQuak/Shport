@@ -13,3 +13,5 @@ sportsdashboard.app - SportsDashboard
 shport.app - Shport
 
 shporty.com - Shporty
+
+spoda.app - Spoda
