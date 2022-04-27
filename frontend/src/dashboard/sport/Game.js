@@ -5,8 +5,8 @@ import { ThemeContext } from "../../App";
 
 function stream(league, homeFullName, awayFullName) {
   return "https://www.streameast.xyz/" + league.toLowerCase() + "/" +
-      homeFullName.toLowerCase().replace(" ", "-") + "-" +
-      awayFullName.toLowerCase().replace(" ", "-") + "-6/";
+      homeFullName.toLowerCase().replaceAll(" ", "-") + "-" +
+      awayFullName.toLowerCase().replaceAll(" ", "-") + "-4/";
 }
 
 function score(game, score_info) {
@@ -141,7 +141,7 @@ export default function Game(props) {
         <p className="game-footer">
           {game.arena}
           {game.status < 2 &&
-            <a href={stream(league, homeFullName, awayFullName)} className="stream" >
+            <a href={stream(league, homeFullName, awayFullName)} className="stream" target="_blank" rel="noreferrer" >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-play"
                    viewBox="0 0 16 16">
                 <path
