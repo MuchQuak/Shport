@@ -79,6 +79,7 @@ export default function Schedule(props) {
       return {
         queryKey: [league, dayOffset],
         queryFn: () => informativeGamesQuery(league, dayOffset, dayName),
+        refetchInterval: 10000
       };
     })
   );
