@@ -27,7 +27,6 @@ class NflService extends league.LeagueService {
 
   getScrapedPlayers(code){
     return teamScraper.getRoster("nfl", code).then((result) => {
-      console.log(result);
       return result;
     });
 

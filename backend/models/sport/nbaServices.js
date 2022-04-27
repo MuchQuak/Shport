@@ -1,5 +1,5 @@
 const league = require("./leagueService");
-const sportScraper = require("../../scraper/teamExpansionScrape");
+const teamScraper = require("../../scraper/teamExpansionScrape");
 
 class NbaService extends league.LeagueService {
   constructor(host) {
@@ -17,8 +17,7 @@ class NbaService extends league.LeagueService {
   }
 
   getScrapedPlayers(code){
-    return sportScraper.getRoster("nba", code).then((result) => {
-      console.log(result);
+    return teamScraper.getRoster("nba", code).then((result) => {
       return result;
     });
   }

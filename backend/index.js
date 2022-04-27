@@ -185,14 +185,12 @@ app.get("/NBA/standings/:id", async (req, res) => {
   await nba.getStandings(req, res);
 });
 
-//
 app.get("/NBA/players", async (req, res) => {
   await nba.getPlayers(req, res);
 
 });
 app.get("/NBA/players/:id", async (req, res) => {
-  //await nba.getPlayers(req, res);
-    await nba.getScrapedPlayers(req.body.code).then((result) => {
+    await nba.getScrapedPlayers(req.params["id"]).then((result) => {
       res.send(result);
   });
 });
