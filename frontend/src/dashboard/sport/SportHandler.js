@@ -11,7 +11,7 @@ export async function standingsQuery(sport) {
   return await axios
     .get("http://localhost:5000/" + sport + "/standings")
     .then((res) => {
-      return res.data.teams;
+      return res.data;
     });
 }
 
@@ -19,7 +19,15 @@ export async function gamesQuery(sport, dayOffset) {
   return await axios
     .get("http://localhost:5000/" + sport + "/games/" + dayOffset)
     .then((res) => {
-      return res.data.games;
+      return res.data;
+    });
+}
+
+export async function playersQuery(sport) {
+  return await axios
+    .get("http://localhost:5000/" + sport + "/players")
+    .then((res) => {
+      return res.data;
     });
 }
 
@@ -30,7 +38,7 @@ export async function informativeGamesQuery(sport, dayOffset, dayName) {
       return {
         sport: sport,
         dayName: dayName,
-        data: res.data.games,
+        data: res.data,
       };
     });
 }
@@ -85,12 +93,9 @@ export function MLB_logo(id, divId) {
     );
   }
   const url =
-  "https://a.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/" +
-  id.toLowerCase() +
-  ".png&h=200&w=200";
-    /*"https://www.mlbstatic.com/team-logos/team-cap-on-light/" +
+    "https://a.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/" +
     id.toLowerCase() +
-    ".svg";*/
+    ".png";
   return (
     <div className="logo-container" id={divId}>
       <img className="logo" src={url} alt="logo" />
@@ -107,8 +112,10 @@ export function NFL_logo(abbreviation, divId) {
     );
   }
   const url =
-    "https://static.www.nfl.com/t_headshot_desktop_2x/f_auto/league/api/clubs/logos/" +
-    abbreviation.toLowerCase();
+    "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/" +
+    abbreviation.toLowerCase() +
+    ".png";
+
   return (
     <div className="logo-container" id={divId}>
       <img className="logo" src={url} alt="logo" />
@@ -122,20 +129,20 @@ export function byCode(sports, code) {
   return sports.find((sport) => sport["sport"] === code);
 }
 
-Date.prototype.isDST = function () {
+function isDST(date) {
   return (
-    this.getTimezoneOffset() <
+    date.getTimezoneOffset() <
     Math.max(
-      new Date(this.getFullYear(), 0, 1).getTimezoneOffset(),
-      new Date(this.getFullYear(), 6, 1).getTimezoneOffset()
+      new Date(date.getFullYear(), 0, 1).getTimezoneOffset(),
+      new Date(date.getFullYear(), 6, 1).getTimezoneOffset()
     )
   );
-};
+}
 
 export function UTCtoLocal(UTC, league) {
   const today = new Date(UTC);
   let hours = today.getHours();
-  if (today.isDST() && league === "NBA") {
+  if (isDST(today) && league === "NBA") {
     hours -= 1;
   }
   const period = hours > 12 ? "PM" : "AM";
@@ -197,3 +204,12 @@ export function getAllTeams(sports) {
   });
   return allTeams;
 }
+
+/*
+Links to old team photos
+  
+    "https://static.www.nfl.com/t_headshot_desktop_2x/f_auto/league/api/clubs/logos/" + abbreviation.toLowerCase();
+    
+    "https://www.mlbstatic.com/team-logos/team-cap-on-light/" + id.toLowerCase() + ".svg";
+    
+  */

@@ -1,20 +1,18 @@
 import "../../style/overview.scss";
-import {
-  getSportsWithOneTeamFollowed,
-  getTeamsFollowedForSport,
-} from "../../settings/PrefHandler";
-import Tabbed from "../Tabbed";
+import { getAllTeamsFollowed } from "../../settings/PrefHandler";
 import {
   capitalizeFirstLetter,
   getLeagueLogo,
   getTeamLogo,
   standingsQuery,
 } from "./SportHandler";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
+import { loading, suffix } from "../../util/Util";
+import { ThemeContext } from "../../App";
 
 const modalStyle = {
   content: {
@@ -31,138 +29,92 @@ const modalStyle = {
   },
 };
 
-function suffix(i) {
-  const j = i % 10,
-    k = i % 100;
-  if (j === 1 && k !== 11) {
-    return i + "st";
-  }
-  if (j === 2 && k !== 12) {
-    return i + "nd";
-  }
-  if (j === 3 && k !== 13) {
-    return i + "rd";
-  }
-  return i + "th";
-}
-
-function overviews(
-  prefs,
-  standings,
-  league,
-  isAlertVisible,
-  openAlert,
-  closeAlert
-) {
-  const teams = getTeamsFollowedForSport(prefs, league);
-  if (teams.length < 1) {
-    return <p className="nomargin">No teams followed.</p>;
-  }
-
-  const stats = standings[league];
-  return teams.map((team, index) => {
-    const code = String(team).trim().toUpperCase();
-    if (stats.hasOwnProperty(code)) {
-      const stat = stats[code];
-      const rank = suffix(stat["rank"]);
-      const wins = stat["wins"];
-      const losses = stat["losses"];
-      const name = stat["city"] + " " + stat["name"];
-      const conference = capitalizeFirstLetter(stat["conference"]);
-
-      return (
-        <>
-          <Modal
-            isOpen={isAlertVisible}
-            onRequestClose={closeAlert}
-            style={modalStyle}
-            contentLabel="alert"
+function Overview(props) {
+  const { theme } = useContext(ThemeContext);
+  const [isAlertVisible, setAlertVisible] = useState(false);
+  const standings = props.standings;
+  const team = props.team;
+  const stats = standings[team.sport];
+  const code = String(team.code).trim().toUpperCase();
+  Modal.setAppElement("#root");
+  if (standings && stats && stats.hasOwnProperty(code)) {
+    const stat = stats[code];
+    const rank = suffix(stat["rank"]);
+    const wins = stat["wins"];
+    const losses = stat["losses"];
+    const name = stat["city"] + " " + stat["name"];
+    const conference = capitalizeFirstLetter(stat["conference"]);
+    return (
+      <>
+        <Modal
+          isOpen={isAlertVisible}
+          onRequestClose={() => setAlertVisible(false)}
+          style={modalStyle}
+          contentLabel="alert"
+        >
+          <div
+            className="dialog"
+            id="expanded-team-overview"
+            style={{ border: "2px solid " + theme.border }}
           >
-            <div className="expanded-team-overview">
-              <div className="expanded-team-overview-header">
-                <div className="leftSpace" />
-                <div className="middleSpace">
-                  <p>Team Overview</p>
-                </div>
-                <div className="rightSpace">
-                  <CloseButton
-                    className="closeButton"
-                    variant="white"
-                    aria-label="Hide"
-                    onClick={closeAlert}
-                  />
-                </div>
+            <div
+              className="dialog-header"
+              id="expanded-team-overview-header"
+              style={{ backgroundColor: theme.base }}
+            >
+              <div className="leftSpace" />
+              <div className="middleSpace">
+                <p>Team Overview</p>
               </div>
-              <div className="dialog-body">
-                <TeamOverviewExpanded
-                  team={code}
-                  league={league}
-                  stats={stats}
+              <div className="rightSpace">
+                <CloseButton
+                  className="closeButton"
+                  variant="white"
+                  aria-label="Hide"
+                  onClick={() => setAlertVisible(false)}
                 />
               </div>
             </div>
-          </Modal>
-          <div className="overview" key={index} onClick={() => openAlert()}>
-            {getTeamLogo(league, code, "overview-logo")}
-            <div className="overview-header">
-              <div>
-                <p className="overview-team-name noselect">{name}</p>
-              </div>
-              <div className="break" />
-              <div>
-                <p className="overview-stats noselect">
-                  {rank} in the {conference}
-                </p>
-              </div>
-              <div>
-                <p className="overview-stats noselect">
-                  {wins}-{losses}
-                </p>
-              </div>
+            <div className="dialog-body">
+              <TeamOverviewExpanded
+                team={code}
+                league={team.sport}
+                stats={stats}
+              />
             </div>
           </div>
-        </>
-      );
-    }
-    return <div><p>Error! Team with code {team} not loaded!</p></div>;
-  });
-}
-
-function tabs(
-  prefs,
-  standings,
-  tabNames,
-  isAlertVisible,
-  openAlert,
-  closeAlert
-) {
-  return tabNames.map((league, index) => {
-    if (standings.hasOwnProperty(league)) {
-      return (
-        <div className="overviews" key={index}>
-          {overviews(
-            prefs,
-            standings,
-            league,
-            isAlertVisible,
-            openAlert,
-            closeAlert
-          )}
+        </Modal>
+        <div
+          className="overview"
+          onClick={() => setAlertVisible(true)}
+          style={{
+            backgroundColor: theme.base,
+            boxShadow: "0px 2px " + theme.border,
+          }}
+        >
+          {getTeamLogo(team.sport, code, "overview-logo")}
+          <div className="overview-header">
+            <div className="overview-team-name noselect">
+              {getLeagueLogo(team.sport)}
+              <p>{name}</p>
+            </div>
+            <p className="overview-stats noselect">
+              {rank} in the {conference}
+            </p>
+            <p className="overview-stats noselect">
+              {wins}-{losses}
+            </p>
+          </div>
         </div>
-      );
-    }
-    return (
-      <p className="nomargin" key={index}>
-        No {league} content.
-      </p>
+      </>
     );
-  });
+  }
+  return null;
 }
 
 export default function TeamOverview(props) {
   const [standings, setStandings] = useState({});
   const [isAlertVisible, setAlertVisible] = useState(false);
-  
   const nba = useQuery(["NBAStandings", "NBA"], () => standingsQuery("NBA"), {
     onSuccess: (data) => {
       const temp = { ...standings };
@@ -192,35 +144,25 @@ export default function TeamOverview(props) {
     },
   });
   Modal.setAppElement("#root");
-  if (nfl.isLoading || mlb.isLoading || nba.isLoading || nhl.isLoading || !props || !props.prefs) {
+  if (
+    nfl.isLoading ||
+    mlb.isLoading ||
+    nba.isLoading ||
+    nhl.isLoading ||
+    !props ||
+    !props.prefs
+  ) {
     return <p className="nomargin bold">Loading...</p>;
   }
-  const leaguesFollowed = getSportsWithOneTeamFollowed(props.prefs);
-  if (leaguesFollowed.length === 0 || Object.keys(standings).length === 0) {
-    return <p className="nomargin bold">No teams followed</p>;
+  const teams = getAllTeamsFollowed(props.prefs, props.sports);
+  if (teams.length < 1) {
+    return <p className="nomargin">No teams followed.</p>;
   }
-  const icons = leaguesFollowed.map((league, index) => {
-    return getLeagueLogo(String(league));
-  });
-
-  function openAlert() {
-    setAlertVisible(true);
-  }
-
-  function closeAlert() {
-    setAlertVisible(false);
-  }
-
   return (
-    <Tabbed titles={leaguesFollowed} icons={icons} default={0}>
-      {tabs(
-        props.prefs,
-        standings,
-        leaguesFollowed,
-        isAlertVisible,
-        openAlert,
-        closeAlert
-      )}
-    </Tabbed>
+    <div className="overviews">
+      {teams.map((team, index) => (
+        <Overview team={team} standings={standings} key={index} />
+      ))}
+    </div>
   );
 }

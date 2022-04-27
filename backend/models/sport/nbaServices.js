@@ -11,6 +11,9 @@ class NbaService extends league.LeagueService {
   getStandingsEndPoint() {
     return this.host + "/10s/prod/v1/current/standings_conference.json";
   }
+  getPlayersEndPoint(currentYear) {
+    return this.host + "/10s/prod/v1/" + currentYear + "/players.json";
+  }
 
   formatGamesData(responseData, date) {
     const games = responseData["games"];
@@ -20,7 +23,8 @@ class NbaService extends league.LeagueService {
       const new_game = {};
       new_game.status = this.getStatus(game.statusNum);
       new_game.clock = game.clock;
-      new_game.halftime = game.period.isHalftime;
+      new_game.break = game.period.isHalftime;
+      new_game.break_string = "Halftime";
       new_game.arena = game.arena.name;
       new_game.currentQtr = game.period.current;
       new_game.maxQtr = game.period.maxRegular;
@@ -33,11 +37,20 @@ class NbaService extends league.LeagueService {
       new_game.away_score = game.vTeam.score;
       new_game.away_record = game.vTeam.win + "-" + game.vTeam.loss;
       new_game.startTimeUTC = this.ESTtoUTC(game.startTimeEastern);
+      if (game.playoffs) {
+        new_game.numInSeries = game.playoffs.gameNumInSeries;
+        new_game.homePlayoffs =
+          game.playoffs.hTeam.seriesWin + "-" + game.playoffs.vTeam.seriesWin;
+        new_game.awayPlayoffs =
+          game.playoffs.vTeam.seriesWin + "-" + game.playoffs.hTeam.seriesWin;
+      } else {
+        new_game.numInSeries = 0;
+        new_game.homePlayoffs = false;
+        new_game.awayPlayoffs = false;
+      }
       new_games.push(new_game);
     }
-    return {
-      games: new_games,
-    };
+    return new_games;
   }
 
   getStatus(codedGameState) {
@@ -58,7 +71,7 @@ class NbaService extends league.LeagueService {
     const object_data = responseData["league"]["standard"]["conference"];
     for (const conf of Object.keys(object_data)) {
       const data = object_data[conf];
-      data.forEach((division_data, index) => {
+      data.forEach((division_data) => {
         const div_name = String(conf);
         const new_team_data = {};
         const code = String(division_data["teamSitesOnly"]["teamTricode"]);
@@ -69,12 +82,15 @@ class NbaService extends league.LeagueService {
         new_team_data.rank = String(division_data["confRank"]);
         new_team_data.wins = String(division_data["win"]);
         new_team_data.losses = String(division_data["loss"]);
+        new_team_data.api_code = String(division_data["teamId"]);
         all_data[code] = new_team_data;
       });
     }
-    return {
-      teams: all_data,
-    };
+    return all_data;
+  }
+
+  formatPlayersData(responseData) {
+    return responseData["league"]["standard"];
   }
 }
 

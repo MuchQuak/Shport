@@ -1,32 +1,38 @@
-const http = require("http");
-const host = "newsapi.org";
 //apikey = 'ae61e309e55d47469fd1c8e1cc89cf86'
-const dotenv = require("dotenv");
+const NewsAPI = require("newsapi");
 
 async function getNews(req, res) {
-  let id = req.params["id"];
-  if (id == undefined) id = "sports";
-  const options = {
-    host: host,
-    //path: '/v2/top-headlines?category=sports&country=us&q=' + 'mlb' + '&apikey=' + process.env.NEWSAPI_KEY,
-    path:
-      "/v2/everything?q=" +
-      id +
-      "&pageSize=100&Language=en&sortBy=publishedAt&domains=espn.com,cnn.com,sportingnews.com,yahoo.com,cbssports.com,usatoday.com,foxnews.com,reuters.com&apiKey=" +
-      process.env.NEWSAPI_KEY,
-    method: "GET",
-  };
-  http
-    .request(options, function (response) {
-      let body = "";
-      response.on("data", function (data) {
-        body += data;
+  let query = req.params["query"];
+  if (query === undefined) query = "sports";
+  try {
+    const newsapi = new NewsAPI(process.env.NEWSAPI_KEY);
+    newsapi.v2
+      .everything({
+        q: query,
+        sources:
+          "bleacher-report, nfl-news, talksport, the-sport-bible, espn, fox-news, fox-sports, nbc-sports",
+        domains:
+          "espn.com, cnn.com, sportingnews.com, yahoo.com, cbssports.com, usatoday.com, foxnews.com, reuters.com, NBCSports.com",
+        language: "en",
+        sortBy: "publishedAt",
+        page: 1,
+      })
+      .then((response) => {
+        res.send(formatNewsData(response)).end();
+      })
+      .catch((error) => {
+        if (!error.response) {
+          // network error
+          console.log(String(error).split(": You")[0]);
+        } else {
+          console.log(error.response.data.message);
+        }
+        res.send([]).end();
       });
-      response.on("end", function () {
-        res.send(formatNewsData(body));
-      });
-    })
-    .end();
+  } catch (e) {
+    console.log(e);
+    res.send([]).end();
+  }
 }
 
 function removeTags(str) {
@@ -36,11 +42,8 @@ function removeTags(str) {
 }
 
 function formatNewsData(responseData) {
-  const res = JSON.parse(responseData);
   const new_articles = [];
-
-  for (let i = 1; i < res.totalResults; i++) {
-    const article = res.articles[i];
+  responseData.articles.forEach((article) => {
     if (article) {
       const new_article = {};
       new_article.title = article.title ? article.title : "Untitled";
@@ -51,10 +54,8 @@ function formatNewsData(responseData) {
       new_article.publishBy = article.source.name;
       new_articles.push(new_article);
     }
-  }
-  return {
-    articles: new_articles,
-  };
+  });
+  return new_articles;
 }
 
 exports.getNews = getNews;

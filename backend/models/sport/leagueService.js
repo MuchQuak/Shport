@@ -24,35 +24,53 @@ class LeagueService {
         today.setDate(today.getDate() + offset);
         const currentDate = this.formatDate(today);
 
-        try {
-            const games = await axios.get(await this.getGamesEndPoint(currentDate));
+    try {
+      const games = await axios.get(await this.getGamesEndPoint(currentDate));
+      res.send(await this.formatGamesData(games.data, currentDate));
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-            res.send(this.formatGamesData(games.data, currentDate));
-        } catch (e) {
-            console.error(e);
-        }
+  async getStandings(req, res) {
+    const id = req.params["id"];
+    try {
+      const standings = await axios.get(await this.getStandingsEndPoint());
+      const formatted = this.formatStandingsData(standings.data);
+      if (id === undefined) {
+        res.send(formatted);
+      } else {
+        res.send(formatted[id]);
+      }
+    } catch (e) {
+      console.error(e);
     }
+  }
 
-    async getStandings(req, res) {
-        const id = req.params['id'];
-        try {
-            const standings = await axios.get(await this.getStandingsEndPoint());
-            if (id === undefined) {
-                res.send(this.formatStandingsData(standings.data));
-            } else {
-                res.send(this.formatStandingsData(standings.data).teams[id]);
-            }
-        } catch (e) {
-            console.error(e);
-        }
+  async getPlayers(req, res) {
+    const id = req.params["id"];
+    try {
+      const players = await axios.get(await this.getPlayersEndPoint("2021"));
+      const formatted = this.formatPlayersData(players.data);
+      if (id === undefined) {
+        res.send(formatted);
+      } else {
+        res.send(formatted.find((player) => player["personId"] === id));
+      }
+    } catch (e) {
+      console.error(e);
     }
+  }
 
-    async getGamesEndPoint(currentDate) {
-        throw new Error("Abstract Method has no implementation");
-    }
-    async getStandingsEndPoint() {
-        throw new Error("Abstract Method has no implementation");
-    }
+  async getGamesEndPoint(currentDate) {
+    throw new Error("Abstract Method has no implementation");
+  }
+  async getStandingsEndPoint() {
+    throw new Error("Abstract Method has no implementation");
+  }
+  async getPlayersEndPoint(currentYear) {
+    throw new Error("Abstract Method has no implementation");
+  }
 
     formatDate(date){
         return date.getFullYear() + 
@@ -60,12 +78,15 @@ class LeagueService {
             String(date.getDate()).padStart(2, '0');
     }
 
-    formatGamesData(responseData, date) {
-        throw new Error("Abstract Method has no implementation");
-    }
-    formatStandingsData(responseData) {
-        throw new Error("Abstract Method has no implementation");
-    }
+  formatGamesData(responseData, date) {
+    throw new Error("Abstract Method has no implementation");
+  }
+  formatStandingsData(responseData) {
+    throw new Error("Abstract Method has no implementation");
+  }
+  formatPlayersData(responseData) {
+    throw new Error("Abstract Method has no implementation");
+  }
 }
 
 exports.LeagueService = LeagueService;

@@ -17,8 +17,9 @@
     "express": "^4.17.2",
     "jest": "^27.4.7",
     "jsonwebtoken": "^8.5.1",
-    "mongodb-memory-server": "^8.4.0",
+    "mongodb-memory-server": "^8.5.0",
     "mongoose": "^6.2.0",
+    "newsapi": "^2.4.1",
     "process": "^0.11.10"
   },
   "devDependencies": {

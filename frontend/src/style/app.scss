@@ -1,29 +1,6 @@
 @use 'theme';
 @use 'colors';
-
-.content {
-    margin: 0;
-    padding: 0;
-}
-
-.third {
-    margin: 0 0 30px;
-    flex-shrink: 0;
-    width: 30%;
-    min-width: 400px;
-}
-
-.items {
-    margin: auto;
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
-    gap: 20px;
-    text-align: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600&&family=DM+Serif+Display&family=Rubik:wght@400&family=DM+Serif+Display&family=Noto+Sans&display=swap');
 
 .noselect {
     user-select: none;
@@ -193,39 +170,6 @@
     border-color: theme.$current-border;
 }
 
-.leftSpace {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    flex-basis: 10%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.middleSpace {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    flex-basis: 80%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.rightSpace {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    flex-basis: 10%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: center;
-}
-
 .closeButton {
     margin-right: 10px;
     height: 10px;
@@ -235,8 +179,11 @@
 .dialog {
     margin: 0;
     border-radius: 8px;
-    border: 2px solid #ff4747;
     width: 100%;
+}
+
+#error-dialog {
+    border: 2px solid #ff4747;
 }
 
 .dialog-header {
@@ -250,6 +197,9 @@
     align-content: center;
     justify-items: center;
     justify-content: center;
+}
+
+#error-header {
     background-color: #ff4747;
 }
 
@@ -282,7 +232,6 @@
     flex-flow: row nowrap;
     align-items: center;
     gap: 5px;
-    background-color: theme.$current;
     border-radius: 5px;
 }
 
@@ -299,4 +248,32 @@
     width: 20px;
     border-radius: 2px;
     border: 1px solid #FFFFFF;
+}
+
+.loading {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 2px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff4747;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.error p {
+    margin: 0;
+    width: auto;
 }

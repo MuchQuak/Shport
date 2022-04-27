@@ -1,5 +1,7 @@
 import "../../style/game-schedule.scss";
 import { getTeamLogo, UTCtoLocal, getFullName } from "./SportHandler";
+import { useContext } from "react";
+import { ThemeContext } from "../../App";
 
 function score(game, score_info) {
   if (score_info === "" || game.status < 1) {
@@ -28,6 +30,7 @@ function getTeamName(homeOrAway, game, league, sports) {
 }
 
 export default function Game(props) {
+  const { theme } = useContext(ThemeContext);
   if (!props || !props.game || !props.sports || !props.prefs) {
     return null;
   }
@@ -37,40 +40,40 @@ export default function Game(props) {
   //if (!props.sports[league] || !props.sports[league].teams.includes(game.home_code) || !props.sports[league].teams.includes(game.away_code)) {
   //    return null;
   //}
-  function halftime() {
+  function is_break() {
     return (
       game.status === 1 &&
-      (game.halftime || (clock_data === "" && game.currentQtr === 2))
+      (game.break || (clock_data === "" && game.currentQtr === 2))
     );
   }
   function clock() {
     if (game.status === 2) {
-      return <p>Final Score</p>;
+      return <p className="nomargin">Final Score</p>;
     }
-    if (halftime()) {
+    if (is_break()) {
       return (
-        <p>
-          <b>Halftime</b>
+        <p className="nomargin" style={{ fontWeight: "bold" }}>
+          {game.break_string}
         </p>
       );
     }
     if (clock_data === "" || game.status === 0) {
-      return <p>{UTCtoLocal(game.startTimeUTC, league)}</p>;
+      return (
+        <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>
+      );
     }
     return (
       <>
         <p>
-          <b>{clock_data}</b>
+          <b className="nomargin">{clock_data}</b>
         </p>
-        <p>
-          <b>
-            {game.currentQtr} of {game.maxQtr}
-          </b>
+        <p className="nomargin bold">
+          {game.currentQtr} of {game.maxQtr}
         </p>
       </>
     );
   }
-  function classes(current_code, current, other) {
+  function classes(current_code) {
     let classN = "game-team-name";
     if (!props.prefs || !props.prefs.sports) {
       return classN;
@@ -82,42 +85,69 @@ export default function Game(props) {
     ) {
       classN = classN + " favorite";
     }
-    if (parseInt(current) > parseInt(other) && parseInt(game.status) === 2) {
-      classN = classN + " underline";
-    }
     return classN;
   }
+  const numInSeries = game.numInSeries ? game.numInSeries : 0;
+  const homePlayoffs = game.homePlayoffs ? game.homePlayoffs : false;
+  const awayPlayoffs = game.awayPlayoffs ? game.awayPlayoffs : false;
+  const winIcon = () => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        className="bi bi-check-circle-fill"
+        viewBox="0 0 16 16"
+      >
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+      </svg>
+    );
+  };
   return (
-    <div className="game">
-      <div className="game-data">
-        <div className="game-left">
+    <div
+      className="game"
+      style={{
+        backgroundColor: theme.base,
+        boxShadow: "0px 2px " + theme.border,
+      }}
+    >
+      <div className="game-left">
+        <div className="game-playoffs-wrapper">
           {getTeamLogo(league, game.home_code, "schedule-logo-container")}
-          <p
-            className={classes(
-              game.home_code,
-              game.home_score,
-              game.away_score
-            )}
-          >
-            {getTeamName("home", game, league, props.sports)}
-          </p>
+          {homePlayoffs && (
+            <p className="game-playoffs-record">{homePlayoffs}</p>
+          )}
+        </div>
+        <p className={classes(game.home_code)}>
+          {getTeamName("home", game, league, props.sports)}
+        </p>
+        <div className="score-win-icon">
           {score(game, game.home_score)}
+          {parseInt(game.home_score) > parseInt(game.away_score) &&
+            parseInt(game.status) === 2 &&
+            winIcon()}
         </div>
-        <div className="game-center">
-          {clock()}
-          <p className="game-footer">{game.arena}</p>
-        </div>
-        <div className="game-right">
+      </div>
+      <div className="game-center">
+        {clock()}
+        {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
+        <p className="game-footer">{game.arena}</p>
+      </div>
+      <div className="game-right">
+        <div className="game-playoffs-wrapper">
+          {awayPlayoffs && (
+            <p className="game-playoffs-record">{awayPlayoffs}</p>
+          )}
           {getTeamLogo(league, game.away_code, "schedule-logo-container")}
-          <p
-            className={classes(
-              game.away_code,
-              game.away_score,
-              game.home_score
-            )}
-          >
-            {getTeamName("away", game, league, props.sports)}
-          </p>
+        </div>
+        <p className={classes(game.away_code)}>
+          {getTeamName("away", game, league, props.sports)}
+        </p>
+        <div className="score-win-icon">
+          {parseInt(game.away_score) > parseInt(game.home_score) &&
+            parseInt(game.status) === 2 &&
+            winIcon()}
           {score(game, game.away_score)}
         </div>
       </div>

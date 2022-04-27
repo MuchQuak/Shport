@@ -16,7 +16,7 @@ import { useQueries } from "react-query";
 const noGames = <p className="nomargin bold">No games.</p>;
 
 function Games(gameData, league, props) {
-  if (gameData.length < 1) {
+  if (!gameData || gameData.length < 1) {
     return noGames;
   }
   return gameData.map((game, index) => {
