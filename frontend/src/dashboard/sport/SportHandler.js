@@ -38,6 +38,21 @@ export async function injuriesQuery(sport, code) {
       return res.data;
     });
 }
+export async function transactionsQuery(sport, code) {
+  return await axios
+    .get("http://localhost:5000/" + sport + "/transactions" + "/"+ code)
+    .then((res) => {
+      return res.data;
+    });
+}
+
+export async function topPlayersQuery(sport, code) {
+  return await axios
+    .get("http://localhost:5000/" + sport + "/top_players" + "/"+ code)
+    .then((res) => {
+      return res.data;
+    });
+}
 
 export async function informativeGamesQuery(sport, dayOffset, dayName) {
   return await axios

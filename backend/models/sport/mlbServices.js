@@ -38,6 +38,18 @@ class MlbService extends league.LeagueService {
     });
   }
 
+  getScrapedTopPlayers(code){
+    return teamScraper.getTopPlayers("mlb", code).then((result) => {
+      return result;
+    });
+  }
+  
+  getScrapedTransactions(code){
+    return teamScraper.getTransactions("mlb", code).then((result) => {
+      return result;
+    });
+  }
+
   formatGamesData(responseData, date) {}
 
   formatStandingsData(responseData) {}

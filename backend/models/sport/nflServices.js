@@ -37,6 +37,18 @@ class NflService extends league.LeagueService {
     });
   }
 
+getScrapedTopPlayers(code){
+  return teamScraper.getTopPlayers("nfl", code).then((result) => {
+    return result;
+  });
+}
+
+getScrapedTransactions(code){
+  return teamScraper.getTransactions("nfl", code).then((result) => {
+    return result;
+  });
+}
+
   formatGamesData(responseData, date) {}
 
   formatStandingsData(responseData) {}

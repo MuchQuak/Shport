@@ -27,6 +27,16 @@ class NbaService extends league.LeagueService {
       return result;
     });
   }
+  getScrapedTopPlayers(code){
+    return teamScraper.getTopPlayers("nba", code).then((result) => {
+      return result;
+    });
+  }
+  getScrapedTransactions(code){
+    return teamScraper.getTransactions("nba", code).then((result) => {
+      return result;
+    });
+  }
 
 
   formatGamesData(responseData, date) {

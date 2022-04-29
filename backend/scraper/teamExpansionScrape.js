@@ -15,7 +15,7 @@ async function getTopPlayers(league, acro) {
         value: '28.4'
     }
     */
-  axios
+  return await axios
     .get(
       "https://www.espn.com/" +
         league +
@@ -272,7 +272,7 @@ async function getTransactions(league, acro) {
         description: 'Signed DT Vincent Taylor to a one-year contract.'
     }
     */
-  axios
+  return await axios
     .get("https://www.espn.com/" + league + "/team/transactions/_/name/" + acro)
     .then((response) => {
       let $ = cheerio.load(response.data);

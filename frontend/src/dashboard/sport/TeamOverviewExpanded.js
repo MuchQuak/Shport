@@ -1,4 +1,4 @@
-import { getTeamLogo, playersQuery, injuriesQuery } from "./SportHandler";
+import { getTeamLogo, playersQuery, injuriesQuery, transactionsQuery, topPlayersQuery } from "./SportHandler";
 import { useQuery } from "react-query";
 import { useContext } from "react";
 import { loading, suffix } from "../../util/Util";
@@ -29,8 +29,10 @@ export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
   const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team));
   const pi = useQuery(["injuries",props.league, props.team], () => injuriesQuery(props.league, props.team));
-  
-  if (pq.isLoading || pi.isLoading) {
+  const pt = useQuery(["transactions",props.league, props.team], () => transactionsQuery(props.league, props.team));
+  const ptp = useQuery(["topPlayers",props.league, props.team], () => topPlayersQuery(props.league, props.team));
+
+  if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
   }
   if (!props || !props.team || !props.league) {
@@ -56,7 +58,7 @@ export function TeamOverviewExpanded(props) {
           </p>
         </div>
       </div>
-      <Tabbed titles={["Roster", "Injuries"]} default={0}>
+      <Tabbed titles={["Roster", "Injuries", "Top Players", "Transactions"]} default={0}>
         {[<div className="expanded-team-overview-players">
         {pq.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
           .map((p, index) => (
@@ -81,6 +83,34 @@ export function TeamOverviewExpanded(props) {
               {p["name"]}
               <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
               <div className="overview-player-position" style={{ color: theme.accent }}>{p["status"]}</div>
+            </div>
+          ))}</div>,
+          <div className="expanded-team-overview-players">
+        {ptp.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          .map((p, index) => (
+            <div
+              className="overview-player"
+              style={{ backgroundColor: theme.accent }}
+              key={index}
+            >
+              {p["name"]}
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["category"]}</div>
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["value"]}</div>
+
+            </div>
+          ))}</div>,
+          <div className="expanded-team-overview-players">
+        {pt.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          .map((p, index) => (
+            <div
+              className="overview-player"
+              style={{ backgroundColor: theme.accent }}
+              key={index}
+            >
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["date"]}</div>
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["description"]}</div>
+
             </div>
           ))}</div>
         ]}
