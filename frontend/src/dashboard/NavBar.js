@@ -83,7 +83,7 @@ export default function NavBar(props) {
         <div className="header-nav">
           <div className="header-left">
             <div className="header-text-link" onClick={() => navigate("/")}>
-              <h1 className={css(styled.text) + " header-text"}>DASHBOARD</h1>
+              <p className={css(styled.text) + " header-text"}>Shport? — Dash</p>
             </div>
           </div>
           <div className="header-right">

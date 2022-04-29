@@ -15,16 +15,32 @@
 }
 
 .header-text {
-  margin: 0 auto;
+  margin: 0;
   font-family: 'Kanit', sans-serif;
   font-weight: bold;
   font-style: italic;
   line-height: 60px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.header-page {
+  margin: 0;
+  font-family: 'Kanit', sans-serif;
+  font-weight: bol    d;
+  font-style: italic;
+  line-height: 60px;
+  font-size: 25px;
   cursor: pointer;
 }
 
 .header-text-link {
   text-decoration: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-link {

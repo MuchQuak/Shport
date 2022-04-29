@@ -1,8 +1,10 @@
 import { getTeamLogo, playersQuery } from "./SportHandler";
 import { useQuery } from "react-query";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
+import {StyleSheet} from "aphrodite";
+import Tabbed from "../Tabbed";
 
 function silhouette(league, city, name) {
   const source =
@@ -25,22 +27,7 @@ function silhouette(league, city, name) {
 
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
-  const [players, setPlayers] = useState([]);
-
-  function CreatePlayerQuery(league, code){
-    return useQuery(["players", league], () => playersQuery(league, code), {
-      onSuccess: (data) => setPlayers(data),
-    });
-  }
-
-
-  /*const pq = useQuery(["players", "NBA"], () => playersQuery("NBA", props.api_code), {
-    onSuccess: (data) => setPlayers(data),
-  });*/
-
-  const pq = CreatePlayerQuery(props.league, props.team);
-  console.log(pq);
-
+  const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team));
   if (pq.isLoading) {
     return loading;
   }
@@ -53,7 +40,7 @@ export function TeamOverviewExpanded(props) {
   const wins = stat["wins"];
   const losses = stat["losses"];
   const name = stat["city"] + " " + stat["name"];
-  const api_code = stat["api_code"];
+  //const api_code = stat["api_code"];
   const league = props.league;
   return (
     <div className="expanded-team-overview-info">
@@ -67,18 +54,23 @@ export function TeamOverviewExpanded(props) {
           </p>
         </div>
       </div>
-      <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Roster</p>
-      <div className="expanded-team-overview-players">
-        {players
-          .map((p) => (
+      <Tabbed titles={["Roster", "Injuries"]} default={0}>
+        {[<div className="expanded-team-overview-players">
+        {pq.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          .map((p, index) => (
             <div
               className="overview-player"
               style={{ backgroundColor: theme.accent }}
+              key={index}
             >
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["number"]}</div>
               {p["name"]}
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
             </div>
-          ))}
-      </div>
+          ))}</div>,
+          <p>Injuries!</p>
+        ]}
+      </Tabbed>
     </div>
   );
 }
