@@ -31,6 +31,14 @@ export async function playersQuery(sport, code) {
     });
 }
 
+export async function injuriesQuery(sport, code) {
+  return await axios
+    .get("http://localhost:5000/" + sport + "/injuries" + "/"+ code)
+    .then((res) => {
+      return res.data;
+    });
+}
+
 export async function informativeGamesQuery(sport, dayOffset, dayName) {
   return await axios
     .get("http://localhost:5000/" + sport + "/games/" + dayOffset)

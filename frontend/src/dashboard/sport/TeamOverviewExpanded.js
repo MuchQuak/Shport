@@ -1,4 +1,4 @@
-import { getTeamLogo, playersQuery } from "./SportHandler";
+import { getTeamLogo, playersQuery, injuriesQuery } from "./SportHandler";
 import { useQuery } from "react-query";
 import { useContext } from "react";
 import { loading, suffix } from "../../util/Util";
@@ -28,7 +28,9 @@ function silhouette(league, city, name) {
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
   const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team));
-  if (pq.isLoading) {
+  const pi = useQuery(["injuries",props.league, props.team], () => injuriesQuery(props.league, props.team));
+  
+  if (pq.isLoading || pi.isLoading) {
     return loading;
   }
   if (!props || !props.team || !props.league) {
@@ -68,7 +70,19 @@ export function TeamOverviewExpanded(props) {
               <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
             </div>
           ))}</div>,
-          <p>Injuries!</p>
+          <div className="expanded-team-overview-players">
+        {pi.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          .map((p, index) => (
+            <div
+              className="overview-player"
+              style={{ backgroundColor: theme.accent }}
+              key={index}
+            >
+              {p["name"]}
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
+              <div className="overview-player-position" style={{ color: theme.accent }}>{p["status"]}</div>
+            </div>
+          ))}</div>
         ]}
       </Tabbed>
     </div>
