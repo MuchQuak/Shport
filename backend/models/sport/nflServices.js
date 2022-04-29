@@ -31,6 +31,11 @@ class NflService extends league.LeagueService {
     });
 
   }
+  getScrapedInjuries(code){
+    return teamScraper.getInjuries("nfl", code).then((result) => {
+      return result;
+    });
+  }
 
   formatGamesData(responseData, date) {}
 

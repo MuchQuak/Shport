@@ -159,7 +159,7 @@ async function getInjuries(league, acro) {
             description: 'General manager Travis Schlenk said Tuesday that Capela (knee) has restarted strength exercises and will be re-evaluated Friday, Mike Conti of the Atlanta Hawks Radio Network reports.'
         }
     */
-  axios
+  return await axios
     .get("https://www.espn.com/" + league + "/team/injuries/_/name/" + acro)
     .then((response) => {
       let $ = cheerio.load(response.data);

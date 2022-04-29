@@ -22,6 +22,13 @@ class NbaService extends league.LeagueService {
     });
   }
 
+  getScrapedInjuries(code){
+    return teamScraper.getInjuries("nba", code).then((result) => {
+      return result;
+    });
+  }
+
+
   formatGamesData(responseData, date) {
     const games = responseData["games"];
     const new_games = [];

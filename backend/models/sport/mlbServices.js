@@ -32,6 +32,12 @@ class MlbService extends league.LeagueService {
     });
   }
 
+  getScrapedInjuries(code){
+    return teamScraper.getInjuries("mlb", code).then((result) => {
+      return result;
+    });
+  }
+
   formatGamesData(responseData, date) {}
 
   formatStandingsData(responseData) {}
