@@ -330,6 +330,6 @@ app.get("/subreddit/:query", async (req, res) => {
   await reddit.getSubreddit(req, res);
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Backend listening at http://localhost:${port}`);
 });

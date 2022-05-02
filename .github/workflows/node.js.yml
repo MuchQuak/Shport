@@ -32,3 +32,10 @@ jobs:
       working-directory: ./backend
     - run: npm test
       working-directory: ./backend
+
+  - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+    with:
+      heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      heroku_app_name: "csc309-sportdash" #Must be unique on Heroku
+      heroku_email: "hrendon@calpoly.edu" #Must be the one you used on Heroku
+      appdir: "backend" # <- This will point to the api folder in your project
