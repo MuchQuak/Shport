@@ -6,7 +6,7 @@ import { ThemeContext } from "../../App";
 function stream(league, homeFullName, awayFullName) {
   return "https://www.streameast.xyz/" + league.toLowerCase() + "/" +
       homeFullName.toLowerCase().replaceAll(" ", "-") + "-" +
-      awayFullName.toLowerCase().replaceAll(" ", "-") + "-4/";
+      awayFullName.toLowerCase().replaceAll(" ", "-");
 }
 
 function score(game, score_info) {
