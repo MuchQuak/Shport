@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import { useContext } from "react";
 import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
-import {StyleSheet} from "aphrodite";
 import Tabbed from "../Tabbed";
 
 function silhouette(league, city, name) {
@@ -27,10 +26,10 @@ function silhouette(league, city, name) {
 
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
-  const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team));
-  const pi = useQuery(["injuries",props.league, props.team], () => injuriesQuery(props.league, props.team));
-  const pt = useQuery(["transactions",props.league, props.team], () => transactionsQuery(props.league, props.team));
-  const ptp = useQuery(["topPlayers",props.league, props.team], () => topPlayersQuery(props.league, props.team));
+  const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pi = useQuery(["injuries",props.league, props.team], () => injuriesQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pt = useQuery(["transactions",props.league, props.team], () => transactionsQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const ptp = useQuery(["topPlayers",props.league, props.team], () => topPlayersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
 
   if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
@@ -60,59 +59,64 @@ export function TeamOverviewExpanded(props) {
       </div>
       <Tabbed titles={["Roster", "Injuries", "Top Players", "Transactions"]} default={0}>
         {[<div className="expanded-team-overview-players">
-        {pq.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
-          .map((p, index) => (
-            <div
-              className="overview-player"
-              style={{ backgroundColor: theme.accent }}
-              key={index}
-            >
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["number"]}</div>
-              {p["name"]}
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
-            </div>
-          ))}</div>,
+          {pq.data.length === 0 &&
+          <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No players.</div>}
+          {pq.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+            .map((p, index) => (
+              <div
+                className="overview-player"
+                style={{ backgroundColor: theme.accent }}
+                key={index}
+              >
+                <div className="overview-player-info" style={{ color: theme.accent }}>{p["number"]}</div>
+                {p["name"]}
+                <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+              </div>
+            ))}</div>,
           <div className="expanded-team-overview-players">
-        {pi.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
-          .map((p, index) => (
-            <div
-              className="overview-player"
-              style={{ backgroundColor: theme.accent }}
-              key={index}
-            >
-              {p["name"]}
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["status"]}</div>
-            </div>
-          ))}</div>,
+            {pi.data.length === 0 &&
+            <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No injuries.</div>}
+            {pi.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+              .map((p, index) => (
+                <div
+                  className="overview-player"
+                  style={{ backgroundColor: theme.accent }}
+                  key={index}
+                >
+                  {p["name"]}
+                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["status"]}</div>
+                </div>
+              ))}</div>,
           <div className="expanded-team-overview-players">
-        {ptp.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
-          .map((p, index) => (
-            <div
-              className="overview-player"
-              style={{ backgroundColor: theme.accent }}
-              key={index}
-            >
-              {p["name"]}
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["position"]}</div>
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["category"]}</div>
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["value"]}</div>
-
-            </div>
-          ))}</div>,
+            {ptp.data.length === 0 &&
+            <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No top players.</div>}
+            {ptp.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+              .map((p, index) => (
+                <div
+                  className="overview-player"
+                  style={{ backgroundColor: theme.accent }}
+                  key={index}
+                >
+                  {p["name"]}
+                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["value"]} {p["category"]}</div>
+                </div>
+              ))}</div>,
           <div className="expanded-team-overview-players">
-        {pt.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
-          .map((p, index) => (
-            <div
-              className="overview-player"
-              style={{ backgroundColor: theme.accent }}
-              key={index}
-            >
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["date"]}</div>
-              <div className="overview-player-position" style={{ color: theme.accent }}>{p["description"]}</div>
-
-            </div>
-          ))}</div>
+            {pt.data.length === 0 &&
+            <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No transactions.</div>}
+            {pt.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+              .map((p, index) => (
+                <div
+                  className="overview-player"
+                  style={{ backgroundColor: theme.accent }}
+                  key={index}
+                >
+                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["date"]}</div>
+                  {p["description"]}
+                </div>
+              ))}</div>
         ]}
       </Tabbed>
     </div>
