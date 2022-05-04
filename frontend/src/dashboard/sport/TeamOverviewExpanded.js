@@ -5,25 +5,6 @@ import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
 import Tabbed from "../Tabbed";
 
-function silhouette(league, city, name) {
-  const source =
-    "https://cdn.statmuse.com/img/" +
-    league.toLowerCase() +
-    "/teams/" +
-    city.split(" ").join("-") +
-    "-" +
-    name.split(" ").join("-") +
-    "-Silhouette.png";
-  return (
-    <div
-      className="logo-container logo-container-sport"
-      id={name + "-silhouette"}
-    >
-      <img className="logo" src={source} alt="logo" />
-    </div>
-  );
-}
-
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
   const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
