@@ -237,6 +237,7 @@ app.get("/MLB/games", async (req, res) => {
   res.send([]);
   //await mlb.getGames(req, res);
 });
+
 app.get("/MLB/games/:offset", async (req, res) => {
   res.send([]);
   //await mlb.getGames(req, res);
