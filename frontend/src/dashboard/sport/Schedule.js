@@ -97,11 +97,11 @@ export default function Schedule(props) {
   }
   return (
     <Tabbed
-      titles={leaguesFollowed}
-      icons={leaguesFollowed.map((league) => getLeagueLogo(league))}
+      titles={["⭐"].concat(leaguesFollowed)}
+      icons={[null].concat(leaguesFollowed).map((league) => getLeagueLogo(league))}
       default={getPreferredSportIndex(props.prefs, leaguesFollowed)}
     >
-      {leaguesFollowed.map((league, idx) =>
+      {[""].concat(leaguesFollowed).map((league, idx) =>
         tab(
           gamesQuery.map((g) => g.data),
           props,
