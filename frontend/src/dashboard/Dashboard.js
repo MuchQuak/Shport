@@ -11,7 +11,7 @@ import {
   getAllTeamsFollowed,
   getSportsFollowed,
 } from "../settings/PrefHandler";
-import { allQueriesSuccessful, errorSuffix, loadingSuffix } from "../util/Util";
+import { isOneLoading, errorSuffix, loadingSuffix } from "../util/Util";
 import { useTeamSubreddits, useLeagueSubreddits } from "./reddit/RedditHandler";
 import RedditPost from "./reddit/RedditPost";
 import {ThemeContext} from "../App";
@@ -136,11 +136,11 @@ export default function Dashboard(props) {
       condConcat(
         defaultItems(props.user.prefs, props.sports),
         [
-          props.user.prefs && allQueriesSuccessful(tr),
+          props.user.prefs && !isOneLoading(tr),
           () => redditItems(tr.map((q) => q.data).flat()),
         ],
         [
-          props.user.prefs && allQueriesSuccessful(lr),
+          props.user.prefs && !isOneLoading(lr),
           () => redditItems(lr.map((q) => q.data).flat()),
         ],
         [

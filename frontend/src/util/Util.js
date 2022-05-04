@@ -1,12 +1,12 @@
 import { Spinner } from "react-bootstrap";
 
-export function allQueriesSuccessful(queries) {
+export function isOneLoading(queries) {
   for (const query of queries) {
-    if (!query.isSuccess) {
-      return false;
+    if (query.isLoading) {
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 export const cartesian = (...a) =>

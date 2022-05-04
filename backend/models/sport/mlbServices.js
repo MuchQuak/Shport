@@ -1,7 +1,8 @@
 const axios = require("axios");
 
 const league = require("./leagueService");
-const sportScraper = require("../../scraper/standingsScrape");
+const standingsScraper = require("../../scraper/standingsScrape");
+const gameScraper = require("../../scraper/scheduleScrape");
 const teamScraper = require("../../scraper/teamExpansionScrape");
 
 class MlbService extends league.LeagueService {
@@ -13,15 +14,17 @@ class MlbService extends league.LeagueService {
     //Function for formatting date if different from standard format in leagueServices
   }
 
-  getGamesEndPoint(currentDate) {
-    //example: return this.host + '/api/v1/schedule?date=' + currentDate;
-  }
-  getStandingsEndPoint() {
-    //example: return this.host + '/api/v1/standings';
+  async getGamesEndPoint(currentDate) {
+    //Alter to user currentDate
+    return await gameScraper.scrapeGames('mlb');
   }
 
-  getStandingsScrape() {
-    return sportScraper.getMlbSportStanding().then((result) => {
+  async getStandingsEndPoint() {
+    return await standingsScraper.getMlbSportStanding();
+  }
+
+  async getStandingsScrape() {
+    return standingsScraper.getMlbSportStanding().then((result) => {
       return result;
     });
   }
@@ -49,10 +52,6 @@ class MlbService extends league.LeagueService {
       return result;
     });
   }
-
-  formatGamesData(responseData, date) {}
-
-  formatStandingsData(responseData) {}
 }
 
 exports.MlbService = MlbService;

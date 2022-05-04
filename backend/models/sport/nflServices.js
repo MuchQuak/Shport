@@ -1,26 +1,28 @@
 const axios = require("axios");
 
 const league = require("./leagueService");
-const sportScraper = require("../../scraper/standingsScrape");
+const standingsScraper = require("../../scraper/standingsScrape");
 const teamScraper = require("../../scraper/teamExpansionScrape");
 class NflService extends league.LeagueService {
   constructor(host) {
     super(host);
   }
 
+  /*
   formatDate(date) {
     //Function for formatting date if different from standard format in leagueServices
   }
+  */
 
-  getGamesEndPoint(currentDate) {
+  async getGamesEndPoint(currentDate) {
     //example: return this.host + '/api/v1/schedule?date=' + currentDate;
   }
-  getStandingsEndPoint() {
-    //example: return this.host + '/api/v1/standings';
+  async getStandingsEndPoint() {
+    return await standingsScraper.getNflSportStanding();
   }
 
   getStandingsScrape() {
-    return sportScraper.getNflSportStanding().then((result) => {
+    return standingScraper.getNflSportStanding().then((result) => {
       return result;
     });
   }

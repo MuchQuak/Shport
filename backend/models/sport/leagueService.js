@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 class LeagueService {
     constructor(host) {
         this.host = host;
@@ -25,8 +23,8 @@ class LeagueService {
         const currentDate = this.formatDate(today);
 
     try {
-      const games = await axios.get(await this.getGamesEndPoint(currentDate));
-      res.send(await this.formatGamesData(games.data, currentDate));
+      const games = await this.getGamesEndPoint(currentDate);
+      res.send(games);
     } catch (e) {
       console.error(e);
     }
@@ -35,12 +33,11 @@ class LeagueService {
   async getStandings(req, res) {
     const id = req.params["id"];
     try {
-      const standings = await axios.get(await this.getStandingsEndPoint());
-      const formatted = this.formatStandingsData(standings.data);
+      const standings = await this.getStandingsEndPoint();
       if (id === undefined) {
-        res.send(formatted);
+        res.send(standings);
       } else {
-        res.send(formatted[id]);
+        res.send(standings[id]);
       }
     } catch (e) {
       console.error(e);
@@ -50,12 +47,11 @@ class LeagueService {
   async getPlayers(req, res) {
     const id = req.params["id"];
     try {
-      const players = await axios.get(await this.getPlayersEndPoint("2021"));
-      const formatted = this.formatPlayersData(players.data);
+      const players = await this.getPlayersEndPoint("2021");
       if (id === undefined) {
-        res.send(formatted);
+        res.send(players);
       } else {
-        res.send(formatted.find((player) => player["personId"] === id));
+        res.send(players.find((player) => player["personId"] === id));
       }
     } catch (e) {
       console.error(e);
@@ -72,11 +68,11 @@ class LeagueService {
     throw new Error("Abstract Method has no implementation");
   }
 
-    formatDate(date){
+  formatDate(date){
         return date.getFullYear() + 
             String(date.getMonth() + 1).padStart(2, '0') + 
             String(date.getDate()).padStart(2, '0');
-    }
+  }
 
   formatGamesData(responseData, date) {
     throw new Error("Abstract Method has no implementation");
