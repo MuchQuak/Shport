@@ -1,5 +1,7 @@
 const league = require("./leagueService");
 const axios = require("axios");
+const teamScraper = require("../../scraper/teamExpansionScrape");
+
 
 class NhlService extends league.LeagueService {
   constructor(host) {
@@ -23,6 +25,32 @@ class NhlService extends league.LeagueService {
   getStandingsEndPoint() {
     return this.host + "/api/v1/standings";
   }
+
+  getScrapedPlayers(code){
+    return teamScraper.getRoster("nfl", code).then((result) => {
+      return result;
+    });
+
+  }
+
+getScrapedInjuries(code){
+    return teamScraper.getInjuries("nhl", code).then((result) => {
+      return result;
+    });
+  }
+
+getScrapedTopPlayers(code){
+  return teamScraper.getTopPlayers("nhl", code).then((result) => {
+    return result;
+  });
+}
+
+getScrapedTransactions(code){
+  return teamScraper.getTransactions("nhl", code).then((result) => {
+    return result;
+  });
+}
+
 
   async parseSpecificGameInfo(jsonData) {
     const line = jsonData["liveData"]["linescore"];
@@ -105,6 +133,13 @@ class NhlService extends league.LeagueService {
     }
   }
 
+
+  translateApiToEspn(code){
+    axios.get("http://localhost:5000/NHL/api/" + code).then((res) => {
+    return res.data;
+  });
+  }
+
   formatStandingsData(responseData) {
     const all_data = {};
     const data = responseData["records"];
@@ -112,8 +147,11 @@ class NhlService extends league.LeagueService {
       const div_name = division_data["division"]["nameShort"];
       const records = division_data["teamRecords"];
       records.forEach((team_data) => {
+        let code = String(team_data["team"]["id"]);
         const new_team_data = {};
-        new_team_data.code = String(team_data["team"]["id"]);
+        //new_team_data.code =  String(team_data["team"]["id"]); // get espn code a
+        new_team_data.code = this.translateApiToEspn(code);
+
         new_team_data.name = team_data["team"]["name"];
         new_team_data.city = "";
         new_team_data.conference = div_name;
