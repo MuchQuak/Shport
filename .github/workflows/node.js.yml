@@ -43,8 +43,6 @@ jobs:
       working-directory: ./frontend
     - run: npm run build --if-present
       working-directory: ./frontend
-    - run: npm test
-      working-directory: ./frontend
 
     - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
       with:
