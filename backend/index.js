@@ -235,6 +235,7 @@ let mlb = new mlbServices.MlbService(
 app.get("/MLB/games", async (req, res) => {
   await mlb.getGames(req, res);
 });
+
 app.get("/MLB/games/:offset", async (req, res) => {
   await mlb.getGames(req, res);
 });

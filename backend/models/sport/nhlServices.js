@@ -16,12 +16,14 @@ class NhlService extends league.LeagueService {
     );
   }
 
-  getGamesEndPoint(currentDate) {
-    return this.host + "/api/v1/schedule?date=" + currentDate;
+  async getGamesEndPoint(currentDate) {
+    return this.formatGamesData(
+      await axios.get(this.host + "/api/v1/schedule?date=" + currentDate));
   }
 
-  getStandingsEndPoint() {
-    return this.host + "/api/v1/standings";
+  async getStandingsEndPoint() {
+    return this.formatStandingsData(
+      await axios.get(this.host + "/api/v1/standings"));
   }
 
   async parseSpecificGameInfo(jsonData) {
@@ -46,10 +48,12 @@ class NhlService extends league.LeagueService {
   }
 
   async formatGamesData(responseData, date) {
-    const data = responseData["dates"].find((element) => element.date === date);
+    const data = responseData.data["dates"][0];
+
     if (data === undefined) {
       return;
     }
+
     const games = data["games"];
     const new_games = [];
     for (let i = 0; i < games.length; i++) {
@@ -107,7 +111,7 @@ class NhlService extends league.LeagueService {
 
   formatStandingsData(responseData) {
     const all_data = {};
-    const data = responseData["records"];
+    const data = responseData.data["records"];
     data.forEach((division_data) => {
       const div_name = division_data["division"]["nameShort"];
       const records = division_data["teamRecords"];
