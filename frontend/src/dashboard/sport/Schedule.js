@@ -1,35 +1,44 @@
 import "../../style/game-schedule.scss";
 import Tabbed from "../Tabbed";
 import {
+  getAllTeamsFollowed,
   getInterestedSports,
   getPreferredSportIndex,
 } from "../../settings/PrefHandler";
 import {
-  capitalizeFirstLetter,
+  dayName, favoriteIcon, followsEitherTeam,
   getLeagueLogo,
   informativeGamesQuery,
 } from "./SportHandler";
 import Game from "./Game";
-import { allQueriesSuccessful, cartesian, loading } from "../../util/Util";
+import {isOneLoading, cartesian, loading} from "../../util/Util";
 import { useQueries } from "react-query";
 
-const noGames = <p className="nomargin bold">No games.</p>;
+const noGames = <p className="nomargin">No games.</p>;
 
-function Games(gameData, league, props) {
-  if (!gameData || gameData.length < 1) {
-    return noGames;
+function Games(games, props, leagueTab) {
+  if (games.length > 0) { // At least one object containing a league's games for the day
+    const allGames = games.map((g) => { // Each day of games
+      const league = g.sport;
+      return g.data // Actual array of games
+          .filter((data) => { // If we are on the favorite tab, then ensure
+            return (leagueTab === favoriteIcon ? followsEitherTeam(props.prefs, props.sports, data.home_code, data.away_code) : true)
+          })
+          .map((game, index) =>
+              <Game
+                  game={game}
+                  key={index}
+                  sports={props.sports}
+                  prefs={props.prefs}
+                  league={league}
+              />
+          );
+    }).filter((g) => g.length > 0).flat();
+    if (allGames.length > 0) {
+      return allGames;
+    }
   }
-  return gameData.map((game, index) => {
-    return (
-      <Game
-        game={game}
-        key={index}
-        sports={props.sports}
-        prefs={props.prefs}
-        league={league}
-      />
-    );
-  });
+  return noGames;
 }
 
 function getTabIndex(tabNames, preferred) {
@@ -43,18 +52,18 @@ function getTabIndex(tabNames, preferred) {
 }
 
 function tab(games, props, league, index) {
-  const dates = games.filter((g) => g.sport === league);
-  if (games.length > 0 && dates.length > 0) {
-    const dayNames = dates.map((d) => d.dayName);
+  const gamesToSee = (league === favoriteIcon) ? games : games.filter((g) => g.sport === league);
+  if (gamesToSee.length > 0) {
+    const dayNames = [...new Set(gamesToSee.map((d) => d.dayName))];
     return (
       <Tabbed
-        titles={dayNames.map(capitalizeFirstLetter)}
+        titles={dayNames}
         default={getTabIndex(dayNames, "Today")}
         key={index}
       >
         {dayNames.map((d) => (
           <div className="schedule" key={d}>
-            {Games(dates.find((e) => e.dayName === d).data, league, props)}
+            {Games(gamesToSee.filter((g) => g.dayName === d && g.data.length > 0), props, league)}
           </div>
         ))}
       </Tabbed>
@@ -68,40 +77,42 @@ function tab(games, props, league, index) {
 }
 
 export default function Schedule(props) {
-  const leagues = ["NBA", "NHL"];
-  const days = [{ Yesterday: -1 }, { Today: 0 }, { Tomorrow: 1 }];
+  const leaguesFollowed = getInterestedSports(props.prefs);
   const gamesQuery = useQueries(
-    cartesian(leagues, days).map((pair) => {
+    cartesian(leaguesFollowed, [-1, 0 , 1]).map((pair) => {
       const league = pair[0];
-      const dayInfo = pair[1];
-      const dayName = Object.keys(dayInfo)[0]; // Object has a single entry
-      const dayOffset = dayInfo[dayName];
-      return {
+      const dayOffset = pair[1];
+      const dayNameStr = dayName(dayOffset);
+      const qObj = {
         queryKey: [league, dayOffset],
-        queryFn: () => informativeGamesQuery(league, dayOffset, dayName),
-        refetchInterval: 10000
+        queryFn: () => informativeGamesQuery(league, dayOffset, dayNameStr),
       };
+      if (dayOffset === 0) { // Only refetch information on today's games
+        qObj.refetchInterval = 10000
+      } else { // Do not refetch on yesterday or tomorrow's games
+        qObj.refetchOnMount = false;
+        qObj.refetchOnReconnect = false;
+        qObj.refetchOnWindowFocus = false;
+      }
+      return qObj;
     })
   );
-  if (
-    !allQueriesSuccessful(gamesQuery) ||
-    !props ||
-    !props.prefs ||
-    !props.sports
-  ) {
+  if (isOneLoading(gamesQuery)) {
     return loading;
   }
-  const leaguesFollowed = getInterestedSports(props.prefs);
   if (leaguesFollowed.length === 0) {
-    return <p className="nomargin bold">No leagues followed.</p>;
+    return <p className="nomargin bold">No interested sports.</p>;
+  }
+  if (getAllTeamsFollowed(props.prefs, props.sports).length > 0) {
+    leaguesFollowed.unshift(favoriteIcon);
   }
   return (
     <Tabbed
-      titles={["⭐"].concat(leaguesFollowed)}
-      icons={[null].concat(leaguesFollowed).map((league) => getLeagueLogo(league))}
+      titles={leaguesFollowed}
+      icons={leaguesFollowed.map((league) => getLeagueLogo(league))}
       default={getPreferredSportIndex(props.prefs, leaguesFollowed)}
     >
-      {[""].concat(leaguesFollowed).map((league, idx) =>
+      {leaguesFollowed.map((league, idx) =>
         tab(
           gamesQuery.map((g) => g.data),
           props,

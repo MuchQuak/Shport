@@ -234,10 +234,12 @@ let mlb = new mlbServices.MlbService(
   "https://lookup-service-prod.mlb.com/json"
 );
 app.get("/MLB/games", async (req, res) => {
-  await mlb.getGames(req, res);
+  res.send([]);
+  //await mlb.getGames(req, res);
 });
 app.get("/MLB/games/:offset", async (req, res) => {
-  await mlb.getGames(req, res);
+  res.send([]);
+  //await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
   mlb.getStandingsScrape().then((result) => {
@@ -279,10 +281,12 @@ app.get("/MLB/transactions/:id", async (req, res) => {
 //NFL api Calls Currently pulls nothing
 let nfl = new nflServices.NflService("");
 app.get("/NFL/games", async (req, res) => {
-  await nfl.getGames(req, res);
+  res.send([]);
+  //await nfl.getGames(req, res);
 });
 app.get("/NFL/games/:offset", async (req, res) => {
-  await nfl.getGames(req, res);
+  res.send([]);
+  //await nfl.getGames(req, res);
 });
 app.get("/NFL/standings", async (req, res) => {
   nfl.getStandingsScrape().then((result) => {
