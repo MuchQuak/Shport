@@ -13,7 +13,8 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     defaults:
-      working-directory: ./backend
+      run: 
+        working-directory: ./backend
 
     strategy:
       matrix:
@@ -43,7 +44,8 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     defaults:
-      working-directory: ./frontend
+      run: 
+        working-directory: ./frontend
 
     strategy:
       matrix:
