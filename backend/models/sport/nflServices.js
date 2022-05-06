@@ -22,7 +22,7 @@ class NflService extends league.LeagueService {
   }
 
   getStandingsScrape() {
-    return standingScraper.getNflSportStanding().then((result) => {
+    return standingsScraper.getNflSportStanding().then((result) => {
       return result;
     });
   }
@@ -31,7 +31,6 @@ class NflService extends league.LeagueService {
     return teamScraper.getRoster("nfl", code).then((result) => {
       return result;
     });
-
   }
   getScrapedInjuries(code){
     return teamScraper.getInjuries("nfl", code).then((result) => {

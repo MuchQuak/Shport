@@ -216,7 +216,7 @@ app.get("/NBA/transactions/:id", async (req, res) => {
 
 //NHL api Calls
 let nhl = new nhlServices.NhlService("https://statsapi.web.nhl.com");
-
+/*
 app.get("/NHL/api/", async (req, res) => {
   await sportInfoServices.getSportRequest(req, res).then(
     result => {
@@ -224,7 +224,7 @@ app.get("/NHL/api/", async (req, res) => {
     }
   )
 });
-
+*/
 
 app.get("/NHL/games", async (req, res) => {
   await nhl.getGames(req, res);
@@ -334,7 +334,7 @@ app.get("/NFL/standings", async (req, res) => {
 });
 
 app.get("/NFL/standings/:id", async (req, res) => {
-  await nfl.getStandings(req, res);
+  await nfl.getStandingsScrape(req, res);
 });
 
 app.get("/NFL/players", async (req, res) => {
