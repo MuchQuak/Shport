@@ -24,7 +24,6 @@ export function TeamOverviewExpanded(props) {
   const wins = stat["wins"];
   const losses = stat["losses"];
   const name = stat["city"] + " " + stat["name"];
-  //const api_code = stat["api_code"];
   const league = props.league;
   return (
     <div className="expanded-team-overview-info">
