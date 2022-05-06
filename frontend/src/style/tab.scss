@@ -6,6 +6,7 @@
     display: flex;
     flex-flow: column nowrap;
     width: 100%;
+    gap: 2px;
 }
 
 .tabs {
@@ -24,14 +25,14 @@
 }
 
 .tab {
+    margin: 0;
+    padding: 3px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    margin: 0 0 2px;
-    padding: 4px;
     color: #FFFFFF;
-    border-radius: 3px;
+    border-radius: 4px;
     flex-basis: 100%;
     cursor: pointer;
     font-weight: bold;
