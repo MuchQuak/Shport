@@ -108,7 +108,7 @@ class NbaService extends league.LeagueService {
         const new_team_data = {};
         const code = String(division_data["teamSitesOnly"]["teamTricode"]);
         new_team_data.code = code;
-        new_team_data.espnCode = code;
+        new_team_data.espn = code;
         new_team_data.name = division_data["teamSitesOnly"]["teamNickname"];
         new_team_data.city = division_data["teamSitesOnly"]["teamName"];
         new_team_data.conference = div_name;
