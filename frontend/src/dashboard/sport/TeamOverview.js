@@ -80,7 +80,8 @@ function Overview(props) {
             </div>
             <div className="dialog-body">
               <TeamOverviewExpanded
-                team={espnCode}
+                team={code}
+                espn={espnCode}
                 league={team.sport}
                 stats={stats}
               />

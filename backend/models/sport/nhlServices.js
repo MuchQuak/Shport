@@ -138,11 +138,11 @@ getScrapedTransactions(code){
   }
 
 
-  /*translateApiToEspn(code){
-    axios.get("http://localhost:5000/NHL/api/" + code).then((res) => {
-    return res.data;
+  translateApiToEspn(code){
+    return axios.get("http://localhost:5000/NHL/api/" + code).then((res) => {
+    return res.data.espnCode;
   });
-  }*/
+  }
 
   formatStandingsData(responseData) {
     const all_data = {};
@@ -154,8 +154,8 @@ getScrapedTransactions(code){
         let code = String(team_data["team"]["id"]);
         const new_team_data = {};
         new_team_data.code =  String(team_data["team"]["id"]); // get espn code a
-        //new_team_data.code = this.translateApiToEspn(code);
-
+        new_team_data.espnCode = this.translateApiToEspn(code);
+        //new_team_data.espnCode = "PIT";
         new_team_data.name = team_data["team"]["name"];
         new_team_data.city = "";
         new_team_data.conference = div_name;

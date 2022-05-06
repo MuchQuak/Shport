@@ -7,10 +7,10 @@ import Tabbed from "../Tabbed";
 
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
-  const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
-  const pi = useQuery(["injuries",props.league, props.team], () => injuriesQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
-  const pt = useQuery(["transactions",props.league, props.team], () => transactionsQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
-  const ptp = useQuery(["topPlayers",props.league, props.team], () => topPlayersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pq = useQuery(["players", props.league, props.espn], () => playersQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pi = useQuery(["injuries",props.league, props.espn], () => injuriesQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pt = useQuery(["transactions",props.league, props.espn], () => transactionsQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const ptp = useQuery(["topPlayers",props.league, props.espn], () => topPlayersQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
 
   if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
