@@ -15,7 +15,7 @@ export function TeamOverviewExpanded(props) {
   if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
   }
-  if (!props || !props.team || !props.league) {
+  if (!props || !props.team || !props.league ||!props.espn) {
     return <p className="nomargin">No team information</p>;
   }
   const team = props.team;
