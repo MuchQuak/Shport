@@ -50,7 +50,10 @@ export function TeamOverviewExpanded(props) {
               >
                 <div className="overview-player-info" style={{ color: theme.accent }}>{p["number"]}</div>
                 {p["name"]}
-                <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                {
+                  p["position"] !== undefined &&
+                  <div className="overview-player-info" style={{color: theme.accent}}>{p["position"]}</div>
+                }
               </div>
             ))}</div>,
           <div className="expanded-team-overview-players">
@@ -64,7 +67,10 @@ export function TeamOverviewExpanded(props) {
                   key={index}
                 >
                   {p["name"]}
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                  {
+                    p["position"] !== undefined &&
+                    <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                  }
                   <div className="overview-player-info" style={{ color: theme.accent }}>{p["status"]}</div>
                 </div>
               ))}</div>,
@@ -79,7 +85,10 @@ export function TeamOverviewExpanded(props) {
                   key={index}
                 >
                   {p["name"]}
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                  {
+                    p["position"] !== undefined &&
+                    <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                  }
                   <div className="overview-player-info" style={{ color: theme.accent }}>{p["value"]} {p["category"]}</div>
                 </div>
               ))}</div>,
