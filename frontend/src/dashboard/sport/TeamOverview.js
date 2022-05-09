@@ -23,7 +23,7 @@ const modalStyle = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     height: "auto",
-    width: "45%",
+    width: "60%",
     border: "none",
     padding: "0",
     borderRadius: "8px"
