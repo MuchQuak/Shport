@@ -5,36 +5,17 @@ import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
 import Tabbed from "../Tabbed";
 
-function silhouette(league, city, name) {
-  const source =
-    "https://cdn.statmuse.com/img/" +
-    league.toLowerCase() +
-    "/teams/" +
-    city.split(" ").join("-") +
-    "-" +
-    name.split(" ").join("-") +
-    "-Silhouette.png";
-  return (
-    <div
-      className="logo-container logo-container-sport"
-      id={name + "-silhouette"}
-    >
-      <img className="logo" src={source} alt="logo" />
-    </div>
-  );
-}
-
 export function TeamOverviewExpanded(props) {
   const { theme } = useContext(ThemeContext);
-  const pq = useQuery(["players", props.league, props.team], () => playersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
-  const pi = useQuery(["injuries",props.league, props.team], () => injuriesQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
-  const pt = useQuery(["transactions",props.league, props.team], () => transactionsQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
-  const ptp = useQuery(["topPlayers",props.league, props.team], () => topPlayersQuery(props.league, props.team), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pq = useQuery(["players", props.league, props.espn], () => playersQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pi = useQuery(["injuries",props.league, props.espn], () => injuriesQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const pt = useQuery(["transactions",props.league, props.espn], () => transactionsQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const ptp = useQuery(["topPlayers",props.league, props.espn], () => topPlayersQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
 
   if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
   }
-  if (!props || !props.team || !props.league) {
+  if (!props || !props.team || !props.league ||!props.espn) {
     return <p className="nomargin">No team information</p>;
   }
   const team = props.team;
@@ -43,7 +24,6 @@ export function TeamOverviewExpanded(props) {
   const wins = stat["wins"];
   const losses = stat["losses"];
   const name = stat["city"] + " " + stat["name"];
-  //const api_code = stat["api_code"];
   const league = props.league;
   return (
     <div className="expanded-team-overview-info">

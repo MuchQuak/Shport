@@ -80,6 +80,7 @@ function createMlbObj(
     sportObj[natCodes[i]]["name"] = natLeague[i];
     sportObj[natCodes[i]]["city"] = "";
     sportObj[natCodes[i]]["code"] = natCodes[i];
+    sportObj[natCodes[i]]["espn"] = natCodes[i];
     sportObj[natCodes[i]]["rank"] = k.toString();
     sportObj[natCodes[i]]["wins"] = scores[j];
     sportObj[natCodes[i]]["losses"] = scores[j + 1];
@@ -117,6 +118,7 @@ function createNflObj(
     sportObj[natCodes[i]]["name"] = natLeague[i];
     sportObj[natCodes[i]]["city"] = "";
     sportObj[natCodes[i]]["code"] = natCodes[i];
+    sportObj[natCodes[i]]["espn"] = natCodes[i];
     sportObj[natCodes[i]]["rank"] = k.toString();
     sportObj[natCodes[i]]["wins"] = scores[j];
     sportObj[natCodes[i]]["losses"] = scores[j + 1];

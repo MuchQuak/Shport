@@ -122,7 +122,7 @@ export default function StandingsTable(props) {
   }
   const leaguesFollowed = getSportsFollowed(props.prefs);
   if (leaguesFollowed.length === 0) {
-    return <p className="nomargin bold">No Leagues Followed</p>;
+    return <p className="nomargin">No Leagues Followed.</p>;
   }
   const tabs = leaguesFollowed.map((league, index) => {
     const sportInfo = byCode(props.sports, league);

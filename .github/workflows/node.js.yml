@@ -10,8 +10,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-backend:
     runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./backend
 
     strategy:
       matrix:
@@ -27,8 +30,42 @@ jobs:
         cache: 'npm'
         cache-dependency-path: backend/package-lock.json
     - run: npm ci
-      working-directory: ./backend
     - run: npm run build --if-present
-      working-directory: ./backend
     - run: npm test
-      working-directory: ./backend
+
+    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "shport-backend" #Must be unique on Heroku
+        heroku_email: "hrendon@calpoly.edu" #Must be the one you used on Heroku
+        appdir: "backend" # <- This will point to the api folder in your project
+
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./frontend
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    - run: npm ci
+    - run: npm run build --if-present
+
+    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "shport-frontend" #Must be unique on Heroku
+        heroku_email: "hrendon@calpoly.edu" #Must be the one you used on Heroku
+        appdir: "frontend" # <- This will point to the api folder in your project

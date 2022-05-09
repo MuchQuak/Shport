@@ -1,5 +1,7 @@
 const league = require("./leagueService");
 const axios = require("axios");
+const teamScraper = require("../../scraper/teamExpansionScrape");
+
 
 class NhlService extends league.LeagueService {
   constructor(host) {
@@ -16,13 +18,41 @@ class NhlService extends league.LeagueService {
     );
   }
 
-  getGamesEndPoint(currentDate) {
-    return this.host + "/api/v1/schedule?date=" + currentDate;
+  async getGamesEndPoint(currentDate) {
+    return this.formatGamesData(
+      await axios.get(this.host + "/api/v1/schedule?date=" + currentDate));
   }
 
-  getStandingsEndPoint() {
-    return this.host + "/api/v1/standings";
+  async getStandingsEndPoint() {
+    return this.formatStandingsData(
+      await axios.get(this.host + "/api/v1/standings"));
   }
+
+  getScrapedPlayers(code){
+    return teamScraper.getRoster("nhl", code).then((result) => {
+      return result;
+    });
+
+  }
+
+getScrapedInjuries(code){
+    return teamScraper.getInjuries("nhl", code).then((result) => {
+      return result;
+    });
+  }
+
+getScrapedTopPlayers(code){
+  return teamScraper.getTopPlayers("nhl", code).then((result) => {
+    return result;
+  });
+}
+
+getScrapedTransactions(code){
+  return teamScraper.getTransactions("nhl", code).then((result) => {
+    return result;
+  });
+}
+
 
   async parseSpecificGameInfo(jsonData) {
     const line = jsonData["liveData"]["linescore"];
@@ -46,10 +76,12 @@ class NhlService extends league.LeagueService {
   }
 
   async formatGamesData(responseData, date) {
-    const data = responseData["dates"].find((element) => element.date === date);
+    const data = responseData.data["dates"][0];
+
     if (data === undefined) {
       return;
     }
+
     const games = data["games"];
     const new_games = [];
     for (let i = 0; i < games.length; i++) {
@@ -105,15 +137,25 @@ class NhlService extends league.LeagueService {
     }
   }
 
+
+  translateApiToEspn(code){
+    return axios.get("http://localhost:5000/NHL/api/" + code).then((res) => {
+    return res.data.espnCode;
+  });
+  }
+
   formatStandingsData(responseData) {
     const all_data = {};
-    const data = responseData["records"];
+    const data = responseData.data["records"];
     data.forEach((division_data) => {
       const div_name = division_data["division"]["nameShort"];
       const records = division_data["teamRecords"];
       records.forEach((team_data) => {
+        let code = String(team_data["team"]["id"]);
         const new_team_data = {};
-        new_team_data.code = String(team_data["team"]["id"]);
+        new_team_data.code =  String(team_data["team"]["id"]); // get espn code a
+        new_team_data.espn = this.translateApiToEspn(code);
+        //new_team_data.espnCode = "PIT";
         new_team_data.name = team_data["team"]["name"];
         new_team_data.city = "";
         new_team_data.conference = div_name;

@@ -1,19 +1,24 @@
 const league = require("./leagueService");
 const teamScraper = require("../../scraper/teamExpansionScrape");
+const axios = require("axios");
+const { MlbService } = require("./mlbServices");
 
 class NbaService extends league.LeagueService {
   constructor(host) {
     super(host);
   }
 
-  getGamesEndPoint(currentDate) {
-    return this.host + "/10s/prod/v1/" + currentDate + "/scoreboard.json";
+  async getGamesEndPoint(currentDate) {
+    return this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + currentDate + "/scoreboard.json"));
   }
-  getStandingsEndPoint() {
-    return this.host + "/10s/prod/v1/current/standings_conference.json";
+  async getStandingsEndPoint() {
+    return this.formatStandingsData(
+      await axios.get(this.host + "/10s/prod/v1/current/standings_conference.json"));
   }
-  getPlayersEndPoint(currentYear) {
-    return this.host + "/10s/prod/v1/" + currentYear + "/players.json";
+  async getPlayersEndPoint(currentYear) {
+    return this.formatPlayersData(
+      await axios.get(this.host + "/10s/prod/v1/" + currentYear + "/players.json"));
   }
 
   getScrapedPlayers(code){
@@ -27,20 +32,21 @@ class NbaService extends league.LeagueService {
       return result;
     });
   }
+
   getScrapedTopPlayers(code){
     return teamScraper.getTopPlayers("nba", code).then((result) => {
       return result;
     });
   }
+  
   getScrapedTransactions(code){
     return teamScraper.getTransactions("nba", code).then((result) => {
       return result;
     });
   }
 
-
   formatGamesData(responseData, date) {
-    const games = responseData["games"];
+    const games = responseData.data["games"];
     const new_games = [];
     for (let i = 0; i < games.length; i++) {
       const game = games[i];
@@ -92,7 +98,9 @@ class NbaService extends league.LeagueService {
 
   formatStandingsData(responseData) {
     const all_data = {};
-    const object_data = responseData["league"]["standard"]["conference"];
+
+    const object_data = responseData.data["league"]["standard"]["conference"];
+    
     for (const conf of Object.keys(object_data)) {
       const data = object_data[conf];
       data.forEach((division_data) => {
@@ -100,6 +108,7 @@ class NbaService extends league.LeagueService {
         const new_team_data = {};
         const code = String(division_data["teamSitesOnly"]["teamTricode"]);
         new_team_data.code = code;
+        new_team_data.espn = code;
         new_team_data.name = division_data["teamSitesOnly"]["teamNickname"];
         new_team_data.city = division_data["teamSitesOnly"]["teamName"];
         new_team_data.conference = div_name;
@@ -114,42 +123,8 @@ class NbaService extends league.LeagueService {
   }
 
   formatPlayersData(responseData) {
-    return responseData["league"]["standard"];
+    return responseData.data["league"]["standard"];
   }
 }
 
 exports.NbaService = NbaService;
-
-//exports.getTeams = getTeams;
-/*
-async function getTeams(req, res) {
-  const id = req.params['id'];
-  const year = (new Date().getFullYear() - 1).toString().trim()
-    try {
-        const teams = await axios.get(host + '/10s/prod/v2/' + year + '/teams.json');
-        if (id === undefined) {
-            res.send(formatTeamsData(teams.data));
-        } else {
-            res.send(formatTeamsData(teams.data)[id]);
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-function formatTeamsData(responseData) {
-    const old_teams = responseData['league']['standard'];
-    const teams = {};
-    for (let i = 0; i < old_teams.length; i++) {
-        const team = old_teams[i];
-        const new_team = {};
-        const code = team['tricode'];
-        new_team.code = code;
-        new_team.name = team['nickname'];
-        new_team.full_name = team['fullName'];
-        new_team.city = team['city'];
-        teams[code] = new_team;
-    }
-    return {teams: teams};
-}
- */

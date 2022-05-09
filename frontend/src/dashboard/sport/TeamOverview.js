@@ -26,6 +26,7 @@ const modalStyle = {
     width: "60%",
     border: "none",
     padding: "0",
+    borderRadius: "8px"
   },
 };
 
@@ -36,6 +37,8 @@ function Overview(props) {
   const team = props.team;
   const stats = standings[team.sport];
   const code = String(team.code).trim().toUpperCase();
+  const espn = String(team.espn).trim().toUpperCase();
+
   Modal.setAppElement("#root");
   if (standings && stats && stats.hasOwnProperty(code)) {
     const stat = stats[code];
@@ -78,6 +81,7 @@ function Overview(props) {
             <div className="dialog-body">
               <TeamOverviewExpanded
                 team={code}
+                espn={espn}
                 league={team.sport}
                 stats={stats}
               />

@@ -97,71 +97,6 @@ async function scrapeScore(sportCode, gId) {
 
     return scores;
 }
-
-async function scrapeGames(sportCode) {
-
-    var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`)
-    let $ = cheerio.load(response.data);
-    var games = [];
-
-    //Scrapes schedule Infromation
-    $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each((i, schedule) => {
-        $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
-            let game = {
-                away: "",
-                away_score: 0,
-                home: "",
-                home_score: 0,
-                time: "",
-                gId: "",
-            }
-
-            let aTeam = $(tr).find('.events__col.Table__TD').find('a');
-            let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
-
-            aTeam.attr() === undefined ? 
-                game.away = 'TBA' : 
-                game.away = parseTeamName(aTeam.attr().href, aTeam.text().trim());
-
-            hTeam.attr() === undefined ? 
-                game.home = 'TBA' : 
-                game.home = parseTeamName(hTeam.attr().href, hTeam.text().trim());
-
-            let dateElem = $(tr).find('.date__col.Table__TD');
-
-            if(dateElem.find('a').attr('href') === undefined) {
-                game.time = "Ended";
-
-                let gameResult = $(tr).find('.teams__col.Table__TD:first').find('a');
-                let finalScore = parseFinalScore(gameResult.text());
-                
-                game.home_away = finalScore.away;
-                game.home_score = finalScore.home;
-
-                game.gId = parsingGameId(gameResult.attr('href'));
-            } else {
-                game.time = dateElem.find('a').text().trim();
-                game.gId = parsingGameId(dateElem.find('a').attr('href'));
-            }
-            
-            games.push(game); 
-        });
-    });
-
-    //Update game scores if game is live
-    for(let i = 0; i < games.length; i++) {
-        if(games[i].time === 'LIVE') {
-            const scores = await scrapeScore(sportCode, games[i].gId);
-            games[i].away_score = scores.away;
-            games[i].home_score = scores.home;
-        }
-    }
-
-    //console.log(games);
-
-    return games;
-}
-
 /*
 new_game = {
     status: "",
@@ -181,5 +116,78 @@ new_game = {
     startTimeUTC: ""
 }
 */
+
+async function scrapeGames(sportCode) {
+
+    var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`)
+    let $ = cheerio.load(response.data);
+    var games = [];
+
+    //Scrapes schedule Infromation
+    $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each((i, schedule) => {
+        $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
+            let game = {
+                status: "",
+                clock: "",
+                halftime: "",
+                arena: "",
+                currentQtr: "",
+                maxQtr: "",
+                away: "",
+                away_score: 0,
+                away_record: "",
+                away_code: "",
+                home: "",
+                home_code: "",
+                home_score: 0,
+                home_record: "",
+                startTimeUTC: "",
+                gId: "",
+            }
+
+            let aTeam = $(tr).find('.events__col.Table__TD').find('a');
+            let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
+
+            aTeam.attr() === undefined ? 
+                game.away = 'TBA' : 
+                game.away = parseTeamName(aTeam.attr().href, aTeam.text().trim());
+
+            hTeam.attr() === undefined ? 
+                game.home = 'TBA' : 
+                game.home = parseTeamName(hTeam.attr().href, hTeam.text().trim());
+
+            let dateElem = $(tr).find('.date__col.Table__TD');
+
+            if(dateElem.find('a').attr('href') === undefined) {
+                game.startTimeUTC = "Ended";
+
+                let gameResult = $(tr).find('.teams__col.Table__TD:first').find('a');
+                let finalScore = parseFinalScore(gameResult.text());
+                
+                game.home_away = finalScore.away;
+                game.home_score = finalScore.home;
+
+                game.gId = parsingGameId(gameResult.attr('href'));
+            } else {
+                game.startTimeUTC = dateElem.find('a').text().trim();
+                game.gId = parsingGameId(dateElem.find('a').attr('href'));
+            }
+            
+            games.push(game); 
+        });
+    });
+
+    //Update game scores if game is live
+    for(let i = 0; i < games.length; i++) {
+        if(games[i].startTimeUTC === 'LIVE') {
+            const scores = await scrapeScore(sportCode, games[i].gId);
+            games[i].away_score = scores.away;
+            games[i].home_score = scores.home;
+        }
+    }
+    //console.log(games);
+
+    return games;
+}
 
 exports.scrapeGames = scrapeGames;

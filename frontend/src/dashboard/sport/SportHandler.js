@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getImageSrc } from "../AssetHandler";
+import {getAllTeamsFollowed} from "../../settings/PrefHandler";
 
 export async function sportsQuery() {
   return await axios.get("http://localhost:5000/sport").then((res) => {
@@ -25,7 +26,7 @@ export async function gamesQuery(sport, dayOffset) {
 
 export async function playersQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/players" + "/"+ code)
+    .get("http://localhost:5000/" + sport + "/players/" + code)
     .then((res) => {
       return res.data;
     });
@@ -33,14 +34,14 @@ export async function playersQuery(sport, code) {
 
 export async function injuriesQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/injuries" + "/"+ code)
+    .get("http://localhost:5000/" + sport + "/injuries/" + code)
     .then((res) => {
       return res.data;
     });
 }
 export async function transactionsQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/transactions" + "/"+ code)
+    .get("http://localhost:5000/" + sport + "/transactions/" + code)
     .then((res) => {
       return res.data;
     });
@@ -48,7 +49,7 @@ export async function transactionsQuery(sport, code) {
 
 export async function topPlayersQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/top_players" + "/"+ code)
+    .get("http://localhost:5000/" + sport + "/top_players/"+ code)
     .then((res) => {
       return res.data;
     });
@@ -192,7 +193,12 @@ export function getTeamLogo(league, code, divId) {
   }
 }
 
+export const favoriteIcon = "⭐";
+
 export function getLeagueLogo(league) {
+  if (league === favoriteIcon) {
+    return null;
+  }
   return getTeamLogo(league, "", "sport-logo");
 }
 
@@ -226,6 +232,20 @@ export function getAllTeams(sports) {
     }
   });
   return allTeams;
+}
+
+export function followsEitherTeam(prefs, sports, ...teams) {
+  return getAllTeamsFollowed(prefs, sports).map(t => t.code).some(r => teams.includes(r));
+  // Bad implementation because teams from diff leagues could share code
+}
+
+export function dayName(offset) {
+  switch (offset) {
+    case -1: return "Yesterday";
+    case 0: return "Today";
+    case 1: return "Tomorrow";
+    default: return String(offset);
+  }
 }
 
 /*

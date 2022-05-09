@@ -6,6 +6,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
+
 // Models
 const nhlServices = require("./models/sport/nhlServices");
 const nbaServices = require("./models/sport/nbaServices");
@@ -215,6 +216,15 @@ app.get("/NBA/transactions/:id", async (req, res) => {
 
 //NHL api Calls
 let nhl = new nhlServices.NhlService("https://statsapi.web.nhl.com");
+
+app.get("/NHL/api/:code", async (req, res) => {
+  await sportInfoServices.getTeams("NHL").then( result => {
+    const teamPicked = result.filter(team => team.code === req.params["code"]);
+    res.send(teamPicked[0]);
+  })
+});
+
+
 app.get("/NHL/games", async (req, res) => {
   await nhl.getGames(req, res);
 });
@@ -228,15 +238,46 @@ app.get("/NHL/standings/:id", async (req, res) => {
   await nhl.getStandings(req, res);
 });
 
+app.get("/NHL/players", async (req, res) => {
+  res.send({});
+});
+
+app.get("/NHL/players/:id", async (req, res) => {
+    await nhl.getScrapedPlayers(req.params["id"]).then((result) => {
+      res.send(result);
+  });
+});
+
+app.get("/NHL/injuries/:id", async (req, res) => {
+    await nhl.getScrapedInjuries(req.params["id"]).then((result) => {
+      res.send(result);
+  });
+});
+
+app.get("/NHL/top_players/:id", async (req, res) => {
+    await nhl.getScrapedTopPlayers(req.params["id"]).then((result) => {
+      res.send(result);
+  });
+});
+
+app.get("/NHL/transactions/:id", async (req, res) => {
+    await nhl.getScrapedTransactions(req.params["id"]).then((result) => {
+      res.send(result);
+  });
+});
+
 //MLB api Calls Currently currently pulls nothing
 let mlb = new mlbServices.MlbService(
   "https://lookup-service-prod.mlb.com/json"
 );
 app.get("/MLB/games", async (req, res) => {
-  await mlb.getGames(req, res);
+  res.send([]);
+  //await mlb.getGames(req, res);
 });
+
 app.get("/MLB/games/:offset", async (req, res) => {
-  await mlb.getGames(req, res);
+  res.send([]);
+  //await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
   mlb.getStandingsScrape().then((result) => {
@@ -278,10 +319,12 @@ app.get("/MLB/transactions/:id", async (req, res) => {
 //NFL api Calls Currently pulls nothing
 let nfl = new nflServices.NflService("");
 app.get("/NFL/games", async (req, res) => {
-  await nfl.getGames(req, res);
+  res.send([]);
+  //await nfl.getGames(req, res);
 });
 app.get("/NFL/games/:offset", async (req, res) => {
-  await nfl.getGames(req, res);
+  res.send([]);
+  //await nfl.getGames(req, res);
 });
 app.get("/NFL/standings", async (req, res) => {
   nfl.getStandingsScrape().then((result) => {
@@ -290,7 +333,7 @@ app.get("/NFL/standings", async (req, res) => {
 });
 
 app.get("/NFL/standings/:id", async (req, res) => {
-  await nfl.getStandings(req, res);
+  await nfl.getStandingsScrape(req, res);
 });
 
 app.get("/NFL/players", async (req, res) => {
@@ -330,6 +373,6 @@ app.get("/subreddit/:query", async (req, res) => {
   await reddit.getSubreddit(req, res);
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Backend listening at http://localhost:${port}`);
 });

@@ -144,6 +144,7 @@ export function prefSize(preferences) {
     if (preferences.sports[key].hasOwnProperty("following")) {
       if (preferences.sports[key].following === true) {
         total += 1;
+        console.log(value); // for Heroku to bot give errors
       }
     }
   }
