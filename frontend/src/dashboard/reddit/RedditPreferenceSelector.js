@@ -7,7 +7,7 @@ export default function RedditPreferenceSelector(props) {
     const setLeaguePosts = props.setLeaguePosts;
     const teamPosts = props.teamPosts;
     const setTeamPosts = props.setTeamPosts;
-    if (!props || !props.prefs || !leaguePosts || !setLeaguePosts || !teamPosts || !setTeamPosts) {
+    if (!props || !props.prefs || !setLeaguePosts || !setTeamPosts) {
         return null;
     }
     return (

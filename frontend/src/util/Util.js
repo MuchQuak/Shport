@@ -121,7 +121,7 @@ export function Collapsible(props) {
 export function RangeOption(props) {
   const value = props.value;
   const setValue = props.setValue;
-  if (!props || !props.min || !props.max || !value || !setValue) {
+  if (!props || !props.min || !props.max || !setValue) {
     return null;
   }
   function handleChange(event) {

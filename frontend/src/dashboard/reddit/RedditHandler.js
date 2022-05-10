@@ -91,14 +91,14 @@ export function useLeagueSubreddits(sports, key, sportList, numPosts) {
 }
 
 export function getTeamPosts(prefs) {
-    if (prefs.reddit && prefs.reddit.teamPosts) {
+    if (prefs.reddit && prefs.reddit.teamPosts !== undefined) {
         return prefs.reddit.teamPosts;
     }
     return 1;
 }
 
 export function getLeaguePosts(prefs) {
-    if (prefs.reddit && prefs.reddit.leaguePosts) {
+    if (prefs.reddit && prefs.reddit.leaguePosts !== undefined) {
         return prefs.reddit.leaguePosts;
     }
     return 1;

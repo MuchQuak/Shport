@@ -10,13 +10,16 @@ function host(sub, limit) {
 
 async function getSubreddit(req, res) {
   const query = req.params["query"];
-  const num = req.params["num"] ? req.params["num"] : 1;
-  try {
-    res.send(formatPostsData(await axios.get(host(query, num))));
-  } catch (e) {
-    console.error(e);
-    res.send([]).end();
+  const num = req.params["num"] !== undefined ? req.params["num"] : 1;
+  if (num > 0) {
+    try {
+      res.send(formatPostsData(await axios.get(host(query, num)))).end();
+      return;
+    } catch (e) {
+      console.error(e);
+    }
   }
+  res.send([]).end();
 }
 
 function isImage(url) {
