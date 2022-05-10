@@ -1,7 +1,9 @@
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { getAllTeams, getTeamLogo } from "../dashboard/sport/SportHandler";
 import { loading } from "../util/Util";
+import {css, StyleSheet} from "aphrodite";
+import {ThemeContext} from "../App";
 const handleOnSearch = (string, results) => {
   // onSearch will have as the first callback parameter
   // the string searched and for the second the results.
@@ -30,6 +32,13 @@ function itemsEqual(a, b) {
   );
 }
 
+const styles = (th) =>
+    StyleSheet.create({
+        selectedTable: {
+            border: "2px solid " + th.border,
+        }
+    });
+
 export default function TeamPreferenceSelector(props) {
   const selectedTeams = props.selected;
   const [availableTeams, setAvailableTeams] = useState(
@@ -37,6 +46,8 @@ export default function TeamPreferenceSelector(props) {
       (element) => !selectedTeams.some((e) => itemsEqual(e, element))
     )
   );
+  const { theme } = useContext(ThemeContext);
+  const styled = styles(theme);
   function setSelectedTeams(select) {
     props.setSelected(select);
   }
@@ -78,8 +89,9 @@ export default function TeamPreferenceSelector(props) {
         onFocus={handleOnFocus}
         autoFocus
         formatResult={formatResult}
+        styling={{height: "30px"}}
       />
-      <div className="selected-table">
+      <div className={css(styled.selectedTable) + " selected-table"}>
         {selectedTeams.map((row, index) => {
           return (
             <div className="selected-team" key={index}>
@@ -89,8 +101,8 @@ export default function TeamPreferenceSelector(props) {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
+                  width="16"
+                  height="16"
                   fill="currentColor"
                   className="bi bi-x"
                   viewBox="0 0 16 16"

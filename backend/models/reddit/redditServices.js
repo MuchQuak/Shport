@@ -1,17 +1,18 @@
 const axios = require("axios");
 
-function host(sub) {
+function host(sub, limit) {
   return (
     "https://www.reddit.com/r/" +
     sub +
-    "/top.json?nsfw=0&sort=top&t=day&limit=1"
+    "/top.json?nsfw=0&sort=top&t=day&limit=" + limit
   );
 }
 
 async function getSubreddit(req, res) {
   const query = req.params["query"];
+  const num = req.params["num"] ? req.params["num"] : 1;
   try {
-    res.send(formatPostsData(await axios.get(host(query))));
+    res.send(formatPostsData(await axios.get(host(query, num))));
   } catch (e) {
     console.error(e);
     res.send([]).end();

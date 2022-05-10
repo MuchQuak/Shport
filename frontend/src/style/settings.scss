@@ -6,12 +6,13 @@
 
 .league-option {
     margin: 2px;
-    padding: 4px 10px;
+    padding: 2px;
     flex: 1 1 0px;
     color: #FFFFFF;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 15px;
 }
 
 .league-option-active {
@@ -42,19 +43,22 @@
 }
 
 .team-wrapper {
-    margin: 0 auto 10px;
+    margin: 0;
     width: 100%;
 }
 
 .selected-table {
+    max-height: 100px;
+    overflow-y: scroll;
     margin: 10px 0;
-    padding: 0;
+    padding: 4px;
     width: 100%;
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: row wrap;
     gap: 2px;
     justify-items: flex-start;
     align-items: flex-start;
+    border-radius: 10px;
 }
 
 .selected-team {
@@ -75,6 +79,12 @@
     border: 2px solid #d12115;
     border-radius: 8px;
     color: #FFFFFF;
+}
+
+.remove-button svg {
+    width: 25px;
+    height: 25px;
+    margin: 0;
 }
 
 .remove-button:hover {
@@ -106,8 +116,8 @@
 }
 
 #selector-logo-container {
-    width: 40px;
-    height: 40px;
+    width: 2em;
+    height: 2em;
 }
 
 .settings {
