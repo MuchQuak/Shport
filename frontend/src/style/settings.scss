@@ -32,7 +32,7 @@
 }
 
 .league-wrapper {
-    margin: 0 auto 10px;
+    margin: 0;
     width: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -43,14 +43,14 @@
 }
 
 .team-wrapper {
-    margin: 0;
+    margin: 10px 0;
     width: 100%;
 }
 
 .selected-table {
     max-height: 100px;
     overflow-y: scroll;
-    margin: 10px 0;
+    margin: 10px 0 0;
     padding: 4px;
     width: 100%;
     display: flex;
@@ -96,7 +96,7 @@
 }
 
 .settings-category-header {
-    margin: 0 auto 5px;
+    margin: 0;
     width: 100%;
     font-weight: bold;
     align-self: flex-start;

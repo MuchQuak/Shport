@@ -91,7 +91,9 @@ export default function TeamPreferenceSelector(props) {
         formatResult={formatResult}
         styling={{height: "30px"}}
       />
-      <div className={css(styled.selectedTable) + " selected-table"}>
+      {
+        selectedTeams.length > 0 &&
+        <div className={css(styled.selectedTable) + " selected-table"}>
         {selectedTeams.map((row, index) => {
           return (
             <div className="selected-team" key={index}>
@@ -118,6 +120,7 @@ export default function TeamPreferenceSelector(props) {
           );
         })}
       </div>
+      }
     </div>
   );
 }
