@@ -48,7 +48,8 @@ export function TeamOverviewExpanded(props) {
                 style={{ backgroundColor: theme.accent }}
                 key={index}
               >
-                <div className="overview-player-pos" style={{ color: "lightgray", fontWeight: "lighter" }}>{p["position"]}</div>
+                {p["position"] !== undefined &&
+                <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>}
                 {p["name"]}
                 <div className="overview-player-num" style={{ color: "lightgray", fontWeight: "lighter" }}>{p["number"]}</div>
               </div>
@@ -63,7 +64,8 @@ export function TeamOverviewExpanded(props) {
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
-                  <div className="overview-player-pos" style={{ color: "lightgray", fontWeight: "lighter" }}>{p["position"]}</div>
+                  {p["position"] !== undefined &&
+                  <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>}
                   {p["name"]}
                   <div className="overview-player-status" style={{ color: "lightgray" }}>status: {p["status"]}</div>
                   <div className="overview-player-description" style={{ color: "lightgray", fontWeight: "lighter"}}>{p["description"]}</div>
@@ -79,7 +81,8 @@ export function TeamOverviewExpanded(props) {
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
-                  <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>
+                  {p["position"] !== undefined &&
+                  <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>}
                   {p["name"]}
                   <div className="overview-player-value" style={{ color: "lightgray" }}>{p["value"]}</div>
                   <div className="overview-player-category" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["category"]}</div>
