@@ -150,3 +150,21 @@ export function prefSize(preferences) {
   }
   return total;
 }
+
+export function followsTeam(prefs, league, teamCode) {
+  return (
+      prefs.sports.hasOwnProperty(league) &&
+      prefs.sports[league].hasOwnProperty("teams") &&
+      prefs.sports[league].teams.includes(String(teamCode))
+  );
+}
+
+export function followsEitherTeam(prefs, sports, league, ...teams) {
+  for (let team of teams) {
+    if (followsTeam(prefs, league, team)) {
+      return true;
+    }
+  }
+  return false;
+  //return getAllTeamsFollowed(prefs, sports).map(t => t.code).some(r => teams.includes(r));
+}
