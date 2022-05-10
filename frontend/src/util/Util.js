@@ -73,8 +73,15 @@ export function onlyUnique(value, index, self) {
 
 export function Collapsible(props) {
   const [open, setOpen] = useState(true);
-  const caret = (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down"
+  const caretRight = (
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFFFFF" className="bi bi-caret-right"
+           viewBox="0 0 16 16">
+        <path
+            d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+      </svg>
+  )
+  const caretDown = (
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFFFFF" className="bi bi-caret-down"
            viewBox="0 0 16 16">
         <path
             d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
@@ -89,7 +96,7 @@ export function Collapsible(props) {
           <p className="collapsible-header" onClick={() => setOpen(!open)}>
             {props.icon && props.icon}
             {props.title && props.title}
-            {caret}
+            {open ? caretDown : caretRight}
           </p>
         }
         {
