@@ -138,7 +138,7 @@ export default function Game(props) {
       <div className="game-center">
         {clock()}
         {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
-        <p className="game-footer">
+        <div className="game-footer">
           {game.arena}
           {game.status === 1 &&
             <a href={stream(league, homeFullName, awayFullName)} className="stream" target="_blank" rel="noreferrer" >
@@ -149,7 +149,7 @@ export default function Game(props) {
               </svg>
               <p className="nomargin">Stream</p>
             </a>}
-        </p>
+        </div>
       </div>
       <div className="game-right">
         <div className="game-playoffs-wrapper">
