@@ -11,7 +11,7 @@ export default function RedditPreferenceSelector(props) {
         return null;
     }
     return (
-        <Collapsible title="Reddit Settings" icon={redditLogo()}>
+        <Collapsible title="Reddit Settings" default={false} icon={redditLogo()}>
             <RangeOption label="League Posts:" value={leaguePosts} setValue={setLeaguePosts} min="0" max="10" />
             <RangeOption label="Team Posts:" value={teamPosts} setValue={setTeamPosts} min="0" max="10" />
         </Collapsible>

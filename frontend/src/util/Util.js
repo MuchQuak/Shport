@@ -72,7 +72,7 @@ export function onlyUnique(value, index, self) {
 }
 
 export function Collapsible(props) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(props.default !== undefined ? props.default : false);
   const caretRight = (
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFFFFF" className="bi bi-caret-right"
            viewBox="0 0 16 16">
