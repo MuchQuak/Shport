@@ -17,7 +17,7 @@ function PSTtoUTC(time) {
     return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
 }
 
-function parseTeamName(hrefString, cityStr) {
+function parseTeam(hrefString, cityStr) {
 
     if(hrefString === undefined) {
         return "";
@@ -25,6 +25,8 @@ function parseTeamName(hrefString, cityStr) {
 
     //Gets City TeamName out of Href
     let delimited = hrefString.split('/');
+    let teamCode = delimited[5];
+
     delimited = (delimited[delimited.length -1]).split('-');
 
     //Find how many words are in the city name
@@ -43,7 +45,7 @@ function parseTeamName(hrefString, cityStr) {
             result += " " + teamName[i]
         }
     }
-    return result;
+    return { name: result, code: teamCode };
 }
 
 function parseFinalScore(scoreText) {
@@ -83,35 +85,39 @@ function capatilize(str) {
     return str.toUpperCase();
 }
 
-async function scrapeScore(sportCode, gId) {
+async function scrapeLiveGameData(sportCode, gId) {
 
-    let scores = {
+    let liveData = {
         away: "0",
-        home: "0"
+        home: "0",
+        clock: "",
+        status: ""
     }
 
     if(gId === undefined) {
         console.log('gId undefined');
-        return scores;
+        return liveData;
     }
 
     let response = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
-   
+
     let $ = cheerio.load(response.data);
 
     let teams = $('div.competitors');
 
-    const awayS = teams.find('.team.away').find('.score.icon-font-after').text().trim();
-    const homeS = teams.find('.team.home').find('.score.icon-font-before').text().trim();
+    liveData.away = teams.find('.team.away').find('.score.icon-font-after').text().trim();
+    liveData.home = teams.find('.team.home').find('.score.icon-font-before').text().trim();
 
-    if(awayS !== '') {
-        scores.away = awayS;
-    }
-    if(homeS !== '') {
-        scores.home = homeS;
-    }
+    const gameTime = teams.find('.game-time')
 
-    return scores;
+    liveData.clock = gameTime.contents().map(function() {
+        const text = $(this).text();
+        return text !== undefined || text !== '' ? text + '/' : '';
+    }).get().join('');
+
+    liveData.status = gameTime.find('.status-detail').text().trim();
+
+    return liveData;
 }
 /*
 new_game = {
@@ -150,9 +156,9 @@ async function scrapeGames(sportCode) {
                 currentQtr: "",
                 maxQtr: "",
                 away: "",
+                away_code: "",
                 away_score: "0",
                 away_record: "",
-                away_code: "",
                 home: "",
                 home_code: "",
                 home_score: "0",
@@ -164,16 +170,25 @@ async function scrapeGames(sportCode) {
             let aTeam = $(tr).find('.events__col.Table__TD').find('a');
             let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
 
-            aTeam.attr() === undefined ? 
-                game.away = 'TBA' : 
-                game.away = parseTeamName(aTeam.attr().href, aTeam.text().trim());
+            if (aTeam.attr() === undefined) {
+                game.away = 'TBA';
+            } else {
+                let team = parseTeam(aTeam.attr().href, aTeam.text().trim());
+                game.away = team.name;
+                game.away_code = team.code;
+            }
 
-            hTeam.attr() === undefined ? 
-                game.home = 'TBA' : 
-                game.home = parseTeamName(hTeam.attr().href, hTeam.text().trim());
+            if (aTeam.attr() === undefined) {
+                game.home = 'TBA';
+            } else {
+                let team = parseTeam(hTeam.attr().href, hTeam.text().trim());
+                game.home = team.name;
+                game.home_code = team.code;
+            }
 
             let dateElem = $(tr).find('.date__col.Table__TD');
 
+            //If game is finished get score
             if(dateElem.find('a').attr('href') === undefined) {
                 game.startTimeUTC = "Ended";
 
@@ -192,20 +207,27 @@ async function scrapeGames(sportCode) {
             
             games.push(game); 
         });
-
-        console.log(games);
     });
 
     //Update game scores if game is live
     for(let i = 0; i < games.length; i++) {
         if(games[i].startTimeUTC === 'LIVE') {
-            const scores = await scrapeScore(sportCode, games[i].gId);
-            games[i].away_score = scores.away;
-            games[i].home_score = scores.home;
+            const liveData = await scrapeLiveGameData(sportCode, games[i].gId);
+            games[i].away_score = liveData.away;
+            games[i].home_score = liveData.home;
+            games[i].clock = liveData.clock;
         }
     }
+
     //console.log(games);
 
     return games;
 }
+
+//scrapeGames('mlb');
+
+//scrapeGames('soccer');
+
+//scrapeLiveGameData('soccer', 605713)
+
 exports.scrapeGames = scrapeGames;
