@@ -166,7 +166,7 @@ function isDST(date) {
 export function UTCtoLocal(UTC, league) {
   const today = new Date(UTC);
   let hours = today.getHours();
-  if (isDST(today) && league === "NBA") {
+  if (isDST(today) && (league === "NBA" || league === "MLB")) {
     hours -= 1;
   }
   const period = hours > 12 ? "PM" : "AM";

@@ -10,10 +10,6 @@ class MlbService extends league.LeagueService {
     super(host);
   }
 
-  formatDate(date) {
-    //Function for formatting date if different from standard format in leagueServices
-  }
-
   async getGamesEndPoint(currentDate) {
     //Alter to user currentDate
     return await gameScraper.scrapeGames('mlb');
@@ -27,6 +23,12 @@ class MlbService extends league.LeagueService {
     return standingsScraper.getMlbSportStanding().then((result) => {
       return result;
     });
+  }
+
+  formatGameData(games) {
+    for(let i = 0; i < games.length; i++) {
+      games[i].startTimeUTC
+    }
   }
 
   getScrapedPlayers(code){

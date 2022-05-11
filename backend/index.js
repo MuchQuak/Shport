@@ -6,7 +6,6 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-
 // Models
 const nhlServices = require("./models/sport/nhlServices");
 const nbaServices = require("./models/sport/nbaServices");
@@ -267,17 +266,13 @@ app.get("/NHL/transactions/:id", async (req, res) => {
 });
 
 //MLB api Calls Currently currently pulls nothing
-let mlb = new mlbServices.MlbService(
-  "https://lookup-service-prod.mlb.com/json"
-);
+let mlb = new mlbServices.MlbService("");
 app.get("/MLB/games", async (req, res) => {
-  res.send([]);
-  //await mlb.getGames(req, res);
+  await mlb.getGames(req, res);
 });
 
 app.get("/MLB/games/:offset", async (req, res) => {
-  res.send([]);
-  //await mlb.getGames(req, res);
+  await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
   mlb.getStandingsScrape().then((result) => {

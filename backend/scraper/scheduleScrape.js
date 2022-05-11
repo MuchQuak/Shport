@@ -1,6 +1,22 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+function PSTtoUTC(time) {
+    const timeParts = time.split(' ');
+
+    if(timeParts.length < 2) {
+        return time;
+    }
+
+    const pmAm = timeParts[1];
+    const newtime = timeParts[0].split(':');
+    const offset = pmAm[0] === 'A' ? 0 : 12;
+    const hour = parseInt(newtime[0]) + 8 + offset;
+    const min = parseInt(newtime[1]);
+    const t = new Date();
+    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
+}
+
 function parseTeamName(hrefString, cityStr) {
 
     if(hrefString === undefined) {
@@ -34,6 +50,10 @@ function parseFinalScore(scoreText) {
     //Format: HomeTag HomeScore, AwayTag AwayScore
     //Example MIL 4, PIT 2
 
+    if(scoreText === "Postponed") {
+        return scoreText;
+    }
+
     let gameScore = {
         away: '',
         home: ''
@@ -41,8 +61,6 @@ function parseFinalScore(scoreText) {
 
     const home = 0, away = 1, score = 1;
     let delimited = scoreText.split(', ');
-
-    console.log(delimited);
 
     gameScore.home = delimited[home].split(' ')[score];
     gameScore.away = delimited[away].split(' ')[score];
@@ -67,21 +85,19 @@ function capatilize(str) {
 
 async function scrapeScore(sportCode, gId) {
 
+    let scores = {
+        away: "0",
+        home: "0"
+    }
+
     if(gId === undefined) {
-        console.log('gId undefined')
-        return {
-            away: 0,
-            home: 0
-        }
+        console.log('gId undefined');
+        return scores;
     }
 
     let response = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
    
     let $ = cheerio.load(response.data);
-    let scores = {
-        away: 0,
-        home: 0
-    }
 
     let teams = $('div.competitors');
 
@@ -134,12 +150,12 @@ async function scrapeGames(sportCode) {
                 currentQtr: "",
                 maxQtr: "",
                 away: "",
-                away_score: 0,
+                away_score: "0",
                 away_record: "",
                 away_code: "",
                 home: "",
                 home_code: "",
-                home_score: 0,
+                home_score: "0",
                 home_record: "",
                 startTimeUTC: "",
                 gId: "",
@@ -164,17 +180,20 @@ async function scrapeGames(sportCode) {
                 let gameResult = $(tr).find('.teams__col.Table__TD:first').find('a');
                 let finalScore = parseFinalScore(gameResult.text());
                 
-                game.home_away = finalScore.away;
+                game.away_score = finalScore.away;
                 game.home_score = finalScore.home;
 
                 game.gId = parsingGameId(gameResult.attr('href'));
             } else {
-                game.startTimeUTC = dateElem.find('a').text().trim();
+                game.startTimeUTC = PSTtoUTC(dateElem.find('a').text().trim());
+                game.startTime = dateElem.find('a').text().trim();
                 game.gId = parsingGameId(dateElem.find('a').attr('href'));
             }
             
             games.push(game); 
         });
+
+        console.log(games);
     });
 
     //Update game scores if game is live
@@ -189,5 +208,4 @@ async function scrapeGames(sportCode) {
 
     return games;
 }
-
 exports.scrapeGames = scrapeGames;
