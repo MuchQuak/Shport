@@ -20,13 +20,6 @@ function stream(league, homeFullName, awayFullName) {
   )
 }
 
-function score(game, score_info) {
-  if (score_info === "" || game.status < 1) {
-    return null;
-  }
-  return <p className="score">{score_info}</p>;
-}
-
 function clock(game, league) {
   if (game.status === 2) {
     return <p className="nomargin">Final Score</p>;
@@ -97,27 +90,35 @@ export function GameTeam(props) {
       props.score === undefined ||
       props.otherScore === undefined ||
       props.playoffs === undefined ||
-      props.game === undefined) {
+      props.game === undefined ||
+      props.side === undefined) {
     return null;
   }
   return (
-      <>
+      <div className={"game-" + props.side}>
         <div className="game-playoffs-wrapper">
-          {props.playoffs && (
+            {props.playoffs && props.side === "right" && (
               <p className="game-playoffs-record">{props.playoffs}</p>
-          )}
-          {getTeamLogo(props.league, props.code, "schedule-logo-container")}
+            )}
+            {getTeamLogo(props.league, props.code, "schedule-logo-container")}
+            {props.playoffs && props.side === "left" && (
+                <p className="game-playoffs-record">{props.playoffs}</p>
+            )}
         </div>
         <p className={"game-team-name" + (followsTeam(props.prefs, props.league, props.code) ? " favorite" : "")}>
           {props.fullName}
         </p>
-        <div className="score-win-icon">
-          {parseInt(props.score) > parseInt(props.otherScore) &&
-          parseInt(props.game.status) === 2 &&
-          winIcon()}
-          {score(props.game, props.score)}
-        </div>
-      </>
+          {
+              props.score !== "" && props.game.status >= 1 &&
+              <div className="score-win-icon">
+                  {
+                      parseInt(props.score) > parseInt(props.otherScore) && parseInt(props.game.status) === 2 &&
+                      winIcon()
+                  }
+                  <p className="score">{props.score}</p>
+              </div>
+          }
+      </div>
   )
 }
 
@@ -139,7 +140,6 @@ export default function Game(props) {
         boxShadow: "0px 2px " + theme.border,
       }}
     >
-      <div className="game-left">
         <GameTeam
             prefs={props.prefs}
             league={league}
@@ -149,17 +149,16 @@ export default function Game(props) {
             otherScore={game.away_score}
             playoffs={game.homePlayoffs ? game.homePlayoffs : false}
             game={game}
+            side={"left"}
         />
-      </div>
-      <div className="game-center">
-        {clock(game, league)}
-        {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
-        <div className="game-footer">
-          {game.arena}
-          {game.status === 1 && stream(league, homeFullName, awayFullName)}
+        <div className="game-center">
+            {clock(game, league)}
+            {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
+            <div className="game-footer">
+              {game.arena}
+              {game.status === 1 && stream(league, homeFullName, awayFullName)}
+            </div>
         </div>
-      </div>
-      <div className="game-right">
         <GameTeam
             prefs={props.prefs}
             league={league}
@@ -169,8 +168,8 @@ export default function Game(props) {
             otherScore={game.home_score}
             playoffs={game.awayPlayoffs ? game.awayPlayoffs : false}
             game={game}
+            side={"right"}
         />
-      </div>
     </div>
   );
 }

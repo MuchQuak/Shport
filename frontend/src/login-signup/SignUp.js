@@ -23,7 +23,7 @@ export const modalStyle = {
 
 const alertMessage = "Username or email already taken.";
 
-export default function SignUp(props) {
+export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
