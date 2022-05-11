@@ -112,10 +112,10 @@ async function scrapeLiveGameData(sportCode, gId) {
 
     liveData.clock = gameTime.contents().map(function() {
         const text = $(this).text();
-        return text !== undefined || text !== '' ? text + '/' : '';
+        return text !== undefined || text !== '' ? text + ' ' : '';
     }).get().join('');
 
-    liveData.status = gameTime.find('.status-detail').text().trim();
+    liveData.status = 1;
 
     return liveData;
 }
@@ -149,7 +149,7 @@ async function scrapeGames(sportCode) {
     $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each((i, schedule) => {
         $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
             let game = {
-                status: "",
+                status: 0,
                 clock: "",
                 halftime: "",
                 arena: "",
@@ -197,8 +197,9 @@ async function scrapeGames(sportCode) {
                 
                 game.away_score = finalScore.away;
                 game.home_score = finalScore.home;
-
+                game.status = 2;
                 game.gId = parsingGameId(gameResult.attr('href'));
+
             } else {
                 game.startTimeUTC = PSTtoUTC(dateElem.find('a').text().trim());
                 game.startTime = dateElem.find('a').text().trim();
@@ -216,18 +217,11 @@ async function scrapeGames(sportCode) {
             games[i].away_score = liveData.away;
             games[i].home_score = liveData.home;
             games[i].clock = liveData.clock;
+            games[i].status = liveData.status;
         }
     }
 
-    //console.log(games);
-
     return games;
 }
-
-scrapeGames('mlb');
-
-//scrapeGames('soccer');
-
-//scrapeLiveGameData('soccer', 605713)
 
 exports.scrapeGames = scrapeGames;
