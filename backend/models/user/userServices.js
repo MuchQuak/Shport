@@ -82,13 +82,13 @@ async function getUserPreferences(name) {
   }
 }
 
-// update (SPORTS ONLY) preferences
+// update (SPORTS AND REDDIT ONLY) preferences
 async function setUserPreferences(name, newPrefs) {
   const prefModel = getDbConnection().model("pref", Pref.schema);
   const user = await findUserByUsername(name);
   return prefModel.findOneAndUpdate(
     { user: user[0]._id },
-    { sports: newPrefs.sports }
+    { sports: newPrefs.sports, reddit: newPrefs.reddit }
   );
 }
 

@@ -4,9 +4,11 @@ import {
   getAllTeamsFollowed,
   getInterestedSports,
   getPreferredSportIndex,
+  followsEitherTeam
 } from "../../settings/PrefHandler";
 import {
-  dayName, favoriteIcon, followsEitherTeam,
+  dayName,
+  favoriteIcon,
   getLeagueLogo,
   informativeGamesQuery,
 } from "./SportHandler";
@@ -22,7 +24,7 @@ function Games(games, props, leagueTab) {
       const league = g.sport;
       return g.data // Actual array of games
           .filter((data) => { // If we are on the favorite tab, then ensure
-            return (leagueTab === favoriteIcon ? followsEitherTeam(props.prefs, props.sports, data.home_code, data.away_code) : true)
+            return (leagueTab === favoriteIcon ? followsEitherTeam(props.prefs, props.sports, league, data.home_code, data.away_code) : true)
           })
           .map((game, index) =>
               <Game

@@ -12,6 +12,8 @@ import { toast, Toaster } from "react-hot-toast";
 import { loading } from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
 import {ThemeContext} from "../App";
+import RedditPreferenceSelector from "../dashboard/reddit/RedditPreferenceSelector";
+import {getLeaguePosts, getTeamPosts} from "../dashboard/reddit/RedditHandler";
 
 const styles = (th) =>
     StyleSheet.create({
@@ -30,7 +32,7 @@ const styles = (th) =>
       }
     });
 
-function createPrefsObject(allLeagues, leagues, teams) {
+function createPrefsObject(allLeagues, leagues, teams, teamPosts, leaguePosts) {
   const leagueLabels = getLabels(allLeagues);
   const followingAll = leagueLabels.length === leagues.length;
   const leagueObj = leagueLabels.reduce((current, item) => {
@@ -57,6 +59,10 @@ function createPrefsObject(allLeagues, leagues, teams) {
   }
   return {
     sports: leagueObj,
+    reddit: {
+      teamPosts: teamPosts,
+      leaguePosts: leaguePosts
+    }
   };
 }
 
@@ -66,6 +72,8 @@ function SettingsBox(props) {
   const [selectedLeagues, setSelectedLeagues] = useState([]);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [sports, setSports] = useState([]);
+  const [leaguePosts, setLeaguePosts] = useState(1);
+  const [teamPosts, setTeamPosts] = useState(1);
   const user = props.user;
   const styled = styles(theme);
   const sportsResult = useQuery(["sports"], () => sportsQuery(), {
@@ -73,11 +81,13 @@ function SettingsBox(props) {
       setSports(data);
       setSelectedLeagues(getSportsFollowed(user.prefs));
       setSelectedTeams(getAllTeamsFollowed(user.prefs, data));
+      setTeamPosts(getTeamPosts(user.prefs));
+      setLeaguePosts(getLeaguePosts(user.prefs));
     },
   });
-  function handleSubmit(event, allLeagues, leagues, teams) {
+  function handleSubmit(event) {
     event.preventDefault();
-    user.prefs = createPrefsObject(allLeagues, leagues, teams);
+    user.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
     props.setUser(user);
     toast
       .promise(setUserPrefs(user), {
@@ -124,15 +134,20 @@ function SettingsBox(props) {
               selected={selectedTeams}
               setSelected={setSelectedTeams}
             />
+            <RedditPreferenceSelector
+              prefs={user.prefs}
+              leaguePosts={leaguePosts}
+              setLeaguePosts={setLeaguePosts}
+              teamPosts={teamPosts}
+              setTeamPosts={setTeamPosts}
+            />
             <button
-              className={css(styled.button) + " button margin-bottom-5"}
-              onClick={(e) =>
-                handleSubmit(e, sports, selectedLeagues, selectedTeams)
-              }
+              className={css(styled.button) + " button margin-top-5"}
+              onClick={(e) => handleSubmit(e)}
             >
               Save Changes
             </button>
-            <button className={css(styled.button) + " button"} onClick={() => navigate("/")}>
+            <button className={css(styled.button) + " button margin-top-5"} onClick={() => navigate("/")}>
               Done
             </button>
           </>

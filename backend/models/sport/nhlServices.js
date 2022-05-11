@@ -29,7 +29,7 @@ class NhlService extends league.LeagueService {
   }
 
   getScrapedPlayers(code){
-    return teamScraper.getRoster("nfl", code).then((result) => {
+    return teamScraper.getRoster("nhl", code).then((result) => {
       return result;
     });
 
@@ -154,7 +154,7 @@ getScrapedTransactions(code){
         let code = String(team_data["team"]["id"]);
         const new_team_data = {};
         new_team_data.code =  String(team_data["team"]["id"]); // get espn code a
-        new_team_data.espnCode = this.translateApiToEspn(code);
+        new_team_data.espn = this.translateApiToEspn(code);
         //new_team_data.espnCode = "PIT";
         new_team_data.name = team_data["team"]["name"];
         new_team_data.city = "";

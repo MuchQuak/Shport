@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getImageSrc } from "../AssetHandler";
-import {getAllTeamsFollowed} from "../../settings/PrefHandler";
 
 export async function sportsQuery() {
   return await axios.get("http://localhost:5000/sport").then((res) => {
@@ -232,11 +231,6 @@ export function getAllTeams(sports) {
     }
   });
   return allTeams;
-}
-
-export function followsEitherTeam(prefs, sports, ...teams) {
-  return getAllTeamsFollowed(prefs, sports).map(t => t.code).some(r => teams.includes(r));
-  // Bad implementation because teams from diff leagues could share code
 }
 
 export function dayName(offset) {

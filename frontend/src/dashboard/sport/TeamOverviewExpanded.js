@@ -15,7 +15,7 @@ export function TeamOverviewExpanded(props) {
   if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
   }
-  if (!props || !props.team || !props.league) {
+  if (!props || !props.team || !props.league ||!props.espn) {
     return <p className="nomargin">No team information</p>;
   }
   const team = props.team;
@@ -41,16 +41,17 @@ export function TeamOverviewExpanded(props) {
         {[<div className="expanded-team-overview-players">
           {pq.data.length === 0 &&
           <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No players.</div>}
-          {pq.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          {pq.data
             .map((p, index) => (
               <div
                 className="overview-player"
                 style={{ backgroundColor: theme.accent }}
                 key={index}
               >
-                <div className="overview-player-info" style={{ color: theme.accent }}>{p["number"]}</div>
+                {p["position"] !== undefined &&
+                <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>}
                 {p["name"]}
-                <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
+                <div className="overview-player-num" style={{ color: "lightgray", fontWeight: "lighter" }}>{p["number"]}</div>
               </div>
             ))}</div>,
           <div className="expanded-team-overview-players">
@@ -63,38 +64,42 @@ export function TeamOverviewExpanded(props) {
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
+                  {p["position"] !== undefined &&
+                  <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>}
                   {p["name"]}
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["status"]}</div>
+                  <div className="overview-player-status" style={{ color: "lightgray" }}>status: {p["status"]}</div>
+                  <div className="overview-player-description" style={{ color: "lightgray", fontWeight: "lighter"}}>{p["description"]}</div>
                 </div>
               ))}</div>,
           <div className="expanded-team-overview-players">
             {ptp.data.length === 0 &&
             <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No top players.</div>}
-            {ptp.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+            {ptp.data
               .map((p, index) => (
                 <div
                   className="overview-player"
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
+                  {p["position"] !== undefined &&
+                  <div className="overview-player-pos" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["position"]}</div>}
                   {p["name"]}
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["position"]}</div>
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["value"]} {p["category"]}</div>
+                  <div className="overview-player-value" style={{ color: "lightgray" }}>{p["value"]}</div>
+                  <div className="overview-player-category" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["category"]}</div>
                 </div>
               ))}</div>,
           <div className="expanded-team-overview-players">
             {pt.data.length === 0 &&
             <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No transactions.</div>}
-            {pt.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+            {pt.data
               .map((p, index) => (
                 <div
                   className="overview-player"
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
-                  <div className="overview-player-info" style={{ color: theme.accent }}>{p["date"]}</div>
-                  {p["description"]}
+                  <div className="overview-player-date" style={{ color: "white" }}>{p["date"]}</div>
+                  <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["description"]}</div>
                 </div>
               ))}</div>
         ]}

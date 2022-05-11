@@ -107,6 +107,14 @@
     align-content: center;
 }
 
+.margin-top-5 {
+    margin: 5px 0 0 !important;
+}
+
+.margin-top-10 {
+    margin: 10px 0 0 !important;
+}
+
 .margin-bottom-5 {
     margin: 0 auto 5px !important;
 }
@@ -233,4 +241,87 @@
 .error p {
     margin: 0;
     width: auto;
+}
+
+.collapsible {
+    user-select: none;
+    width: 100%;
+}
+
+.collapsible-content {
+    width: 100%;
+    margin: 0;
+    padding-left: 10px;
+    display: flex;
+    flex-flow: column wrap;
+    max-height: 120px;
+    overflow-y: scroll;
+}
+
+.collapsible-header {
+    margin: 0;
+    color: #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.collapsible-header img {
+    height: 1em;
+    width: 1em;
+    margin: 0;
+}
+
+.collapsible-header svg {
+    height: 1em;
+    width: 1em;
+    margin: 0;
+}
+
+.check-option {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.check-option-box {
+    height: 1em;
+    width: 1em;
+    border: 2px solid #FFFFFF;
+    border-radius: 4px;
+}
+
+.check-option-box-checked {
+    background-color: #FFFFFF;
+}
+
+.check-option-label {
+    margin: 0;
+}
+
+.range-option {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 5px;
+}
+
+.range-option-slider {
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.range-option-label {
+    margin: 0;
 }

@@ -48,6 +48,18 @@ const prefsSchema = new mongoose.Schema(
         teams: [],
       },
     },
+    reddit: {
+      teamPosts: {
+        type: Intl,
+        required: false,
+        trim: true,
+      },
+      leaguePosts: {
+        type: Intl,
+        required: false,
+        trim: true,
+      }
+    }
   },
   {
     collection: "prefs",

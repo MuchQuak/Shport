@@ -2,11 +2,22 @@ import "../../style/game-schedule.scss";
 import { getTeamLogo, UTCtoLocal, getFullName } from "./SportHandler";
 import { useContext } from "react";
 import { ThemeContext } from "../../App";
+import {followsTeam} from "../../settings/PrefHandler";
 
 function stream(league, homeFullName, awayFullName) {
-  return "https://www.streameast.xyz/" + league.toLowerCase() + "/" +
+  const link = "https://www.streameast.xyz/" + league.toLowerCase() + "/" +
       homeFullName.toLowerCase().replaceAll(" ", "-") + "-" +
       awayFullName.toLowerCase().replaceAll(" ", "-") + "/";
+  return (
+      <a href={link} className="stream" target="_blank" rel="noreferrer" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-play"
+             viewBox="0 0 16 16">
+          <path
+              d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+        </svg>
+        <p className="nomargin">Stream</p>
+      </a>
+  )
 }
 
 function score(game, score_info) {
@@ -14,6 +25,32 @@ function score(game, score_info) {
     return null;
   }
   return <p className="score">{score_info}</p>;
+}
+
+function clock(game, league) {
+  if (game.status === 2) {
+    return <p className="nomargin">Final Score</p>;
+  }
+  if (game.status === 1 && (game.break || (game.clock === "" && game.currentQtr === 2))) { // Game is on break
+    return (
+        <p className="nomargin" style={{ fontWeight: "bold" }}>
+          {game.break_string}
+        </p>
+    );
+  }
+  if (game.clock === "" || game.status === 0) {
+    return (
+        <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>
+    );
+  }
+  return (
+      <>
+        <p className="nomargin bold">{game.clock}</p>
+        <p className="nomargin bold">
+          {game.currentQtr} of {game.maxQtr}
+        </p>
+      </>
+  );
 }
 
 function getTeamName(homeOrAway, game, league, sports) {
@@ -35,6 +72,55 @@ function getTeamName(homeOrAway, game, league, sports) {
   return fullName;
 }
 
+function winIcon() {
+  return (
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          className="bi bi-check-circle-fill"
+          viewBox="0 0 16 16"
+      >
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+      </svg>
+  );
+}
+
+export function GameTeam(props) {
+  if (!props ||
+      !props.prefs ||
+      !props.prefs.sports ||
+      props.league === undefined ||
+      props.fullName === undefined ||
+      props.code === undefined ||
+      props.score === undefined ||
+      props.otherScore === undefined ||
+      props.playoffs === undefined ||
+      props.game === undefined) {
+    return null;
+  }
+  return (
+      <>
+        <div className="game-playoffs-wrapper">
+          {props.playoffs && (
+              <p className="game-playoffs-record">{props.playoffs}</p>
+          )}
+          {getTeamLogo(props.league, props.code, "schedule-logo-container")}
+        </div>
+        <p className={"game-team-name" + (followsTeam(props.prefs, props.league, props.code) ? " favorite" : "")}>
+          {props.fullName}
+        </p>
+        <div className="score-win-icon">
+          {parseInt(props.score) > parseInt(props.otherScore) &&
+          parseInt(props.game.status) === 2 &&
+          winIcon()}
+          {score(props.game, props.score)}
+        </div>
+      </>
+  )
+}
+
 export default function Game(props) {
   const { theme } = useContext(ThemeContext);
   if (!props || !props.game || !props.sports || !props.prefs) {
@@ -42,72 +128,7 @@ export default function Game(props) {
   }
   const league = props.league ? props.league : "none";
   const game = props.game;
-  const clock_data = String(game.clock).trim();
-  //if (!props.sports[league] || !props.sports[league].teams.includes(game.home_code) || !props.sports[league].teams.includes(game.away_code)) {
-  //    return null;
-  //}
-  function is_break() {
-    return (
-      game.status === 1 &&
-      (game.break || (clock_data === "" && game.currentQtr === 2))
-    );
-  }
-  function clock() {
-    if (game.status === 2) {
-      return <p className="nomargin">Final Score</p>;
-    }
-    if (is_break()) {
-      return (
-        <p className="nomargin" style={{ fontWeight: "bold" }}>
-          {game.break_string}
-        </p>
-      );
-    }
-    if (clock_data === "" || game.status === 0) {
-      return (
-        <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>
-      );
-    }
-    return (
-      <>
-        <p className="nomargin bold">{clock_data}</p>
-        <p className="nomargin bold">
-          {game.currentQtr} of {game.maxQtr}
-        </p>
-      </>
-    );
-  }
-  function classes(current_code) {
-    let classN = "game-team-name";
-    if (!props.prefs || !props.prefs.sports) {
-      return classN;
-    }
-    if (
-      props.prefs.sports.hasOwnProperty(league) &&
-      props.prefs.sports[league].hasOwnProperty("teams") &&
-      props.prefs.sports[league].teams.includes(String(current_code))
-    ) {
-      classN = classN + " favorite";
-    }
-    return classN;
-  }
   const numInSeries = game.numInSeries ? game.numInSeries : 0;
-  const homePlayoffs = game.homePlayoffs ? game.homePlayoffs : false;
-  const awayPlayoffs = game.awayPlayoffs ? game.awayPlayoffs : false;
-  function winIcon() {
-    return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        className="bi bi-check-circle-fill"
-        viewBox="0 0 16 16"
-      >
-        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-      </svg>
-    );
-  };
   const homeFullName = getTeamName("home", game, league, props.sports);
   const awayFullName = getTeamName("away", game, league, props.sports);
   return (
@@ -119,54 +140,36 @@ export default function Game(props) {
       }}
     >
       <div className="game-left">
-        <div className="game-playoffs-wrapper">
-          {getTeamLogo(league, game.home_code, "schedule-logo-container")}
-          {homePlayoffs && (
-            <p className="game-playoffs-record">{homePlayoffs}</p>
-          )}
-        </div>
-        <p className={classes(game.home_code)}>
-          {homeFullName}
-        </p>
-        <div className="score-win-icon">
-          {score(game, game.home_score)}
-          {parseInt(game.home_score) > parseInt(game.away_score) &&
-            parseInt(game.status) === 2 &&
-            winIcon()}
-        </div>
+        <GameTeam
+            prefs={props.prefs}
+            league={league}
+            fullName={homeFullName}
+            code={game.home_code}
+            score={game.home_score}
+            otherScore={game.away_score}
+            playoffs={game.homePlayoffs ? game.homePlayoffs : false}
+            game={game}
+        />
       </div>
       <div className="game-center">
-        {clock()}
+        {clock(game, league)}
         {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
-        <p className="game-footer">
+        <div className="game-footer">
           {game.arena}
-          {game.status === 1 &&
-            <a href={stream(league, homeFullName, awayFullName)} className="stream" target="_blank" rel="noreferrer" >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-play"
-                   viewBox="0 0 16 16">
-                <path
-                    d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
-              </svg>
-              <p className="nomargin">Stream</p>
-            </a>}
-        </p>
+          {game.status === 1 && stream(league, homeFullName, awayFullName)}
+        </div>
       </div>
       <div className="game-right">
-        <div className="game-playoffs-wrapper">
-          {awayPlayoffs && (
-            <p className="game-playoffs-record">{awayPlayoffs}</p>
-          )}
-          {getTeamLogo(league, game.away_code, "schedule-logo-container")}
-        </div>
-        <p className={classes(game.away_code)}>
-          {awayFullName}
-        </p>
-        <div className="score-win-icon">
-          {parseInt(game.away_score) > parseInt(game.home_score) &&
-            parseInt(game.status) === 2 &&
-            winIcon()}
-          {score(game, game.away_score)}
-        </div>
+        <GameTeam
+            prefs={props.prefs}
+            league={league}
+            fullName={awayFullName}
+            code={game.away_code}
+            score={game.away_score}
+            otherScore={game.home_score}
+            playoffs={game.awayPlayoffs ? game.awayPlayoffs : false}
+            game={game}
+        />
       </div>
     </div>
   );
