@@ -11,16 +11,13 @@ import Login from "./login-signup/Login";
 
 const queryClient = new QueryClient();
 
-const PORT = process.env.PORT || 3000;
 let backend = "";
 
-if(PORT == 3000){
-  //PASS THE LOCAL
-  backend = "http://localhost:5000";
+if(process.env.HOST){
+  backend = process.env.BACKEND;
 }
 else{
-  //pass Heroku's
-  backend = process.env.BACKEND;
+  backend = process.env.LOCAL;
 }
 
 
