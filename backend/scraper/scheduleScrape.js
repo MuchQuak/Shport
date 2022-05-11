@@ -52,13 +52,13 @@ function parseFinalScore(scoreText) {
     //Format: HomeTag HomeScore, AwayTag AwayScore
     //Example MIL 4, PIT 2
 
-    if(scoreText === "Postponed") {
-        return scoreText;
+    let gameScore = {
+        away: '0',
+        home: '0'
     }
 
-    let gameScore = {
-        away: '',
-        home: ''
+    if(scoreText === "Postponed") {
+        return gameScore;
     }
 
     const home = 0, away = 1, score = 1;
@@ -224,7 +224,7 @@ async function scrapeGames(sportCode) {
     return games;
 }
 
-//scrapeGames('mlb');
+scrapeGames('mlb');
 
 //scrapeGames('soccer');
 
