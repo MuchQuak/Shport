@@ -16,19 +16,6 @@ import { useNavigate } from "react-router";
 import { sportsQuery } from "./dashboard/sport/SportHandler";
 import { themes } from "./dashboard/Theme";
 
-const PORT = process.env.PORT || 3000;
-let backend = "";
-
-if(PORT == 3000){
-  //PASS THE LOCAL
-  backend = "http://localhost:5000/";
-
-}
-else{
-  //pass Heroku's
-  backend = process.env.BACKEND;
-}
-
 
 
 const userModel = {
