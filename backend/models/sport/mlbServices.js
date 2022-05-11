@@ -11,8 +11,10 @@ class MlbService extends league.LeagueService {
   }
 
   async getGamesEndPoint(currentDate) {
-    //Alter to user currentDate
-    return await gameScraper.scrapeGames('mlb');
+    //YYYYMMDD
+    let results = await gameScraper.scrapeGames('mlb')
+    return results.filter(g => this.formatDate(g.date) === currentDate
+    );
   }
 
   async getStandingsEndPoint() {

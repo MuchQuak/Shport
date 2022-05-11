@@ -147,6 +147,8 @@ async function scrapeGames(sportCode) {
 
     //Scrapes schedule Infromation
     $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each((i, schedule) => {
+        var date = new Date($(schedule).find('.Table__Title').text().trim());
+
         $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
             let game = {
                 status: 0,
@@ -164,8 +166,11 @@ async function scrapeGames(sportCode) {
                 home_score: "0",
                 home_record: "",
                 startTimeUTC: "",
+                date: "",
                 gId: "",
             }
+
+            game.date = date;
 
             let aTeam = $(tr).find('.events__col.Table__TD').find('a');
             let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
