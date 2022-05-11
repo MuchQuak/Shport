@@ -202,7 +202,6 @@ async function scrapeGames(sportCode) {
 
             } else {
                 game.startTimeUTC = PSTtoUTC(dateElem.find('a').text().trim());
-                game.startTime = dateElem.find('a').text().trim();
                 game.gId = parsingGameId(dateElem.find('a').attr('href'));
             }
             
