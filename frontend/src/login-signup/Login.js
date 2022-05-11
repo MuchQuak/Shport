@@ -6,6 +6,7 @@ import "../style/login-signup.scss";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 import { modalStyle } from "./SignUp";
+import {BACKEND} from "../index";
 
 const alertMessage =
   "The username or password you entered was incorrect. Please try again.";
@@ -24,7 +25,7 @@ export default function Login(props) {
 
   async function validateLogin() {
     try {
-      const url = "http://localhost:5000/login";
+      const url = BACKEND + "login";
       const response = await axios.post(url, {
         username: username,
         password: password,

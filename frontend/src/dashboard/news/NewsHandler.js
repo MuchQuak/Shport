@@ -1,6 +1,7 @@
 import axios from "axios";
 import { verify } from "../../util/Util";
 import { useQuery } from "react-query";
+import {BACKEND} from "../../index";
 
 // returns an object where article list can be accessed through data attribute (make sure isSuccess first)
 export function useNews(key, interests) {
@@ -10,7 +11,7 @@ export function useNews(key, interests) {
       const query =
         interests.length > 0 ? "(" + interests.join(") OR (") + ")" : "sports";
       return await axios
-        .get("http://localhost:5000/news/" + query)
+        .get(BACKEND + "news/" + query)
         .then((res) => {
           return verify(res);
         });

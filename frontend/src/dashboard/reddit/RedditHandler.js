@@ -2,6 +2,7 @@ import { useQueries, useQuery } from "react-query";
 import axios from "axios";
 import { verify } from "../../util/Util";
 import React from "react";
+import {BACKEND} from "../../index";
 
 export function redditLogo() {
     return (
@@ -35,7 +36,7 @@ export function useSubreddit(sports, sport, teamCode) {
     async () => {
       const query = getTeamSubreddit(sports, sport, teamCode);
       return await axios
-        .get("http://localhost:5000/subreddit/" + query)
+        .get(BACKEND + "subreddit/" + query)
         .then((res) => {
           return verify(res);
         });
@@ -56,7 +57,7 @@ export function useTeamSubreddits(sports, key, sportTeamPairs, numPosts) {
         queryFn: async () => {
           const query = getTeamSubreddit(sports, sport, teamCode);
           return await axios
-            .get("http://localhost:5000/subreddit/" + query + "/" + numPosts)
+            .get(BACKEND + "subreddit/" + query + "/" + numPosts)
             .then((res) => {
               return verify(res);
             });
@@ -77,7 +78,7 @@ export function useLeagueSubreddits(sports, key, sportList, numPosts) {
         queryFn: async () => {
           const query = getLeagueSubreddit(sports, sport);
           return await axios
-            .get("http://localhost:5000/subreddit/" + query + "/" + numPosts)
+            .get(BACKEND + "subreddit/" + query + "/" + numPosts)
             .then((res) => {
               return verify(res);
             });

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { verify } from "../util/Util";
+import {BACKEND} from "../index";
 
 export async function addUser(user) {
   try {
-    return await axios.post("http://localhost:5000/signup", user);
+    return await axios.post(BACKEND + "signup", user);
   } catch (error) {
     console.log(error);
     return false;
@@ -14,7 +15,7 @@ export async function setUserPrefs(user) {
   try {
     const config = { headers: { authorization: `Bearer ${user.auth_token}` } };
     return await axios.post(
-      "http://localhost:5000/preferences",
+        BACKEND + "preferences",
       user.prefs,
       config
     );
@@ -27,7 +28,7 @@ export async function setUserPrefs(user) {
 export async function usernameQuery(auth_token) {
   const config = { headers: { authorization: `Bearer ${auth_token}` } };
   return await axios
-    .get("http://localhost:5000/username", config)
+    .get(BACKEND + "username", config)
     .then((res) => {
       if (res.status === 200) {
         return verify(res);
@@ -39,7 +40,7 @@ export async function usernameQuery(auth_token) {
 // retrieves the user's theme name ex: "red"
 export async function themeQuery(auth_token) {
   const config = { headers: { authorization: `Bearer ${auth_token}` } };
-  return await axios.get("http://localhost:5000/theme", config).then((res) => {
+  return await axios.get(BACKEND + "theme", config).then((res) => {
     if (res.status === 200) {
       return verify(res);
     }
@@ -52,7 +53,7 @@ export async function setUserTheme(user, themeName) {
   try {
     const config = { headers: { authorization: `Bearer ${user.auth_token}` } };
     return await axios.post(
-      "http://localhost:5000/theme",
+        BACKEND + "theme",
       { theme: themeName },
       config
     );
@@ -63,7 +64,7 @@ export async function setUserTheme(user, themeName) {
 }
 
 export async function prefsQuery(auth_token) {
-  const url = "http://localhost:5000/preferences";
+  const url = BACKEND + "preferences";
   const config = { headers: { authorization: `Bearer ${auth_token}` } };
   return await axios.get(url, config).then((res) => {
     if (res.status === 201) {
