@@ -11,6 +11,20 @@ import Login from "./login-signup/Login";
 
 const queryClient = new QueryClient();
 
+const PORT = process.env.PORT || 3000;
+let backend = "";
+
+if(PORT == 3000){
+  //PASS THE LOCAL
+  backend = "http://localhost:5000";
+}
+else{
+  //pass Heroku's
+  backend = process.env.BACKEND;
+}
+
+
+
 function Root() {
   const [cookies, setCookie, removeCookie] = useCookies(["auth_token"]);
   function setToken(token) {
@@ -27,7 +41,7 @@ function Root() {
             path="/*"
             element={<App cookies={cookies} removeCookie={removeCookie} />}
           />
-          <Route path="login" element={<Login setToken={setToken} />} />
+          <Route path="login" element={<Login backend={backend} setToken={setToken} />} />
           <Route path="signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>

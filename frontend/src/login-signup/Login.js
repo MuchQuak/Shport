@@ -24,7 +24,7 @@ export default function Login(props) {
 
   async function validateLogin() {
     try {
-      const url = "http://localhost:5000/login";
+      const url = props.backend + "/login";
       const response = await axios.post(url, {
         username: username,
         password: password,
