@@ -23,7 +23,7 @@ function Games(games, props, leagueTab) {
     const allGames = games.map((g) => { // Each day of games
       const league = g.sport;
       return g.data // Actual array of games
-          .filter((data) => { // If we are on the favorite tab, then ensure
+          .filter((data) => { // If we are on the favorite tab, then ensure they follow a team
             return (leagueTab === favoriteIcon ? followsEitherTeam(props.prefs, props.sports, league, data.home_code, data.away_code) : true)
           })
           .map((game, index) =>
@@ -56,20 +56,28 @@ function getTabIndex(tabNames, preferred) {
 function tab(games, props, league, index) {
   const gamesToSee = (league === favoriteIcon) ? games : games.filter((g) => g.sport === league);
   if (gamesToSee.length > 0) {
-    const dayNames = [...new Set(gamesToSee.map((d) => d.dayName))];
-    return (
-      <Tabbed
-        titles={dayNames}
-        default={getTabIndex(dayNames, "Today")}
-        key={index}
-      >
-        {dayNames.map((d) => (
-          <div className="schedule" key={d}>
-            {Games(gamesToSee.filter((g) => g.dayName === d && g.data.length > 0), props, league)}
+    if (league === favoriteIcon) {
+      return (
+          <div className="schedule">
+            {Games(gamesToSee, props, league)}
           </div>
-        ))}
-      </Tabbed>
-    );
+      );
+    } else {
+      const dayNames = [...new Set(gamesToSee.map((d) => d.dayName))];
+      return (
+          <Tabbed
+              titles={dayNames}
+              default={getTabIndex(dayNames, "Today")}
+              key={index}
+          >
+            {dayNames.map((d) => (
+                <div className="schedule" key={d}>
+                  {Games(gamesToSee.filter((g) => g.dayName === d && g.data.length > 0), props, league)}
+                </div>
+            ))}
+          </Tabbed>
+      );
+    }
   }
   return (
     <p className="nomargin" key={index}>
