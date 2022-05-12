@@ -59,7 +59,7 @@ export default function Login(props) {
 
   return (
     <div className="centered-boxed-wrapper">
-      <h1 className="welcome">Welcome to Sports Dashboard</h1>
+      <h1 className="welcome">Welcome to Shport</h1>
       <div className="boxed">
         <h1 className="boxed-header">Log In</h1>
         <Modal
