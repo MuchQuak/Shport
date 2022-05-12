@@ -20,7 +20,7 @@ function stream(league, homeFullName, awayFullName) {
   )
 }
 
-function clock(game, league) {
+function clock(game, league, extra) {
   if (game.status === 2) {
     return <p className="nomargin">Final Score</p>;
   }
@@ -33,7 +33,10 @@ function clock(game, league) {
   }
   if (game.clock === "" || game.status === 0) {
     return (
-        <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>
+        <>
+            {extra && <p className="game-extra">{extra}</p>}
+            <p className="nomargin">{UTCtoLocal(game.startTimeUTC, league)}</p>
+        </>
     );
   }
   return (
@@ -152,7 +155,7 @@ export default function Game(props) {
             side={"left"}
         />
         <div className="game-center">
-            {clock(game, league)}
+            {clock(game, league, props.extra)}
             {numInSeries > 0 && <p className="game-series">Game {numInSeries}</p>}
             <div className="game-footer">
               {game.arena}

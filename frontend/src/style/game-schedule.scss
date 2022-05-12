@@ -6,7 +6,7 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    gap: 7px;
+    gap: 4px;
     max-height: 400px;
     overflow-y: scroll;
 }
@@ -48,12 +48,18 @@
     height: 100%;
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-evenly;
-    gap: 6px;
+    justify-content: space-around;
+    gap: 4px;
     align-items: center;
     align-content: center;
     flex-basis: 30%;
     text-align: center;
+}
+
+.game-extra {
+    margin: 0;
+    padding: 0;
+    font-size: 0.75em;
 }
 
 .game-right {

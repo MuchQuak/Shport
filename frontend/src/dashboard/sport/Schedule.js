@@ -33,6 +33,7 @@ function Games(games, props, leagueTab) {
                   sports={props.sports}
                   prefs={props.prefs}
                   league={league}
+                  extra={leagueTab === favoriteIcon && g.dayName === "Tomorrow" ? "Tomorrow" : false}
               />
           );
     }).filter((g) => g.length > 0).flat();
@@ -59,7 +60,10 @@ function tab(games, props, league, index) {
     if (league === favoriteIcon) {
       return (
           <div className="schedule">
-            {Games(gamesToSee, props, league)}
+            <p className="nomargin bold">Live & Upcoming</p>
+            {Games(gamesToSee
+                .filter((d) => d.dayName === "Today" || d.dayName === "Tomorrow")
+                .sort((a, b) => {if (a.dayName === "Today" && b.dayName === "Tomorrow") { return -1 } else { return 0 }}), props, league)}
           </div>
       );
     } else {
