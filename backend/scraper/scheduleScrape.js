@@ -139,9 +139,11 @@ new_game = {
 }
 */
 
-async function scrapeGames(sportCode) {
+async function scrapeGames(sportCode, dateString) {
+    //dateString expects YYYYMMDD
 
-    var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`)
+    //var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`);
+    var response = await axios.get(`https://www.espn.com/${sportCode}/schedule/_/date/${dateString}`);
     let $ = cheerio.load(response.data);
     var games = [];
 
@@ -227,5 +229,7 @@ async function scrapeGames(sportCode) {
 
     return games;
 }
+
+scrapeGames('mlb', '20220510');
 
 exports.scrapeGames = scrapeGames;
