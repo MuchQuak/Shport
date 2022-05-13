@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(express.json());
 
 // Models
