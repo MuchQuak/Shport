@@ -21,7 +21,7 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
-const leagueServices = require("./models/sport/leagueService");
+//const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
   return jwt.sign({ username: username }, process.env.TOKEN_SECRET, {
@@ -41,7 +41,7 @@ function decode(req) {
   }
 }
 
-app.get("/", cors(), (req, res) => {
+app.get("/", (req, res) => {
   res.send("Backend Landing");
 });
 
@@ -57,7 +57,7 @@ function authenticateUser(req, res, next) {
     return res.status(401).end();
   } else {
     try {
-      const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+      jwt.verify(token, process.env.TOKEN_SECRET);
       next();
     } catch (error) {
       return res.status(401).end();
