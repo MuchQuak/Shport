@@ -1,15 +1,16 @@
 import axios from "axios";
 import { getImageSrc } from "../AssetHandler";
+import {BACKEND} from "../../index";
 
 export async function sportsQuery() {
-  return await axios.get("http://localhost:5000/sport").then((res) => {
+  return await axios.get(BACKEND + "sport").then((res) => {
     return res.data;
   });
 }
 
 export async function standingsQuery(sport) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/standings")
+    .get(BACKEND + sport + "/standings")
     .then((res) => {
       return res.data;
     });
@@ -17,7 +18,7 @@ export async function standingsQuery(sport) {
 
 export async function gamesQuery(sport, dayOffset) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/games/" + dayOffset)
+    .get(BACKEND + sport + "/games/" + dayOffset)
     .then((res) => {
       return res.data;
     });
@@ -25,7 +26,7 @@ export async function gamesQuery(sport, dayOffset) {
 
 export async function playersQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/players/" + code)
+    .get(BACKEND + sport + "/players/" + code)
     .then((res) => {
       return res.data;
     });
@@ -33,14 +34,14 @@ export async function playersQuery(sport, code) {
 
 export async function injuriesQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/injuries/" + code)
+    .get(BACKEND + sport + "/injuries/" + code)
     .then((res) => {
       return res.data;
     });
 }
 export async function transactionsQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/transactions/" + code)
+    .get(BACKEND + sport + "/transactions/" + code)
     .then((res) => {
       return res.data;
     });
@@ -48,7 +49,7 @@ export async function transactionsQuery(sport, code) {
 
 export async function topPlayersQuery(sport, code) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/top_players/"+ code)
+    .get(BACKEND + sport + "/top_players/"+ code)
     .then((res) => {
       return res.data;
     });
@@ -56,7 +57,7 @@ export async function topPlayersQuery(sport, code) {
 
 export async function informativeGamesQuery(sport, dayOffset, dayName) {
   return await axios
-    .get("http://localhost:5000/" + sport + "/games/" + dayOffset)
+    .get(BACKEND + sport + "/games/" + dayOffset)
     .then((res) => {
       return {
         sport: sport,

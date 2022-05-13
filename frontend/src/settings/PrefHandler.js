@@ -1,19 +1,3 @@
-/*  Per User (supplied to each React component)
-prefs: {
-  sports: {
-      following: false,
-      NBA: {
-          following: true,
-          teams: ["LAL"] // Just codes from the sports
-      },
-      NHL: {
-          following: false
-          teams: [""] //convert to string
-      },
-   }
-}
-*/
-
 import { getAllTeams } from "../dashboard/sport/SportHandler";
 
 export const all_prefs = {

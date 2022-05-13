@@ -2,7 +2,6 @@ const cors = require("cors");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
-const port = 5000;
 app.use(cors());
 app.use(express.json());
 
@@ -372,6 +371,6 @@ app.get("/subreddit/:query/:num", async (req, res) => {
   await reddit.getSubreddit(req, res);
 });
 
-app.listen(process.env.PORT || port, () => {
-  console.log(`Backend listening at http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });

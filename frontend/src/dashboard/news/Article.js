@@ -22,7 +22,7 @@ export default function Article(props) {
   }
   return (
     <div className="article">
-      <a href={props.news.url} target="_blank" rel="noreferrer">
+      <a href={props.news.url} rel="noreferrer" target="_blank">
         <p className={css(styled.article) + " article-title"}>
           {props.news.title}
         </p>

@@ -33,6 +33,7 @@ function Games(games, props, leagueTab) {
                   sports={props.sports}
                   prefs={props.prefs}
                   league={league}
+                  extra={leagueTab === favoriteIcon && g.dayName === "Tomorrow" ? "Tomorrow" : false}
               />
           );
     }).filter((g) => g.length > 0).flat();
@@ -55,15 +56,18 @@ function getTabIndex(tabNames, preferred) {
 
 function tab(games, props, league, index) {
   const gamesToSee = (league === favoriteIcon) ? games : games.filter((g) => g.sport === league);
-  if (gamesToSee.length > 0) {
+  if (gamesToSee.length > 0 && gamesToSee.map((g) => g.data).flat().length > 0) { // Ensure that one day is available, and at least one game within
     if (league === favoriteIcon) {
       return (
           <div className="schedule">
-            {Games(gamesToSee, props, league)}
+            <p className="nomargin bold">Live & Upcoming</p>
+            {Games(gamesToSee
+                .filter((d) => d.dayName === "Today" || d.dayName === "Tomorrow")
+                .sort((a, b) => {if (a.dayName === "Today" && b.dayName === "Tomorrow") { return -1 } else { return 0 }}), props, league)}
           </div>
       );
     } else {
-      const dayNames = [...new Set(gamesToSee.map((d) => d.dayName))];
+      const dayNames = [...new Set(gamesToSee.filter((d) => d.data.length > 0).map((d) => d.dayName))];
       return (
           <Tabbed
               titles={dayNames}
