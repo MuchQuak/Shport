@@ -320,12 +320,10 @@ app.get("/MLB/transactions/:id", async (req, res) => {
 //NFL api Calls Currently pulls nothing
 let nfl = new nflServices.NflService("");
 app.get("/NFL/games", async (req, res) => {
-  res.send([]);
-  //await nfl.getGames(req, res);
+  await nfl.getGames(req, res);
 });
 app.get("/NFL/games/:offset", async (req, res) => {
-  res.send([]);
-  //await nfl.getGames(req, res);
+  await nfl.getGames(req, res);
 });
 app.get("/NFL/standings", async (req, res) => {
   nfl.getStandingsScrape().then((result) => {
@@ -342,7 +340,6 @@ app.get("/NFL/players", async (req, res) => {
 });
 
 app.get("/NFL/players/:id", async (req, res) => {
-  //await nba.getPlayers(req, res);
     await nfl.getScrapedPlayers(req.params["id"]).then((result) => {
       res.send(result);
   });
