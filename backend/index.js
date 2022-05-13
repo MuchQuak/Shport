@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
-app.use(cors({origin: '*'}));
+app.use(cors({origin: "*", methods: "GET,HEAD,PUT,PATCH,POST,DELETE", preflightContinue: false, optionsSuccessStatus: 204}));
 app.use(express.json());
 
 // Models
@@ -34,7 +34,7 @@ function decode(req) {
   }
 }
 
-app.get("/", (req, res) => {
+app.get("/", cors(), (req, res) => {
   res.send("Backend Landing");
 });
 
