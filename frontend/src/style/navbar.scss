@@ -84,7 +84,7 @@
 .header-left {
   margin: 0;
   padding: 0 0 0 20px;
-  flex-basis: 50%;
+  flex-basis: 33%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -93,7 +93,7 @@
 .header-right {
   margin: 0;
   padding: 0 20px 0 0;
-  flex-basis: 50%;
+  flex-basis: 67%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
