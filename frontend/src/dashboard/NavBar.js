@@ -93,7 +93,7 @@ export default function NavBar(props) {
               id="header-about"
               onClick={() => navigate("/about")}
             >
-              About Us
+              About
             </p>
             <Dropdown className="nomargin">
               <Dropdown.Toggle
