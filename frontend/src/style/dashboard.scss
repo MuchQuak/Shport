@@ -16,16 +16,18 @@
 
 .content {
     margin: 0;
-    padding: 0;
+    padding: 0 2px;
+    width: 100%;
     min-height: 100vh;
     height: auto;
 }
 
 .third {
     margin: 0;
+    padding: 0 4px;
     flex-shrink: 0;
     width: 31.5%;
-    min-width: 400px;
+    min-width: 350px;
 }
 
 .items {

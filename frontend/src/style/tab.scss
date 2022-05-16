@@ -13,7 +13,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     gap: 2px;
     flex-basis: 100%;
 }
@@ -30,11 +30,17 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
+    flex-grow: 1;
     align-items: center;
     color: #FFFFFF;
     border-radius: 4px;
-    flex-basis: 100%;
     cursor: pointer;
     font-weight: bold;
     text-decoration-color: #FFFFFF;
+}
+
+.tab-favorite {
+    flex-grow: 0 !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
 }
