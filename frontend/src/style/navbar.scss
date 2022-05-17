@@ -1,7 +1,7 @@
 @use 'theme';
 
 .header {
-  margin: 0;
+  margin: 0 0 4px;
   padding-top: 5px;
   padding-bottom: 5px;
   width: 100%;
@@ -19,15 +19,14 @@
   font-family: 'Kanit', sans-serif;
   font-weight: bold;
   font-style: italic;
-  line-height: 60px;
-  font-size: 40px;
+  font-size: 35px;
   cursor: pointer;
 }
 
 .header-page {
   margin: 0;
   font-family: 'Kanit', sans-serif;
-  font-weight: bol    d;
+  font-weight: bold;
   font-style: italic;
   line-height: 60px;
   font-size: 25px;
@@ -73,7 +72,6 @@
   align-items: center;
   gap: 3px;
   cursor: pointer;
-  border: 0;
 }
 
 .header-dropdown svg {
@@ -84,21 +82,23 @@
 .header-left {
   margin: 0;
   padding: 0 0 0 20px;
-  flex-basis: 33%;
+  flex-basis: 40%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
+  flex-shrink: 1;
 }
 
 .header-right {
   margin: 0;
   padding: 0 20px 0 0;
-  flex-basis: 67%;
+  flex-basis: 60%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
+  flex-grow: 1;
 }
 
 .person-icon {
