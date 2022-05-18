@@ -102,19 +102,3 @@ describe('Visit Sport Information backend', () => {
     });
   });
 });
-/*
-app.post("/login", async (req, res) => {
-  const user = req.body;
-  if (user.username && user.password) {
-    const result = await userServices.login(user);
-    if (result) {
-      const token = generateAccessToken(user.username);
-      res.status(201).send(token);
-    } else {
-      res.status(401).end("Unauthorized");
-    }
-  } else {
-    res.status(400).end("Bad Request");
-  }
-});
-*/
