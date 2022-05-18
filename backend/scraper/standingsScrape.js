@@ -196,6 +196,7 @@ function getNflSportStanding() {
 
 exports.getMlbSportStanding = getMlbSportStanding;
 exports.getNflSportStanding = getNflSportStanding;
+exports.getSportStanding = getSportStanding;
 
 /*
     --- IGNORE THIS ---
