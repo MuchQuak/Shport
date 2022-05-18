@@ -1,17 +1,29 @@
 // npx cypress open
 
-describe('End to End Signup Test', () => {
-    it('Signs Up a User', () => {
-      cy.visit('https://shport-frontend.herokuapp.com/signup')
-          .get(".username").type("testUser123")
-          .get(".email").type("testUser123@gmail.com")
-          .get(".password").type("epicPassword123")
-          .get(".signup-button").click();
-    });
-    cy.intercept({
-        url: 'https://shport-backend.herokuapp.com/users/',
-        method: 'POST'
-    }).as('signup');
-    cy.wait('@signup')
-        .its('response.statusCode').should('equal', 200);
+describe('End to End Login Test', () => {
+    context('SUCCESSFUL login', ()=> {
+        it('GIVEN I navigate to the login page', ()=>{
+            cy.visit('https://shport-frontend.herokuapp.com/login');
+        })
+        it('WHEN I enter a valid username and password and submit the form', ()=>{
+            cy.intercept({
+                url: 'https://shport-backend.herokuapp.com/login',
+                method: 'POST'
+            }).as('loginUser');
+        
+            cy.get('form').within( ()=> {
+                cy.get('input[type="username"]').type("aa");
+                cy.get('input[type="password"]').type("1");
+                cy.contains('Login').click();
+            });
+
+            cy.wait('@loginUser');
+        });
+        
+        it('THEN I am logged in and see my username', ()=>{
+            cy.get('.nomargin.dropdown:last').click()
+            cy.contains('Hello, aa');
+        });
+        
+    })
   });
