@@ -2,7 +2,14 @@ const cors = require("cors");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
-app.use(cors());
+app.use(cors(
+    {
+      origin: "*",
+      methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+      preflightContinue: false,
+      optionsSuccessStatus: 204
+    }
+));
 app.use(express.json());
 
 // Models
@@ -14,7 +21,7 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
-const leagueServices = require("./models/sport/leagueService");
+//const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
   return jwt.sign({ username: username }, process.env.TOKEN_SECRET, {
@@ -50,7 +57,7 @@ function authenticateUser(req, res, next) {
     return res.status(401).end();
   } else {
     try {
-      const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+      jwt.verify(token, process.env.TOKEN_SECRET);
       next();
     } catch (error) {
       return res.status(401).end();

@@ -77,7 +77,7 @@ export default function NavBar(props) {
         className="header"
         style={{
           backgroundColor: theme.base,
-          boxShadow: "0px 5px " + theme.border,
+          boxShadow: "0px 4px " + theme.border,
         }}
       >
         <div className="header-nav">
@@ -93,7 +93,7 @@ export default function NavBar(props) {
               id="header-about"
               onClick={() => navigate("/about")}
             >
-              About Us
+              About
             </p>
             <Dropdown className="nomargin">
               <Dropdown.Toggle

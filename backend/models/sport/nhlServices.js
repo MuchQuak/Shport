@@ -137,9 +137,9 @@ getScrapedTransactions(code){
     }
   }
 
-
+  // This should be changed from the backend calling itself
   translateApiToEspn(code){
-    return axios.get("http://localhost:5000/NHL/api/" + code).then((res) => {
+    return axios.get("http://localhost:" + process.env.PORT + "/NHL/api/" + code).then((res) => {
     return res.data.espnCode;
   });
   }

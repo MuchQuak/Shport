@@ -55,33 +55,41 @@ function getTabIndex(tabNames, preferred) {
 }
 
 function tab(games, props, league, index) {
-  const gamesToSee = (league === favoriteIcon) ? games : games.filter((g) => g.sport === league);
-  if (gamesToSee.length > 0 && gamesToSee.map((g) => g.data).flat().length > 0) { // Ensure that one day is available, and at least one game within
-    if (league === favoriteIcon) {
-      return (
-          <div className="schedule">
-            <p className="nomargin bold">Live & Upcoming</p>
-            {Games(gamesToSee
-                .filter((d) => d.dayName === "Today" || d.dayName === "Tomorrow")
-                .sort((a, b) => {if (a.dayName === "Today" && b.dayName === "Tomorrow") { return -1 } else { return 0 }}), props, league)}
-          </div>
-      );
-    } else {
-      const dayNames = [...new Set(gamesToSee.filter((d) => d.data.length > 0).map((d) => d.dayName))];
-      return (
-          <Tabbed
-              titles={dayNames}
-              default={getTabIndex(dayNames, "Today")}
-              key={index}
-          >
-            {dayNames.map((d) => (
-                <div className="schedule" key={d}>
-                  {Games(gamesToSee.filter((g) => g.dayName === d && g.data.length > 0), props, league)}
-                </div>
-            ))}
-          </Tabbed>
-      );
-    }
+  if (games !== undefined) {
+      const gamesToSee = (league === favoriteIcon) ? games : games.filter((g) => g.sport === league);
+      if (gamesToSee.length > 0 && gamesToSee.map((g) => g.data).flat().length > 0) { // Ensure that one day is available, and at least one game within
+          if (league === favoriteIcon) {
+              return (
+                  <div className="schedule">
+                      <p className="nomargin bold">Live & Upcoming</p>
+                      {Games(gamesToSee
+                          .filter((d) => d.dayName === "Today" || d.dayName === "Tomorrow")
+                          .sort((a, b) => {
+                              if (a.dayName === "Today" && b.dayName === "Tomorrow") {
+                                  return -1
+                              } else {
+                                  return 0
+                              }
+                          }), props, league)}
+                  </div>
+              );
+          } else {
+              const dayNames = [...new Set(gamesToSee.filter((d) => d.data.length > 0).map((d) => d.dayName))];
+              return (
+                  <Tabbed
+                      titles={dayNames}
+                      default={getTabIndex(dayNames, "Today")}
+                      key={index}
+                  >
+                      {dayNames.map((d) => (
+                          <div className="schedule" key={d}>
+                              {Games(gamesToSee.filter((g) => g.dayName === d && g.data.length > 0), props, league)}
+                          </div>
+                      ))}
+                  </Tabbed>
+              );
+          }
+      }
   }
   return (
     <p className="nomargin" key={index}>

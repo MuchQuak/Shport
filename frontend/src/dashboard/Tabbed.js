@@ -2,6 +2,7 @@ import "../style/tab.scss";
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../App";
 import { css, StyleSheet } from "aphrodite";
+import {favoriteIcon} from "./sport/SportHandler";
 
 const styles = (th) =>
   StyleSheet.create({
@@ -26,7 +27,8 @@ export function Tab(props) {
   return (
     <div
       className={
-        css(props.active ? styled.tabActive : styled.tab) + " tab noselect"
+        css(props.active ? styled.tabActive : styled.tab) + " tab noselect" +
+        (props.title === favoriteIcon ? " tab-favorite" : "")
       }
       onClick={props.click}
     >
