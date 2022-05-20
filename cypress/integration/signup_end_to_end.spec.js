@@ -24,6 +24,5 @@ describe('End to End Login Test', () => {
             cy.get('.nomargin.dropdown:last').click()
             cy.contains('Hello, aa');
         });
-        
     })
   });
