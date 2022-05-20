@@ -32,7 +32,7 @@ export function Tab(props) {
       }
       onClick={props.click}
     >
-      <div className="logo-name-record">
+      <div className="logo-name-record flex-basis-100">
         {icon}
         {props.title}
       </div>

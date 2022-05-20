@@ -13,6 +13,7 @@ import CloseButton from "react-bootstrap/CloseButton";
 import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
 import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
+import {isMobile} from "react-device-detect";
 
 const modalStyle = {
   content: {
@@ -23,7 +24,7 @@ const modalStyle = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     height: "auto",
-    width: "60%",
+    width: isMobile ? "95%" : "60%",
     border: "none",
     padding: "0",
     borderRadius: "8px"

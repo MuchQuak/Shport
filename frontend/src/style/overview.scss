@@ -41,11 +41,16 @@
 
 #overview-logo {
     margin: 0;
-    padding: 1px;
-    width: 125px;
-    height: 125px;
+    padding: 5px;
+    width: 135px;
+    height: 135px;
     transition: 0.5s ease;
     flex-shrink: 1;
+}
+
+#overview-logo .logo {
+    width: 125px !important;
+    height: 125px !important;
 }
 
 #overview-logo:hover {
