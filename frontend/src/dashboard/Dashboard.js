@@ -16,6 +16,7 @@ import {useTeamSubreddits, useLeagueSubreddits, redditLogo, getTeamPosts, getLea
 import RedditPost from "./reddit/RedditPost";
 import {ThemeContext} from "../App";
 import {css, StyleSheet} from "aphrodite";
+import { isMobile } from 'react-device-detect';
 
 function condConcat(base, ...adds) {
   for (const [condition, items] of adds) {
@@ -76,15 +77,19 @@ function partitionItems(items) {
   const one = [];
   const two = [];
   const three = [];
-  items.forEach((item, index) => {
-    if (index % 3 === 0) {
-      one.push(item);
-    } else if (index % 3 === 1) {
-      two.push(item);
-    } else if (index % 3 === 2) {
-      three.push(item);
-    }
-  });
+  if (isMobile) {
+    return <ThirdContent key={1}>{items}</ThirdContent>;
+  } else {
+    items.forEach((item, index) => {
+      if (index % 3 === 0) {
+        one.push(item);
+      } else if (index % 3 === 1) {
+        two.push(item);
+      } else if (index % 3 === 2) {
+        three.push(item);
+      }
+    });
+  }
   return (
     <>
       <ThirdContent key={1}>{one}</ThirdContent>
