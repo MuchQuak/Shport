@@ -97,9 +97,9 @@ function Overview(props) {
             boxShadow: "0px 2px " + theme.border,
           }}
         >
-          {getTeamLogo(team.sport, code, "overview-logo")}
+          {getTeamLogo(team.sport, code, isMobile ? "overview-logo-mobile" : "overview-logo")}
           <div className="overview-header">
-            <div className="overview-team-name noselect">
+            <div className={"noselect " + (isMobile ? "overview-team-name-mobile" : "overview-team-name")}>
               {getLeagueLogo(team.sport)}
               {name}
             </div>
