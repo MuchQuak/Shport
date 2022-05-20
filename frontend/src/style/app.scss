@@ -333,5 +333,11 @@
     margin: 0;
 }
 
-.flex-basis-100 {
+.hidescroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.hidescroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
