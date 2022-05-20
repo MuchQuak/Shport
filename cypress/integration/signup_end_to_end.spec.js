@@ -24,5 +24,13 @@ describe('End to End Login Test', () => {
             cy.get('.nomargin.dropdown:last').click()
             cy.contains('Hello, aa');
         });
+        
+        it('THEN ', () => {
+            cy.getCookies()
+            .should('have.length', 1)
+            .then((cookies) => {
+                expect(cookies[0]).to.have.property('name', 'session_id')
+            });
+        });
     })
   });
