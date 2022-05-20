@@ -17,8 +17,22 @@ function PSTtoUTC(time) {
     return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
 }
 
-function parseTeam(hrefString, cityStr) {
+function isDateToday(date) {
+    const otherDate = new Date(date);
+    const todayDate = new Date();
+  
+    if (
+      otherDate.getDate() === todayDate.getDate() &&
+      otherDate.getMonth() === todayDate.getMonth() &&
+      otherDate.getYear() === todayDate.getYear()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+function parseTeam(hrefString) {
     if(hrefString === undefined) {
         return "";
     }
@@ -29,21 +43,15 @@ function parseTeam(hrefString, cityStr) {
 
     delimited = (delimited[delimited.length -1]).split('-');
 
-    //Find how many words are in the city name
-    const lastCityIndex = cityStr.split(' ').length;
-    const teamName = delimited.slice(lastCityIndex);
-
     //Join and Capatilize team name
     let result = "";
-    for(let i = 0; i < teamName.length; i++) {
-        teamName[i] = capatilize(teamName[i]);
+    for(let i = 0; i < delimited.length; i++) {
+        delimited[i] = capatilize(delimited[i]);
 
-        if(i === 0) {
-            result = teamName[i];
-        }
-        else {
-            result += " " + teamName[i]
-        }
+        if(i === 0)
+            result = delimited[i];
+        else
+            result += " " + delimited[i];
     }
     return { name: result, code: teamCode };
 }
@@ -64,6 +72,10 @@ function parseFinalScore(scoreText) {
     const home = 0, away = 1, score = 1;
     let delimited = scoreText.split(', ');
 
+    if(delimited.length < 2 || delimited === '') {
+        return gameScore;
+    }
+
     gameScore.home = delimited[home].split(' ')[score];
     gameScore.away = delimited[away].split(' ')[score];
 
@@ -74,8 +86,21 @@ function parsingGameId(hrefString) {
     if(hrefString === undefined) {
         return "";
     }
+
     let delimited = hrefString.split('=');
-    return delimited[1];
+
+    if(delimited.length > 1) {
+        return delimited[1];
+    }
+
+    delimited = hrefString.split('/');
+
+    if(delimited.length > 1) {
+
+        return delimited[delimited.length - 1];
+    }
+
+    return "";
 }
 
 function capatilize(str) {
@@ -119,39 +144,29 @@ async function scrapeLiveGameData(sportCode, gId) {
 
     return liveData;
 }
-/*
-new_game = {
-    status: "",
-    clock: "",
-    halftime: "",
-    arena: "",
-    currentQtr: "",
-    maxQtr: "",
-    home: "",
-    home_code: "",
-    home_score: "",
-    home_record: "",
-    away: "",
-    away_code: "",
-    away_score: "",
-    away_record: "",
-    startTimeUTC: ""
-}
-*/
 
 async function scrapeGames(sportCode, dateString) {
     //dateString expects YYYYMMDD
 
     //var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`);
-    var response = await axios.get(`https://www.espn.com/${sportCode}/schedule/_/date/${dateString}`);
+    var response = (dateString === "" ? 
+    await axios.get(`https://www.espn.com/${sportCode}/schedule`) : 
+    await axios.get(`https://www.espn.com/${sportCode}/schedule/_/date/${dateString}`));
+
     let $ = cheerio.load(response.data);
     var games = [];
 
     //Scrapes schedule Infromation
-    $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`).each((i, schedule) => {
+    var schedContainer = $(`.mt3 .ScheduleTables.mb5.ScheduleTables--${sportCode}`);
+
+    if(schedContainer.length === 0) {
+        schedContainer = $('#sched-container');
+    }
+
+    schedContainer.each((i, schedule) => {
         var date = new Date($(schedule).find('.Table__Title').text().trim());
 
-        $(schedule).find('.Table__TBODY').find('tr').each((j, tr) => {
+        $(schedule).find('table tbody').find('tr').each((j, tr) => {
             let game = {
                 status: 0,
                 clock: "",
@@ -174,13 +189,16 @@ async function scrapeGames(sportCode, dateString) {
 
             game.date = date;
 
-            let aTeam = $(tr).find('.events__col.Table__TD').find('a');
-            let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
+            //let aTeam = $(tr).find('.events__col.Table__TD').find('a');
+            let aTeam = $(tr).find('td:first').find('a');
+
+            //let hTeam = $(tr).find('.colspan__col.Table__TD').find('a');
+            let hTeam = $(tr).find('td:nth-child(2)').find('a');
 
             if (aTeam.attr() === undefined) {
                 game.away = 'TBA';
             } else {
-                let team = parseTeam(aTeam.attr().href, aTeam.text().trim());
+                let team = parseTeam(aTeam.attr().href);
                 game.away = team.name;
                 game.away_code = team.code;
             }
@@ -188,48 +206,55 @@ async function scrapeGames(sportCode, dateString) {
             if (aTeam.attr() === undefined) {
                 game.home = 'TBA';
             } else {
-                let team = parseTeam(hTeam.attr().href, hTeam.text().trim());
+                let team = parseTeam(hTeam.attr().href);
                 game.home = team.name;
                 game.home_code = team.code;
             }
 
-            let dateElem = $(tr).find('.date__col.Table__TD');
+            //let dateElem = $(tr).find('.date__col.Table__TD');
+            let dateElem = $(tr).find('td:nth-child(3)');
+            let dateText = dateElem.find('a').text()
 
             //If game is finished get score
-            if(dateElem.find('a').attr('href') === undefined) {
+            if(dateElem !== undefined && dateText.split(" ").length > 2) {
                 game.startTimeUTC = "Ended";
 
-                let gameResult = $(tr).find('.teams__col.Table__TD:first').find('a');
-                let finalScore = parseFinalScore(gameResult.text());
+                let finalScore = parseFinalScore(dateText.trim());
                 
                 game.away_score = finalScore.away;
                 game.home_score = finalScore.home;
                 game.status = 2;
-                game.gId = parsingGameId(gameResult.attr('href'));
 
             } else {
-                game.startTimeUTC = PSTtoUTC(dateElem.find('a').text().trim());
-                game.gId = parsingGameId(dateElem.find('a').attr('href'));
+                const startDate = dateElem.attr('data-date');
+
+                if(startDate !== undefined) {
+                    game.startTimeUTC = new Date(startDate);
+                    game.date = new Date(startDate)
+                }
+                else {
+                    game.startTimeUTC = PSTtoUTC(dateText.trim());
+                }
             }
-            
+            game.gId = parsingGameId(dateElem.find('a').attr('href'));
+
             games.push(game); 
         });
     });
 
     //Update game scores if game is live
     for(let i = 0; i < games.length; i++) {
-        if(games[i].startTimeUTC === 'LIVE') {
+        if(games[i].startTimeUTC === 'LIVE' || games[i].startTimeUTC === 'FT') {
             const liveData = await scrapeLiveGameData(sportCode, games[i].gId);
             games[i].away_score = liveData.away;
             games[i].home_score = liveData.home;
             games[i].clock = liveData.clock;
             games[i].status = liveData.status;
+            games[i].date = new Date()
         }
     }
 
     return games;
 }
-
-scrapeGames('mlb', '20220510');
 
 exports.scrapeGames = scrapeGames;
