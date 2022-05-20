@@ -33,11 +33,14 @@
 }
 
 .logo-name-record {
+    width: auto;
+    gap: 5px;
     display: flex;
     flex-flow: row nowrap;
-    align-items: center;
+    justify-items: flex-start;
     justify-content: center;
-    gap: 5px;
+    align-content: center;
+    align-items: center;
 }
 
 .logo-container {
@@ -53,7 +56,11 @@
 }
 
 .logo-container-sport-wide {
-    height: 1.5em;
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
+
+.logo-container-sport-wide .logo {
     width: 1.5em !important;
 }
 
@@ -61,7 +68,7 @@
     margin: 0;
     padding: 0;
     height: 100% !important;
-    width: 100% !important;
+    width: auto;
 }
 
 .logo-multiline-words {
@@ -324,4 +331,7 @@
 
 .range-option-label {
     margin: 0;
+}
+
+.flex-basis-100 {
 }
