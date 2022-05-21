@@ -2,6 +2,8 @@ const cors = require("cors");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
+const cron = require('node-cron');
+
 app.use(cors(
     {
       origin: "*",
@@ -21,6 +23,7 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
+const cache = require("./models/sport/cachingServices")
 //const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
@@ -378,3 +381,25 @@ app.get("/subreddit/:query/:num", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
+
+async function cacheLeague(sport, games, standings) {
+  cache.cacheGames(sport, await mlb.getGamesEndPoint("20220520"))
+  //cache.cacheStandings(sport, await mlb)
+}
+
+//Schedule time from fresh data pulls
+cron.schedule('* * * * *', () => {
+  console.log("Cached data at: " + new Date())
+  nba.cacheData();
+  nfl.cacheData();
+  nhl.cacheData();
+  mlb.cacheData();
+});
+
+
+
+cacheLeague('mlb', {}, {})
+
+/*let m = mlb.getStandingsEndPoint().then(r=> {
+  console.log(r);
+});*/

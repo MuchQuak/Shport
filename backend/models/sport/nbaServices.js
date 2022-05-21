@@ -125,6 +125,10 @@ class NbaService extends league.LeagueService {
   formatPlayersData(responseData) {
     return responseData.data["league"]["standard"];
   }
+  
+  sportCode() {
+    return "NBA";
+  }
 }
 
 exports.NbaService = NbaService;

@@ -167,6 +167,10 @@ getScrapedTransactions(code){
     });
     return all_data;
   }
+
+  sportCode() {
+    return "NHL";
+  }
 }
 
 exports.NhlService = NhlService;

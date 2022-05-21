@@ -24,7 +24,7 @@ class MlbService extends league.LeagueService {
   }
 
   async getStandingsScrape() {
-    return standingsScraper.getMlbSportStanding().then((result) => {
+    return await standingsScraper.getMlbSportStanding().then((result) => {
       return result;
     });
   }
@@ -57,6 +57,10 @@ class MlbService extends league.LeagueService {
     return teamScraper.getTransactions("mlb", code).then((result) => {
       return result;
     });
+  }
+
+  sportCode() {
+    return "MLB";
   }
 }
 

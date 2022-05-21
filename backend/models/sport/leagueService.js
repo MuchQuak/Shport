@@ -1,3 +1,5 @@
+const cache = require("./cachingServices")
+
 class LeagueService {
     constructor(host) {
         this.host = host;
@@ -58,6 +60,16 @@ class LeagueService {
     }
   }
 
+  async cacheData() {
+    console.log("Cached " + this.sportCode())
+    await cache.cacheGames(
+      this.sportCode(),
+      []);
+    await cache.cacheStandings(
+      this.sportCode(), 
+      await this.getStandingsEndPoint());
+  }
+
   async getGamesEndPoint(currentDate) {
     throw new Error("Abstract Method has no implementation");
   }
@@ -67,21 +79,14 @@ class LeagueService {
   async getPlayersEndPoint(currentYear) {
     throw new Error("Abstract Method has no implementation");
   }
+  async sportCode() {
+    throw new Error("Abstract Method has no implementation");
+  }
 
   formatDate(date){
         return date.getFullYear() + 
             String(date.getMonth() + 1).padStart(2, '0') + 
             String(date.getDate()).padStart(2, '0');
-  }
-
-  formatGamesData(responseData, date) {
-    throw new Error("Abstract Method has no implementation");
-  }
-  formatStandingsData(responseData) {
-    throw new Error("Abstract Method has no implementation");
-  }
-  formatPlayersData(responseData) {
-    throw new Error("Abstract Method has no implementation");
   }
 }
 

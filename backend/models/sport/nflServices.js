@@ -57,8 +57,10 @@ getScrapedTransactions(code){
   });
 }
 
+sportCode() {
+  return "NFL";
 }
 
-let nfl = new NflService('');
+}
 
 exports.NflService = NflService;
