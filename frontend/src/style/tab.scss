@@ -13,9 +13,16 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     gap: 2px;
     flex-basis: 100%;
+    overflow-x: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.tabs::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
 
 .tab-content {
@@ -27,11 +34,12 @@
 .tab {
     margin: 0;
     padding: 3px;
+    gap: 0;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
-    flex-grow: 1;
     align-items: center;
+    flex-grow: 1;
     color: #FFFFFF;
     border-radius: 4px;
     cursor: pointer;
