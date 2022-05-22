@@ -57,6 +57,12 @@ getScrapedTransactions(code){
   });
 }
 
+getScrapedHeadlines(code){
+  return teamScraper.getHeadlines("nfl", code).then((result) => {
+    return result;
+  });
+}
+
 }
 
 let nfl = new NflService('');

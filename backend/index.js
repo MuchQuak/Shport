@@ -219,6 +219,12 @@ app.get("/NBA/transactions/:id", async (req, res) => {
   });
 });
 
+app.get("/NBA/headlines/:id", async (req, res) => {
+  await nba.getScrapedHeadlines(req.params["id"]).then((result) => {
+    res.send(result);
+  });
+});
+
 //NHL api Calls
 let nhl = new nhlServices.NhlService("https://statsapi.web.nhl.com");
 
@@ -271,6 +277,12 @@ app.get("/NHL/transactions/:id", async (req, res) => {
   });
 });
 
+app.get("/NHL/headlines/:id", async (req, res) => {
+  await nhl.getScrapedHeadlines(req.params["id"]).then((result) => {
+    res.send(result);
+  });
+});
+
 //MLB api Calls Currently currently pulls nothing
 let mlb = new mlbServices.MlbService("");
 app.get("/MLB/games", async (req, res) => {
@@ -314,6 +326,12 @@ app.get("/MLB/top_players/:id", async (req, res) => {
 app.get("/MLB/transactions/:id", async (req, res) => {
     await mlb.getScrapedTransactions(req.params["id"]).then((result) => {
       res.send(result);
+  });
+});
+
+app.get("/MLB/headlines/:id", async (req, res) => {
+  await mlb.getScrapedHeadlines(req.params["id"]).then((result) => {
+    res.send(result);
   });
 });
 
@@ -361,6 +379,13 @@ app.get("/NFL/transactions/:id", async (req, res) => {
       res.send(result);
   });
 });
+
+app.get("/NFL/headlines/:id", async (req, res) => {
+  await nfl.getScrapedHeadlines(req.params["id"]).then((result) => {
+    res.send(result);
+  });
+});
+
 //articles api Calls
 //app.get('/news', async (req, res) => {await news.getNews(req, res)});
 app.get("/news/:query", async (req, res) => {

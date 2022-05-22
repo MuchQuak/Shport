@@ -298,7 +298,7 @@ async function getTransactions(league, acro) {
     });
 }
 
-async function getTeamNews(league, acro) {
+async function getHeadlines(league, acro) {
   /* example
     {
         url: 'https://www.espn.com/nba/recap/_/gameId/401430216',
@@ -307,7 +307,7 @@ async function getTeamNews(league, acro) {
     }
     */
   const host = "https://www.espn.com";
-  axios
+  return await axios
     .get(host + "/" + league + "/team/_/name/" + acro)
     .then((response) => {
       let $ = cheerio.load(response.data);
@@ -344,6 +344,6 @@ async function getTeamNews(league, acro) {
 exports.getInjuries = getInjuries;
 exports.getRoster = getRoster;
 exports.getSchedule = getSchedule;
-exports.getTeamNews = getTeamNews;
+exports.getHeadlines = getHeadlines;
 exports.getTopPlayers = getTopPlayers;
 exports.getTransactions = getTransactions;

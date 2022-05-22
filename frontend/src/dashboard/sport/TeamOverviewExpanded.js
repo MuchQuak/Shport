@@ -1,4 +1,4 @@
-import { getTeamLogo, playersQuery, injuriesQuery, transactionsQuery, topPlayersQuery } from "./SportHandler";
+import { getTeamLogo, playersQuery, injuriesQuery, transactionsQuery, topPlayersQuery, headlinesQuery} from "./SportHandler";
 import { useQuery } from "react-query";
 import { useContext } from "react";
 import { loading, suffix } from "../../util/Util";
@@ -11,6 +11,7 @@ export function TeamOverviewExpanded(props) {
   const pi = useQuery(["injuries",props.league, props.espn], () => injuriesQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
   const pt = useQuery(["transactions",props.league, props.espn], () => transactionsQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
   const ptp = useQuery(["topPlayers",props.league, props.espn], () => topPlayersQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
+  const ph = useQuery(["headlines",props.league, props.espn], () => headlinesQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
 
   if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
     return loading;
@@ -37,7 +38,7 @@ export function TeamOverviewExpanded(props) {
           </p>
         </div>
       </div>
-      <Tabbed titles={["Roster", "Injuries", "Top Players", "Transactions"]} default={0}>
+      <Tabbed titles={["Roster", "Injuries", "Top Players", "Transactions", "Headlines"]} default={0}>
         {[<div className="expanded-team-overview-players">
           {pq.data.length === 0 &&
           <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No players.</div>}
@@ -101,6 +102,24 @@ export function TeamOverviewExpanded(props) {
                   <div className="overview-player-date" style={{ color: "white" }}>{p["date"]}</div>
                   <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["description"]}</div>
                 </div>
+              ))}</div>,
+          <div className="expanded-team-overview-players">
+            {ph.data.length === 0 &&
+            <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No transactions.</div>}
+            {ph.data
+              .map((p, index) => (
+                <a href={p["url"]} target="_blank" style={{ textDecorationLine: "none" }}>
+                <div
+                  className="overview-player"
+                  style={{ backgroundColor: theme.accent }}
+                  key={index}
+                >
+                  <a>
+                  <div className="overview-player-date" style={{ color: "white" }}>{p["timeElapsed"]}<br/></div>
+                  <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["title"]}</div>
+                  </a>
+                </div>
+                </a>
               ))}</div>
         ]}
       </Tabbed>

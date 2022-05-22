@@ -55,6 +55,14 @@ export async function topPlayersQuery(sport, code) {
     });
 }
 
+export async function headlinesQuery(sport, code) {
+  return await axios
+    .get(BACKEND + sport + "/headlines/" + code)
+    .then((res) => {
+      return res.data;
+    });
+}
+
 export async function informativeGamesQuery(sport, dayOffset, dayName) {
   return await axios
     .get(BACKEND + sport + "/games/" + dayOffset)
