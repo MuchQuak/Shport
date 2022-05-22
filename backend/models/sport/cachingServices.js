@@ -40,7 +40,7 @@ const standingsSchema = new mongoose.Schema(
         required: true,
         trim: true,
       },
-      standings: [],
+      standings: {},
     },
     {
       collection: "standingsCache",
