@@ -64,7 +64,7 @@ class LeagueService {
     console.log("Cached " + this.sportCode())
     await cache.cacheGames(
       this.sportCode(),
-      []);
+      await this.getGamesEndPoint(this.formatDate(new Date)));
     await cache.cacheStandings(
       this.sportCode(), 
       await this.getStandingsEndPoint());
