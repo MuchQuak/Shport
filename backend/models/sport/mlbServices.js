@@ -10,16 +10,15 @@ class MlbService extends league.LeagueService {
     super(host);
   }
 
-  async getGamesEndPoint(currentDate) {
+  async getGamesData() {
     //YYYYMMDD
     const previous = new Date();
     previous.setDate(previous.getDate() - 1);
     
-    let results = await gameScraper.scrapeGames('mlb', this.formatDate(previous));
-    return results.filter(g => this.formatDate(g.date) === currentDate);
+    return await gameScraper.scrapeGames('mlb', this.formatDate(previous));
   }
 
-  async getStandingsEndPoint() {
+  async getStandingsData() {
     return await standingsScraper.getMlbSportStanding();
   }
 

@@ -18,12 +18,17 @@ class NhlService extends league.LeagueService {
     );
   }
 
-  async getGamesEndPoint(currentDate) {
+  async getGamesData() {
+
+    var currentDate = new Date;
+    var previousDate = currentDate.setDate(currentDate.getDate() - 1);
+    var nextDate = currentDate.setDate(currentDate.getDate() + 1);
+
     return this.formatGamesData(
-      await axios.get(this.host + "/api/v1/schedule?date=" + currentDate));
+      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(currentDate)));
   }
 
-  async getStandingsEndPoint() {
+  async getStandingsData() {
     return this.formatStandingsData(
       await axios.get(this.host + "/api/v1/standings"));
   }

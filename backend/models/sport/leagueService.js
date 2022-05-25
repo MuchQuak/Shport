@@ -25,7 +25,7 @@ class LeagueService {
         const currentDate = this.formatDate(today);
 
     try {
-      const games = await this.getGamesEndPoint(currentDate);
+      const games = await this.getGamesData(currentDate);
       res.send(games);
     } catch (e) {
       console.error(e);
@@ -35,7 +35,7 @@ class LeagueService {
   async getStandings(req, res) {
     const id = req.params["id"];
     try {
-      const standings = await this.getStandingsEndPoint();
+      const standings = await this.getStandingsData();
       if (id === undefined) {
         res.send(standings);
       } else {
@@ -64,16 +64,16 @@ class LeagueService {
     console.log("Cached " + this.sportCode())
     await cache.cacheGames(
       this.sportCode(),
-      await this.getGamesEndPoint(this.formatDate(new Date)));
+      await this.getGamesData());   
     await cache.cacheStandings(
       this.sportCode(), 
-      await this.getStandingsEndPoint());
+      await this.getStandingsData());
   }
 
-  async getGamesEndPoint(currentDate) {
+  async getGamesData() {
     throw new Error("Abstract Method has no implementation");
   }
-  async getStandingsEndPoint() {
+  async getStandingsData() {
     throw new Error("Abstract Method has no implementation");
   }
   async getPlayersEndPoint(currentYear) {

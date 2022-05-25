@@ -382,11 +382,6 @@ app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
 
-async function cacheLeague(sport, games, standings) {
-  cache.cacheGames(sport, await mlb.getGamesEndPoint("20220520"))
-  //cache.cacheStandings(sport, await mlb)
-}
-
 //Schedule time from fresh data pulls
 cron.schedule('* * * * *', () => {
   console.log("Cached data at: " + new Date())
@@ -395,10 +390,6 @@ cron.schedule('* * * * *', () => {
   nhl.cacheData();
   mlb.cacheData();
 });
-
-
-
-cacheLeague('mlb', {}, {})
 
 /*let m = mlb.getStandingsEndPoint().then(r=> {
   console.log(r);

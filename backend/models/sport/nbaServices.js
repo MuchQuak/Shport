@@ -8,11 +8,20 @@ class NbaService extends league.LeagueService {
     super(host);
   }
 
-  async getGamesEndPoint(currentDate) {
+  async getGamesData() {
+
+    var currentDate = new Date;
+    var previousDate = currentDate.setDate(currentDate.getDate() - 1);
+    var nextDate = currentDate.setDate(currentDate.getDate() + 1);
+
+    //const prev = await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(previousDate) + "/scoreboard.json");
+    //const current = await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(currentDate) + "/scoreboard.json");
+    //const next = await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(nextDate) + "/scoreboard.json");
+
     return this.formatGamesData(
       await axios.get(this.host + "/10s/prod/v1/" + currentDate + "/scoreboard.json"));
   }
-  async getStandingsEndPoint() {
+  async getStandingsData() {
     return this.formatStandingsData(
       await axios.get(this.host + "/10s/prod/v1/current/standings_conference.json"));
   }
