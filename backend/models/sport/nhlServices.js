@@ -27,11 +27,14 @@ class NhlService extends league.LeagueService {
     nextDate.setDate(currentDate.getDate() + 1);
 
     var prev = await this.formatGamesData(
-      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(previousDate)));
+      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(previousDate)),
+      previousDate);
     var current = await this.formatGamesData(
-      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(currentDate)));
+      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(currentDate)),
+      currentDate);
     var next = await this.formatGamesData(
-      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(nextDate)));
+      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(nextDate)),
+      nextDate);
 
     return new Array().concat(prev, current, next);
   }
@@ -118,6 +121,7 @@ getScrapedTransactions(code){
         game.teams.away.leagueRecord.losses;
       new_game.away_code = String(game.teams.away.team.id);
       new_game.startTimeUTC = game.gameDate;
+      new_game.date = date;
       new_game.break_string = "Intermission";
       if (new_game.status === 1) {
         const specificInfo = await this.getSpecificGameInfo(game.link);

@@ -17,16 +17,18 @@ class LeagueService {
     }
     
     async getGames(req, res) {
+      
         const offset_param = String(req.params['offset']).trim();
         const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
         const offset = isNaN(offset_num) ? 0 : offset_num;
-        const today = new Date();
+        var today = new Date();
         today.setDate(today.getDate() + offset);
         const currentDate = this.formatDate(today);
 
     try {
-      const games = await this.getGamesData(currentDate);
-      res.send(games);
+      
+      const games = await cache.getCachedGames(this.sportCode())
+      res.send(games.filter(g => this.formatDate(g.date) === currentDate));      
     } catch (e) {
       console.error(e);
     }
@@ -35,7 +37,8 @@ class LeagueService {
   async getStandings(req, res) {
     const id = req.params["id"];
     try {
-      const standings = await this.getStandingsData();
+      const standings = await cache.getCachedStandings(this.sportCode());
+      
       if (id === undefined) {
         res.send(standings);
       } else {
@@ -61,7 +64,7 @@ class LeagueService {
   }
 
   async cacheData() {
-    console.log("Cached " + this.sportCode())
+    console.log("Cached " + this.sportCode());
     await cache.cacheGames(
       this.sportCode(),
       await this.getGamesData());   

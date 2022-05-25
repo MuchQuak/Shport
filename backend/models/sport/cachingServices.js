@@ -47,10 +47,11 @@ const standingsSchema = new mongoose.Schema(
     }
   );
 
-async function getGames(sport) {
+async function getCachedGames(sport) {
     const gamesModel = getDbConnection().model("gameCache", gamesSchema);
     try {
-      return gamesModel.findOne({ sport: String(sport).trim().toUpperCase()});
+      const gameData = await gamesModel.findOne({sport: String(sport).trim().toUpperCase()});
+      return gameData.games;
     } catch (error) {
       console.log(error);
       return false;
@@ -73,10 +74,20 @@ async function cacheGames(sport, games) {
     }
 }
 
+async function getCachedStandings(sport) {
+  const standingsModel = getDbConnection().model("standingsCache", standingsSchema);
+  try {
+    const standingsData = await standingsModel.findOne({sport: String(sport).trim().toUpperCase()});
+    return standingsData.standings;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 async function cacheStandings(sport, standings) {
     const standingsModel = getDbConnection().model("standingsCache", standingsSchema);
     try {
-
         const SPORT = String(sport).trim().toUpperCase()
         return await standingsModel.updateOne(
             { sport: SPORT },
@@ -89,4 +100,6 @@ async function cacheStandings(sport, standings) {
     }
 }
 exports.cacheGames = cacheGames;
+exports.getCachedGames = getCachedGames;
+exports.getCachedStandings = getCachedStandings;
 exports.cacheStandings = cacheStandings;

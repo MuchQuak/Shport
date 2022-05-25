@@ -23,8 +23,6 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
-const cache = require("./models/sport/cachingServices")
-//const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
   return jwt.sign({ username: username }, process.env.TOKEN_SECRET, {
@@ -284,9 +282,7 @@ app.get("/MLB/games/:offset", async (req, res) => {
   await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
-  mlb.getStandingsScrape().then((result) => {
-    res.send(result);
-  });
+  await mlb.getStandings(req, res);
 });
 app.get("/MLB/standings/:id", async (req, res) => {
   await mlb.getStandings(req, res);
@@ -329,13 +325,11 @@ app.get("/NFL/games/:offset", async (req, res) => {
   await nfl.getGames(req, res);
 });
 app.get("/NFL/standings", async (req, res) => {
-  nfl.getStandingsScrape().then((result) => {
-    res.send(result);
-  });
+  await nfl.getStandings(req, res);
 });
 
 app.get("/NFL/standings/:id", async (req, res) => {
-  await nfl.getStandingsScrape(req, res);
+  await nfl.getStandings(req, res);
 });
 
 app.get("/NFL/players", async (req, res) => {
