@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import NavBar from "./dashboard/NavBar";
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
-import About from "./dashboard/about/About";
+import About from "./about/About";
 import {
   prefsQuery,
   themeQuery,
@@ -15,6 +15,7 @@ import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
 import { sportsQuery } from "./dashboard/sport/SportHandler";
 import { themes } from "./dashboard/Theme";
+import UserSearch from "./search/UserSearch";
 
 const userModel = {
   info: {
@@ -104,6 +105,7 @@ export default function App(props) {
           element={<Settings user={user} setUser={setUser} />}
         />
         <Route path="about" element={<About />} />
+        <Route path="usersearch" element={<UserSearch />} />
       </Routes>
     </ThemeContext.Provider>
   );

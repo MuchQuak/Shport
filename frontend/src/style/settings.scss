@@ -26,14 +26,14 @@
 
 .wrapper {
     margin: 0 auto;
-    width: 80%;
+    width: 85%;
     display: flex;
     flex-flow: column wrap;
 }
 
 .league-wrapper {
-    margin: 0;
-    width: 100%;
+    margin: 0 auto;
+    width: 350px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
