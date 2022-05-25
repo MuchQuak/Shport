@@ -9,11 +9,12 @@ import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
 import { setUserPrefs } from "../login-signup/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
-import { loading } from "../util/Util";
+import {Collapsible, loading} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
 import {ThemeContext} from "../App";
 import RedditPreferenceSelector from "../dashboard/reddit/RedditPreferenceSelector";
 import {getLeaguePosts, getTeamPosts} from "../dashboard/reddit/RedditHandler";
+import {accountIcon} from "../dashboard/NavBar";
 
 const styles = (th) =>
     StyleSheet.create({
@@ -101,6 +102,9 @@ function SettingsBox(props) {
         }
       });
   }
+  function deleteAccount(event) {
+    event.preventDefault();
+  }
   return (
     <div className={css(styled.box) + " boxed settings"}>
       <h1 className="boxed-header">Settings</h1>
@@ -141,6 +145,19 @@ function SettingsBox(props) {
               teamPosts={teamPosts}
               setTeamPosts={setTeamPosts}
             />
+            <Collapsible title="Account Settings" default={false} icon={accountIcon()}>
+              <button
+                  className={"remove-button margin-top-5"}
+              >
+                Change Password
+              </button>
+              <button
+                  className={"remove-button margin-top-5"}
+                  onClick={(e) => deleteAccount(e)}
+              >
+                Delete Account
+              </button>
+            </Collapsible>
             <button
               className={css(styled.button) + " button margin-top-5"}
               onClick={(e) => handleSubmit(e)}
