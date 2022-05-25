@@ -2,7 +2,7 @@ import "../style/navbar.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import React, { useContext } from "react";
-import { ThemeContext } from "../App";
+import {ThemeContext, UserContext} from "../App";
 import ThemeSelector from "./ThemeSelector";
 import { Toaster } from "react-hot-toast";
 import { StyleSheet, css } from "aphrodite";
@@ -58,8 +58,8 @@ function searchIcon() {
 
 export default function NavBar(props) {
   const { theme } = useContext(ThemeContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const user = props.user;
   const styled = styles(theme);
 
   function gear() {

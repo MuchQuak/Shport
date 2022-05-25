@@ -11,7 +11,7 @@ import { setUserPrefs } from "../login-signup/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
 import {Collapsible, loading} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
-import {ThemeContext} from "../App";
+import {ThemeContext, UserContext} from "../App";
 import RedditPreferenceSelector from "../dashboard/reddit/RedditPreferenceSelector";
 import {getLeaguePosts, getTeamPosts} from "../dashboard/reddit/RedditHandler";
 import {accountIcon} from "../dashboard/NavBar";
@@ -70,9 +70,10 @@ function createPrefsObject(allLeagues, leagues, teams, teamPosts, leaguePosts) {
   };
 }
 
-function SettingsBox(props) {
+function SettingsBox() {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedLeagues, setSelectedLeagues] = useState([]);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [sports, setSports] = useState([]);
@@ -80,7 +81,6 @@ function SettingsBox(props) {
   const [teamPosts, setTeamPosts] = useState(1);
   const [isAlertVisible, setAlertVisible] = useState(false);
   const [currentAlert, setCurrentAlert] = useState(<></>);
-  const user = props.user;
   const styled = styles(theme);
   const sportsResult = useQuery(["sports"], () => sportsQuery(), {
     onSuccess: (data) => {
@@ -94,7 +94,7 @@ function SettingsBox(props) {
   function handleSubmit(event) {
     event.preventDefault();
     user.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
-    props.setUser(user);
+    setUser(user);
     toast
       .promise(setUserPrefs(user), {
         loading: "Saving...",
@@ -230,11 +230,11 @@ function DeleteAccountForm() {
   )
 }
 
-export default function Settings(props) {
+export default function Settings() {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <SettingsBox user={props.user} setUser={props.setUser} />
+      <SettingsBox />
     </>
   );
 }

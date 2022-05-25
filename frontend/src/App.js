@@ -28,12 +28,13 @@ const userModel = {
 
 export const ThemeContext = createContext(themes.blue);
 export const SportContext = createContext([]);
+export const UserContext = createContext({});
 
-function ContextProvider(props) {
+function ContextProvider() {
   const sportsResult = useQuery(["sports"], () => sportsQuery());
   return sportsResult.isLoading ? loadingSuffix("sports") :
       <SportContext.Provider value={sportsResult.data}>
-        <Dashboard user={props.user} />;
+        <Dashboard />;
       </SportContext.Provider>
 }
 
@@ -46,7 +47,7 @@ export default function App(props) {
     if (auth_token === undefined || auth_token === "") {
       navigate("/login");
     } else {
-      console.log(auth_token);
+      //console.log(auth_token);
     }
   });
   const nameQuery = useQuery(
@@ -88,6 +89,8 @@ export default function App(props) {
   );
   if (prefQuery.isLoading || nameQuery.isLoading || thQuery.isLoading) {
     return loadingSuffix("app");
+  } else if (user === undefined || user.prefs === undefined) {
+    return loadingSuffix("user");
   } else if (prefQuery.isError) {
     return errorSuffix("retrieving preferences");
   } else if (nameQuery.isError) {
@@ -97,18 +100,17 @@ export default function App(props) {
     // NO-OP, the program should be able to use the default theme just fine.
   }
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      <NavBar user={user} removeCookie={props.removeCookie} />
-      <Routes>
-        <Route index element={<ContextProvider user={user} />} />
-        <Route
-          path="settings"
-          element={<Settings user={user} setUser={setUser} />}
-        />
-        <Route path="about" element={<About />} />
-        <Route path="usersearch" element={<UserSearch />} />
-      </Routes>
-    </ThemeContext.Provider>
+      <UserContext.Provider value={{ user, setUser }}>
+        <ThemeContext.Provider value={{ theme, setTheme }}>
+          <NavBar removeCookie={props.removeCookie} />
+          <Routes>
+            <Route index element={<ContextProvider />} />
+            <Route path="settings" element={<Settings />}/>
+            <Route path="about" element={<About />} />
+            <Route path="usersearch" element={<UserSearch />} />
+          </Routes>
+        </ThemeContext.Provider>
+      </UserContext.Provider>
   );
 }
 
