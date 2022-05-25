@@ -143,7 +143,7 @@ export default function SignUp() {
             type="submit"
             disabled={!validateForm()}
           >
-            Next
+            Sign Up
           </button>
           <Link to="/login">
             <p className="have-account noselect">Already registered? Sign in</p>

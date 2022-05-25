@@ -1,11 +1,9 @@
 // npx cypress open
-import 'cypress-react-selector';
 
 describe('End to End Login Test', () => {
     context('SUCCESSFUL login', ()=> {
         it('GIVEN I navigate to the login page', ()=>{
             cy.visit('https://shport-frontend.herokuapp.com/login');
-            cy.waitForReact(1000,'#root');
         })
         it('WHEN I enter a valid username and password and submit the form', ()=>{
             cy.intercept({
