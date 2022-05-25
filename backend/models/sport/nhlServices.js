@@ -21,11 +21,19 @@ class NhlService extends league.LeagueService {
   async getGamesData() {
 
     var currentDate = new Date;
-    var previousDate = currentDate.setDate(currentDate.getDate() - 1);
-    var nextDate = currentDate.setDate(currentDate.getDate() + 1);
+    var previousDate = new Date;
+    var nextDate = new Date;
+    previousDate.setDate(currentDate.getDate() - 1);
+    nextDate.setDate(currentDate.getDate() + 1);
 
-    return this.formatGamesData(
+    var prev = await this.formatGamesData(
+      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(previousDate)));
+    var current = await this.formatGamesData(
       await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(currentDate)));
+    var next = await this.formatGamesData(
+      await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(nextDate)));
+
+    return new Array().concat(prev, current, next);
   }
 
   async getStandingsData() {

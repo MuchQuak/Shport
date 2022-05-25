@@ -11,20 +11,26 @@ class NbaService extends league.LeagueService {
   async getGamesData() {
 
     var currentDate = new Date;
-    var previousDate = currentDate.setDate(currentDate.getDate() - 1);
-    var nextDate = currentDate.setDate(currentDate.getDate() + 1);
+    var previousDate = new Date;
+    var nextDate = new Date;
+    previousDate.setDate(currentDate.getDate() - 1);
+    nextDate.setDate(currentDate.getDate() + 1);
 
-    //const prev = await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(previousDate) + "/scoreboard.json");
-    //const current = await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(currentDate) + "/scoreboard.json");
-    //const next = await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(nextDate) + "/scoreboard.json");
+    var prev = this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(previousDate) + "/scoreboard.json"));
+    var current = this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(currentDate) + "/scoreboard.json"));
+    var next = this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(nextDate) + "/scoreboard.json"));
 
-    return this.formatGamesData(
-      await axios.get(this.host + "/10s/prod/v1/" + currentDate + "/scoreboard.json"));
+    return new Array().concat(prev, current, next);
   }
+
   async getStandingsData() {
     return this.formatStandingsData(
       await axios.get(this.host + "/10s/prod/v1/current/standings_conference.json"));
   }
+  
   async getPlayersEndPoint(currentYear) {
     return this.formatPlayersData(
       await axios.get(this.host + "/10s/prod/v1/" + currentYear + "/players.json"));

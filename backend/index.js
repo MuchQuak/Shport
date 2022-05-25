@@ -390,7 +390,3 @@ cron.schedule('* * * * *', () => {
   nhl.cacheData();
   mlb.cacheData();
 });
-
-/*let m = mlb.getStandingsEndPoint().then(r=> {
-  console.log(r);
-});*/
