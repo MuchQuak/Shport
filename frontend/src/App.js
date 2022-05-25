@@ -27,13 +27,14 @@ const userModel = {
 };
 
 export const ThemeContext = createContext(themes.blue);
+export const SportContext = createContext([]);
 
-function SportContext(props) {
+function ContextProvider(props) {
   const sportsResult = useQuery(["sports"], () => sportsQuery());
-  if (sportsResult.isSuccess) {
-    return <Dashboard sports={sportsResult.data} user={props.user} />;
-  }
-  return loadingSuffix("sports");
+  return sportsResult.isLoading ? loadingSuffix("sports") :
+      <SportContext.Provider value={sportsResult.data}>
+        <Dashboard user={props.user} />;
+      </SportContext.Provider>
 }
 
 export default function App(props) {
@@ -99,7 +100,7 @@ export default function App(props) {
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <NavBar user={user} removeCookie={props.removeCookie} />
       <Routes>
-        <Route index element={<SportContext user={user} />} />
+        <Route index element={<ContextProvider user={user} />} />
         <Route
           path="settings"
           element={<Settings user={user} setUser={setUser} />}

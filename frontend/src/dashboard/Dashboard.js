@@ -14,7 +14,7 @@ import {
 import { isOneLoading, errorSuffix, loadingSuffix } from "../util/Util";
 import {useTeamSubreddits, useLeagueSubreddits, redditLogo, getTeamPosts, getLeaguePosts} from "./reddit/RedditHandler";
 import RedditPost from "./reddit/RedditPost";
-import {ThemeContext} from "../App";
+import {SportContext, ThemeContext} from "../App";
 import {css, StyleSheet} from "aphrodite";
 import { isMobile } from 'react-device-detect';
 
@@ -62,14 +62,15 @@ function articleItems(news) {
 }
 
 function redditItems(posts) {
-  return posts.map((post, idx) => (
-    <CloseableItem
-      title={"Reddit — /r/" + post.subreddit}
-      logo={redditLogo()}
-      key={String(idx)}
-    >
-      <RedditPost post={post} key={"post-" + String(idx)} />
-    </CloseableItem>
+  return posts.filter((p) => p !== undefined).map((post, idx) => (
+        <CloseableItem
+          title={"Reddit — /r/" + post.subreddit}
+          link={post.url}
+          logo={redditLogo()}
+          key={String(idx)}
+        >
+          <RedditPost post={post} key={"post-" + String(idx)} />
+        </CloseableItem>
   ));
 }
 
@@ -108,27 +109,28 @@ const styles = (th) =>
 
 export default function Dashboard(props) {
   const { theme } = useContext(ThemeContext);
-  const allTeams = getAllTeamsFollowed(props.user.prefs, props.sports);
+  const sports = useContext(SportContext);
+  const allTeams = getAllTeamsFollowed(props.user.prefs, sports);
   const allLeagues = getSportsFollowed(props.user.prefs);
   const styled = styles(theme);
   const tnr = useNews("league", createTeamQuery(allTeams));
   const lnr = useNews("league", allLeagues);
   const tr = useTeamSubreddits(
-    props.sports,
+    sports,
     "teamReddit",
     allTeams
       .filter((t) => t.subreddit && t.subreddit !== "")
       .map((t) => [t.sport, t.code]),
       getTeamPosts(props.user.prefs)
   );
-  const lr = useLeagueSubreddits(props.sports, "leagueReddit", allLeagues, getLeaguePosts(props.user.prefs));
+  const lr = useLeagueSubreddits(sports, "leagueReddit", allLeagues, getLeaguePosts(props.user.prefs));
   function getMsg() {
     if (!props.user.prefs) {
       return loadingSuffix("user");
     }
     return partitionItems(
       condConcat(
-        defaultItems(props.user.prefs, props.sports),
+        defaultItems(props.user.prefs, sports),
         [
           props.user.prefs && !isOneLoading(tr),
           () => redditItems(tr.map((q) => q.data).flat()),
