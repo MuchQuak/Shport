@@ -40,17 +40,28 @@
 }
 
 #overview-logo {
-    margin: 0;
+    margin: 5px;
     padding: 5px;
-    width: 135px;
-    height: 135px;
+    width: 110px;
+    height: 110px;
     transition: 0.5s ease;
-    flex-shrink: 1;
+}
+
+#overview-logo-mobile {
+    margin: 5px;
+    width: 75px;
+    height: 75px;
+    transition: 0.5s ease;
 }
 
 #overview-logo .logo {
-    width: 125px !important;
-    height: 125px !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#overview-logo-mobile .logo {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 #overview-logo:hover {
@@ -61,14 +72,24 @@
 }
 
 .overview-team-name {
-    width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    gap: 8px;
+    gap: 6px;
     justify-content: center;
     align-items: center;
     flex-shrink: 1;
-    font-size: 23px;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.overview-team-name-mobile {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 1;
+    font-size: 16px;
     font-weight: bold;
 }
 
