@@ -97,7 +97,7 @@ app.get("/username", authenticateUser, async (req, res) => {
   }
 });
 
-app.delete("/username", authenticateUser, async (req, res) => {
+app.delete("/username", async (req, res) => {
   const decodedUser = decode(req);
   
   if (decodedUser) {
