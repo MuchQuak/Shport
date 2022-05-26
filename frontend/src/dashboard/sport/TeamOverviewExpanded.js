@@ -108,7 +108,7 @@ export function TeamOverviewExpanded(props) {
             <div className="overview-player" style={{ backgroundColor: theme.accent }} key={0}>No transactions.</div>}
             {ph.data
               .map((p, index) => (
-                <a href={p["url"]} target="_blank" style={{ textDecorationLine: "none" }}>
+                <a href={p["url"]} target="_blank" rel="noreferrer" style={{ textDecorationLine: "none" }}>
                 <div
                   className="overview-player"
                   style={{ backgroundColor: theme.accent }}
@@ -117,7 +117,7 @@ export function TeamOverviewExpanded(props) {
                   <p>
                   <div className="overview-player-date" style={{ color: "white" , float: "right" , fontSize: "large"}}>{p["title"]}<br/></div>
                   <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["timeElapsed"]}  ∙  {p["source"]}</div>
-                  <br/><img src={p["image"]} style={{ float: "left"}} />
+                  <br/><img src={p["image"]} alt={p["title"]} style={{ float: "left"}} />
                   </p>
                 </div>
                 </a>
