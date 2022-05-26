@@ -13,7 +13,7 @@ export function TeamOverviewExpanded(props) {
   const ptp = useQuery(["topPlayers",props.league, props.espn], () => topPlayersQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
   const ph = useQuery(["headlines",props.league, props.espn], () => headlinesQuery(props.league, props.espn), { refetchOnWindowFocus: false, refetchOnmount: false, refetchOnReconnect: false});
 
-  if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading) {
+  if (pq.isLoading || pi.isLoading || pt.isLoading || ptp.isLoading || ph.isLoading) {
     return loading;
   }
   if (!props || !props.team || !props.league ||!props.espn) {
@@ -114,10 +114,11 @@ export function TeamOverviewExpanded(props) {
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
-                  <a>
-                  <div className="overview-player-date" style={{ color: "white" }}>{p["timeElapsed"]}<br/></div>
-                  <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["title"]}</div>
-                  </a>
+                  <p>
+                  <div className="overview-player-date" style={{ color: "white" , float: "right" , fontSize: "large"}}>{p["title"]}<br/></div>
+                  <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["timeElapsed"]}  ∙  {p["source"]}</div>
+                  <br/><img src={p["image"]} style={{ float: "left"}} />
+                  </p>
                 </div>
                 </a>
               ))}</div>

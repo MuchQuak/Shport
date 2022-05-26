@@ -1,7 +1,8 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-async function getNews(code) {
+//generic google news scraping, inputs can be anything
+async function getNews(sport, code) {
     const host = "https://news.google.com"
     //code = "nfl";
     /*
@@ -14,30 +15,30 @@ async function getNews(code) {
     }, ...]
     */
     return await axios
-        .get(host + "/search?q=" + code + "&hl=en-US&gl=US&ceid=US%3Aen")
-        .then((response) => {
-            let $ = cheerio.load(response.data);
-            let news = [];
+      .get(host + "/search?q=" + sport + "%20" + code + "&hl=en-US&gl=US&ceid=US%3Aen")
+      .then((response) => {
+          let $ = cheerio.load(response.data);
+          let news = [];
 
-            $('.xrnccd').each((index, element) => {
-                if (index > 3) {
-                    return false;
-                }
+          $('.xrnccd').each((index, element) => {
+              let newsObj = {}
+              newsObj.title = $(element).find(".DY5T1d.RZIKme").first().text().trim();
+              newsObj.url = host + $(element).find("h3 a").attr("href");
+              newsObj.source = $(element).find(".wEwyrc.AVN2gc.uQIVzc.Sksgp").first().text().trim();
+              newsObj.timeElapsed = $(element).find(".WW6dff.uQIVzc.Sksgp").first().text().trim();
+              news.push(newsObj);
+          });
 
-                let newsObj = {}
-                newsObj.title = $(element).find(".DY5T1d.RZIKme").text().trim();
-                newsObj.url = host + $(element).find("h3 a").attr("href");
-                newsObj.source = $(element).find(".wEwyrc.AVN2gc.uQIVzc.Sksgp").text().trim();
-                newsObj.timeElapsed = $(element).find(".WW6dff.uQIVzc.Sksgp").text().trim();
-                imgLink = $("img").attr("srcset").split(" ");
-                newsObj.image = imgLink[0];
-                news.push(newsObj);
-            });
-            console.log(news);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+          $(".tvs3Id.QwxBBf").each((index, element) => {
+            imgLink = $(element).attr("srcset").split(" ");
+            news[index].image = imgLink[2];
+          })
+          return news;
+      })
+      .catch((error) => {
+          console.log(error);
+      });
 }
 
-exports.getTransactions = getTransactions;
+
+exports.getNews = getNews;
