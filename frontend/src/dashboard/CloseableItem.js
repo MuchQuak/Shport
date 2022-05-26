@@ -23,6 +23,9 @@ export default function CloseableItem(props) {
   function title() {
     return props.title ? props.title : "Untitled Item";
   }
+  function link() {
+    return props.link ? props.link : null;
+  }
   function logo() {
     return props.logo ? props.logo : null;
   }
@@ -37,7 +40,7 @@ export default function CloseableItem(props) {
         <div className="item-title" style={{ backgroundColor: theme.base }}>
           <div className="leftSpace">{logo()}</div>
           <div className="middleSpace">
-            <p>{title()}</p>
+            {link() === null ? <p>{title()}</p> : <a href={link()}><p>{title()}</p></a>}
           </div>
           <div className="rightSpace">
             <CloseButton

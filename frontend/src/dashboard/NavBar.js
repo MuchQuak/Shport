@@ -2,7 +2,7 @@ import "../style/navbar.scss";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import React, { useContext } from "react";
-import { ThemeContext } from "../App";
+import {ThemeContext, UserContext} from "../App";
 import ThemeSelector from "./ThemeSelector";
 import { Toaster } from "react-hot-toast";
 import { StyleSheet, css } from "aphrodite";
@@ -46,10 +46,20 @@ export function accountIcon() {
   );
 }
 
+function searchIcon() {
+  return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search"
+           viewBox="0 0 16 16">
+        <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+      </svg>
+  )
+}
+
 export default function NavBar(props) {
   const { theme } = useContext(ThemeContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const user = props.user;
   const styled = styles(theme);
 
   function gear() {
@@ -106,6 +116,9 @@ export default function NavBar(props) {
                 <Dropdown.Header>Hello, {user.info.name}</Dropdown.Header>
                 <Dropdown.Item onClick={() => navigate("/settings")}>
                   <div className="icon-text">{gear()} Settings</div>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/usersearch")}>
+                  <div className="icon-text">{searchIcon()} User Search</div>
                 </Dropdown.Item>
                 <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
               </Dropdown.Menu>

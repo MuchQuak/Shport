@@ -1,6 +1,6 @@
 import InfoContent from "./InfoContent";
 import { useContext } from "react";
-import { ThemeContext } from "../../App";
+import { ThemeContext } from "../App";
 
 export function GitHubUser(props) {
   const { theme } = useContext(ThemeContext);
