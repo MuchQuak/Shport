@@ -297,6 +297,7 @@ async function getTransactions(league, acro) {
     });
 }
 
+// potential refactor if generic method will be used in generalNewsScrape
 async function getHeadlines(sport, code) {
   const host = "https://news.google.com";
   //code = "nfl";
