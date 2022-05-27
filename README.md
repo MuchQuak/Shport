@@ -1,4 +1,4 @@
-# 308-309 Project
+# Shport
 Web app for gathering sports information to allow users to follow and keep up to date with their favorite sports teams or leagues.
 
 ![Build](https://github.com/MuchQuak/308-309_Project/actions/workflows/node.js.yml/badge.svg)
