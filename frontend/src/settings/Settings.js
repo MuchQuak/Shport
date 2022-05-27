@@ -2,7 +2,7 @@ import "../style/settings.scss";
 import { useNavigate } from "react-router-dom";
 import LeaguePreferenceSelector from "./LeaguePreferenceSelector";
 import React, {useContext, useState} from "react";
-import { getAllTeamsFollowed, getSportsFollowed } from "./PrefHandler";
+import { getAllTeamsFollowed, getSportsFollowed } from "../user/PrefHandler";
 import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
