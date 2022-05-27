@@ -3,6 +3,11 @@ Web app for gathering sports information to allow users to follow and keep up to
 
 ![Build](https://github.com/MuchQuak/308-309_Project/actions/workflows/node.js.yml/badge.svg)
 
+### Frontend
+https://shport.app/
+### Backend
+https://shport-backend.herokuapp.com/
+
 To gain access you must have a .env file in backend folder with variables:
 - MONGODB_URI with credentials from mongoDB access key.
 - NEWSAPI_KEY with a valid News API key.
