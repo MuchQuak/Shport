@@ -21,6 +21,7 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
+const cheerio = require("nodemon");
 //const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
@@ -90,8 +91,11 @@ app.post("/signup", async (req, res) => {
 app.get("/user/:username", async (req, res) => {
   const username = req.params["username"];
   if (username) {
-    res.status(200).send(await userServices.getUserSports(username));
-  } else {
+    const userprefs = await userServices.getUserSports(username);
+    if (userprefs) {
+      res.status(200).send(userprefs);
+      return;
+    }
     res.status(404).end("User not found");
   }
 });

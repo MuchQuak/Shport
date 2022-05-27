@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useNavigate, Link } from "react-router-dom";
-import { addUser } from "./UserHandler";
+import { addUser } from "../user/UserHandler";
 import "../style/login-signup.scss";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";

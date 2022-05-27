@@ -342,3 +342,10 @@
 .hidescroll::-webkit-scrollbar {
     display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
+
+.wrapper {
+    margin: 0 auto;
+    width: 85%;
+    display: flex;
+    flex-flow: column wrap;
+}

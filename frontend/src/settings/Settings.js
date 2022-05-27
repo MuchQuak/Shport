@@ -7,7 +7,7 @@ import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
-import { setUserPrefs } from "../login-signup/UserHandler";
+import { setUserPrefs } from "../user/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
 import {Collapsible, loading} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
