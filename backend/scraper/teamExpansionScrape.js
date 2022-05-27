@@ -307,7 +307,7 @@ async function getTeamNews(league, acro) {
     }
     */
   const host = "https://www.espn.com";
-  axios
+  return await axios
     .get(host + "/" + league + "/team/_/name/" + acro)
     .then((response) => {
       let $ = cheerio.load(response.data);

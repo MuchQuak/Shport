@@ -1,4 +1,3 @@
-const cheerio = require("cheerio");
 const axios = require("axios");
 const fs = require('fs');
 const standingsScraper = require("../../scraper/standingsScrape");
@@ -6,7 +5,7 @@ const standingsScraper = require("../../scraper/standingsScrape");
 jest.mock('axios');
 
 test("TESTING: General Scraping", async () => {  
-  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/standingsExampleMLB.html") });
+  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/standingsExampleMLB.html") });
 
   await standingsScraper.getSportStanding("mlb", 11).then(result => {
     let sports = {"amCodes": ["NYY", "TB", "TOR", "BOS", "BAL", "MIN", "CHW", "CLE", "DET", "KC", "HOU", "LAA", "TEX", "OAK", "SEA"], 
@@ -174,7 +173,7 @@ test("TESTING: Create MLB object", async () => {
     }
   };
 
-  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/standingsExampleMLB.html") });
+  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/standingsExampleMLB.html") });
   await standingsScraper.getSportStanding("mlb", 11).then((response) => {
     let sportObj = {};
 
@@ -197,7 +196,7 @@ test("TESTING: Create NFL object", async () => {
   let nflALStangings = {"BAL": {"city": "", "code": "BAL", "conference": "AL North", "espn": "BAL", "losses": "9", "name": "Baltimore Ravens", "rank": "4", "wins": "8"}, "BUF": {"city": "", "code": "BUF", "conference": "AL East", "espn": "BUF", "losses": "6", "name": "Buffalo Bills", "rank": "1", "wins": "11"}, "CIN": {"city": "", "code": "CIN", "conference": "AL North", "espn": "CIN", "losses": "7", "name": "Cincinnati Bengals", "rank": "1", "wins": "10"}, "CLE": {"city": "", "code": "CLE", "conference": "AL North", "espn": "CLE", "losses": "9", "name": "Cleveland Browns", "rank": "3", "wins": "8"}, "DEN": {"city": "", "code": "DEN", "conference": "AL West", "espn": "DEN", "losses": "10", "name": "Denver Broncos", "rank": "4", "wins": "7"}, "HOU": {"city": "", "code": "HOU", "conference": "AL South", "espn": "HOU", "losses": "13", "name": "Houston Texans", "rank": "3", "wins": "4"}, "IND": {"city": "", "code": "IND", "conference": "AL South", "espn": "IND", "losses": "8", "name": "Indianapolis Colts", "rank": "2", "wins": "9"}, "JAX": {"city": "", "code": "JAX", "conference": "AL South", "espn": "JAX", 
   "losses": "14", "name": "Jacksonville Jaguars", "rank": "4", "wins": "3"}, "KC": {"city": "", "code": "KC", "conference": "AL West", "espn": "KC", "losses": "5", "name": "Kansas City Chiefs", "rank": "1", "wins": "12"}, "LAC": {"city": "", "code": "LAC", "conference": "AL West", "espn": "LAC", "losses": "8", "name": "Los Angeles Chargers", "rank": "3", "wins": "9"}, "LV": {"city": "", "code": "LV", "conference": "AL West", "espn": "LV", "losses": "7", "name": "Las Vegas Raiders", "rank": "2", "wins": "10"}, "MIA": {"city": "", "code": "MIA", "conference": "AL East", "espn": "MIA", "losses": "8", "name": "Miami Dolphins", "rank": "3", "wins": "9"}, "NE": {"city": "", "code": "NE", "conference": "AL East", "espn": "NE", "losses": "7", "name": "New England Patriots", "rank": "2", "wins": "10"}, "NYJ": {"city": "", "code": "NYJ", "conference": "AL East", "espn": "NYJ", "losses": "13", "name": "New York Jets", "rank": "4", "wins": "4"}, "PIT": {"city": "", "code": "PIT", "conference": "AL North", "espn": "PIT", "losses": "7", "name": "Pittsburgh Steelers", "rank": "2", "wins": "9"}, "TEN": {"city": "", "code": "TEN", "conference": "AL South", "espn": "TEN", "losses": "5", "name": "Tennessee Titans", "rank": "1", "wins": "12"}};
 
-  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/standingsExampleNFL.html") });
+  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/standingsExampleNFL.html") });
   await standingsScraper.getSportStanding("nfl", 12).then((response) => {
     let sportObj = {};
 
@@ -518,7 +517,7 @@ test("TESTING: MLB standings", async () => {
   }
 };
 
-  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/standingsExampleMLB.html") });
+  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/standingsExampleMLB.html") });
 
   await standingsScraper.getMlbSportStanding().then( result =>{
     expect(result).toStrictEqual(mlbStandings);
@@ -851,7 +850,7 @@ test("TESTING: NFL standings", async () => {
     }
   };
 
-  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/standingsExampleNFL.html") });
+  axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/standingsExampleNFL.html") });
 
   await standingsScraper.getNflSportStanding().then( result =>{
     console.log(result);
