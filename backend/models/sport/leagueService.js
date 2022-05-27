@@ -63,7 +63,7 @@ class LeagueService {
     }
   }
 
-  async cacheData() {
+  async cacheAllData() {
     console.log("Cached " + this.sportCode());
     await cache.cacheGames(
       this.sportCode(),
@@ -86,10 +86,10 @@ class LeagueService {
     throw new Error("Abstract Method has no implementation");
   }
 
-  formatDate(date){
-        return date.getFullYear() + 
-            String(date.getMonth() + 1).padStart(2, '0') + 
-            String(date.getDate()).padStart(2, '0');
+  formatDate(date) {
+    return date.getFullYear() + 
+        String(date.getMonth() + 1).padStart(2, '0') + 
+        String(date.getDate()).padStart(2, '0');
   }
 }
 
