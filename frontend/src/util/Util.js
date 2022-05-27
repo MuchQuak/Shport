@@ -61,7 +61,7 @@ export function suffix(i) {
 }
 
 export function verify(result) {
-  if (result.data === undefined || !result.data) {
+  if (result.data === undefined) {
     throw new Error("Error: Retrieved no data");
   }
   return result.data;

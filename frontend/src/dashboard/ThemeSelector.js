@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap";
 import React, { useContext } from "react";
 import { ThemeContext } from "../App";
 import { css } from "aphrodite";
-import { setUserTheme } from "../login-signup/UserHandler";
+import { setUserTheme } from "../user/UserHandler";
 import { loading } from "../util/Util";
 
 function icon() {

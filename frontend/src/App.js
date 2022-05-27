@@ -9,13 +9,13 @@ import {
   prefsQuery,
   themeQuery,
   usernameQuery,
-} from "./login-signup/UserHandler";
+} from "./user/UserHandler";
 import { useQuery } from "react-query";
 import { errorSuffix, loadingSuffix } from "./util/Util";
 import { useNavigate } from "react-router";
 import { sportsQuery } from "./dashboard/sport/SportHandler";
 import { themes } from "./dashboard/Theme";
-import UserSearch from "./search/UserSearch";
+import UserSearch from "./user/UserSearch";
 
 const userModel = {
   info: {
