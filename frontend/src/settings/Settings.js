@@ -7,13 +7,17 @@ import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
-import { setUserPrefs } from "../login-signup/UserHandler";
+import { setUserPrefs } from "../user/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
-import { loading } from "../util/Util";
+import {Collapsible, loading} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
-import {ThemeContext} from "../App";
+import {ThemeContext, UserContext} from "../App";
 import RedditPreferenceSelector from "../dashboard/reddit/RedditPreferenceSelector";
 import {getLeaguePosts, getTeamPosts} from "../dashboard/reddit/RedditHandler";
+import {accountIcon} from "../dashboard/NavBar";
+import Modal from "react-modal";
+import {modalStyle} from "../login-signup/SignUp";
+import CloseButton from "react-bootstrap/CloseButton";
 
 const styles = (th) =>
     StyleSheet.create({
@@ -66,15 +70,17 @@ function createPrefsObject(allLeagues, leagues, teams, teamPosts, leaguePosts) {
   };
 }
 
-function SettingsBox(props) {
+function SettingsBox() {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedLeagues, setSelectedLeagues] = useState([]);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [sports, setSports] = useState([]);
   const [leaguePosts, setLeaguePosts] = useState(1);
   const [teamPosts, setTeamPosts] = useState(1);
-  const user = props.user;
+  const [isAlertVisible, setAlertVisible] = useState(false);
+  const [currentAlert, setCurrentAlert] = useState(<></>);
   const styled = styles(theme);
   const sportsResult = useQuery(["sports"], () => sportsQuery(), {
     onSuccess: (data) => {
@@ -88,7 +94,7 @@ function SettingsBox(props) {
   function handleSubmit(event) {
     event.preventDefault();
     user.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
-    props.setUser(user);
+    setUser(user);
     toast
       .promise(setUserPrefs(user), {
         loading: "Saving...",
@@ -101,9 +107,51 @@ function SettingsBox(props) {
         }
       });
   }
+  function openAlert() {
+    setAlertVisible(true);
+  }
+  function closeAlert() {
+    setAlertVisible(false);
+  }
+  function changePassword(event) {
+    event.preventDefault();
+    setCurrentAlert(<ChangePasswordForm />);
+    openAlert();
+  }
+  function deleteAccount(event) {
+    event.preventDefault();
+    setCurrentAlert(<DeleteAccountForm />);
+    openAlert();
+  }
   return (
     <div className={css(styled.box) + " boxed settings"}>
       <h1 className="boxed-header">Settings</h1>
+      <Modal
+          isOpen={isAlertVisible}
+          onRequestClose={closeAlert}
+          style={modalStyle}
+          contentLabel="alert"
+      >
+        <div className="dialog" id="error-dialog">
+          <div className="dialog-header" id="error-header">
+            <div className="leftSpace" />
+            <div className="middleSpace">
+              <p>Confirm an action.</p>
+            </div>
+            <div className="rightSpace">
+              <CloseButton
+                  className="closeButton"
+                  variant="white"
+                  aria-label="Hide"
+                  onClick={closeAlert}
+              />
+            </div>
+          </div>
+          <div className="dialog-body">
+            {currentAlert}
+          </div>
+        </div>
+      </Modal>
       <div className="wrapper">
         <Form.Group
           className="inputForm"
@@ -118,50 +166,75 @@ function SettingsBox(props) {
             readOnly={true}
           />
         </Form.Group>
-        <p className="settings-category-header">Preferences</p>
         {sportsResult.isLoading && loading}
-        {sportsResult.isSuccess && sports.length > 0 && (
-          <>
-            <LeaguePreferenceSelector
-              sports={sports}
-              prefs={user.prefs}
-              selected={selectedLeagues}
-              setSelected={setSelectedLeagues}
-            />
-            <TeamPreferenceSelector
-              sports={sports}
-              prefs={user.prefs}
-              selected={selectedTeams}
-              setSelected={setSelectedTeams}
-            />
-            <RedditPreferenceSelector
-              prefs={user.prefs}
-              leaguePosts={leaguePosts}
-              setLeaguePosts={setLeaguePosts}
-              teamPosts={teamPosts}
-              setTeamPosts={setTeamPosts}
-            />
+          {sportsResult.isSuccess && sports.length > 0 && (
+              <Collapsible title="Preferences" default={true}>
+                <LeaguePreferenceSelector
+                  sports={sports}
+                  prefs={user.prefs}
+                  selected={selectedLeagues}
+                  setSelected={setSelectedLeagues}
+                />
+                <TeamPreferenceSelector
+                  sports={sports}
+                  prefs={user.prefs}
+                  selected={selectedTeams}
+                  setSelected={setSelectedTeams}
+                />
+              </Collapsible>
+          )}
+          <RedditPreferenceSelector
+            prefs={user.prefs}
+            leaguePosts={leaguePosts}
+            setLeaguePosts={setLeaguePosts}
+            teamPosts={teamPosts}
+            setTeamPosts={setTeamPosts}
+          />
+          <Collapsible title="Account Settings" default={false} icon={accountIcon()}>
             <button
-              className={css(styled.button) + " button margin-top-5"}
-              onClick={(e) => handleSubmit(e)}
+                className={"remove-button margin-top-5"}
+                onClick={(e) => changePassword(e)}
             >
-              Save Changes
+              Change Password
             </button>
-            <button className={css(styled.button) + " button margin-top-5"} onClick={() => navigate("/")}>
-              Done
+            <button
+                className={"remove-button margin-top-5"}
+                onClick={(e) => deleteAccount(e)}
+            >
+              Delete Account
             </button>
-          </>
-        )}
+          </Collapsible>
+          <button
+            className={css(styled.button) + " button margin-top-5"}
+            onClick={(e) => handleSubmit(e)}
+          >
+            Save Changes
+          </button>
+          <button className={css(styled.button) + " button margin-top-5"} onClick={() => navigate("/")}>
+            Done
+          </button>
       </div>
     </div>
   );
 }
 
-export default function Settings(props) {
+function ChangePasswordForm() {
+  return (
+      <p>Do you really want to change your password?</p>
+  )
+}
+
+function DeleteAccountForm() {
+  return (
+      <p>Do you really want to delete your account?</p>
+  )
+}
+
+export default function Settings() {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <SettingsBox user={props.user} setUser={props.setUser} />
+      <SettingsBox />
     </>
   );
 }

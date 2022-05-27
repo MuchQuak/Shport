@@ -75,3 +75,15 @@ export async function prefsQuery(auth_token) {
     );
   });
 }
+
+export async function userSportsQuery(username) {
+  const url = BACKEND + "user/" + username;
+  return await axios.get(url).then((res) => {
+    if (res.status === 200) {
+      return verify(res);
+    }
+    throw new Error(
+        "Error " + res.status + ": Could not retrieve preferences."
+    );
+  });
+}

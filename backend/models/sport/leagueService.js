@@ -1,3 +1,5 @@
+const cache = require("./cachingServices")
+
 class LeagueService {
     constructor(host) {
         this.host = host;
@@ -15,16 +17,18 @@ class LeagueService {
     }
     
     async getGames(req, res) {
+      
         const offset_param = String(req.params['offset']).trim();
         const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
         const offset = isNaN(offset_num) ? 0 : offset_num;
-        const today = new Date();
+        var today = new Date();
         today.setDate(today.getDate() + offset);
         const currentDate = this.formatDate(today);
 
     try {
-      const games = await this.getGamesEndPoint(currentDate);
-      res.send(games);
+      
+      const games = await cache.getCachedGames(this.sportCode())
+      res.send(games.filter(g => this.formatDate(g.date) === currentDate));      
     } catch (e) {
       console.error(e);
     }
@@ -33,7 +37,8 @@ class LeagueService {
   async getStandings(req, res) {
     const id = req.params["id"];
     try {
-      const standings = await this.getStandingsEndPoint();
+      const standings = await cache.getCachedStandings(this.sportCode());
+      
       if (id === undefined) {
         res.send(standings);
       } else {
@@ -58,30 +63,32 @@ class LeagueService {
     }
   }
 
-  async getGamesEndPoint(currentDate) {
+  async cacheAllData() {
+    await cache.cacheGames(
+      this.sportCode(),
+      await this.getGamesData());   
+    await cache.cacheStandings(
+      this.sportCode(), 
+      await this.getStandingsData());
+  }
+
+  async getGamesData() {
     throw new Error("Abstract Method has no implementation");
   }
-  async getStandingsEndPoint() {
+  async getStandingsData() {
     throw new Error("Abstract Method has no implementation");
   }
   async getPlayersEndPoint(currentYear) {
     throw new Error("Abstract Method has no implementation");
   }
-
-  formatDate(date){
-        return date.getFullYear() + 
-            String(date.getMonth() + 1).padStart(2, '0') + 
-            String(date.getDate()).padStart(2, '0');
+  async sportCode() {
+    throw new Error("Abstract Method has no implementation");
   }
 
-  formatGamesData(responseData, date) {
-    throw new Error("Abstract Method has no implementation");
-  }
-  formatStandingsData(responseData) {
-    throw new Error("Abstract Method has no implementation");
-  }
-  formatPlayersData(responseData) {
-    throw new Error("Abstract Method has no implementation");
+  formatDate(date) {
+    return date.getFullYear() + 
+        String(date.getMonth() + 1).padStart(2, '0') + 
+        String(date.getDate()).padStart(2, '0');
   }
 }
 

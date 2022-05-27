@@ -26,7 +26,10 @@ function getTeamSubreddit(sports, sport, teamId) {
 }
 
 function getLeagueSubreddit(sports, sport) {
-  const league = sports.find((s) => s.sport === sport);
+  if (sports === undefined || sport === undefined) {
+      return "";
+  }
+  const league = sports.filter((s) => s !== undefined).find((s) => s.sport === sport);
   return league.subreddit ? league.subreddit : "";
 }
 
@@ -56,6 +59,9 @@ export function useTeamSubreddits(sports, key, sportTeamPairs, numPosts) {
         queryKey: ["subreddit", sport, teamCode],
         queryFn: async () => {
           const query = getTeamSubreddit(sports, sport, teamCode);
+            if (query === "") {
+                return [];
+            }
           return await axios
             .get(BACKEND + "subreddit/" + query + "/" + numPosts)
             .then((res) => {
@@ -77,6 +83,9 @@ export function useLeagueSubreddits(sports, key, sportList, numPosts) {
         queryKey: ["subreddit", sport],
         queryFn: async () => {
           const query = getLeagueSubreddit(sports, sport);
+          if (query === "") {
+              return [];
+          }
           return await axios
             .get(BACKEND + "subreddit/" + query + "/" + numPosts)
             .then((res) => {

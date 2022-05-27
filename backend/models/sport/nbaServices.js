@@ -1,21 +1,38 @@
 const league = require("./leagueService");
 const teamScraper = require("../../scraper/teamExpansionScrape");
 const axios = require("axios");
-const { MlbService } = require("./mlbServices");
 
 class NbaService extends league.LeagueService {
   constructor(host) {
     super(host);
   }
 
-  async getGamesEndPoint(currentDate) {
-    return this.formatGamesData(
-      await axios.get(this.host + "/10s/prod/v1/" + currentDate + "/scoreboard.json"));
+  async getGamesData() {
+
+    var currentDate = new Date;
+    var previousDate = new Date;
+    var nextDate = new Date;
+    previousDate.setDate(currentDate.getDate() - 1);
+    nextDate.setDate(currentDate.getDate() + 1);
+
+    var prev = this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(previousDate) + "/scoreboard.json"), 
+      previousDate);
+    var current = this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(currentDate) + "/scoreboard.json"),
+      currentDate);
+    var next = this.formatGamesData(
+      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(nextDate) + "/scoreboard.json"),
+      nextDate);
+
+    return new Array().concat(prev, current, next);
   }
-  async getStandingsEndPoint() {
+
+  async getStandingsData() {
     return this.formatStandingsData(
       await axios.get(this.host + "/10s/prod/v1/current/standings_conference.json"));
   }
+  
   async getPlayersEndPoint(currentYear) {
     return this.formatPlayersData(
       await axios.get(this.host + "/10s/prod/v1/" + currentYear + "/players.json"));
@@ -73,6 +90,7 @@ class NbaService extends league.LeagueService {
       new_game.away_score = game.vTeam.score;
       new_game.away_record = game.vTeam.win + "-" + game.vTeam.loss;
       new_game.startTimeUTC = this.ESTtoUTC(game.startTimeEastern);
+      new_game.date = date;
       if (game.playoffs) {
         new_game.numInSeries = game.playoffs.gameNumInSeries;
         new_game.homePlayoffs =
@@ -130,6 +148,10 @@ class NbaService extends league.LeagueService {
 
   formatPlayersData(responseData) {
     return responseData.data["league"]["standard"];
+  }
+  
+  sportCode() {
+    return "NBA";
   }
 }
 

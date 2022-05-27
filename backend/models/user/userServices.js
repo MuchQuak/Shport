@@ -50,6 +50,27 @@ async function signUpUser(user) {
   }
 }
 
+async function deleteUser(user){
+  return findUserByUsername(user).then(async (result) => {
+    if(result.length === 1){
+      
+      let u = result[0];
+
+      const userModel = getDbConnection().model("user", User.schema);
+      const prefModel = getDbConnection().model("pref", Pref.schema);
+      
+      await userModel.deleteOne( { _id : u._id} );      
+      await prefModel.deleteOne( { _id: u.prefs});
+
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+); 
+}
+
 async function validate(u) {
   return await findUserByUsername(u.username).then((result) => {
     if (result.length === 0) {
@@ -76,6 +97,21 @@ async function getUserPreferences(name) {
       .findOne({ username: name })
       .populate({ path: "prefs", model: "pref" });
     return query.select("prefs");
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getUserSports(name) {
+  const userModel = getDbConnection().model("user", User.schema);
+  const prefModel = getDbConnection().model("pref", Pref.schema);
+  try {
+    const prefs = await userModel
+        .findOne({ username: name })
+        .populate({ path: "prefs", model: "pref" })
+        .select("prefs");
+    return prefs.prefs.sports;
   } catch (error) {
     console.log(error);
     return false;
@@ -133,7 +169,7 @@ async function findUserByEmail(email) {
 
 async function findUserById(id) {
   const userModel = getDbConnection().model("user", User.schema);
-
+  
   if (mongoose.Types.ObjectId.isValid(id)) {
     let obj = new mongoose.Types.ObjectId(id);
     return userModel.find({ _id: obj });
@@ -151,6 +187,7 @@ async function login(user) {
 exports.signUpUser = signUpUser;
 exports.getUsers = getUsers;
 exports.getUserPreferences = getUserPreferences;
+exports.getUserSports = getUserSports;
 exports.setUserPreferences = setUserPreferences;
 exports.setUserTheme = setUserTheme;
 exports.findUserById = findUserById;
@@ -159,3 +196,4 @@ exports.findUserByEmail = findUserByEmail;
 exports.setConnection = setConnection;
 exports.validate = validate;
 exports.login = login;
+exports.deleteUser = deleteUser;

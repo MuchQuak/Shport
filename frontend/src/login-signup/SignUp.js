@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useNavigate, Link } from "react-router-dom";
-import { addUser } from "./UserHandler";
+import { addUser } from "../user/UserHandler";
 import "../style/login-signup.scss";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -143,7 +143,7 @@ export default function SignUp() {
             type="submit"
             disabled={!validateForm()}
           >
-            Next
+            Sign Up
           </button>
           <Link to="/login">
             <p className="have-account noselect">Already registered? Sign in</p>

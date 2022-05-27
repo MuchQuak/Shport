@@ -33,11 +33,14 @@
 }
 
 .logo-name-record {
+    width: auto;
+    gap: 5px;
     display: flex;
     flex-flow: row nowrap;
-    align-items: center;
+    justify-items: flex-start;
     justify-content: center;
-    gap: 5px;
+    align-content: center;
+    align-items: center;
 }
 
 .logo-container {
@@ -53,7 +56,11 @@
 }
 
 .logo-container-sport-wide {
-    height: 1.5em;
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
+
+.logo-container-sport-wide .logo {
     width: 1.5em !important;
 }
 
@@ -61,7 +68,7 @@
     margin: 0;
     padding: 0;
     height: 100% !important;
-    width: 100% !important;
+    width: auto;
 }
 
 .logo-multiline-words {
@@ -180,7 +187,7 @@
 
 .dialog-body {
     text-align: left;
-    padding: 20px;
+    padding: 10px;
 }
 
 .dialog-body p {
@@ -251,10 +258,11 @@
 .collapsible-content {
     width: 100%;
     margin: 0;
-    padding-left: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     display: flex;
     flex-flow: column wrap;
-    max-height: 120px;
+    max-height: 400px;
     overflow-y: scroll;
 }
 
@@ -324,4 +332,20 @@
 
 .range-option-label {
     margin: 0;
+}
+
+.hidescroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.hidescroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 85%;
+    display: flex;
+    flex-flow: column wrap;
 }
