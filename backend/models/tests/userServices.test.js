@@ -554,3 +554,101 @@ test("Setting user Preferences -- Success path", async () => {
   expect(orginalPrefs.prefs._id).toStrictEqual(newPref.prefs._id);
   expect(orginalPrefs.prefs.sports).not.toStrictEqual(newPref.prefs.sports);
 });
+
+
+
+test("Delete User -- Success path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let loginResult = await userServices.login(user);
+  expect(loginResult).toBeTruthy();
+
+  const deleteResult = await userServices.deleteUser(result.username);
+  expect(deleteResult).toBeTruthy();
+
+  loginResult = await userServices.login(user);
+  expect(loginResult).toBeFalsy();
+
+});
+
+test("Delete User -- Failure path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let loginResult = await userServices.login(user);
+  expect(loginResult).toBeTruthy();
+
+  const deleteResult = await userServices.deleteUser(result.username + "INVALID");
+  expect(deleteResult).toBeFalsy();
+
+  loginResult = await userServices.login(user);
+  expect(loginResult).toBeTruthy();
+
+});
+
+test("Validate User -- Success Path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let validateResult = await userServices.validate(user);
+  expect(validateResult).toBeTruthy();
+
+});
+
+test("Validate User -- Failure Path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  user.email = "notYoungwizard@gmail.com";
+  let validateResult = await userServices.validate(user);
+  expect(validateResult).toBeFalsy();
+
+});
+
+test("Get User Sports", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  let newPrefs = {
+    sports: {
+      NBA: {
+        teams: [],
+        following: true,
+      },
+      NHL: {
+        teams: ["55"],
+        following: true,
+      },
+    },
+  };
+
+  let userSportsReturn = {"MLB": {"teams": []}, "NBA": {"following": true, "teams": []}, "NFL": {"teams": []}, "NHL": {"following": true, "teams": ["55"]}};
+
+  const resultUser = await userServices.signUpUser(user);
+  await userServices.setUserPreferences(resultUser.username, newPrefs);
+
+  const result = await userServices.signUpUser(user);
+
+  let userSports = await userServices.getUserSports(user.username);
+  expect(userSports.toJSON()).toStrictEqual(userSportsReturn);
+
+});
