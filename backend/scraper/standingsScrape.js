@@ -197,10 +197,3 @@ function getNflSportStanding() {
 exports.getMlbSportStanding = getMlbSportStanding;
 exports.getNflSportStanding = getNflSportStanding;
 exports.getSportStanding = getSportStanding;
-
-/*
-    --- IGNORE THIS ---
-    Used to use RegEx to seperate the team names and codes but no longer needed currently, I think
-    let amLeagueArray = amLeague.split(/(?<![A-Z\W])(?=[A-Z])/);
-    let natLeageArray = natLeague.split(/(?<![A-Z\W])(?=[A-Z])/);
-*/
