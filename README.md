@@ -1,6 +1,8 @@
 # 308-309 Project
 Web app for gathering sports information to allow users to follow and keep up to date with their favorite sports teams or leagues.
 
+![Build](https://github.com/MuchQuak/308-309_Project/actions/workflows/node.js.yml/badge.svg)
+
 To gain access you must have a .env file in backend folder with variables:
 - MONGODB_URI with credentials from mongoDB access key.
 - NEWSAPI_KEY with a valid News API key.
