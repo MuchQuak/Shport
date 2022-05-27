@@ -21,7 +21,6 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
-const cheerio = require("nodemon");
 //const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
