@@ -87,9 +87,17 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.get("/user/:username", async (req, res) => {
+  const username = req.params["username"];
+  if (username) {
+    res.status(200).send(await userServices.getUserSports(username));
+  } else {
+    res.status(404).end("User not found");
+  }
+});
+
 app.get("/username", authenticateUser, async (req, res) => {
   const decodedUser = decode(req);
-  
   if (decodedUser) {
     res.status(200).send(decodedUser.username);
   } else {
