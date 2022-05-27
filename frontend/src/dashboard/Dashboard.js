@@ -10,7 +10,7 @@ import { createTeamQuery, joinArticles, useNews } from "./news/NewsHandler";
 import {
   getAllTeamsFollowed,
   getSportsFollowed,
-} from "../settings/PrefHandler";
+} from "../user/PrefHandler";
 import { isOneLoading, errorSuffix, loadingSuffix } from "../util/Util";
 import {useTeamSubreddits, useLeagueSubreddits, redditLogo, getTeamPosts, getLeaguePosts} from "./reddit/RedditHandler";
 import RedditPost from "./reddit/RedditPost";
