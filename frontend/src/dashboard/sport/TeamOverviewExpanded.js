@@ -115,11 +115,11 @@ export function TeamOverviewExpanded(props) {
                   style={{ backgroundColor: theme.accent }}
                   key={index}
                 >
-                  <p>
+                  <a>
                   <div className="overview-player-date" style={{ color: "white" , float: "right" , fontSize: "large"}}>{p["title"]}<br/></div>
                   <div className="overview-player-description" style={{ color: "lightgray" , fontWeight: "lighter"}}>{p["timeElapsed"]}  ∙  {p["source"]}</div>
-                  <br/><img src={p["image"]} alt={p["title"]} style={{ float: "left"}} />
-                  </p>
+                  <br/><img srcSet={p["image"]} alt={p["title"]} style={{ float: "left"}} />
+                  </a>
                 </div>
                 </a>
               ))}</div>

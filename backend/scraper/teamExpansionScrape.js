@@ -327,7 +327,7 @@ async function getHeadlines(sport, code) {
 
           $(".tvs3Id.QwxBBf").each((index, element) => {
             imgLink = $(element).attr("srcset").split(" ");
-            news[index].image = imgLink[2];
+            news[index].image = imgLink[2].trim();
           })
           return news;
       })
@@ -335,7 +335,6 @@ async function getHeadlines(sport, code) {
           console.log(error);
       });
 }
-
 exports.getInjuries = getInjuries;
 exports.getRoster = getRoster;
 exports.getSchedule = getSchedule;
