@@ -2,6 +2,8 @@ const cors = require("cors");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
+const cron = require('node-cron');
+
 app.use(cors(
     {
       origin: "*",
@@ -21,7 +23,6 @@ const news = require("./models/news/newsServices");
 const reddit = require("./models/reddit/redditServices");
 const userServices = require("./models/user/userServices");
 const sportInfoServices = require("./models/sport/sportInfoServices");
-//const leagueServices = require("./models/sport/leagueService");
 
 function generateAccessToken(username) {
   return jwt.sign({ username: username }, process.env.TOKEN_SECRET, {
@@ -311,9 +312,7 @@ app.get("/MLB/games/:offset", async (req, res) => {
   await mlb.getGames(req, res);
 });
 app.get("/MLB/standings", async (req, res) => {
-  mlb.getStandingsScrape().then((result) => {
-    res.send(result);
-  });
+  await mlb.getStandings(req, res);
 });
 app.get("/MLB/standings/:id", async (req, res) => {
   await mlb.getStandings(req, res);
@@ -356,13 +355,11 @@ app.get("/NFL/games/:offset", async (req, res) => {
   await nfl.getGames(req, res);
 });
 app.get("/NFL/standings", async (req, res) => {
-  nfl.getStandingsScrape().then((result) => {
-    res.send(result);
-  });
+  await nfl.getStandings(req, res);
 });
 
 app.get("/NFL/standings/:id", async (req, res) => {
-  await nfl.getStandingsScrape(req, res);
+  await nfl.getStandings(req, res);
 });
 
 app.get("/NFL/players", async (req, res) => {
@@ -407,4 +404,18 @@ app.get("/subreddit/:query/:num", async (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
+});
+
+//Schedule time from fresh data pulls
+//Also setup schedule when live game pulls should be scheduled
+// - Note that the live scheduled games must keep checking that the game is
+//   live and if it is not then it will destroy the schedule
+//Summary need a scheduler that schedules live game caching schedule that self destructs
+//when done. Rinse and repeat at the refresh time
+cron.schedule('* * * * *', () => {
+  console.log("Cached All Data at: " + new Date())
+  nba.cacheAllData();
+  nfl.cacheAllData();
+  nhl.cacheAllData();
+  mlb.cacheAllData();
 });
