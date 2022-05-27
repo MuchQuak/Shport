@@ -64,7 +64,6 @@ class LeagueService {
   }
 
   async cacheAllData() {
-    console.log("Cached " + this.sportCode());
     await cache.cacheGames(
       this.sportCode(),
       await this.getGamesData());   
