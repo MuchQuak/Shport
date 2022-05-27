@@ -1,9 +1,10 @@
 import {css, StyleSheet} from "aphrodite";
 import React, {useContext, useState} from "react";
-import {ThemeContext} from "../App";
+import {SportContext, ThemeContext} from "../App";
 import {useQuery} from "react-query";
 import {userSportsQuery} from "./UserHandler";
 import {errorSuffix, loadingSuffix} from "../util/Util";
+import {getFullName, getTeamLogo} from "../dashboard/sport/SportHandler";
 
 const styles = (th) =>
     StyleSheet.create({
@@ -42,6 +43,7 @@ const styles = (th) =>
 
 export function UserProfile(props) {
     const { theme } = useContext(ThemeContext);
+    const sports = useContext(SportContext);
     const styled = styles(theme);
     const uq = useQuery([props.name], () => userSportsQuery(props.name), {
         refetchOnWindowFocus: false,
@@ -59,13 +61,23 @@ export function UserProfile(props) {
             <div className={"profile-header " + css(styled.profileHeader)}>
                 <p className={"profile-name " + css(styled.profileName)}>{props.name}</p>
             </div>
-            {Object.keys(uq.data).filter((s) => uq.data[s] && uq.data[s].teams && uq.data[s].teams.length > 0).map((sport) => {
-                return (
-                    <div key={sport}>
-                        <p className="nomargin">{sport}: {uq.data[sport].teams.join(", ")}</p>
-                    </div>
-                )
-            })}
+            <div className="profile-content" style={{display: "flex", width: "100%", flexFlow: "column nowrap", justifyContent: "center", alignItems: "flex-start"}}>
+                <p className="margin-bottom-5 bold">Favorite Teams</p>
+                {Object.keys(uq.data)
+                    .filter((s) => uq.data[s] && uq.data[s].teams && uq.data[s].teams.length > 0)
+                    .map((sport) => {
+                        const teams = uq.data[sport].teams;
+                        return teams.map((team) => {
+                            return (
+                                <div className="logo-name-record">
+                                    {getTeamLogo(sport, team, "schedule-logo-container")}
+                                    {getFullName(team, sport, sports)}
+                                </div>
+                            );
+                        });
+                    })
+                }
+            </div>
         </div>
     );
 }

@@ -30,11 +30,11 @@ export const ThemeContext = createContext(themes.blue);
 export const SportContext = createContext([]);
 export const UserContext = createContext({});
 
-function ContextProvider() {
+function ContextProvider(props) {
   const sportsResult = useQuery(["sports"], () => sportsQuery());
   return sportsResult.isLoading ? loadingSuffix("sports") :
       <SportContext.Provider value={sportsResult.data}>
-        <Dashboard />;
+        {props.children};
       </SportContext.Provider>
 }
 
@@ -102,13 +102,15 @@ export default function App(props) {
   return (
       <UserContext.Provider value={{ user, setUser }}>
         <ThemeContext.Provider value={{ theme, setTheme }}>
-          <NavBar removeCookie={props.removeCookie} />
-          <Routes>
-            <Route index element={<ContextProvider />} />
-            <Route path="settings" element={<Settings />}/>
-            <Route path="about" element={<About />} />
-            <Route path="usersearch" element={<UserSearch />} />
-          </Routes>
+          <ContextProvider>
+            <NavBar removeCookie={props.removeCookie} />
+            <Routes>
+              <Route index element={<Dashboard />} />
+              <Route path="settings" element={<Settings />}/>
+              <Route path="about" element={<About />} />
+              <Route path="usersearch" element={<UserSearch />} />
+            </Routes>
+          </ContextProvider>
         </ThemeContext.Provider>
       </UserContext.Provider>
   );
