@@ -103,6 +103,21 @@ async function getUserPreferences(name) {
   }
 }
 
+async function getUserSports(name) {
+  const userModel = getDbConnection().model("user", User.schema);
+  const prefModel = getDbConnection().model("pref", Pref.schema);
+  try {
+    const prefs = await userModel
+        .findOne({ username: name })
+        .populate({ path: "prefs", model: "pref" })
+        .select("prefs");
+    return prefs.prefs.sports;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 // update (SPORTS AND REDDIT ONLY) preferences
 async function setUserPreferences(name, newPrefs) {
   const prefModel = getDbConnection().model("pref", Pref.schema);
@@ -172,6 +187,7 @@ async function login(user) {
 exports.signUpUser = signUpUser;
 exports.getUsers = getUsers;
 exports.getUserPreferences = getUserPreferences;
+exports.getUserSports = getUserSports;
 exports.setUserPreferences = setUserPreferences;
 exports.setUserTheme = setUserTheme;
 exports.findUserById = findUserById;
