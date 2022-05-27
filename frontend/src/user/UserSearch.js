@@ -43,7 +43,12 @@ const styles = (th) =>
 export function UserProfile(props) {
     const { theme } = useContext(ThemeContext);
     const styled = styles(theme);
-    const uq = useQuery([props.name], () => userSportsQuery(props.name));
+    const uq = useQuery([props.name], () => userSportsQuery(props.name), {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        retry: 0
+    });
     if (uq.isLoading) {
         return loadingSuffix("user");
     } else if (uq.isError) {
