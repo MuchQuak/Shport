@@ -179,6 +179,33 @@ async function login(user) {
   );
 }
 
+
+async function changeUsername(user) {
+  return await findUserByUsername(user.newUsername).then(async (result) => {
+    if(result.length === 0){
+      const userModel = getDbConnection().model("user", User.schema);
+      await userModel.findOneAndUpdate({username:user.username}, {username: user.newUsername} )
+      return true;
+    }else{
+      return false;
+    }
+  }
+  );
+}
+async function changePassword(user) {
+  return await findUserByUsername(user.username).then(async (result) => {
+    if(result.length === 1){
+      const userModel = getDbConnection().model("user", User.schema);
+
+      await result[0].setPassword(user.newPassword);
+      await userModel.findOneAndUpdate({username:user.username}, {salt: result[0].salt, hash:result[0].hash })
+      return true;
+    }else{
+      return false;
+    }
+  });
+}
+
 exports.signUpUser = signUpUser;
 exports.getUsers = getUsers;
 exports.getUserPreferences = getUserPreferences;
@@ -192,3 +219,5 @@ exports.setConnection = setConnection;
 exports.validate = validate;
 exports.login = login;
 exports.deleteUser = deleteUser;
+exports.changePassword = changePassword;
+exports.changeUsername = changeUsername;
