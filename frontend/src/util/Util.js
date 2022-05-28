@@ -109,6 +109,17 @@ export function Collapsible(props) {
   )
 }
 
+export function PopIntoExistence(props) {
+    if (props && props.visible) {
+        return (
+            <div className="popintoexistence">
+                {props.children}
+            </div>
+        );
+    }
+    return null;
+}
+
 /*export function CheckOption(props) {
   const [checked, setChecked] = useState(true);
   if (!props) {

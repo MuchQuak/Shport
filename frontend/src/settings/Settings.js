@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
 import {deleteUser, setUserPrefs} from "../user/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
-import {Collapsible, errorSuffix, loading} from "../util/Util";
+import {Collapsible, errorSuffix, loading, PopIntoExistence} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
 import {ThemeContext, UserContext} from "../App";
 import RedditPreferenceSelector from "../dashboard/reddit/RedditPreferenceSelector";
@@ -81,6 +81,10 @@ function SettingsBox(props) {
   const [teamPosts, setTeamPosts] = useState(1);
   const [isAlertVisible, setAlertVisible] = useState(false);
   const [currentAlert, setCurrentAlert] = useState(<></>);
+  const [newUsername, setNewUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [usernameInputVisible, setUsernameInputVisible] = useState(false);
+  const [passwordInputVisible, setPasswordInputVisible] = useState(false);
   const styled = styles(theme);
   const sportsResult = useQuery(["sports"], () => sportsQuery(), {
     onSuccess: (data) => {
@@ -115,7 +119,20 @@ function SettingsBox(props) {
   }
   function changePassword(event) {
     event.preventDefault();
-    setCurrentAlert(<ChangePasswordForm cookies={props.cookies} />);
+    setPasswordInputVisible(true);
+  }
+  function changeUsername(event) {
+    event.preventDefault();
+    setUsernameInputVisible(true);
+  }
+  function changePasswordAlert(event) {
+    event.preventDefault();
+    setCurrentAlert(<ChangePasswordForm cookies={props.cookies} newpass={newPassword} />);
+    openAlert();
+  }
+  function changeUsernameAlert(event) {
+    event.preventDefault();
+    setCurrentAlert(<ChangeUsernameForm cookies={props.cookies} newname={newUsername} />);
     openAlert();
   }
   function deleteAccount(event) {
@@ -197,6 +214,44 @@ function SettingsBox(props) {
             >
               Change Password
             </button>
+            <PopIntoExistence visible={passwordInputVisible} >
+              <div style={{display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
+                <input
+                    type="text"
+                    placeholder="New password"
+                    style={{flexBasis: "70%", padding: "2px"}}
+                    onChange={(e) => setNewPassword(e.target.value)} />
+                <button
+                    className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
+                    style={{flexBasis: "30%"}}
+                    onClick={(e) => changePasswordAlert(e)}
+                >
+                  Change Password
+                </button>
+              </div>
+            </PopIntoExistence>
+            <button
+                className={"remove-button margin-top-5"}
+                onClick={(e) => changeUsername(e)}
+            >
+              Change Username
+            </button>
+            <PopIntoExistence visible={usernameInputVisible} >
+              <div style={{display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
+                <input
+                    type="text"
+                    placeholder="New username"
+                    style={{flexBasis: "70%", padding: "2px"}}
+                    onChange={(e) => setNewUsername(e.target.value)} />
+                <button
+                    className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
+                    style={{flexBasis: "30%"}}
+                    onClick={(e) => changeUsernameAlert(e)}
+                >
+                  Change Username
+                </button>
+              </div>
+            </PopIntoExistence>
             <button
                 className={"remove-button margin-top-5"}
                 onClick={(e) => deleteAccount(e)}
@@ -219,26 +274,48 @@ function SettingsBox(props) {
 }
 
 function ChangePasswordForm(props) {
+  const { user } = useContext(UserContext);
+  //const pass = props.newpass;
+  function changePassword(event) {
+    event.preventDefault();
+  }
   return (
       <>
-        <p>Do you really want to change your password?</p>
+        <p className="nomargin">Do you really want to change your password?</p>
+        <button className={"remove-button margin-top-5"}
+                onClick={(e) => changePassword(e)}>
+          Yes, delete my account: {user.info.name}
+        </button>
+      </>
+  )
+}
+
+function ChangeUsernameForm(props) {
+  const { user } = useContext(UserContext);
+  const name = props.newname;
+  function changeUsername(event) {
+    event.preventDefault();
+  }
+  return (
+      <>
+        <p className="nomargin">Do you really want to change your username?</p>
+        <p className="nomargin">From {user.info.name} to {name}</p>
+        <button className={"remove-button margin-top-5"}
+                onClick={(e) => changeUsername(e)}>
+          Yes, change my username to: {name}
+        </button>
       </>
   )
 }
 
 function DeleteAccountForm(props) {
+  const user = useContext(UserContext);
   const navigate = useNavigate();
   if (!props.cookies) {
     return errorSuffix("authenticating user!");
   }
   function deleteAccount(event) {
     event.preventDefault();
-    /*useQuery(["deleteAccount"], () => deleteUser(), {
-      onSuccess: () => {
-        toast.success("Account deleted!");
-        navigate("/signup");
-      }
-    });*/
     toast.promise(deleteUser(props.cookies.auth_token), {
         loading: "Deleting...",
         success: "Account deleted!",
@@ -252,7 +329,7 @@ function DeleteAccountForm(props) {
         <p>Do you really want to delete your account?</p>
         <button className={"remove-button margin-top-5"}
                 onClick={(e) => deleteAccount(e)}>
-          Yes, delete my account
+          Yes, delete my account: {user.info.name}
         </button>
       </>
   )
