@@ -39,5 +39,10 @@ describe('End to End Login Test', () => {
 
             cy.getCookie('auth_token').should('exist');
         });
+        it('THEN I can see my settings and add the Lakers', ()=>{
+            cy.get('.nomargin.dropdown:last').click()
+            cy.contains('Settings').click();
+        });
+
     });
 });
