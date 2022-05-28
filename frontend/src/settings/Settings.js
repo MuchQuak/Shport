@@ -219,11 +219,11 @@ function SettingsBox(props) {
                 <input
                     type="text"
                     placeholder="New password"
-                    style={{flexBasis: "80%", padding: "2px"}}
+                    style={{flexBasis: "70%", padding: "2px"}}
                     onChange={(e) => setNewPassword(e.target.value)} />
                 <button
                     className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
-                    style={{flexBasis: "20%"}}
+                    style={{flexBasis: "30%"}}
                     onClick={(e) => changePasswordAlert(e)}
                 >
                   Change Password
@@ -237,18 +237,20 @@ function SettingsBox(props) {
               Change Username
             </button>
             <PopIntoExistence visible={usernameInputVisible} >
-              <input
-                  type="text"
-                  placeholder="New username"
-                  style={{flexBasis: "80%", padding: "2px"}}
-                  onChange={(e) => setNewUsername(e.target.value)} />
-              <button
-                  className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
-                  style={{flexBasis: "20%"}}
-                  onClick={(e) => changeUsernameAlert(e)}
-              >
-                Change Username
-              </button>
+              <div style={{display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
+                <input
+                    type="text"
+                    placeholder="New username"
+                    style={{flexBasis: "70%", padding: "2px"}}
+                    onChange={(e) => setNewUsername(e.target.value)} />
+                <button
+                    className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
+                    style={{flexBasis: "30%"}}
+                    onClick={(e) => changeUsernameAlert(e)}
+                >
+                  Change Username
+                </button>
+              </div>
             </PopIntoExistence>
             <button
                 className={"remove-button margin-top-5"}
@@ -290,6 +292,7 @@ function ChangePasswordForm(props) {
 
 function ChangeUsernameForm(props) {
   const user = useContext(UserContext);
+  console.log(user);
   const name = props.newname;
   function changeUsername(event) {
     event.preventDefault();
