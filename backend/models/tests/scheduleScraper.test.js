@@ -5,7 +5,7 @@ const scheduleScrapper = require("../../scraper/scheduleScrape");
 jest.mock('axios');
 
 test("TESTING: Schedule", async () => {  
-  let schedule =    [
+  let schedule =     [
     {
       status: 0,
       clock: '',
@@ -21,7 +21,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'cin',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T23:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T23:40:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354921'
     },
@@ -40,7 +40,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'wsh',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:05:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:05:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354912'
     },
@@ -59,7 +59,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'bos',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:10:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354910'
     },
@@ -78,7 +78,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'det',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:10:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354911'
     },
@@ -97,7 +97,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'tb',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:10:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354918'
     },
@@ -116,7 +116,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'nym',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:10:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354919'
     },
@@ -135,7 +135,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'atl',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:20:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:20:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354916'
     },
@@ -154,7 +154,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'min',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T01:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T01:10:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354914'
     },
@@ -173,7 +173,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'stl',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T01:15:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T01:15:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354917'
     },
@@ -192,7 +192,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'laa',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T02:38:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T02:38:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354923'
     },
@@ -211,7 +211,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'sea',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T02:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T02:40:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354913'
     },
@@ -230,7 +230,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'ari',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T02:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T02:40:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354915'
     },
@@ -249,7 +249,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'sd',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T02:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T02:40:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354920'
     },
@@ -268,7 +268,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'oak',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T02:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T02:40:00.000Z"),
       date: new Date("2022-05-27T07:00:00.000Z"),
       gId: '401354922'
     },
@@ -287,7 +287,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'bos',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T17:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T17:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401423224'
     },
@@ -306,7 +306,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'min',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T19:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T19:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354929'
     },
@@ -325,7 +325,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'stl',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T19:15:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T19:15:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354932'
     },
@@ -344,7 +344,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'wsh',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:05:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:05:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354927'
     },
@@ -363,7 +363,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'oak',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:07:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:07:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354937'
     },
@@ -382,7 +382,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'det',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354926'
     },
@@ -401,7 +401,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'atl',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354931'
     },
@@ -420,7 +420,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'tb',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354933'
     },
@@ -439,7 +439,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'cin',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354936'
     },
@@ -458,7 +458,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'bos',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T23:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T23:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354924'
     },
@@ -477,7 +477,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'chw',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:15:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:15:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354925'
     },
@@ -496,7 +496,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'ari',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:15:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:15:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354930'
     },
@@ -515,7 +515,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'nym',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:15:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:15:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354934'
     },
@@ -534,7 +534,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'laa',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T03:07:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T03:07:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354938'
     },
@@ -553,7 +553,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'sea',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T03:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T03:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354928'
     },
@@ -572,7 +572,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'sd',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T03:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T03:10:00.000Z"),
       date: new Date("2022-05-28T07:00:00.000Z"),
       gId: '401354935'
     },
@@ -591,7 +591,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'cin',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T16:35:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T16:35:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354951'
     },
@@ -610,7 +610,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'bos',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T18:35:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T18:35:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354939'
     },
@@ -629,7 +629,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'wsh',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T18:35:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T18:35:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354942'
     },
@@ -648,7 +648,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'atl',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T18:35:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T18:35:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354946'
     },
@@ -667,7 +667,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'det',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T18:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T18:40:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354941'
     },
@@ -686,7 +686,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'tb',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T18:40:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T18:40:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354948'
     },
@@ -705,7 +705,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'chw',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T19:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T19:10:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354940'
     },
@@ -724,7 +724,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'min',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T19:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T19:10:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354944'
     },
@@ -743,7 +743,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'stl',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T19:15:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T19:15:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354947'
     },
@@ -762,7 +762,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'oak',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:07:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:07:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354952'
     },
@@ -781,7 +781,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'laa',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:07:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:07:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354953'
     },
@@ -800,7 +800,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'sea',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354943'
     },
@@ -819,7 +819,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'ari',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354945'
     },
@@ -838,7 +838,7 @@ test("TESTING: Schedule", async () => {
       home_code: 'sd',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-05T21:10:00.000Z"),
+      startTimeUTC: new Date("2022-05-06T21:10:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354950'
     },
@@ -857,13 +857,14 @@ test("TESTING: Schedule", async () => {
       home_code: 'nym',
       home_score: '0',
       home_record: '',
-      startTimeUTC: new Date("2022-05-06T00:00:00.000Z"),
+      startTimeUTC: new Date("2022-05-07T00:00:00.000Z"),
       date: new Date("2022-05-29T07:00:00.000Z"),
       gId: '401354949'
     }
-  ];
+  ]
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/scheduleExample.html") });
 
-  let scrapedSchedule= await scheduleScrapper.scrapeGames("mlb");
-  expect(scrapedSchedule).toStrictEqual(schedule);
+  let scrapedSchedule= await scheduleScrapper.scrapeGames("mlb", "");
+  console.log(scrapedSchedule);
+//  expect(scrapedSchedule).toStrictEqual(schedule);
 });
