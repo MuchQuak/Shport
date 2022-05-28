@@ -3,9 +3,9 @@ Cypress.Cookies.defaults({
   })
   
 describe('End to End Login Test', () => {
-    let username = "dd";
-    let password = "44";
-    let email = "dd@gmail.com";
+    let username = "ii";
+    let password = "9";
+    let email = "i@gmail.com";
     context('SUCCESSFUL Signup', ()=> {
         it('GIVEN I navigate to the signup page', ()=>{
             cy.visit('https://shport-frontend.herokuapp.com/signup');
@@ -39,9 +39,14 @@ describe('End to End Login Test', () => {
 
             cy.getCookie('auth_token').should('exist');
         });
-        it('THEN I can see my settings and add the Lakers', ()=>{
+        it('THEN I can see my settings', ()=>{
             cy.get('.nomargin.dropdown:last').click()
             cy.contains('Settings').click();
+        });
+        it('THEN I can delete my account', ()=>{
+            cy.contains('Account Settings').click();
+            cy.contains("Delete Account").click();
+            cy.contains("Yes, I want to delete my account").click();
         });
 
     });
