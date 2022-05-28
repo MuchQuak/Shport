@@ -568,7 +568,7 @@ test("Delete User -- Success path", async () => {
   let loginResult = await userServices.login(user);
   expect(loginResult).toBeTruthy();
 
-  const deleteResult = await userServices.deleteUser(result.username);
+  const deleteResult = await userServices.deleteUser(result);
   expect(deleteResult).toBeTruthy();
 
   loginResult = await userServices.login(user);
@@ -587,7 +587,8 @@ test("Delete User -- Failure path", async () => {
   let loginResult = await userServices.login(user);
   expect(loginResult).toBeTruthy();
 
-  const deleteResult = await userServices.deleteUser(result.username + "INVALID");
+  result.username = result.username + "INVALID"
+  const deleteResult = await userServices.deleteUser(result);
   expect(deleteResult).toBeFalsy();
 
   loginResult = await userServices.login(user);
