@@ -106,7 +106,7 @@ export default function App(props) {
             <NavBar removeCookie={props.removeCookie} />
             <Routes>
               <Route index element={<Dashboard />} />
-              <Route path="settings" element={<Settings />}/>
+              <Route path="settings" element={<Settings cookies={props.cookies} />}/>
               <Route path="about" element={<About />} />
               <Route path="usersearch" element={<UserSearch />} />
             </Routes>

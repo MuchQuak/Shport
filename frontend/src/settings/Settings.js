@@ -7,9 +7,9 @@ import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
-import { setUserPrefs } from "../user/UserHandler";
+import {deleteUser, setUserPrefs} from "../user/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
-import {Collapsible, loading} from "../util/Util";
+import {Collapsible, errorSuffix, loading} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
 import {ThemeContext, UserContext} from "../App";
 import RedditPreferenceSelector from "../dashboard/reddit/RedditPreferenceSelector";
@@ -70,7 +70,7 @@ function createPrefsObject(allLeagues, leagues, teams, teamPosts, leaguePosts) {
   };
 }
 
-function SettingsBox() {
+function SettingsBox(props) {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const { user, setUser } = useContext(UserContext);
@@ -115,12 +115,12 @@ function SettingsBox() {
   }
   function changePassword(event) {
     event.preventDefault();
-    setCurrentAlert(<ChangePasswordForm />);
+    setCurrentAlert(<ChangePasswordForm cookies={props.cookies} />);
     openAlert();
   }
   function deleteAccount(event) {
     event.preventDefault();
-    setCurrentAlert(<DeleteAccountForm />);
+    setCurrentAlert(<DeleteAccountForm cookies={props.cookies} />);
     openAlert();
   }
   return (
@@ -218,23 +218,54 @@ function SettingsBox() {
   );
 }
 
-function ChangePasswordForm() {
+function ChangePasswordForm(props) {
   return (
-      <p>Do you really want to change your password?</p>
+      <>
+        <p>Do you really want to change your password?</p>
+      </>
   )
 }
 
-function DeleteAccountForm() {
+function DeleteAccountForm(props) {
+  const navigate = useNavigate();
+  if (!props.cookies) {
+    return errorSuffix("authenticating user!");
+  }
+  function deleteAccount(event) {
+    event.preventDefault();
+    /*useQuery(["deleteAccount"], () => deleteUser(), {
+      onSuccess: () => {
+        toast.success("Account deleted!");
+        navigate("/signup");
+      }
+    });*/
+    toast.promise(deleteUser(props.cookies.auth_token), {
+        loading: "Deleting...",
+        success: "Account deleted!",
+        error: "Could not delete account.",
+    }).then(() => {
+      navigate("/signup");
+    });
+  }
   return (
-      <p>Do you really want to delete your account?</p>
+      <>
+        <p>Do you really want to delete your account?</p>
+        <button className={"remove-button margin-top-5"}
+                onClick={(e) => deleteAccount(e)}>
+          Yes, delete my account
+        </button>
+      </>
   )
 }
 
-export default function Settings() {
+export default function Settings(props) {
+  if (!props.cookies || !props.cookies.auth_token) {
+    return errorSuffix("authenticating user!");
+  }
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <SettingsBox />
+      <SettingsBox cookies={props.cookies} />
     </>
   );
 }

@@ -109,19 +109,16 @@ app.get("/username", authenticateUser, async (req, res) => {
   }
 });
 
+// Delete user from database
 app.delete("/username", async (req, res) => {
   const decodedUser = decode(req);
-  
   if (decodedUser) {
-    let deleted = await userServices.deleteUser(decodedUser);
-
-    if(deleted){
+    const deleted = await userServices.deleteUser(decodedUser);
+    if (deleted){
       res.status(200).send("Deleted User");
+    } else {
+      res.status(400).end("Error! User not deleted");
     }
-    else{
-      res.status(400).send("Error! User not deleted");
-    }
-
   } else {
     res.status(404).end("User not found");
   }

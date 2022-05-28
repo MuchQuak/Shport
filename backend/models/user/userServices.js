@@ -51,19 +51,15 @@ async function signUpUser(user) {
 }
 
 async function deleteUser(user){
-  return findUserByUsername(user).then(async (result) => {
-    if(result.length === 1){
-      let u = result[0];
-
+  return findUserByUsername(user.username).then(async (result) => {
+    if (result.length === 1){
+      const u = result[0];
       const userModel = getDbConnection().model("user", User.schema);
       const prefModel = getDbConnection().model("pref", Pref.schema);
-      
       await userModel.deleteOne( { _id : u._id} );      
       await prefModel.deleteOne( { _id: u.prefs});
-
       return true;
-    }
-    else{
+    } else{
       return false;
     }
   }
@@ -72,9 +68,9 @@ async function deleteUser(user){
 
 async function validate(u) {
   return await findUserByUsername(u.username).then((result) => {
-    if (result.length === 1) {
+    if (result.length === 0) {
       return findUserByEmail(u.email).then((result2) => {
-        if (u._id === undefined && result2.length === 1) {
+        if (u._id === undefined && result2.length === 0) {
           return true;
         } else if (result2.length === 0) {
           return findUserById(u._id).then(
