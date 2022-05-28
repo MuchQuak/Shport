@@ -32,7 +32,6 @@ export default function Login(props) {
       });
 
       props.setToken(response.data);
-      //console.log(response);
       if (response.status === 201) {
         navigate("../");
         return response.data;

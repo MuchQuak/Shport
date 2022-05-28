@@ -853,7 +853,6 @@ test("TESTING: NFL standings", async () => {
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/standingsExampleNFL.html") });
 
   await standingsScraper.getNflSportStanding().then( result =>{
-    console.log(result);
     expect(result).toStrictEqual(nflStandings);
   
   })

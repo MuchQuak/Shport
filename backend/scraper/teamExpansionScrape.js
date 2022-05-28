@@ -130,7 +130,6 @@ async function getRoster(league, acro) {
           playerObj.birthplace = player[7];
           playerObj.birthdate = player[8];
         } else if (league == "nfl") {
-          console.log(player);
           playerObj.image = player[0];
           playerObj.name = player[1];
           playerObj.number = player[2];
