@@ -53,7 +53,6 @@ async function signUpUser(user) {
 async function deleteUser(user){
   return findUserByUsername(user).then(async (result) => {
     if(result.length === 1){
-      console.log(result);
       let u = result[0];
 
       const userModel = getDbConnection().model("user", User.schema);
@@ -76,7 +75,6 @@ async function validate(u) {
     if (result.length === 1) {
       return findUserByEmail(u.email).then((result2) => {
         if (u._id === undefined && result2.length === 1) {
-          console.log(u);
           return true;
         } else if (result2.length === 0) {
           return findUserById(u._id).then(

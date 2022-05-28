@@ -865,6 +865,5 @@ test("TESTING: Schedule", async () => {
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/scheduleExample.html") });
 
   let scrapedSchedule= await scheduleScrapper.scrapeGames("mlb", "");
-  console.log(scrapedSchedule);
-//  expect(scrapedSchedule).toStrictEqual(schedule);
+  expect(scrapedSchedule).toStrictEqual(schedule);
 });
