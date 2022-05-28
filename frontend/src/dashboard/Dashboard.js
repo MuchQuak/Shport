@@ -65,7 +65,7 @@ function redditItems(posts) {
   return posts.filter((p) => p !== undefined).map((post, idx) => (
         <CloseableItem
           title={"Reddit — /r/" + post.subreddit}
-          link={post.url}
+          link={"https://reddit.com/r/" + post.subreddit}
           logo={redditLogo()}
           key={String(idx)}
         >
