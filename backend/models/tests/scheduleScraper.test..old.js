@@ -3,7 +3,7 @@ const fs = require('fs');
 const scheduleScrapper = require("../../scraper/scheduleScrape");
 
 jest.mock('axios');
-/*
+
 test("TESTING: Schedule", async () => {  
   let schedule =     [
     {
@@ -866,4 +866,4 @@ test("TESTING: Schedule", async () => {
 
   let scrapedSchedule= await scheduleScrapper.scrapeGames("mlb", "");
   expect(scrapedSchedule).toStrictEqual(schedule);
-});*/
+});
