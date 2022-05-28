@@ -1,7 +1,7 @@
 const league = require("./leagueService");
 const axios = require("axios");
 const teamScraper = require("../../scraper/teamExpansionScrape");
-
+const sportInfoServices = require("./sportInfoServices");
 
 class NhlService extends league.LeagueService {
   constructor(host) {
@@ -154,12 +154,12 @@ getScrapedTransactions(code){
     }
   }
 
-  // This should be changed from the backend calling itself
-  translateApiToEspn(code){
-    return axios.get("http://localhost:" + process.env.PORT + "/NHL/api/" + code).then((res) => {
-    return res.data.espnCode;
-  });
-  }
+  async translateApiToEspn(code){
+  return await sportInfoServices.getTeams(this.sportCode).then( result => {
+    const teamPicked = result.filter(team => team.code === code);
+    return teamPicked[0];
+  })
+}
 
   formatStandingsData(responseData) {
     const all_data = {};
@@ -172,7 +172,6 @@ getScrapedTransactions(code){
         const new_team_data = {};
         new_team_data.code =  String(team_data["team"]["id"]); // get espn code a
         new_team_data.espn = this.translateApiToEspn(code);
-        //new_team_data.espnCode = "PIT";
         new_team_data.name = team_data["team"]["name"];
         new_team_data.city = "";
         new_team_data.conference = div_name;

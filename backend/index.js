@@ -250,14 +250,6 @@ app.get("/NBA/transactions/:id", async (req, res) => {
 //NHL api Calls
 let nhl = new nhlServices.NhlService("https://statsapi.web.nhl.com");
 
-app.get("/NHL/api/:code", async (req, res) => {
-  await sportInfoServices.getTeams("NHL").then( result => {
-    const teamPicked = result.filter(team => team.code === req.params["code"]);
-    res.send(teamPicked[0]);
-  })
-});
-
-
 app.get("/NHL/games", async (req, res) => {
   await nhl.getGames(req, res);
 });

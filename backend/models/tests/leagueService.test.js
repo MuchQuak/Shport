@@ -60,3 +60,19 @@ test("TESTING: formatDate", async () => {
   const formattedDate = leageueConst.formatDate(date);
   expect(formattedDate).toStrictEqual(dateString);
 });
+
+test("TESTING: getPlayersEndPoint --- ERROR", async () => {
+  let leageueConst = new leagues.LeagueService("API endpoint");
+
+  await expect(async () => {
+    await leageueConst.getPlayersEndPoint();
+  }).rejects.toThrow(/Abstract Method has no implementation/);
+});
+
+test("TESTING: sportCode --- ERROR", async () => {
+  let leageueConst = new leagues.LeagueService("API endpoint");
+
+  await expect(async () => {
+    await leageueConst.sportCode();
+  }).rejects.toThrow(/Abstract Method has no implementation/);
+});
