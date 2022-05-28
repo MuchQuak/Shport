@@ -273,7 +273,7 @@ function SettingsBox(props) {
 
 function ChangePasswordForm(props) {
   const user = useContext(UserContext);
-  const pass = props.newpass;
+  //const pass = props.newpass;
   function changePassword(event) {
     event.preventDefault();
   }
