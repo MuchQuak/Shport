@@ -291,8 +291,7 @@ function ChangePasswordForm(props) {
 }
 
 function ChangeUsernameForm(props) {
-  const user = useContext(UserContext);
-  console.log(user);
+  const { user } = useContext(UserContext);
   const name = props.newname;
   function changeUsername(event) {
     event.preventDefault();
