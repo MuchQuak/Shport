@@ -219,14 +219,14 @@ function SettingsBox(props) {
                 <input
                     type="text"
                     placeholder="New password"
-                    style={{flexBasis: "70%", width: "70%", padding: "2px"}}
+                    style={{flexBasis: "65%", width: "65%", padding: "2px"}}
                     onChange={(e) => setNewPassword(e.target.value)} />
                 <button
                     className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
-                    style={{flexBasis: "30%", width: "30%"}}
+                    style={{flexBasis: "35%", width: "35%"}}
                     onClick={(e) => changePasswordAlert(e)}
                 >
-                  Change Password
+                  Change
                 </button>
               </div>
             </PopIntoExistence>
@@ -241,14 +241,14 @@ function SettingsBox(props) {
                 <input
                     type="text"
                     placeholder="New username"
-                    style={{flexBasis: "70%", width: "70%",padding: "2px"}}
+                    style={{flexBasis: "65%", width: "65%",padding: "2px"}}
                     onChange={(e) => setNewUsername(e.target.value)} />
                 <button
                     className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
-                    style={{flexBasis: "30%", width: "30%"}}
+                    style={{flexBasis: "35%", width: "35%"}}
                     onClick={(e) => changeUsernameAlert(e)}
                 >
-                  Change Username
+                  Change
                 </button>
               </div>
             </PopIntoExistence>
