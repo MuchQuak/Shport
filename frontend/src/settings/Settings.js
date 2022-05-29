@@ -284,7 +284,7 @@ function ChangePasswordForm(props) {
         <p className="nomargin">Do you really want to change your password?</p>
         <button className={"remove-button margin-top-5"}
                 onClick={(e) => changePassword(e)}>
-          Yes, delete my account: {user.info.name}
+          Yes, change password: {user.info.name}
         </button>
       </>
   )
@@ -309,7 +309,7 @@ function ChangeUsernameForm(props) {
 }
 
 function DeleteAccountForm(props) {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   if (!props.cookies) {
     return errorSuffix("authenticating user!");
