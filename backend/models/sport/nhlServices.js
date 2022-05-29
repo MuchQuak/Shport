@@ -155,7 +155,7 @@ getScrapedTransactions(code){
   }
 
   async translateApiToEspn(code){
-  return await sportInfoServices.getTeams(this.sportCode).then( result => {
+  return await sportInfoServices.getTeams("nhl").then( result => {
     const teamPicked = result.filter(team => team.code === code);
     return teamPicked[0];
   })
