@@ -215,15 +215,15 @@ function SettingsBox(props) {
               Change Password
             </button>
             <PopIntoExistence visible={passwordInputVisible} >
-              <div style={{display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
+              <div style={{width: "100%", display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
                 <input
                     type="text"
                     placeholder="New password"
-                    style={{flexBasis: "70%", padding: "2px"}}
+                    style={{flexBasis: "70%", width: "70%", padding: "2px"}}
                     onChange={(e) => setNewPassword(e.target.value)} />
                 <button
                     className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
-                    style={{flexBasis: "30%"}}
+                    style={{flexBasis: "30%", width: "30%"}}
                     onClick={(e) => changePasswordAlert(e)}
                 >
                   Change Password
@@ -237,15 +237,15 @@ function SettingsBox(props) {
               Change Username
             </button>
             <PopIntoExistence visible={usernameInputVisible} >
-              <div style={{display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
+              <div style={{width: "100%", display: "flex", flexFlow: "row nowrap", gap: "5px", justifyContent: "center", alignItems: "center"}}>
                 <input
                     type="text"
                     placeholder="New username"
-                    style={{flexBasis: "70%", padding: "2px"}}
+                    style={{flexBasis: "70%", width: "70%",padding: "2px"}}
                     onChange={(e) => setNewUsername(e.target.value)} />
                 <button
                     className={css(styled.button) + " button margin-top-5 margin-bottom-5"}
-                    style={{flexBasis: "30%"}}
+                    style={{flexBasis: "30%", width: "30%"}}
                     onClick={(e) => changeUsernameAlert(e)}
                 >
                   Change Username
@@ -281,10 +281,10 @@ function ChangePasswordForm(props) {
   }
   return (
       <>
-        <p className="nomargin">Do you really want to change your password?</p>
+        <p className="nomargin">Do you really want to <b>change your password?</b></p>
         <button className={"remove-button margin-top-5"}
                 onClick={(e) => changePassword(e)}>
-          Yes, change password: {user.info.name}
+          Yes, <b>change password</b>
         </button>
       </>
   )
@@ -302,7 +302,7 @@ function ChangeUsernameForm(props) {
         <p className="nomargin">From {user.info.name} to {name}</p>
         <button className={"remove-button margin-top-5"}
                 onClick={(e) => changeUsername(e)}>
-          Yes, change my username to: {name}
+          Yes, change my username to <b>{name}</b>
         </button>
       </>
   )
@@ -329,7 +329,7 @@ function DeleteAccountForm(props) {
         <p>Do you really want to delete your account?</p>
         <button className={"remove-button margin-top-5"}
                 onClick={(e) => deleteAccount(e)}>
-          Yes, delete my account: {user.info.name}
+          Yes, delete account <b>{user.info.name}</b>
         </button>
       </>
   )
