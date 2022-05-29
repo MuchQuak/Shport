@@ -297,7 +297,6 @@ async function getTransactions(league, acro) {
     });
 }
 
-<<<<<<< HEAD
 // potential refactor if generic method will be used in generalNewsScrape
 async function getHeadlines(sport, code) {
   const host = "https://news.google.com";
@@ -316,34 +315,6 @@ async function getHeadlines(sport, code) {
       .then((response) => {
           let $ = cheerio.load(response.data);
           let news = [];
-=======
-async function getTeamNews(league, acro) {
-  /* example
-    {
-        url: 'https://www.espn.com/nba/recap/_/gameId/401430216',
-        title: 'Butler scores 45, Heat defeat Hawks 115-105 for 2-0 lead',
-        timeElapsed: '2d'
-    }
-    */
-  const host = "https://www.espn.com";
-  return await axios
-    .get(host + "/" + league + "/team/_/name/" + acro)
-    .then((response) => {
-      let $ = cheerio.load(response.data);
-      let teamNews = [];
-      $(".ResponsiveWrapper").each((index, element) => {
-        let path = $(element).find("a").attr("href");
-        let title = $(element)
-          .find(".contentItem__title .Truncate.Truncate--collapsed span")
-          .text()
-          .trim();
-        let timeElapsed = $(element)
-          .find(
-            ".contentItem__publicationMeta.flex.ns9.mt2.clr-gray-05 .time-elapsed"
-          )
-          .text()
-          .trim();
->>>>>>> 661de591060c775f963ebdb2acedd7c194a39bc0
 
           $('.xrnccd').each((index, element) => {
               let newsObj = {}
