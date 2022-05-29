@@ -14,7 +14,7 @@ import { TeamOverviewExpanded } from "./TeamOverviewExpanded";
 import { loading, suffix } from "../../util/Util";
 import { ThemeContext } from "../../App";
 import {isMobile} from "react-device-detect";
-import { modalStyle } from "./SignUp";
+import { modalStyle } from "../../login-signup/SignUp";
 
 function Overview(props) {
   const { theme } = useContext(ThemeContext);
