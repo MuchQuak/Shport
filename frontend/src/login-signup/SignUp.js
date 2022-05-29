@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { addUser } from "../user/UserHandler";
 import "../style/login-signup.scss";
 import Modal from "react-modal";
+import {isMobile} from "react-device-detect";
 import CloseButton from "react-bootstrap/CloseButton";
 
 export const modalStyle = {
