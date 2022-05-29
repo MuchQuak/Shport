@@ -1899,7 +1899,7 @@ test("TESTING: Transactions", async () => {
   expect(scrapedTransactions).toStrictEqual(transactions);
 });
 
-test("TESTING: Team News", async () => {  
+test("TESTING: Team Headlines", async () => {  
   let news =     [        
     {      
       url: 'https://www.espn.com/nba/story/_/id/33988955/lebron-james-surprises-students-promise-school-summer-vacation',
@@ -1969,6 +1969,6 @@ test("TESTING: Team News", async () => {
   ];
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/teamNews.html") });
 
-  let scrapedNews = await teamExapansionScrape.getTeamNews("nba", "lal");
+  let scrapedNews = await teamExapansionScrape.getHeadlines("nba", "lal");
   expect(scrapedNews).toStrictEqual(news);
 });
