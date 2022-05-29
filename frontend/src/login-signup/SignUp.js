@@ -6,7 +6,7 @@ import "../style/login-signup.scss";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 
-const modalStyle = {
+export const modalStyle = {
   content: {
     top: "50%",
     left: "50%",
