@@ -395,12 +395,7 @@ app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
 
-//Schedule time from fresh data pulls
-//Also setup schedule when live game pulls should be scheduled
-// - Note that the live scheduled games must keep checking that the game is
-//   live and if it is not then it will destroy the schedule
-//Summary need a scheduler that schedules live game caching schedule that self destructs
-//when done. Rinse and repeat at the refresh time
+//Schedule repull every minute
 cron.schedule('* * * * *', () => {
   console.log("Cached All Data at: " + new Date())
   nba.cacheAllData();
@@ -408,3 +403,9 @@ cron.schedule('* * * * *', () => {
   nhl.cacheAllData();
   mlb.cacheAllData();
 });
+
+//Intial Cache
+nba.cacheAllData();
+nfl.cacheAllData();
+nhl.cacheAllData();
+mlb.cacheAllData();

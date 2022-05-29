@@ -36,7 +36,18 @@ class NhlService extends league.LeagueService {
       await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(nextDate)),
       nextDate);
 
-    return new Array().concat(prev, current, next);
+    var result = new Array();
+
+    if(prev !== undefined)
+      result = result.concat(prev)
+
+    if(current !== undefined)
+      result = result.concat(current)
+
+    if(next !== undefined)
+      result = result.concat(next)
+
+    return result;
   }
 
   async getStandingsData() {
@@ -48,7 +59,6 @@ class NhlService extends league.LeagueService {
     return teamScraper.getRoster("nhl", code).then((result) => {
       return result;
     });
-
   }
 
 getScrapedInjuries(code){

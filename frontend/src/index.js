@@ -9,7 +9,6 @@ import App from "./App";
 import SignUp from "./login-signup/SignUp";
 import Login from "./login-signup/Login";
 
-
 const queryClient = new QueryClient();
 
 export const BACKEND = "https://shport-backend.herokuapp.com/";
