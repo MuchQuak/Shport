@@ -6,7 +6,7 @@ import "../style/login-signup.scss";
 import Modal from "react-modal";
 import CloseButton from "react-bootstrap/CloseButton";
 
-export const modalStyle = {
+const modalStyle = {
   content: {
     top: "50%",
     left: "50%",
@@ -15,9 +15,10 @@ export const modalStyle = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     height: "auto",
-    width: "45%",
+    width: isMobile ? "95%" : "60%",
     border: "none",
     padding: "0",
+    borderRadius: "8px"
   },
 };
 
