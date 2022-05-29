@@ -10,7 +10,7 @@ import { createTeamQuery, joinArticles, useNews } from "./news/NewsHandler";
 import {
   getAllTeamsFollowed,
   getSportsFollowed,
-} from "../settings/PrefHandler";
+} from "../user/PrefHandler";
 import { isOneLoading, errorSuffix, loadingSuffix } from "../util/Util";
 import {useTeamSubreddits, useLeagueSubreddits, redditLogo, getTeamPosts, getLeaguePosts} from "./reddit/RedditHandler";
 import RedditPost from "./reddit/RedditPost";
@@ -65,7 +65,7 @@ function redditItems(posts) {
   return posts.filter((p) => p !== undefined).map((post, idx) => (
         <CloseableItem
           title={"Reddit — /r/" + post.subreddit}
-          link={post.url}
+          link={"https://reddit.com/r/" + post.subreddit}
           logo={redditLogo()}
           key={String(idx)}
         >

@@ -33,7 +33,7 @@ function generateAccessToken(username) {
 function decode(req) {
   try {
     const authHeader = req.headers["authorization"];
-    //Getting the 2nd part of the auth hearder (the token)
+    //Getting the 2nd part of the auth header (the token)
     const token = authHeader && authHeader.split(" ")[1];
 
     return jwt.verify(token, process.env.TOKEN_SECRET);
@@ -109,19 +109,16 @@ app.get("/username", authenticateUser, async (req, res) => {
   }
 });
 
+// Delete user from database
 app.delete("/username", async (req, res) => {
   const decodedUser = decode(req);
-  
   if (decodedUser) {
-    let deleted = await userServices.deleteUser(decodedUser);
-
-    if(deleted){
+    const deleted = await userServices.deleteUser(decodedUser);
+    if (deleted){
       res.status(200).send("Deleted User");
+    } else {
+      res.status(400).end("Error! User not deleted");
     }
-    else{
-      res.status(400).send("Error! User not deleted");
-    }
-
   } else {
     res.status(404).end("User not found");
   }
@@ -258,14 +255,6 @@ app.get("/NBA/headlines/:id", async (req, res) => {
 
 //NHL api Calls
 let nhl = new nhlServices.NhlService("https://statsapi.web.nhl.com");
-
-app.get("/NHL/api/:code", async (req, res) => {
-  await sportInfoServices.getTeams("NHL").then( result => {
-    const teamPicked = result.filter(team => team.code === req.params["code"]);
-    res.send(teamPicked[0]);
-  })
-});
-
 
 app.get("/NHL/games", async (req, res) => {
   await nhl.getGames(req, res);
@@ -431,12 +420,7 @@ app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
 
-//Schedule time from fresh data pulls
-//Also setup schedule when live game pulls should be scheduled
-// - Note that the live scheduled games must keep checking that the game is
-//   live and if it is not then it will destroy the schedule
-//Summary need a scheduler that schedules live game caching schedule that self destructs
-//when done. Rinse and repeat at the refresh time
+//Schedule repull every minute
 cron.schedule('* * * * *', () => {
   console.log("Cached All Data at: " + new Date())
   nba.cacheAllData();
@@ -444,3 +428,9 @@ cron.schedule('* * * * *', () => {
   nhl.cacheAllData();
   mlb.cacheAllData();
 });
+
+//Intial Cache
+nba.cacheAllData();
+nfl.cacheAllData();
+nhl.cacheAllData();
+mlb.cacheAllData();

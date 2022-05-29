@@ -258,3 +258,6 @@ async function scrapeGames(sportCode, dateString) {
 }
 
 exports.scrapeGames = scrapeGames;
+exports.scrapeLiveGameData = scrapeLiveGameData;
+exports.parsingGameId = parsingGameId;
+exports.PSTtoUTC = PSTtoUTC;

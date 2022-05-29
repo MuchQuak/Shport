@@ -25,7 +25,7 @@ class LeagueService {
         today.setDate(today.getDate() + offset);
         const currentDate = this.formatDate(today);
 
-    try {
+        try {
       
       const games = await cache.getCachedGames(this.sportCode())
       res.send(games.filter(g => this.formatDate(g.date) === currentDate));      

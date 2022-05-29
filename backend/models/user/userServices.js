@@ -51,20 +51,15 @@ async function signUpUser(user) {
 }
 
 async function deleteUser(user){
-  return findUserByUsername(user).then(async (result) => {
-    if(result.length === 1){
-      
-      let u = result[0];
-
+  return findUserByUsername(user.username).then(async (result) => {
+    if (result.length === 1){
+      const u = result[0];
       const userModel = getDbConnection().model("user", User.schema);
       const prefModel = getDbConnection().model("pref", Pref.schema);
-      
       await userModel.deleteOne( { _id : u._id} );      
       await prefModel.deleteOne( { _id: u.prefs});
-
       return true;
-    }
-    else{
+    } else{
       return false;
     }
   }
@@ -73,9 +68,9 @@ async function deleteUser(user){
 
 async function validate(u) {
   return await findUserByUsername(u.username).then((result) => {
-    if (result.length === 0) {
+    if (result.length === 1) {
       return findUserByEmail(u.email).then((result2) => {
-        if (u._id === undefined && result2.length === 0) {
+        if (u._id === undefined && result2.length === 1) {
           return true;
         } else if (result2.length === 0) {
           return findUserById(u._id).then(
@@ -184,6 +179,33 @@ async function login(user) {
   );
 }
 
+
+async function changeUsername(user) {
+  return await findUserByUsername(user.newUsername).then(async (result) => {
+    if(result.length === 0){
+      const userModel = getDbConnection().model("user", User.schema);
+      await userModel.findOneAndUpdate({username:user.username}, {username: user.newUsername} )
+      return true;
+    }else{
+      return false;
+    }
+  }
+  );
+}
+async function changePassword(user) {
+  return await findUserByUsername(user.username).then(async (result) => {
+    if(result.length === 1){
+      const userModel = getDbConnection().model("user", User.schema);
+
+      await result[0].setPassword(user.newPassword);
+      await userModel.findOneAndUpdate({username:user.username}, {salt: result[0].salt, hash:result[0].hash })
+      return true;
+    }else{
+      return false;
+    }
+  });
+}
+
 exports.signUpUser = signUpUser;
 exports.getUsers = getUsers;
 exports.getUserPreferences = getUserPreferences;
@@ -197,3 +219,5 @@ exports.setConnection = setConnection;
 exports.validate = validate;
 exports.login = login;
 exports.deleteUser = deleteUser;
+exports.changePassword = changePassword;
+exports.changeUsername = changeUsername;

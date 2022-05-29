@@ -25,7 +25,18 @@ class NbaService extends league.LeagueService {
       await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(nextDate) + "/scoreboard.json"),
       nextDate);
 
-    return new Array().concat(prev, current, next);
+    var result = new Array();
+
+    if(prev !== undefined)
+      result = result.concat(prev)
+
+    if(current !== undefined)
+      result = result.concat(current)
+
+    if(next !== undefined)
+      result = result.concat(next)
+
+    return result;
   }
 
   async getStandingsData() {

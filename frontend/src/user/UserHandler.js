@@ -11,6 +11,19 @@ export async function addUser(user) {
   }
 }
 
+export async function deleteUser(auth_token) {
+  const config = { headers: { authorization: `Bearer ${auth_token}` } };
+  return await axios
+      .delete(BACKEND + "username", config)
+      .then((res) => {
+        console.log(res.status);
+        if (res.status === 200) {
+          return verify(res);
+        }
+        throw new Error("Error " + res.status + ": Could not delete user.");
+      });
+}
+
 export async function setUserPrefs(user) {
   try {
     const config = { headers: { authorization: `Bearer ${user.auth_token}` } };

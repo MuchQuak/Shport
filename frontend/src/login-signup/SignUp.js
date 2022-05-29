@@ -58,8 +58,6 @@ export default function SignUp() {
     };
 
     addUser(newUser).then((result) => {
-      console.log(result.data); // THIS IS TOKEN
-
       if (result) {
         navigate("/settings", { replace: true, state: newUser });
       } else {

@@ -2,7 +2,7 @@ import "../../style/game-schedule.scss";
 import { getTeamLogo, UTCtoLocal, getFullName } from "./SportHandler";
 import { useContext } from "react";
 import { ThemeContext } from "../../App";
-import {followsTeam} from "../../settings/PrefHandler";
+import {followsTeam} from "../../user/PrefHandler";
 
 function stream(league, homeFullName, awayFullName) {
   const link = "https://www.streameast.xyz/" + league.toLowerCase() + "/" +

@@ -554,3 +554,170 @@ test("Setting user Preferences -- Success path", async () => {
   expect(orginalPrefs.prefs._id).toStrictEqual(newPref.prefs._id);
   expect(orginalPrefs.prefs.sports).not.toStrictEqual(newPref.prefs.sports);
 });
+
+
+
+test("Delete User -- Success path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let loginResult = await userServices.login(user);
+  expect(loginResult).toBeTruthy();
+
+  const deleteResult = await userServices.deleteUser(result);
+  expect(deleteResult).toBeTruthy();
+
+  loginResult = await userServices.login(user);
+  expect(loginResult).toBeFalsy();
+
+});
+
+test("Delete User -- Failure path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let loginResult = await userServices.login(user);
+  expect(loginResult).toBeTruthy();
+
+  result.username = "Invalid";
+  const deleteResult = await userServices.deleteUser(result);
+  expect(deleteResult).toBeFalsy();
+
+  loginResult = await userServices.login(user);
+  expect(loginResult).toBeTruthy();
+
+});
+
+test("Validate User -- Success Path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let validateResult = await userServices.validate(user);
+  expect(validateResult).toBeTruthy();
+
+});
+
+test("Validate User -- Failure Path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  user.email = "notYoungwizard@gmail.com";
+  let validateResult = await userServices.validate(user);
+  expect(validateResult).toBeFalsy();
+
+});
+
+test("Get User Sports", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  let newPrefs = {
+    sports: {
+      NBA: {
+        teams: [],
+        following: true,
+      },
+      NHL: {
+        teams: ["55"],
+        following: true,
+      },
+    },
+  };
+
+  let userSportsReturn = {"MLB": {"teams": []}, "NBA": {"following": true, "teams": []}, "NFL": {"teams": []}, "NHL": {"following": true, "teams": ["55"]}};
+
+  const resultUser = await userServices.signUpUser(user);
+  await userServices.setUserPreferences(resultUser.username, newPrefs);
+
+  const result = await userServices.signUpUser(user);
+
+  let userSports = await userServices.getUserSports(user.username);
+  expect(userSports.toJSON()).toStrictEqual(userSportsReturn);
+
+});
+
+test("Change Username -- Success Path", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  await userServices.signUpUser(user);
+
+  user.newUsername = "Harry NotPotter";
+  let newUsernameResult = await userServices.changeUsername(user);
+  expect(newUsernameResult).toBeTruthy();
+
+});
+test("Change User name -- Failure Path", async () => {
+  const user1  = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const user2 = {
+    username: "Harry NotPotter",
+    email: "youngWizard2@gmail.com",
+    password: "Sample%%44*5",
+  };
+  await userServices.signUpUser(user1);
+  await userServices.signUpUser(user2);
+
+  user1.newUsername = "Harry NotPotter";
+  let newUsernameResult = await userServices.changeUsername(user1);
+  expect(newUsernameResult).toBeFalsy();
+
+});
+
+test("Change password -- Success", async () => {
+  const user  = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+
+  let result = await userServices.signUpUser(user);
+
+  user.newPassword = "SomethingffElse44";
+  let newPasswordResult = await userServices.changePassword(user);
+  
+  let newResult = await userServices.findUserByUsername(user.username);
+  expect(newPasswordResult).toBeTruthy();
+  expect(newResult[0].username).toStrictEqual(result.username);
+  expect(newResult[0].hash).not.toStrictEqual(result.hash);
+  expect(newResult[0].salt).not.toStrictEqual(result.salt);
+});
+
+test("Change password -- Failure", async () => {
+  const user  = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+
+  let result = await userServices.signUpUser(user);
+
+  user.newPassword = "SomethingffElse44";
+  user.username = "Harry NotPotter"
+  let newPasswordResult = await userServices.changePassword(user);
+  
+  expect(newPasswordResult).toBeFalsy();
+});

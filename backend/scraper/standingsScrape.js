@@ -197,3 +197,5 @@ function getNflSportStanding() {
 exports.getMlbSportStanding = getMlbSportStanding;
 exports.getNflSportStanding = getNflSportStanding;
 exports.getSportStanding = getSportStanding;
+exports.createMlbObj = createMlbObj;
+exports.createNflObj = createNflObj;

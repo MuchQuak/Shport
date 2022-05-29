@@ -5,7 +5,7 @@ import {
   getInterestedSports,
   getPreferredSportIndex,
   followsEitherTeam
-} from "../../settings/PrefHandler";
+} from "../../user/PrefHandler";
 import {
   dayName,
   favoriteIcon,

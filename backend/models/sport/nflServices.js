@@ -16,13 +16,7 @@ class NflService extends league.LeagueService {
   */
 
   async getGamesData() {
-    //YYYYMMDD
-    //return await gameScraper.scrapeGames('nfl', '');
-    //const previous = new Date();
-    //previous.setDate(previous.getDate() - 1);
-    
     return await gameScraper.scrapeGames('nfl', '');
-    //return results.filter(g => this.formatDate(g.date) === currentDate);
   }
   async getStandingsData() {
     return await standingsScraper.getNflSportStanding();
