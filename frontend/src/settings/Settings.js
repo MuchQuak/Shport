@@ -132,7 +132,7 @@ function SettingsBox(props) {
   }
   function changeUsernameAlert(event) {
     event.preventDefault();
-    setCurrentAlert(<ChangeUsernameForm cookies={props.cookies} newname={newUsername} />);
+    setCurrentAlert(<ChangeUsernameForm cookies={props.cookies} removeCookie={props.removeCookie} newname={newUsername} />);
     openAlert();
   }
   function deleteAccount(event) {
@@ -312,7 +312,7 @@ function ChangeUsernameForm(props) {
       loading: "Changing username...",
       success: "Username changed!",
       error: "Could not change username.",
-    }).then((r) => {
+    }).then(() => {
       props.removeCookie("auth_token");
       navigate("/login");
     });
