@@ -301,6 +301,7 @@ function ChangePasswordForm(props) {
 
 function ChangeUsernameForm(props) {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   if (!props.cookies) {
     return errorSuffix("authenticating user!");
   }
@@ -312,7 +313,8 @@ function ChangeUsernameForm(props) {
       success: "Username changed!",
       error: "Could not change username.",
     }).then((r) => {
-      console.log(r);
+      props.removeCookie("auth_token");
+      navigate("/login");
     });
   }
   return (
@@ -355,13 +357,13 @@ function DeleteAccountForm(props) {
 }
 
 export default function Settings(props) {
-  if (!props.cookies || !props.cookies.auth_token) {
+  if (!props.cookies || !props.cookies.auth_token || !props.removeCookie) {
     return errorSuffix("authenticating user!");
   }
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <SettingsBox cookies={props.cookies} />
+      <SettingsBox cookies={props.cookies} removeCookie={props.removeCookie} />
     </>
   );
 }
