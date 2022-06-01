@@ -1,4 +1,4 @@
-const cache = require("./cachingServices")
+const cache = require("../caching/cachingServices")
 
 class LeagueService {
     constructor(host) {
