@@ -1,3 +1,6 @@
+const Standings = require('./standings');
+const Games = require('./games');
+
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -14,37 +17,15 @@ function getDbConnection() {
     return dbConnection;
   }
 
+  function setConnection(newConn) {
+    dbConnection = newConn;
+    return dbConnection;
+  }
 
-const gamesSchema = new mongoose.Schema(
-    {
-      sport: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      games: [],
-    },
-    {
-      collection: "gameCache",
-    }
-);
-
-const standingsSchema = new mongoose.Schema(
-    {
-      sport: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      standings: {},
-    },
-    {
-      collection: "standingsCache",
-    }
-  );
 
 async function getCachedGames(sport) {
-    const gamesModel = getDbConnection().model("gameCache", gamesSchema);
+    const gamesModel = getDbConnection().model("gameCache", Games.schema);
+    
     try {
       const gameData = await gamesModel.findOne({sport: String(sport).trim().toUpperCase()});
       return gameData.games;
@@ -55,7 +36,7 @@ async function getCachedGames(sport) {
 }
 
 async function cacheGames(sport, games) {
-    const gamesModel = getDbConnection().model("gameCache", gamesSchema);
+    const gamesModel = getDbConnection().model("gameCache", Games.schema);
     try {
 
         const SPORT = String(sport).trim().toUpperCase()
@@ -71,7 +52,7 @@ async function cacheGames(sport, games) {
 }
 
 async function getCachedStandings(sport) {
-  const standingsModel = getDbConnection().model("standingsCache", standingsSchema);
+  const standingsModel = getDbConnection().model("standingsCache", Standings.schema);
   try {
     const standingsData = await standingsModel.findOne({sport: String(sport).trim().toUpperCase()});
     return standingsData.standings;
@@ -82,7 +63,7 @@ async function getCachedStandings(sport) {
 }
 
 async function cacheStandings(sport, standings) {
-    const standingsModel = getDbConnection().model("standingsCache", standingsSchema);
+    const standingsModel = getDbConnection().model("standingsCache", Standings.schema);
     try {
         const SPORT = String(sport).trim().toUpperCase()
         return await standingsModel.updateOne(
@@ -99,3 +80,4 @@ exports.cacheGames = cacheGames;
 exports.getCachedGames = getCachedGames;
 exports.getCachedStandings = getCachedStandings;
 exports.cacheStandings = cacheStandings;
+exports.setConnection = setConnection;
