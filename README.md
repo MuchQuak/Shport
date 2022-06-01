@@ -20,6 +20,8 @@ To gain access you must have a .env file in backend folder with variables:
 
 [Project Spec](https://docs.google.com/document/d/1CvLTWCfVWaoY2mrt_GCotynXVKvXM6Ump93yK021D_0/edit?usp=sharing)
 
+[Sequence Diagram](https://app.diagrams.net/#G1QEdEjMCj-P-oYIIvUOYg4TIT5hP-Cz1E)
+
 
 Code Coverage Report
 
