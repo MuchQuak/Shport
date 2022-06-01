@@ -124,6 +124,36 @@ app.delete("/username", async (req, res) => {
   }
 });
 
+app.patch("/username", async (req, res) => {
+  const decodedUser = decode(req);
+  if (decodedUser) {
+    decodedUser.newUsername = req.params["newUsername"];
+    const updated = await userServices.changeUsername(decodedUser);
+    if (updated){
+      res.status(200).send("Changed Username");
+    } else {
+      res.status(400).end("Error! Username not changed");
+    }
+  } else {
+    res.status(404).end("User not found");
+  }
+});
+
+app.patch("/password", async (req, res) => {
+  const decodedUser = decode(req);
+  if (decodedUser) {
+    decodedUser.newPassword = req.params["newPassword"];
+    const updated = await userServices.changePassword(decodedUser);
+    if (updated){
+      res.status(200).send("Changed Password");
+    } else {
+      res.status(400).end("Error! Password not changed");
+    }
+  } else {
+    res.status(404).end("User not found");
+  }
+});
+
 app.get("/theme", authenticateUser, async (req, res) => {
   const decodedUser = decode(req).username;
   const theme = (await userServices.getUserPreferences(decodedUser)).prefs

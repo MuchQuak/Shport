@@ -179,7 +179,6 @@ async function login(user) {
   );
 }
 
-
 async function changeUsername(user) {
   return await findUserByUsername(user.newUsername).then(async (result) => {
     if(result.length === 0){
@@ -192,6 +191,7 @@ async function changeUsername(user) {
   }
   );
 }
+
 async function changePassword(user) {
   return await findUserByUsername(user.username).then(async (result) => {
     if(result.length === 1){
