@@ -16,21 +16,19 @@ class LeagueService {
         return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
     }
     
-    async getGames(req, res) {
-      
-        const offset_param = String(req.params['offset']).trim();
-        const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
-        const offset = isNaN(offset_num) ? 0 : offset_num;
-        var today = new Date();
-        today.setDate(today.getDate() + offset);
-        const currentDate = this.formatDate(today);
+    async getGames(req, res) {      
+      const offset_param = String(req.params['offset']).trim();
+      const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
+      const offset = isNaN(offset_num) ? 0 : offset_num;
+      var today = new Date();
+      today.setDate(today.getDate() + offset);
+      const currentDate = this.formatDate(today);
 
-        try {
-      
-      const games = await cache.getCachedGames(this.sportCode())
-      res.send(games.filter(g => this.formatDate(g.date) === currentDate));      
-    } catch (e) {
-      console.error(e);
+      try {
+        const games = await cache.getCachedGames(this.sportCode())
+        res.send(games.filter(g => this.formatDate(g.date) === currentDate));      
+      } catch(e) {
+        console.error(e);
     }
   }
 
