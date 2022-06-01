@@ -139,7 +139,7 @@ app.patch("/username/:newUsername", async (req, res) => {
   }
 });
 
-app.patch("/password:newPassword", async (req, res) => {
+app.patch("/password/:newPassword", async (req, res) => {
   const decodedUser = decode(req);
   if (decodedUser) {
     decodedUser.newPassword = req.params["newPassword"];
