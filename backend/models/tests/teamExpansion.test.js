@@ -1899,76 +1899,33 @@ test("TESTING: Transactions", async () => {
   expect(scrapedTransactions).toStrictEqual(transactions);
 });
 
-test("TESTING: Team News", async () => {  
+test("TESTING: Team Headlines", async () => {  
   let news =     [        
     {      
-      url: 'https://www.espn.com/nba/story/_/id/33988955/lebron-james-surprises-students-promise-school-summer-vacation',
-      title: "A King's welcome: Students excited to see LeBron James during surprise I Promise School visit",
-      timeElapsed: '1d'
+      url: "https://news.google.com./articles/CBMiRmh0dHBzOi8vd3d3Lm1sYi5jb20vbmV3cy9icmF2ZXMtcmFsbHktaW4tOXRoLXdhbGstb2ZmLWFnYWluc3QtcGhpbGxpZXPSAU9odHRwczovL3d3dy5tbGIuY29tL2FtcC9uZXdzL2JyYXZlcy1yYWxseS1pbi05dGgtd2Fsay1vZmYtYWdhaW5zdC1waGlsbGllcy5odG1s?hl=en-US&gl=US&ceid=US%3Aen",
+      title: "Braves' wild walk-off win real family affair",
+      timeElapsed: "21 hours ago",
+      source: "MLB.com",
+      image: "https://lh3.googleusercontent.com/proxy/WRaaAfFiJBb7SuP8bfp-1KJC45VEvq-AWH3VTxVXCWqe23zW0iyjewQXdOTjTo-TiYZaqK3Lg3QHEZ9PaJcJtabVzW02TW-w5V-rbVdA8VcueQ29NpJ3MdU_ItafTx1TIbDjR6cyUKfYJmcVsVvc3KNMG3Y=w200-h200-rw-dcGTOMCR0I"
     },
     {
-      url: 'https://www.espn.com/nba/story/_/id/33964675/sources-michigan-men-basketball-coach-juwan-howard-declines-los-angeles-lakers-interest',
-      title: "Sources: U-M's Howard declines Lakers' interest",
-      timeElapsed: '5d'
+      url: "https://news.google.com./articles/CBMijwFodHRwczovL3d3dy5lc3BuLmNvbS9tbGIvaW5zaWRlci9pbnNpZGVyL3N0b3J5L18vaWQvMzM5NzI1MzMvaXMtcGFuaWMtYnJhdmVzLXdhcnJhbnRlZC1iZWxsaW5nZXItdHVybi1lYXJseS12ZXJkaWN0LW1sYi1iaWdnZXN0LWRpc2FwcG9pbnRtZW50c9IBnAFodHRwczovL3d3dy5lc3BuLmNvbS9tbGIvaW5zaWRlci9pbnNpZGVyL3N0b3J5L18vaWQvMzM5NzI1MzMvaXMtcGFuaWMtYnJhdmVzLXdhcnJhbnRlZC1iZWxsaW5nZXItdHVybi1lYXJseS12ZXJkaWN0LW1sYi1iaWdnZXN0LWRpc2FwcG9pbnRtZW50cz9wbGF0Zm9ybT1hbXA?hl=en-US&gl=US&ceid=US%3Aen",
+      title: "Is panic over Atlanta Braves warranted? Will Cody Bellinger turn it around? An early verdict on MLB's biggest disappointments",
+      timeElapsed: "16 hours ago",
+      source: "ESPN",
+      image: "https://lh3.googleusercontent.com/proxy/iKABK82siQMizdhp9wEI9grUfeOozuFxs5o-ukKPyvkGvdp7RMvs020bTMz_TCYtPfw40p3XnlokFEfrnLd7FTDPFWVbRCU38CEehZhy6hRzpyLv-tk71mgyCw=w200-h200-rw-dcnRaWK5YK"
     },
     {
-      url: 'https://www.espn.com/nba/story/_/id/33952437/los-angeles-lakers-head-coaching-finalists-include-bucks-assistant-darvin-ham-ex-trail-blazers-coach-terry-stotts-sources-say',
-      title: "Sources: Lakers' finalists include Stotts, Atkinson",
-      timeElapsed: '7d'
-    },
-    {
-      url: 'https://www.espn.com/espn/now/_/nowId/21-41115262-4',
-      title: '',
-      timeElapsed: ''
-    },
-    {
-      url: 'https://www.espn.com/nba/insider/story/_/id/33934732/biggest-offseason-questions-priorities-every-nba-team',
-      title: 'The ultimate NBA offseason guide for all 30 teams',
-      timeElapsed: ''
-    },
-    {
-      url: 'https://www.espn.com/nba/story/_/id/33936107/kevin-durant-lebron-james-debate-which-1990s-centers-mvps-modern-nba',
-      title: 'Kevin Durant and LeBron James debate which 1990s centers would be MVPs in the modern NBA',
-      timeElapsed: '10d'
-    },
-    {
-      url: 'https://www.espn.com/nba/story/_/id/33935283/orlando-magic-win-top-pick-2022-nba-draft-lottery-followed-oklahoma-city-thunder-sacramento-kings-jump-no-4',
-      title: "Mosley, 'feeling lucky,' sees Magic secure top pick",
-      timeElapsed: '10d'
-    },
-    {
-      url: 'https://www.espn.com/nba/story/_/id/33930054/planning-play-bronny-names-luka-doncic-favorite-player',
-      title: 'LeBron Twitter Q&A: Still planning to play with Bronny; picks Luka as his favorite player',
-      timeElapsed: '11d'
-    },
-    {
-      url: 'https://www.espn.comhttps://andscape.com/features/they-call-me-magic-adds-necessary-context-to-winning-time/',
-      title: "'They Call Me Magic' adds necessary context to 'Winning Time'... and vice versa",
-      timeElapsed: '14d'
-    },
-    {
-      url: 'https://www.espn.com/nba/story/_/id/33900620/los-angeles-lakers-get-ok-interview-golden-state-warriors-assistant-kenny-atkinson-coaching-vacancy-sources-say',
-      title: 'Sources: Lakers get OK to interview Atkinson',
-      timeElapsed: '16d'
-    },
-    {
-      url: 'https://www.espn.com/espn/now/_/nowId/21-41115147-4',
-      title: '',
-      timeElapsed: ''
-    },
-    {
-      url: 'https://www.espn.com/nba/story/_/id/33897811/lebron-james-cristiano-ronaldo-tom-brady-naomi-osaka-highest-earning-athletes',        
-      title: 'LeBron James, Cristiano Ronaldo, Tom Brady and Naomi Osaka among highest-earning athletes',
-      timeElapsed: '16d'
-    },
-    {
-      url: 'https://www.espn.com/nba/story/_/id/33894576/los-angeles-lakers-ceo-jeanie-buss-getting-advice-phil-jackson-magic-johnson-lebron-james-hard-decisions',
-      title: "Buss 'looking at everything,' listens to Phil, Magic",
-      timeElapsed: '17d'
+      url: "https://news.google.com./articles/CBMib2h0dHBzOi8vd3d3Lm1sYi5jb20vcHJlc3MtcmVsZWFzZS9wcmVzcy1yZWxlYXNlLWF0bGFudGEtYnJhdmVzLWhvbWVzdGFuZC1oaWdobGlnaHRzLW1vbmRheS1tYXktMjMtc3VuZGF5LW1heS0yOdIBAA?hl=en-US&gl=US&ceid=US%3Aen",
+      title: "Atlanta Braves Homestand Highlights, Monday, May 23-Sunday, May 29",
+      timeElapsed: '6 days ago',
+      source: "MLB.com",
+      image: "https://lh3.googleusercontent.com/proxy/ozSyndwr4L2IvoLYdICQGFpCaHK-_kLJrFNhIf338J8gNRpRO8gNd6_6NSFK1Bwi5PKnpsuAgjAWdmM05EeordpN7_q3-x5dx6xGRfra8fV3GI2M5jSgVD9oXoERmFvBQvpDzSMzZExmSsNoivOXP-pIwE0=w200-h200-rw-dcqRWCzRUK"
     }
   ];
+  
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/teamNews.html") });
 
-  let scrapedNews = await teamExapansionScrape.getTeamNews("nba", "lal");
+  let scrapedNews = await teamExapansionScrape.getHeadlines("mlb", "atlanta braves", 3);
   expect(scrapedNews).toStrictEqual(news);
 });

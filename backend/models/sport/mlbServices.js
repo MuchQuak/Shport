@@ -58,6 +58,11 @@ class MlbService extends league.LeagueService {
     });
   }
 
+  getScrapedHeadlines(code){
+    return teamScraper.getHeadlines("mlb", code).then((result) => {
+      return result;
+    });
+  }
   sportCode() {
     return "MLB";
   }

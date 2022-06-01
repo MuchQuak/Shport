@@ -79,6 +79,12 @@ getScrapedTransactions(code){
   });
 }
 
+getScrapedHeadlines(code){
+  return teamScraper.getHeadlines("nhl", code).then((result) => {
+    return result;
+  });
+}
+
 
   async parseSpecificGameInfo(jsonData) {
     const line = jsonData["liveData"]["linescore"];

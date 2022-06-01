@@ -51,6 +51,12 @@ getScrapedTransactions(code){
   });
 }
 
+getScrapedHeadlines(code){
+  return teamScraper.getHeadlines("nfl", code).then((result) => {
+    return result;
+  });
+}
+
 sportCode() {
   return "NFL";
 }

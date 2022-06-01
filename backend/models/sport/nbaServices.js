@@ -73,6 +73,12 @@ class NbaService extends league.LeagueService {
     });
   }
 
+  getScrapedHeadlines(code){
+    return teamScraper.getHeadlines("nba", code).then((result) => {
+      return result;
+    });
+  }
+
   formatGamesData(responseData, date) {
     const games = responseData.data["games"];
     const new_games = [];
