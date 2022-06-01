@@ -124,10 +124,10 @@ app.delete("/username", async (req, res) => {
   }
 });
 
-app.patch("/username/:newUsername", async (req, res) => {
+app.patch("/username", async (req, res) => {
   const decodedUser = decode(req);
   if (decodedUser) {
-    decodedUser.newUsername = req.params["newUsername"];
+    decodedUser.newUsername = req.body.username;
     const updated = await userServices.changeUsername(decodedUser);
     if (updated){
       res.status(200).send("Changed Username");

@@ -37,6 +37,19 @@ export async function changePassword(auth_token, newPassword) {
       });
 }
 
+export async function changeUsername(auth_token, newUsername) {
+  const config = { headers: { authorization: `Bearer ${auth_token}` } };
+  return await axios
+      .patch(BACKEND + "username", { username: newUsername }, config)
+      .then((res) => {
+        console.log(res.status);
+        if (res.status === 200) {
+          return verify(res);
+        }
+        throw new Error("Error " + res.status + ": Could not change username.");
+      });
+}
+
 export async function setUserPrefs(user) {
   try {
     const config = { headers: { authorization: `Bearer ${user.auth_token}` } };

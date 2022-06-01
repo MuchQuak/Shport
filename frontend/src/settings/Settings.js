@@ -7,7 +7,7 @@ import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
-import {changePassword, deleteUser, setUserPrefs} from "../user/UserHandler";
+import {changePassword, changeUsername, deleteUser, setUserPrefs} from "../user/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
 import {Collapsible, errorSuffix, loading, PopIntoExistence} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
@@ -301,16 +301,26 @@ function ChangePasswordForm(props) {
 
 function ChangeUsernameForm(props) {
   const { user } = useContext(UserContext);
+  if (!props.cookies) {
+    return errorSuffix("authenticating user!");
+  }
   const name = props.newname;
-  function changeUsername(event) {
+  function chu(event) {
     event.preventDefault();
+    toast.promise(changeUsername(props.cookies.auth_token, name), {
+      loading: "Changing username...",
+      success: "Username changed!",
+      error: "Could not change username.",
+    }).then((r) => {
+      console.log(r);
+    });
   }
   return (
       <>
         <p className="nomargin">Do you really want to change your username?</p>
         <p className="nomargin">From {user.info.name} to {name}</p>
         <button className={"remove-button margin-top-5"}
-                onClick={(e) => changeUsername(e)}>
+                onClick={(e) => chu(e)}>
           Yes, change my username to <b>{name}</b>
         </button>
       </>
