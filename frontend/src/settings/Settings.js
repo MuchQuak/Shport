@@ -137,7 +137,7 @@ function SettingsBox(props) {
   }
   function deleteAccount(event) {
     event.preventDefault();
-    setCurrentAlert(<DeleteAccountForm cookies={props.cookies} />);
+    setCurrentAlert(<DeleteAccountForm cookies={props.cookies} removeCookie={props.removeCookie} />);
     openAlert();
   }
   return (
@@ -342,6 +342,7 @@ function DeleteAccountForm(props) {
         success: "Account deleted!",
         error: "Could not delete account.",
     }).then(() => {
+      props.removeCookie("auth_token");
       navigate("/signup");
     });
   }
