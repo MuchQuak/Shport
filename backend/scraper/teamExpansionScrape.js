@@ -298,7 +298,7 @@ async function getTransactions(league, acro) {
 }
 
 // potential refactor if generic method will be used in generalNewsScrape
-async function getHeadlines(sport, code) {
+async function getHeadlines(sport, code, num = -1) {
   const host = "https://news.google.com";
   //code = "nfl";
   /*
@@ -313,11 +313,15 @@ async function getHeadlines(sport, code) {
   return await axios
       .get(host + "/search?q=" + sport + "%20" + code + "&hl=en-US&gl=US&ceid=US%3Aen")
       .then((response) => {
+        
           let $ = cheerio.load(response.data);
           let news = [];
 
           $('.xrnccd').each((index, element) => {
               let newsObj = {}
+              if (num == index) {
+                return false;
+              }
               newsObj.title = $(element).find(".DY5T1d.RZIKme").first().text().trim();
               newsObj.url = host + $(element).find("h3 a").attr("href");
               newsObj.source = $(element).find(".wEwyrc.AVN2gc.uQIVzc.Sksgp").first().text().trim();
@@ -326,6 +330,9 @@ async function getHeadlines(sport, code) {
           });
 
           $(".tvs3Id.QwxBBf").each((index, element) => {
+            if (num == index) {
+              return false
+            }
             imgLink = $(element).attr("srcset").split(" ");
             news[index].image = imgLink[2].trim();
           })
