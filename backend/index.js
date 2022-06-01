@@ -124,7 +124,7 @@ app.delete("/username", async (req, res) => {
   }
 });
 
-app.patch("/username", async (req, res) => {
+app.patch("/username/:newUsername", async (req, res) => {
   const decodedUser = decode(req);
   if (decodedUser) {
     decodedUser.newUsername = req.params["newUsername"];
@@ -139,7 +139,7 @@ app.patch("/username", async (req, res) => {
   }
 });
 
-app.patch("/password", async (req, res) => {
+app.patch("/password:newPassword", async (req, res) => {
   const decodedUser = decode(req);
   if (decodedUser) {
     decodedUser.newPassword = req.params["newPassword"];

@@ -7,7 +7,7 @@ import TeamPreferenceSelector from "./TeamPreferenceSelector";
 import { getLabels, sportsQuery } from "../dashboard/sport/SportHandler";
 import Form from "react-bootstrap/Form";
 import { useQuery } from "react-query";
-import {deleteUser, setUserPrefs} from "../user/UserHandler";
+import {changePassword, deleteUser, setUserPrefs} from "../user/UserHandler";
 import { toast, Toaster } from "react-hot-toast";
 import {Collapsible, errorSuffix, loading, PopIntoExistence} from "../util/Util";
 import {css, StyleSheet} from "aphrodite";
@@ -274,16 +274,25 @@ function SettingsBox(props) {
 }
 
 function ChangePasswordForm(props) {
-  //const { user } = useContext(UserContext);
-  //const pass = props.newpass;
-  function changePassword(event) {
+  if (!props.cookies) {
+    return errorSuffix("authenticating user!");
+  }
+  const pass = props.newpass;
+  function chp(event) {
     event.preventDefault();
+    toast.promise(changePassword(props.cookies.auth_token, pass), {
+      loading: "Changing password...",
+      success: "Password changed!",
+      error: "Could not change password.",
+    }).then((r) => {
+      console.log(r);
+    });
   }
   return (
       <>
         <p className="nomargin">Do you really want to <b>change your password?</b></p>
         <button className={"remove-button margin-top-5"}
-                onClick={(e) => changePassword(e)}>
+                onClick={(e) => chp(e)}>
           Yes, <b>change password</b>
         </button>
       </>

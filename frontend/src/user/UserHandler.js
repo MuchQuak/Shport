@@ -24,6 +24,19 @@ export async function deleteUser(auth_token) {
       });
 }
 
+export async function changePassword(auth_token, newPassword) {
+  const config = { headers: { authorization: `Bearer ${auth_token}` } };
+  return await axios
+      .patch(BACKEND + "password/" + newPassword, config)
+      .then((res) => {
+        console.log(res.status);
+        if (res.status === 200) {
+          return verify(res);
+        }
+        throw new Error("Error " + res.status + ": Could not change password.");
+      });
+}
+
 export async function setUserPrefs(user) {
   try {
     const config = { headers: { authorization: `Bearer ${user.auth_token}` } };
