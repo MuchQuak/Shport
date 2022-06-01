@@ -142,7 +142,7 @@ app.patch("/username/:newUsername", async (req, res) => {
 app.patch("/password", async (req, res) => {
   const decodedUser = decode(req);
   if (decodedUser) {
-    decodedUser.newPassword = req.body;
+    decodedUser.newPassword = req.body.pass;
     const updated = await userServices.changePassword(decodedUser);
     if (updated){
       res.status(200).send("Changed Password");
