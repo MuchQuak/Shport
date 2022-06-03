@@ -97,8 +97,9 @@ function SettingsBox(props) {
   });
   function handleSubmit(event) {
     event.preventDefault();
-    user.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
-    setUser(user);
+    const newUser = {...user}
+    newUser.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
+    //user.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
     toast
       .promise(setUserPrefs(user), {
         loading: "Saving...",
@@ -106,6 +107,7 @@ function SettingsBox(props) {
         error: <b>Could not save.</b>,
       })
       .then((r) => {
+        setUser(newUser);
         if (r.status !== 201) {
           console.log("Error" + r.status);
         }
