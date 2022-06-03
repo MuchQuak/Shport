@@ -20,17 +20,29 @@ To gain access you must have a .env file in backend folder with variables:
 
 [Project Spec](https://docs.google.com/document/d/1CvLTWCfVWaoY2mrt_GCotynXVKvXM6Ump93yK021D_0/edit?usp=sharing)
 
+[Sequence Diagram](https://app.diagrams.net/#G1QEdEjMCj-P-oYIIvUOYg4TIT5hP-Cz1E)
+
 
 Code Coverage Report
 
 03/14/2022
-
-File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s   
-----------------------|---------|----------|---------|---------|---------------------
-All files             |    76.5 |    72.22 |   85.29 |    76.5 |                     
- leagueService.js     |   48.48 |     12.5 |   77.77 |   48.48 | 20-46               
- prefSchema.js        |     100 |      100 |     100 |     100 |                     
- sportInfoServices.js |   54.34 |       30 |    62.5 |   54.34 | 8,26-27,36-37,50-80 
- sportSchema.js       |     100 |      100 |     100 |     100 | 
- userSchema.js        |     100 |      100 |     100 |     100 | 
- userServices.js      |   93.82 |    97.22 |     100 |   93.82 | 15,100-101,125-126 
+-------------------------|---------|----------|---------|---------|----------------------------------------------------------
+File                     | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------------|---------|----------|---------|---------|----------------------------------------------------------
+All files                |   80.15 |    67.76 |   77.88 |   80.58 |                                                          
+ models/caching          |   80.85 |       50 |     100 |   80.85 |                                                          
+  cachingServices.js     |   76.92 |       50 |     100 |   76.92 | 12,33-34,49-50,60-61,75-76                               
+  games.js               |     100 |      100 |     100 |     100 |                                                          
+  standings.js           |     100 |      100 |     100 |     100 | 
+ models/sport            |   48.42 |       20 |   57.14 |   51.11 | 
+  leagueService.js       |   36.36 |       10 |   53.84 |   38.09 | 20-68
+  sportInfoServices.js   |   54.34 |       30 |    62.5 |   58.13 | 9,27-28,37-38,51-74
+  sportSchema.js         |     100 |      100 |     100 |     100 | 
+ models/user             |   90.55 |    86.66 |      96 |   90.55 | 
+  prefSchema.js          |     100 |      100 |     100 |     100 | 
+  userSchema.js          |     100 |      100 |     100 |     100 |
+  userServices.js        |   88.99 |    86.66 |   95.65 |   88.99 | 14,80-83,96-97,111-112,129-131,150-151
+ scraper                 |   84.76 |       72 |      75 |   84.46 |
+  scheduleScrape.js      |   82.64 |    56.86 |   81.81 |   82.05 | 21-31,37,69,76,87,96-103,110,139-140,163,199,207,232-233
+  standingsScrape.js     |    98.9 |      100 |    92.3 |   98.86 | 63
+  teamExpansionScrape.js |   77.85 |    77.77 |   64.28 |   77.85 | 51,113-122,149,188-263,296,342
