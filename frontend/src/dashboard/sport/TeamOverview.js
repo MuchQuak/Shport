@@ -26,7 +26,7 @@ function Overview(props) {
   const espn = String(team.espn).trim().toUpperCase();
 
   Modal.setAppElement("#root");
-  if (standings && stats && stats.hasOwnProperty(code)) {
+  if (stats.hasOwnProperty(code)) {
     const stat = stats[code];
     const rank = suffix(stat["rank"]);
     const wins = stat["wins"];
@@ -134,10 +134,10 @@ export default function TeamOverview(props) {
   });
   Modal.setAppElement("#root");
   if (
-    nfl.isLoading ||
-    mlb.isLoading ||
-    nba.isLoading ||
-    nhl.isLoading ||
+    !nfl.isSuccess ||
+    !mlb.isSuccess ||
+    !nba.isSuccess ||
+    !nhl.isSuccess ||
     !props ||
     !props.prefs
   ) {
