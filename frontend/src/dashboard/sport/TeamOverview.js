@@ -26,7 +26,7 @@ function Overview(props) {
   const espn = String(team.espn).trim().toUpperCase();
 
   Modal.setAppElement("#root");
-  if (stats.hasOwnProperty(code)) {
+  if (standings && stats && stats.hasOwnProperty(code)) {
     const stat = stats[code];
     const rank = suffix(stat["rank"]);
     const wins = stat["wins"];
