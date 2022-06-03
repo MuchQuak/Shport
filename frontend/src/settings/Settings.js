@@ -101,7 +101,7 @@ function SettingsBox(props) {
     newUser.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
     //user.prefs = createPrefsObject(sports, selectedLeagues, selectedTeams, teamPosts, leaguePosts);
     toast
-      .promise(setUserPrefs(user), {
+      .promise(setUserPrefs(newUser), {
         loading: "Saving...",
         success: <b>Settings saved!</b>,
         error: <b>Could not save.</b>,
