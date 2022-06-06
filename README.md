@@ -16,33 +16,33 @@ To gain access you must have a .env file in backend folder with variables:
 - PORT a number so that it can tell the difference between Heroku or localhost
 
  ### Steps
- Create your directory then call
- git clone https://github.com/MuchQuak/308-309_Project 
-    This clones the project
- cd 308-309_Project/backend
-    Create the .env file with the variables above
- npm install
-    To install all dependencies required for the backend
- cd ../frontend
- npm install
-     Installs the required dependencies for the front end
- cd ..
- npm install
-    Installs the required dependicies for the very root of the project
+ Create your directory then call<br />
+ git clone https://github.com/MuchQuak/308-309_Project <br />
+    This clones the project<br />
+ cd 308-309_Project/backend<br />
+    Create the .env file with the variables above<br />
+ npm install<br />
+    To install all dependencies required for the backend<br />
+ cd ../frontend<br />
+ npm install<br />
+     Installs the required dependencies for the front end<br />
+ cd ..<br />
+ npm install<br />
+    Installs the required dependicies for the very root of the project<br />
    
    ### Starting the app locally (assuming you're at the root folder)
-   cd frontend
-   npm start
+   cd frontend<br />
+   npm start<br />
    
-   cd backend
-   node index.js
+   cd backend<br />
+   node index.js<br />
    
    ### Starting tests
-   cd backend
-   npm run test
+   cd backend<br />
+   npm run test<br />
    
    ### Cypress
-   npx cyrpess open
+   npx cyrpess open<br />
    
  
 Install all dependencies that are required. 
