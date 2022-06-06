@@ -13,9 +13,40 @@ To gain access you must have a .env file in backend folder with variables:
 - MONGODB_URI with credentials from mongoDB access key.
 - NEWSAPI_KEY with a valid News API key.
 - TOKEN_SECRET with a secret token.
+- PORT a number so that it can tell the difference between Heroku or localhost
 
-
-
+ ### Steps
+ Create your directory then call
+ git clone https://github.com/MuchQuak/308-309_Project 
+    This clones the project
+ cd 308-309_Project/backend
+    Create the .env file with the variables above
+ npm install
+    To install all dependencies required for the backend
+ cd ../frontend
+ npm install
+     Installs the required dependencies for the front end
+ cd ..
+ npm install
+    Installs the required dependicies for the very root of the project
+   
+   ### Starting the app locally (assuming you're at the root folder)
+   cd frontend
+   npm start
+   
+   cd backend
+   node index.js
+   
+   ### Starting tests
+   cd backend
+   npm run test
+   
+   ### Cypress
+   npx cyrpess open
+   
+ 
+Install all dependencies that are required. 
+ 
 [Figma Model](https://www.figma.com/file/f0ucVt7mll86NFlnncH12G/Main?node-id=0%3A1)
 
 [Project Spec](https://docs.google.com/document/d/1CvLTWCfVWaoY2mrt_GCotynXVKvXM6Ump93yK021D_0/edit?usp=sharing)
