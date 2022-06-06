@@ -17,18 +17,18 @@ To gain access you must have a .env file in backend folder with variables:
 
  ### Steps
  Create your directory then call<br />
- git clone https://github.com/MuchQuak/308-309_Project <br />
-    &ensp;This clones the project<br />
- cd 308-309_Project/backend<br />
-    &ensp;Create the .env file with the variables above<br />
- npm install<br />
-    &ensp;To install all dependencies required for the backend<br />
- cd ../frontend<br />
- npm install<br />
-     &ensp;Installs the required dependencies for the front end<br />
- cd ..<br />
- npm install<br />
-    &ensp;Installs the required dependicies for the very root of the project<br />
+ 1) git clone https://github.com/MuchQuak/308-309_Project <br />
+    &ensp;&ensp;This clones the project<br />
+ 2) cd 308-309_Project/backend<br />
+ 3) Create the .env file with the variables above<br />
+ 4) npm install<br />
+    &ensp;&ensp;To install all dependencies required for the backend<br />
+ 5) cd ../frontend<br />
+ 6) npm install<br />
+     &ensp;&ensp;Installs the required dependencies for the frontend<br />
+ 7) cd ..<br />
+ 8) npm install<br />
+    &ensp;&ensp;Installs the required dependicies for the very root of the project<br />
    
    ### Starting the app locally (assuming you're at the root folder)
    cd frontend<br />
@@ -43,10 +43,7 @@ To gain access you must have a .env file in backend folder with variables:
    
    ### Cypress
    npx cyrpess open<br />
-   
- 
-Install all dependencies that are required. 
- 
+    
 [Figma Model](https://www.figma.com/file/f0ucVt7mll86NFlnncH12G/Main?node-id=0%3A1)
 
 [Project Spec](https://docs.google.com/document/d/1CvLTWCfVWaoY2mrt_GCotynXVKvXM6Ump93yK021D_0/edit?usp=sharing)
