@@ -18,17 +18,17 @@ To gain access you must have a .env file in backend folder with variables:
  ### Steps
  Create your directory then call<br />
  git clone https://github.com/MuchQuak/308-309_Project <br />
-    This clones the project<br />
+    &ensp;This clones the project<br />
  cd 308-309_Project/backend<br />
-    Create the .env file with the variables above<br />
+    &ensp;Create the .env file with the variables above<br />
  npm install<br />
-    To install all dependencies required for the backend<br />
+    &ensp;To install all dependencies required for the backend<br />
  cd ../frontend<br />
  npm install<br />
-     Installs the required dependencies for the front end<br />
+     &ensp;Installs the required dependencies for the front end<br />
  cd ..<br />
  npm install<br />
-    Installs the required dependicies for the very root of the project<br />
+    &ensp;Installs the required dependicies for the very root of the project<br />
    
    ### Starting the app locally (assuming you're at the root folder)
    cd frontend<br />
