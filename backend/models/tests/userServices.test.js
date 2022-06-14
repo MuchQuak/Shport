@@ -602,12 +602,27 @@ test("Validate User -- Success Path", async () => {
     email: "youngWizard@gmail.com",
     password: "Sample%%44*5",
   };
-  const result = await userServices.signUpUser(user);
+  //const result = await userServices.signUpUser(user);
 
   let validateResult = await userServices.validate(user);
   expect(validateResult).toBeTruthy();
 
 });
+
+test("Validate User -- Failure User Exists", async () => {
+  const user = {
+    username: "Harry Potter",
+    email: "youngWizard@gmail.com",
+    password: "Sample%%44*5",
+  };
+  const result = await userServices.signUpUser(user);
+
+  let validateResult = await userServices.validate(user);
+  expect(validateResult).toBeFalsy();
+
+});
+
+
 
 test("Validate User -- Failure Path", async () => {
   const user = {

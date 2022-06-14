@@ -5,3 +5,4 @@
 /frontend/.env
 /node_modules
 backend/coverage
+.DS_Store

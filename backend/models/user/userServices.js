@@ -68,14 +68,10 @@ async function deleteUser(user){
 
 async function validate(u) {
   return await findUserByUsername(u.username).then((result) => {
-    if (result.length === 1) {
+    if (result.length < 1) {
       return findUserByEmail(u.email).then((result2) => {
-        if (u._id === undefined && result2.length === 1) {
+        if (result2.length < 1) {
           return true;
-        } else if (result2.length === 0) {
-          return findUserById(u._id).then(
-            (result3) => result3 !== undefined && result3.length === 0
-          );
         }
         return false;
       });
