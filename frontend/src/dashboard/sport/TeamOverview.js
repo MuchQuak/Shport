@@ -134,10 +134,10 @@ export default function TeamOverview(props) {
   });
   Modal.setAppElement("#root");
   if (
-    nfl.isLoading ||
-    mlb.isLoading ||
-    nba.isLoading ||
-    nhl.isLoading ||
+    !nfl.isSuccess ||
+    !mlb.isSuccess ||
+    !nba.isSuccess ||
+    !nhl.isSuccess ||
     !props ||
     !props.prefs
   ) {
