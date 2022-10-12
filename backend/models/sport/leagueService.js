@@ -16,49 +16,22 @@ class LeagueService {
         return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
     }
     
-    async getGames(req, res) {      
-      const offset_param = String(req.params['offset']).trim();
+   async getGames(offset_param) {      
       const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
       const offset = isNaN(offset_num) ? 0 : offset_num;
       var today = new Date();
       today.setDate(today.getDate() + offset);
       const currentDate = this.formatDate(today);
+      const games = await cache.getCachedGames(this.sportCode());
+      return games.filter(g => this.formatDate(g.date) === currentDate);
+   }
 
-      try {
-        const games = await cache.getCachedGames(this.sportCode())
-        res.send(games.filter(g => this.formatDate(g.date) === currentDate));      
-      } catch(e) {
-        console.error(e);
-    }
-  }
-
-  async getStandings(req, res) {
-    const id = req.params["id"];
-    try {
-      const standings = await cache.getCachedStandings(this.sportCode());
-      
-      if (id === undefined) {
-        res.send(standings);
-      } else {
-        res.send(standings[id]);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  async getStandings() {
+      return await cache.getCachedStandings(this.sportCode());    
   }
 
   async getPlayers(req, res) {
-    const id = req.params["id"];
-    try {
-      const players = await this.getPlayersEndPoint("2021");
-      if (id === undefined) {
-        res.send(players);
-      } else {
-        res.send(players.find((player) => player["personId"] === id));
-      }
-    } catch (e) {
-      console.error(e);
-    }
+      return await this.getPlayersEndPoint("2021");
   }
 
   async cacheAllData() {

@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const sports = require("./sportSchema");
+const dotenv = require("dotenv");
+dotenv.config();
 let dbConnection;
 
 function getDbConnection() {
-  const url =
-    "mongodb+srv://lwilt:Austin62@cluster0.iz6fl.mongodb.net/Test?retryWrites=true&w=majority";
+  const url = process.env.MONGODB_URI;
   if (!dbConnection) {
     dbConnection = mongoose.createConnection(url, {
       useNewUrlParser: true,
@@ -53,31 +54,7 @@ async function getTeams(sport) {
   }
 }
 
-// API CALLS
-async function getSportsRequest(req, res) {
-  const sports = await getSports();
-  if (sports) res.status(200).send(sports);
-  else res.status(500).end();
-}
-
-async function getSportRequest(req, res) {
-  const sport = String(req.params.sport).trim().toUpperCase();
-  const sp = await getSport(sport);
-  if (sp) res.status(200).send(sp);
-  else res.status(500).end();
-}
-
-async function getTeamsRequest(req, res) {
-  const sport = String(req.params.sport).trim().toUpperCase();
-  const teams = await getTeams(sport);
-  if (teams) res.status(200).send(teams);
-  else res.status(500).end();
-}
-
 exports.getSports = getSports;
 exports.getSport = getSport;
 exports.getTeams = getTeams;
-exports.getSportsRequest = getSportsRequest;
-exports.getSportRequest = getSportRequest;
-exports.getTeamsRequest = getTeamsRequest;
 exports.setConnection = setConnection;

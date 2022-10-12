@@ -2,6 +2,7 @@ const league = require("./leagueService");
 const axios = require("axios");
 const teamScraper = require("../../scraper/teamExpansionScrape");
 const sportInfoServices = require("./sportInfoServices");
+const { getGames } = require("../../controllers/nba");
 
 class NhlService extends league.LeagueService {
   constructor(host) {
@@ -55,6 +56,10 @@ class NhlService extends league.LeagueService {
       await axios.get(this.host + "/api/v1/standings"));
   }
 
+  async getPlayersEndPoint(currentYear) {
+    return [];
+  }
+
   getScrapedPlayers(code){
     return teamScraper.getRoster("nhl", code).then((result) => {
       return result;
@@ -84,7 +89,6 @@ getScrapedHeadlines(code){
     return result;
   });
 }
-
 
   async parseSpecificGameInfo(jsonData) {
     const line = jsonData["liveData"]["linescore"];

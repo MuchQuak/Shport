@@ -16,13 +16,13 @@ class NbaService extends league.LeagueService {
     nextDate.setDate(currentDate.getDate() + 1);
 
     var prev = this.formatGamesData(
-      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(previousDate) + "/scoreboard.json"), 
+      await axios.get(`${this.host}/10s/prod/v1/${this.formatDate(previousDate)}/scoreboard.json`), 
       previousDate);
     var current = this.formatGamesData(
-      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(currentDate) + "/scoreboard.json"),
+      await axios.get(`${this.host}/10s/prod/v1/${this.formatDate(currentDate)}/scoreboard.json`),
       currentDate);
     var next = this.formatGamesData(
-      await axios.get(this.host + "/10s/prod/v1/" + this.formatDate(nextDate) + "/scoreboard.json"),
+      await axios.get(`${this.host}/10s/prod/v1/${this.formatDate(nextDate)}/scoreboard.json`),
       nextDate);
 
     var result = new Array();

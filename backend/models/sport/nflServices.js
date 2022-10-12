@@ -22,6 +22,10 @@ class NflService extends league.LeagueService {
     return await standingsScraper.getNflSportStanding();
   }
 
+   async getPlayersEndPoint(currentYear) {
+      return [];
+   }
+
   getStandingsScrape() {
     return standingsScraper.getNflSportStanding().then((result) => {
       return result;
