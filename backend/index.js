@@ -9,6 +9,8 @@ const nbaController = require('./controllers/nba');
 const nhlController = require('./controllers/nhl');
 const mlbController = require('./controllers/mlb');
 const nflController = require('./controllers/nfl');
+const redditController = require('./controllers/reddit');
+const newsController = require('./controllers/news');
 
 app.use(express.json());
 app.use(cors());
@@ -18,9 +20,6 @@ const nhlServices = require("./models/sport/nhlServices");
 const nbaServices = require("./models/sport/nbaServices");
 const mlbServices = require("./models/sport/mlbServices");
 const nflServices = require("./models/sport/nflServices");
-const news = require("./models/news/newsServices");
-const reddit = require("./models/reddit/redditServices");
-const sportInfoServices = require("./models/sport/sportInfoServices");
 
 app.get("/", (req, res) => {res.send("Backend Landing");});
 
@@ -99,24 +98,14 @@ app.get("/NFL/transactions/:id", nflController.getPlayerTransactions);
 app.get("/NFL/headlines/:id", nflController.getHeadlines);
 
 //articles api Calls
-//app.get('/news', async (req, res) => {await news.getNews(req, res)});
-app.get("/news/:query", async (req, res) => {
-  await news.getNews(req, res);
-});
+app.get("/news/:query", newsController.getNews);
 
-app.get("/subreddit/:query", async (req, res) => {
-  await reddit.getSubreddit(req, res);
-});
-
-app.get("/subreddit/:query/:num", async (req, res) => {
-  await reddit.getSubreddit(req, res);
-});
+app.get("/subreddit/:query", redditController.getSubreddit);
+app.get("/subreddit/:query/:num", redditController.getSubreddit);
 
 app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
-
-
 
 //Schedule repull every minute
 cron.schedule('* * * * *', () => {

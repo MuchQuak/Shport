@@ -1,12 +1,9 @@
 //apikey = 'ae61e309e55d47469fd1c8e1cc89cf86'
 const NewsAPI = require("newsapi");
 
-async function getNews(req, res) {
-  let query = req.params["query"];
-  if (query === undefined) query = "sports";
-  try {
+async function getNews(query) {
     const newsapi = new NewsAPI(process.env.NEWSAPI_KEY);
-    newsapi.v2
+    const news = await newsapi.v2
       .everything({
         q: query,
         sources:
@@ -16,23 +13,8 @@ async function getNews(req, res) {
         language: "en",
         sortBy: "publishedAt",
         page: 1,
-      })
-      .then((response) => {
-        res.send(formatNewsData(response)).end();
-      })
-      .catch((error) => {
-        if (!error.response) {
-          // network error
-          console.log(String(error).split(": You")[0]);
-        } else {
-          console.log(error.response.data.message);
-        }
-        res.send([]).end();
       });
-  } catch (e) {
-    console.log(e);
-    res.send([]).end();
-  }
+   return formatNewsData(news);
 }
 
 function removeTags(str) {
