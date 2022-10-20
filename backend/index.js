@@ -121,3 +121,5 @@ nba.cacheAllData();
 nfl.cacheAllData();
 nhl.cacheAllData();
 mlb.cacheAllData();
+
+// Scrape schedules -> log when each game should be scheduled
