@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const cron = require('node-cron');
+const schedule = require('node-schedule');
 const { authenticateUser }  = require('./utility');
 const userController = require('./controllers/user');
 const sportController = require('./controllers/sport');
@@ -11,6 +11,8 @@ const mlbController = require('./controllers/mlb');
 const nflController = require('./controllers/nfl');
 const redditController = require('./controllers/reddit');
 const newsController = require('./controllers/news');
+
+var live_games = []
 
 app.use(express.json());
 app.use(cors());
@@ -107,19 +109,21 @@ app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
 
-//Schedule repull every minute
-cron.schedule('* * * * *', () => {
-  console.log("Cached All Data at: " + new Date())
-  nba.cacheAllData();
-  nfl.cacheAllData();
-  nhl.cacheAllData();
-  mlb.cacheAllData();
+//Makes new schedules
+const daily_update_rule = new schedule.RecurrenceRule();
+daily_update_rule.hour = 2;
+daily_update_rule.minute = 0;
+
+const schedule_games = () => {
+   nba.initialize_data();
+   nfl.initialize_data();
+   nhl.initialize_data();
+   mlb.initialize_data();
+}
+
+schedule.scheduleJob(daily_update_rule, function(){
+   console.log(`Made new schedules at: ${new Date()}`)
+   schedule_games();
 });
 
-//Intial Cache
-nba.cacheAllData();
-nfl.cacheAllData();
-nhl.cacheAllData();
-mlb.cacheAllData();
-
-// Scrape schedules -> log when each game should be scheduled
+schedule_games();

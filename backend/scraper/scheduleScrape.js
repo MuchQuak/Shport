@@ -251,6 +251,7 @@ async function scrapeGames(sportCode, dateString) {
             games[i].clock = liveData.clock;
             games[i].status = liveData.status;
             games[i].date = new Date()
+            //If game is live then scrape live 
         }
     }
 

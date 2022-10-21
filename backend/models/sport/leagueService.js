@@ -43,6 +43,17 @@ class LeagueService {
       await this.getStandingsData());
   }
 
+  async initialize_data() {
+    const games = await this.getGamesData();
+    cache.createGameCachingSchedule(games, this)
+    await cache.cacheGames(
+      this.sportCode(), games);   
+    await cache.cacheStandings(
+      this.sportCode(), 
+      await this.getStandingsData());
+
+  }
+
   async getGamesData() {
     throw new Error("Abstract Method has no implementation");
   }
