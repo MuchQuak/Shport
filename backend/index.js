@@ -13,6 +13,7 @@ const redditController = require('./controllers/reddit');
 const newsController = require('./controllers/news');
 
 var live_games = []
+var scheduled_games = {}
 
 app.use(express.json());
 app.use(cors());
@@ -115,15 +116,28 @@ daily_update_rule.hour = 2;
 daily_update_rule.minute = 0;
 
 const schedule_games = () => {
-   nba.initialize_data();
-   nfl.initialize_data();
-   nhl.initialize_data();
-   mlb.initialize_data();
+   Promise.all([
+      nba.initialize_data(live_games),
+      nfl.initialize_data(live_games),
+      nhl.initialize_data(live_games),
+      mlb.initialize_data(live_games)
+   ]).then(values => {
+      scheduled_games.nba = values[0];
+      scheduled_games.nfl = values[1];
+      scheduled_games.nhl = values[2];
+      scheduled_games.mlb = values[3];
+   })
 }
 
 schedule.scheduleJob(daily_update_rule, function(){
    console.log(`Made new schedules at: ${new Date()}`)
    schedule_games();
+});
+
+schedule.scheduleJob('*/2 * * * * *', function(){
+   if(live_games.length > 0) { 
+      console.log('Live Game loop')
+   }
 });
 
 schedule_games();

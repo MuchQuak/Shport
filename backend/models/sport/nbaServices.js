@@ -7,7 +7,7 @@ class NbaService extends league.LeagueService {
     super(host);
   }
 
-  async getGamesData() {
+  async getGamesData(live_games) {
 
     var currentDate = new Date;
     var previousDate = new Date;

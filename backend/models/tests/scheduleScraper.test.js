@@ -7,7 +7,7 @@ jest.mock('axios');
 test("TESTING: Games", async () => {  
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/scheduleExample.html") });
 
-  let scrapedSchedule= await scheduleScrapper.scrapeGames("mlb", "");
+  let scrapedSchedule= await scheduleScrapper.scrapeGames("mlb", "", []);
 
   scrapedSchedule.forEach((e) => {
     expect(e).toHaveProperty("status");

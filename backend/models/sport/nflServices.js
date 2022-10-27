@@ -15,8 +15,8 @@ class NflService extends league.LeagueService {
   }
   */
 
-  async getGamesData() {
-    return await gameScraper.scrapeGames('nfl', '');
+  async getGamesData(live_games) {
+    return await gameScraper.scrapeGames('nfl', '', live_games);
   }
   async getStandingsData() {
     return await standingsScraper.getNflSportStanding();

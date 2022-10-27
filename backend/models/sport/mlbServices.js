@@ -10,12 +10,12 @@ class MlbService extends league.LeagueService {
     super(host);
   }
 
-  async getGamesData() {
+  async getGamesData(live_games) {
     //YYYYMMDD
     const previous = new Date();
     previous.setDate(previous.getDate() - 1);
     
-    return await gameScraper.scrapeGames('mlb', this.formatDate(previous));
+    return await gameScraper.scrapeGames('mlb', this.formatDate(previous), live_games);
   }
 
   async getStandingsData() {

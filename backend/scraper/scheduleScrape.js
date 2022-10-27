@@ -145,7 +145,7 @@ async function scrapeLiveGameData(sportCode, gId) {
     return liveData;
 }
 
-async function scrapeGames(sportCode, dateString) {
+async function scrapeGames(sportCode, dateString, live_games) {
     //dateString expects YYYYMMDD
 
     //var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`);
@@ -251,10 +251,10 @@ async function scrapeGames(sportCode, dateString) {
             games[i].clock = liveData.clock;
             games[i].status = liveData.status;
             games[i].date = new Date()
+            live_games.push(games[i])
             //If game is live then scrape live 
         }
     }
-
     return games;
 }
 

@@ -19,7 +19,7 @@ class NhlService extends league.LeagueService {
     );
   }
 
-  async getGamesData() {
+  async getGamesData(live_games) {
 
     var currentDate = new Date;
     var previousDate = new Date;

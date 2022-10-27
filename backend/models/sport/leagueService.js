@@ -34,27 +34,28 @@ class LeagueService {
       return await this.getPlayersEndPoint("2021");
   }
 
-  async cacheAllData() {
+  async cacheAllData(live_games) {
     await cache.cacheGames(
       this.sportCode(),
-      await this.getGamesData());   
+      await this.getGamesData(live_games));   
     await cache.cacheStandings(
       this.sportCode(), 
       await this.getStandingsData());
   }
 
-  async initialize_data() {
-    const games = await this.getGamesData();
-    cache.createGameCachingSchedule(games, this)
+  async initialize_data(live_games) {
+    const games = await this.getGamesData(live_games);
+    const scheduled_games = cache.createGameCachingSchedule(games, this, live_games)
     await cache.cacheGames(
       this.sportCode(), games);   
     await cache.cacheStandings(
       this.sportCode(), 
       await this.getStandingsData());
 
+    return scheduled_games;
   }
 
-  async getGamesData() {
+  async getGamesData(live_games) {
     throw new Error("Abstract Method has no implementation");
   }
   async getStandingsData() {
