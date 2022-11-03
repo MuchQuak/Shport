@@ -5,16 +5,24 @@ class LeagueService {
         this.host = host;
     }
 
-    ESTtoUTC(time) {
-        const timeParts = time.split(' ');
-        const pmAm = timeParts[1];
-        const newtime = timeParts[0].split(':');
-        const offset = pmAm[0] === 'A' ? 0: 12;
-        const hour = parseInt(newtime[0]) + 5 + offset;
-        const min = parseInt(newtime[1]);
-        const t = new Date();
-        return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
-    }
+   ESTtoUTC(time) {
+      const timeParts = time.split(' ');
+
+      if(timeParts.length < 2) {
+         return time;
+      }
+      const t = new Date()
+      const pmAm = timeParts[1];
+      const newtime = timeParts[0].split(':');
+      const offset = pmAm[0] === 'A' ? 0 : 12;
+      //Page is in est instead of pst for some reason so -3 is needed
+      const hour = parseInt(newtime[0]) + offset - 3;
+      const min = parseInt(newtime[1]);
+      t.setHours(hour);
+      t.setMinutes(min); 
+      return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), 
+         t.getUTCHours(), t.getUTCMinutes(), 0));
+   }
     
    async getGames(offset_param) {      
       const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
@@ -35,24 +43,32 @@ class LeagueService {
   }
 
   async cacheAllData(live_games) {
-    await cache.cacheGames(
-      this.sportCode(),
-      await this.getGamesData(live_games));   
-    await cache.cacheStandings(
-      this.sportCode(), 
-      await this.getStandingsData());
+      try {
+         await cache.cacheGames(
+            this.sportCode(),
+            await this.getGamesData(live_games));   
+         await cache.cacheStandings(
+            this.sportCode(), 
+            await this.getStandingsData());
+      } catch(e) {
+         console.log(`Failed to cache ${this.sportCode()} data`);
+      }
   }
 
   async initialize_data(live_games) {
-    const games = await this.getGamesData(live_games);
-    const scheduled_games = cache.createGameCachingSchedule(games, this, live_games)
-    await cache.cacheGames(
-      this.sportCode(), games);   
-    await cache.cacheStandings(
-      this.sportCode(), 
-      await this.getStandingsData());
+      try {
+         const games = await this.getGamesData(live_games);
+         const scheduled_games = cache.createGameCachingSchedule(games, this, live_games)
+         await cache.cacheGames(
+            this.sportCode(), games);   
+         await cache.cacheStandings(
+            this.sportCode(), 
+            await this.getStandingsData());
 
-    return scheduled_games;
+         return scheduled_games;
+      } catch(e) {
+         console.log(`Failed to intialize and scheduled ${this.sportCode()} games`);
+      }
   }
 
   async getGamesData(live_games) {

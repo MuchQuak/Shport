@@ -1,20 +1,23 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-function PSTtoUTC(time) {
+function ESTtoUTC(time) {
     const timeParts = time.split(' ');
 
     if(timeParts.length < 2) {
         return time;
     }
-
+    const t = new Date()
     const pmAm = timeParts[1];
     const newtime = timeParts[0].split(':');
     const offset = pmAm[0] === 'A' ? 0 : 12;
-    const hour = parseInt(newtime[0]) + 8 + offset;
+    //Page is in est instead of pst for some reason so -3 is needed
+    const hour = parseInt(newtime[0]) + offset - 3;
     const min = parseInt(newtime[1]);
-    const t = new Date();
-    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
+    t.setHours(hour);
+    t.setMinutes(min); 
+    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(),
+      t.getUTCHours(), t.getUTCMinutes(), 0));
 }
 
 function isDateToday(date) {
@@ -233,10 +236,11 @@ async function scrapeGames(sportCode, dateString, live_games) {
                     game.date = new Date(startDate)
                 }
                 else {
-                    game.startTimeUTC = PSTtoUTC(dateText.trim());
+                    game.startTimeUTC = ESTtoUTC(dateText.trim());
                 }
             }
             game.gId = parsingGameId(dateElem.find('a').attr('href'));
+            console.log(games)
 
             games.push(game); 
         });
@@ -261,4 +265,4 @@ async function scrapeGames(sportCode, dateString, live_games) {
 exports.scrapeGames = scrapeGames;
 exports.scrapeLiveGameData = scrapeLiveGameData;
 exports.parsingGameId = parsingGameId;
-exports.PSTtoUTC = PSTtoUTC;
+exports.ESTtoUTC = ESTtoUT

@@ -2,13 +2,15 @@ const nbaServices = require("../models/sport/nbaServices");
 let nba = new nbaServices.NbaService("https://data.nba.net");
 
 async function getGames(req, res) {
-      const offset_param = String(req.params['offset']).trim();
-      try {
-         const games = await nba.getGames(offset_param);
-        res.send(games);
-      } catch(e) {
-        console.error(e);
-    }
+   const offset_param = String(req.params['offset']).trim();
+   try {
+      const games = await nba.getGames(offset_param);
+      res.send(games);
+   } catch(e) {
+      res.json(500)
+      res.send()
+      console.error(e);
+   }
 }
 
 async function getStandings(req, res) {
@@ -22,28 +24,32 @@ async function getStandings(req, res) {
          res.send(standings[id]);
       }
    } catch (e) {
+      res.json(500)
+      res.send()
       console.error(e);
    }
 }
 
 async function getPlayers(req, res) {
    const id = req.params["id"];
-    try {
+   try {
       const players = await nba.getPlayers(req, res);
       if (id === undefined) {
-        res.send(players);
+         res.send(players);
       } else {
-        res.send(players.find((player) => player["personId"] === id));
+         res.send(players.find((player) => player["personId"] === id));
       }
-    } catch (e) {
+   } catch (e) {
+      res.json(500)
+      res.send()
       console.error(e);
-    }
+   }
 }
 
 async function getScrapedPlayers(req, res) {
-    await nba.getScrapedPlayers(req.params["id"]).then((result) => {
+   await nba.getScrapedPlayers(req.params["id"]).then((result) => {
       res.send(result);
-  });
+   });
 }
 
 async function getPlayerInjuries (req, res) {
