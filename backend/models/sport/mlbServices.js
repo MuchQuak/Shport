@@ -14,7 +14,7 @@ class MlbService extends league.LeagueService {
     //YYYYMMDD
     const previous = new Date();
     previous.setDate(previous.getDate() - 1);
-    
+   //Scrape previous day so we can see Prev - Today - Future
     return await gameScraper.scrapeGames('mlb', this.formatDate(previous), live_games);
   }
 

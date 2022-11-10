@@ -265,4 +265,4 @@ async function scrapeGames(sportCode, dateString, live_games) {
 exports.scrapeGames = scrapeGames;
 exports.scrapeLiveGameData = scrapeLiveGameData;
 exports.parsingGameId = parsingGameId;
-exports.ESTtoUTC = ESTtoUT
+exports.ESTtoUTC = ESTtoUTC;
