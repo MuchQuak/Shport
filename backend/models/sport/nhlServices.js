@@ -53,7 +53,6 @@ class NhlService extends league.LeagueService {
     var current = await this.formatGamesData(
       await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(currentDate)),
       currentDate);
-      console.log(this.host + "/api/v1/schedule?date=" + this.formatDate(currentDate))
     var next = await this.formatGamesData(
       await axios.get(this.host + "/api/v1/schedule?date=" + this.formatDate(nextDate)),
       nextDate);
