@@ -10,7 +10,7 @@ class MlbService extends league.LeagueService {
     super(host);
   }
 
-   async getLiveGame(gId) {
+   async getLiveGameData(gId) {
       try {
          return await gameScraper.scrapeLiveGameData('mlb', gId);
       } catch(err) {

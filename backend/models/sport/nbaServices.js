@@ -8,7 +8,7 @@ class NbaService extends league.LeagueService {
   }
 
    //Not implemented yet
-   async getLiveGame(gId) {
+   async getLiveGameData(gId) {
       try { 
          //return await gameScraper.scrapeLiveGameData('nba', gId);
          return { away: "0", home: "0", clock: "", status: ""}

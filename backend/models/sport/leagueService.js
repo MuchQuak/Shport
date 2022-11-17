@@ -71,6 +71,22 @@ class LeagueService {
       }
   }
 
+  async cacheLiveUpdates(gId) {
+      try {
+         let liveData = await this.getLiveGameData(gId);
+         cache.updateLiveGame(this.sportCode(), gId, liveData)
+
+         return liveData.status === 1? true: false;
+      } catch(err) {
+         console.log(err)
+      }
+   }
+
+
+  async getLiveGameData(gId) {
+    throw new Error("Abstract Method has no implementation");
+  }
+
   async getGamesData(live_games) {
     throw new Error("Abstract Method has no implementation");
   }

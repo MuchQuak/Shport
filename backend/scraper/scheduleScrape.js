@@ -246,7 +246,6 @@ async function scrapeGames(sportCode, dateString) {
     for(let i = 0; i < games.length; i++) {
         if(games[i].startTimeUTC === 'LIVE' || games[i].startTimeUTC === 'FT') {
             const liveData = await scrapeLiveGameData(sportCode, games[i].gId);
-            console.log(liveData)
             games[i].away_score = liveData.away;
             games[i].home_score = liveData.home;
             games[i].clock = liveData.clock;

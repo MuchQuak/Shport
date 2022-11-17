@@ -134,12 +134,24 @@ schedule.scheduleJob(daily_update_rule, function(){
    schedule_games();
 });
 
-schedule.scheduleJob('*/2 * * * * *', function(){
-   if(live_games.nhl.length > 0) { 
-      for(let g of live_games) {
-         nhl.getLiveGame(2022020259)
+async function refreshLiveData(service, live_g) {
+   let new_live_games = [];
+   if(live_g.length > 0) { 
+      for(let g of live_g) {
+         const res = await service.cacheLiveUpdates(g.gId)
+         if(res === true)
+            new_live_games.push(g);
       }
    }
+
+   live_g = new_live_games;
+}
+
+schedule.scheduleJob('*/2 * * * * *', function(){
+   refreshLiveData(nhl, live_games.nhl);
+   refreshLiveData(nba, live_games.nba);
+   refreshLiveData(mlb, live_games.mlb);
+   refreshLiveData(nfl, live_games.nfl);
 });
 
 schedule_games();

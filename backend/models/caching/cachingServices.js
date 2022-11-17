@@ -67,19 +67,29 @@ function createGameCachingSchedule(games, sport_service, live_games) {
          });
       }
    }
-
    return scheduled_games;
 }
 
-async function updateLiveGame(game) {
+async function updateLiveGame(sport, gId, liveData) {
    const gamesModel = getDbConnection().model("gameCache", Games.schema);
 
    try {
-      gamesModel.updateOne({sport: 'nhl'})
-   } catch (err) {
-      console.log(error);
-   }
+      const SPORT = String(sport).trim().toUpperCase()
 
+      console.log(await gamesModel.updateOne(
+         {sport: SPORT},
+         {$set: {
+            "games.$[updatedGame].status": liveData.status, 
+            "games.$[updatedGame].away_score": liveData.away,
+            "games.$[updatedGame].home_score": liveData.home,
+            "games.$[updatedGame].clock": liveData.clock
+         }},
+         {arrayFilters: [{"updatedGame.gId": gId}]}
+      ))
+
+   } catch (err) {
+      console.log(err);
+   }
 }
 
 async function cacheGames(sport, games) {
@@ -125,6 +135,7 @@ async function cacheStandings(sport, standings) {
     }
 }
 
+exports.updateLiveGame = updateLiveGame;
 exports.createGameCachingSchedule = createGameCachingSchedule;
 exports.cacheGames = cacheGames;
 exports.getCachedGames = getCachedGames;

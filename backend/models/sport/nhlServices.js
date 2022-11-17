@@ -2,7 +2,6 @@ const league = require("./leagueService");
 const axios = require("axios");
 const teamScraper = require("../../scraper/teamExpansionScrape");
 const sportInfoServices = require("./sportInfoServices");
-const { getGames } = require("../../controllers/nba");
 
 class NhlService extends league.LeagueService {
   constructor(host) {
@@ -19,7 +18,7 @@ class NhlService extends league.LeagueService {
     );
   }
 
-   async getLiveGame(gId) {
+   async getLiveGameData(gId) {
       let liveData = {
          away: "0",
          home: "0",
@@ -36,7 +35,6 @@ class NhlService extends league.LeagueService {
       } catch(err) {
          console.log(err)
       } finally {
-         console.log(liveData);
          return liveData;
       }
    }

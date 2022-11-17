@@ -14,7 +14,7 @@ class NflService extends league.LeagueService {
     //Function for formatting date if different from standard format in leagueServices
   }
   */
-   async getLiveGame(gId) {
+   async getLiveGameData(gId) {
       try {
          return await gameScraper.scrapeLiveGameData('nfl', gId);
       } catch(err) {
