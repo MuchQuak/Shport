@@ -38,10 +38,16 @@ async function getCachedGames(sport) {
 
 function createGameCachingSchedule(games, sport_service, live_games) {
    const today = new Date(Date.now());
+   const LIVE = 1;
+   const ENDED = 2;
+
    var scheduled_games = [];
    for(let g of games) {
       const game_date = new Date(Date.parse(g.startTimeUTC));
-      if(g.status !== 2 && game_date.getDate() === today.getDate() 
+      if(g.status === LIVE) {
+         live_games.push(g);
+      }
+      else if(g.status !== ENDED && game_date.getDate() === today.getDate() 
          && game_date.getFullYear() === today.getFullYear()) {
 
          const rule = new schedule.RecurrenceRule();
@@ -63,6 +69,17 @@ function createGameCachingSchedule(games, sport_service, live_games) {
    }
 
    return scheduled_games;
+}
+
+async function updateLiveGame(game) {
+   const gamesModel = getDbConnection().model("gameCache", Games.schema);
+
+   try {
+      gamesModel.updateOne({sport: 'nhl'})
+   } catch (err) {
+      console.log(error);
+   }
+
 }
 
 async function cacheGames(sport, games) {

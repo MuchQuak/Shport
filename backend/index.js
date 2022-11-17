@@ -12,7 +12,7 @@ const nflController = require('./controllers/nfl');
 const redditController = require('./controllers/reddit');
 const newsController = require('./controllers/news');
 
-var live_games = []
+var live_games = {nhl: [], nba: [], nfl: [], mlb: []}
 var scheduled_games = {}
 
 app.use(express.json());
@@ -117,10 +117,10 @@ daily_update_rule.minute = 0;
 
 const schedule_games = () => {
    Promise.all([
-      nba.initialize_data(live_games),
-      nfl.initialize_data(live_games),
-      nhl.initialize_data(live_games),
-      mlb.initialize_data(live_games)
+      nba.initialize_data(live_games.nba),
+      nfl.initialize_data(live_games.nfl),
+      nhl.initialize_data(live_games.nhl),
+      mlb.initialize_data(live_games.mlb)
    ]).then(values => {
       scheduled_games.nba = values[0];
       scheduled_games.nfl = values[1];
@@ -135,8 +135,10 @@ schedule.scheduleJob(daily_update_rule, function(){
 });
 
 schedule.scheduleJob('*/2 * * * * *', function(){
-   if(live_games.length > 0) { 
-      console.log('Live Game loop')
+   if(live_games.nhl.length > 0) { 
+      for(let g of live_games) {
+         nhl.getLiveGame(2022020259)
+      }
    }
 });
 

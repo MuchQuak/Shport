@@ -1,23 +1,20 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-function ESTtoUTC(time) {
+function PSTtoUTC(time) {
     const timeParts = time.split(' ');
 
     if(timeParts.length < 2) {
         return time;
     }
-    const t = new Date()
+
     const pmAm = timeParts[1];
     const newtime = timeParts[0].split(':');
     const offset = pmAm[0] === 'A' ? 0 : 12;
-    //Page is in est instead of pst for some reason so -3 is needed
-    const hour = parseInt(newtime[0]) + offset - 3;
+    const hour = parseInt(newtime[0]) + 8 + offset;
     const min = parseInt(newtime[1]);
-    t.setHours(hour);
-    t.setMinutes(min); 
-    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(),
-      t.getUTCHours(), t.getUTCMinutes(), 0));
+    const t = new Date();
+    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
 }
 
 function isDateToday(date) {
@@ -133,22 +130,22 @@ async function scrapeLiveGameData(sportCode, gId) {
 
     let teams = $('div.competitors');
 
-    liveData.away = teams.find('.team.away').find('.score.icon-font-after').text().trim();
-    liveData.home = teams.find('.team.home').find('.score.icon-font-before').text().trim();
+    var away_score = teams.find('.team.away').find('.score.icon-font-after').text().trim();
+    var home_score = teams.find('.team.home').find('.score.icon-font-before').text().trim();
 
-    const gameTime = teams.find('.game-time')
-
-    liveData.clock = gameTime.contents().map(function() {
+   /*gameTime.contents().map(function() {
         const text = $(this).text();
         return text !== undefined || text !== '' ? text + ' ' : '';
-    }).get().join('');
-
-    liveData.status = 1;
+    }).get().join('');*/
+ 
+    liveData.status = 1;    
+    liveData.away = away_score;
+    liveData.home = home_score;
 
     return liveData;
 }
 
-async function scrapeGames(sportCode, dateString, live_games) {
+async function scrapeGames(sportCode, dateString) {
     //dateString expects YYYYMMDD
 
     //var response = await axios.get(`https://www.espn.com/${sportCode}/schedule`);
@@ -236,11 +233,10 @@ async function scrapeGames(sportCode, dateString, live_games) {
                     game.date = new Date(startDate)
                 }
                 else {
-                    game.startTimeUTC = ESTtoUTC(dateText.trim());
+                    game.startTimeUTC = PSTtoUTC(dateText.trim());
                 }
             }
             game.gId = parsingGameId(dateElem.find('a').attr('href'));
-            console.log(games)
 
             games.push(game); 
         });
@@ -250,13 +246,12 @@ async function scrapeGames(sportCode, dateString, live_games) {
     for(let i = 0; i < games.length; i++) {
         if(games[i].startTimeUTC === 'LIVE' || games[i].startTimeUTC === 'FT') {
             const liveData = await scrapeLiveGameData(sportCode, games[i].gId);
+            console.log(liveData)
             games[i].away_score = liveData.away;
             games[i].home_score = liveData.home;
             games[i].clock = liveData.clock;
             games[i].status = liveData.status;
             games[i].date = new Date()
-            live_games.push(games[i])
-            //If game is live then scrape live 
         }
     }
     return games;
@@ -265,4 +260,4 @@ async function scrapeGames(sportCode, dateString, live_games) {
 exports.scrapeGames = scrapeGames;
 exports.scrapeLiveGameData = scrapeLiveGameData;
 exports.parsingGameId = parsingGameId;
-exports.ESTtoUTC = ESTtoUTC;
+exports.PSTtoUTC = PSTtoUTC;

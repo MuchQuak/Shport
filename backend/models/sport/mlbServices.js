@@ -10,6 +10,15 @@ class MlbService extends league.LeagueService {
     super(host);
   }
 
+   async getLiveGame(gId) {
+      try {
+         return await gameScraper.scrapeLiveGameData('mlb', gId);
+      } catch(err) {
+         console.log(err)
+         return { away: "0", home: "0", clock: "", status: ""}
+      }
+   }
+
   async getGamesData(live_games) {
     //YYYYMMDD
     const previous = new Date();

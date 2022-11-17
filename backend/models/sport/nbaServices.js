@@ -7,6 +7,17 @@ class NbaService extends league.LeagueService {
     super(host);
   }
 
+   //Not implemented yet
+   async getLiveGame(gId) {
+      try { 
+         //return await gameScraper.scrapeLiveGameData('nba', gId);
+         return { away: "0", home: "0", clock: "", status: ""}
+      } catch(err) {
+         console.log(err)
+         return { away: "0", home: "0", clock: "", status: ""}
+      }
+   }
+
   async getGamesData(live_games) {
 
     var currentDate = new Date;
