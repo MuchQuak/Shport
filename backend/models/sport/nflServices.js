@@ -14,9 +14,17 @@ class NflService extends league.LeagueService {
     //Function for formatting date if different from standard format in leagueServices
   }
   */
+   async getLiveGameData(gId) {
+      try {
+         return await gameScraper.scrapeLiveGameData('nfl', gId);
+      } catch(err) {
+         console.log(err)
+         return { away: "0", home: "0", clock: "", status: ""}
+      }
+   }
 
-  async getGamesData() {
-    return await gameScraper.scrapeGames('nfl', '');
+  async getGamesData(live_games) {
+    return await gameScraper.scrapeGames('nfl', '', live_games);
   }
   async getStandingsData() {
     return await standingsScraper.getNflSportStanding();

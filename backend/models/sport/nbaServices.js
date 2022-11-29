@@ -1,13 +1,34 @@
 const league = require("./leagueService");
 const teamScraper = require("../../scraper/teamExpansionScrape");
+const standingsScraper = require("../../scraper/standingsScrape");
+const gameScraper = require("../../scraper/scheduleScrape");
 const axios = require("axios");
+const util = require("../../utility")
 
 class NbaService extends league.LeagueService {
   constructor(host) {
     super(host);
   }
 
-  async getGamesData() {
+   async getLiveGameData(gId) {
+      try {
+         return await gameScraper.scrapeLiveGameData('nba', gId);
+      } catch(err) {
+         console.log(err)
+         return { away: "0", home: "0", clock: "", status: ""}
+      }
+   }
+  
+   async getGamesData(live_games) {
+    //YYYYMMDD
+    const previous = new Date();
+    previous.setDate(previous.getDate() - 1);
+   //Scrape previous day so we can see Prev - Today - Future
+    return await gameScraper.scrapeGames('nba', this.formatDate(previous), live_games);
+  }
+   /*
+
+  async getGamesData(live_games) {
 
     var currentDate = new Date;
     var previousDate = new Date;
@@ -37,12 +58,18 @@ class NbaService extends league.LeagueService {
       result = result.concat(next)
 
     return result;
+  }*/
+
+
+  async getStandingsData() {
+    return await standingsScraper.getNbaSportStanding();
   }
 
+ /*
   async getStandingsData() {
     return this.formatStandingsData(
       await axios.get(this.host + "/10s/prod/v1/current/standings_conference.json"));
-  }
+  }*/
   
   async getPlayersEndPoint(currentYear) {
     return this.formatPlayersData(
@@ -100,7 +127,7 @@ class NbaService extends league.LeagueService {
       new_game.away_code = game.vTeam.triCode;
       new_game.away_score = game.vTeam.score;
       new_game.away_record = game.vTeam.win + "-" + game.vTeam.loss;
-      new_game.startTimeUTC = this.ESTtoUTC(game.startTimeEastern);
+      new_game.startTimeUTC = util.ESTtoUTC(game.startTimeEastern);
       new_game.date = date;
       if (game.playoffs) {
         new_game.numInSeries = game.playoffs.gameNumInSeries;

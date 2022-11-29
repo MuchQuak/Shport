@@ -4,18 +4,7 @@ class LeagueService {
     constructor(host) {
         this.host = host;
     }
-
-    ESTtoUTC(time) {
-        const timeParts = time.split(' ');
-        const pmAm = timeParts[1];
-        const newtime = timeParts[0].split(':');
-        const offset = pmAm[0] === 'A' ? 0: 12;
-        const hour = parseInt(newtime[0]) + 5 + offset;
-        const min = parseInt(newtime[1]);
-        const t = new Date();
-        return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), hour, min, 0));
-    }
-    
+ 
    async getGames(offset_param) {      
       const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
       const offset = isNaN(offset_num) ? 0 : offset_num;
@@ -34,16 +23,52 @@ class LeagueService {
       return await this.getPlayersEndPoint("2021");
   }
 
-  async cacheAllData() {
-    await cache.cacheGames(
-      this.sportCode(),
-      await this.getGamesData());   
-    await cache.cacheStandings(
-      this.sportCode(), 
-      await this.getStandingsData());
+  async cacheAllData(live_games) {
+      try {
+         await cache.cacheGames(
+            this.sportCode(),
+            await this.getGamesData(live_games));   
+         await cache.cacheStandings(
+            this.sportCode(), 
+            await this.getStandingsData());
+      } catch(e) {
+         console.log(`Failed to cache ${this.sportCode()} data`);
+      }
   }
 
-  async getGamesData() {
+  async initialize_data(live_games) {
+      try {
+         const games = await this.getGamesData(live_games);
+         const scheduled_games = cache.createGameCachingSchedule(games, this, live_games)
+         await cache.cacheGames(
+            this.sportCode(), games);   
+         await cache.cacheStandings(
+            this.sportCode(), 
+            await this.getStandingsData());
+
+         return scheduled_games;
+      } catch(e) {
+         console.log(`Failed to intialize and scheduled ${this.sportCode()} games`);
+      }
+  }
+
+  async cacheLiveUpdates(gId) {
+      try {
+         let liveData = await this.getLiveGameData(gId);
+         cache.updateLiveGame(this.sportCode(), gId, liveData)
+
+         return liveData.status === 1? true: false;
+      } catch(err) {
+         console.log(err)
+      }
+   }
+
+
+  async getLiveGameData(gId) {
+    throw new Error("Abstract Method has no implementation");
+  }
+
+  async getGamesData(live_games) {
     throw new Error("Abstract Method has no implementation");
   }
   async getStandingsData() {

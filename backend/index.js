@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const cron = require('node-cron');
+const schedule = require('node-schedule');
 const { authenticateUser }  = require('./utility');
 const userController = require('./controllers/user');
 const sportController = require('./controllers/sport');
@@ -11,6 +11,9 @@ const mlbController = require('./controllers/mlb');
 const nflController = require('./controllers/nfl');
 const redditController = require('./controllers/reddit');
 const newsController = require('./controllers/news');
+
+var live_games = {nhl: [], nba: [], nfl: [], mlb: []}
+var scheduled_games = {}
 
 app.use(express.json());
 app.use(cors());
@@ -107,17 +110,48 @@ app.listen(process.env.PORT, () => {
   console.log(`Backend listening at http://localhost:${process.env.PORT}`);
 });
 
-//Schedule repull every minute
-cron.schedule('* * * * *', () => {
-  console.log("Cached All Data at: " + new Date())
-  nba.cacheAllData();
-  nfl.cacheAllData();
-  nhl.cacheAllData();
-  mlb.cacheAllData();
+//Makes new schedules
+const daily_update_rule = new schedule.RecurrenceRule();
+daily_update_rule.hour = 2;
+daily_update_rule.minute = 0;
+
+const schedule_games = () => {
+   Promise.all([
+      nba.initialize_data(live_games.nba),
+      nfl.initialize_data(live_games.nfl),
+      nhl.initialize_data(live_games.nhl),
+      mlb.initialize_data(live_games.mlb)
+   ]).then(values => {
+      scheduled_games.nba = values[0];
+      scheduled_games.nfl = values[1];
+      scheduled_games.nhl = values[2];
+      scheduled_games.mlb = values[3];
+   })
+}
+
+schedule.scheduleJob(daily_update_rule, function(){
+   console.log(`Made new schedules at: ${new Date()}`)
+   schedule_games();
 });
 
-//Intial Cache
-nba.cacheAllData();
-nfl.cacheAllData();
-nhl.cacheAllData();
-mlb.cacheAllData();
+async function refreshLiveData(service, live_g) {
+   let new_live_games = [];
+   if(live_g.length > 0) { 
+      for(let g of live_g) {
+         const res = await service.cacheLiveUpdates(g.gId)
+         if(res === true)
+            new_live_games.push(g);
+      }
+   }
+
+   live_g = new_live_games;
+}
+
+schedule.scheduleJob('*/2 * * * * *', function(){
+   refreshLiveData(nhl, live_games.nhl);
+   refreshLiveData(nba, live_games.nba);
+   refreshLiveData(mlb, live_games.mlb);
+   refreshLiveData(nfl, live_games.nfl);
+});
+
+schedule_games();

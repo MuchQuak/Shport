@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-
+const mlbServices = require("../sport/mlbServices");
 const Games = require('../caching/games');
 const Standings = require('../caching/standings');
 const cacheServices = require('../caching/cachingServices');
@@ -9,6 +9,57 @@ let mongoServer;
 let conn;
 let standingsModel;
 let gamesModel;
+let mlb;
+let spy;
+
+const today = new Date(Date.now());
+const utc_today = new Date(Date.UTC(
+   today.getUTCFullYear(), 
+   today.getUTCMonth(), 
+   today.getUTCDate(), 
+   today.getUTCHours(), 
+   today.getUTCMinutes(), 0))
+
+let games =  [
+   {
+      status:1,
+      clock:"",
+      halftime:"",
+      arena:"",
+      currentQtr:"",
+      maxQtr:"",
+      away:"San Diego Padres",
+      away_code:"min",
+      away_score:"2",
+      away_record:"",
+      home:"Detroit Tigers",
+      home_code:"det",
+      home_score:"5",
+      home_record:"",
+      startTimeUTC: utc_today.toString(),
+      "date":new Date("2022-05-31T00:00:00.000+00:00"),
+      "gId":"4221355636"
+   },
+   {
+      status:1,
+      clock:"",
+      halftime:"",
+      arena:"",
+      currentQtr:"",
+      maxQtr:"",
+      away:"Boston Red Fox",
+      away_code:"min",
+      away_score:"2",
+      away_record:"",
+      home:"New York Mets",
+      home_code:"nyy",
+      home_score:"4",
+      home_record:"",
+      startTimeUTC: utc_today.toString(),
+      "date":new Date("2022-06-31T00:00:00.000+00:00"),
+      "gId":"4335636"
+   }
+];
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -25,7 +76,8 @@ beforeAll(async () => {
   gamesModel = conn.model("gamesCache", Games.schema);
 
   cacheServices.setConnection(conn)
-
+  mlb = new mlbServices.MlbService('');
+  spy = jest.spyOn(mlb, 'cacheAllData').mockImplementation(() => 'Hello');
 });
 
 afterAll(async () => {
@@ -33,7 +85,6 @@ afterAll(async () => {
   await conn.close();
   await mongoServer.stop();
 });
-
 
 beforeEach(async () => {
     let gamesData = {
@@ -59,7 +110,7 @@ beforeEach(async () => {
                 "gId":"401355636"
             },
             {
-                status:2,
+                status:1,
                 clock:"",
                 halftime:"",
                 arena:"",
@@ -73,7 +124,7 @@ beforeEach(async () => {
                 home_code:"nyy",
                 home_score:"4",
                 home_record:"",
-                startTimeUTC:"Started",
+                startTimeUTC:utc_today.toString(),
                 "date":new Date("202-05-31T00:00:00.000+00:00"),
                 "gId":"4055636"
                 }
@@ -208,6 +259,13 @@ test("TESTING: Cached Standings", async () => {
     expect(nyg.conference).toStrictEqual("AFC West");
 
 });
+
+test("TESTING: createGameCachingSchedule", async () => {
+   let live_games = []
+   let res = cacheServices.createGameCachingSchedule(games, mlb, live_games);
+   expect(Array.isArray(res)).toBeTruthy();
+   expect(res.length).toBe(2);
+})
 
 
 test("TESTING: Cached Games", async () => {

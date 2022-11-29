@@ -2,7 +2,6 @@ const league = require("./leagueService");
 const axios = require("axios");
 const teamScraper = require("../../scraper/teamExpansionScrape");
 const sportInfoServices = require("./sportInfoServices");
-const { getGames } = require("../../controllers/nba");
 
 class NhlService extends league.LeagueService {
   constructor(host) {
@@ -19,7 +18,28 @@ class NhlService extends league.LeagueService {
     );
   }
 
-  async getGamesData() {
+   async getLiveGameData(gId) {
+      let liveData = {
+         away: "0",
+         home: "0",
+         clock: "",
+         status: ""
+      }
+      try {
+         const game = await axios(this.host + `/api/v1/game/${gId}/feed/live`)
+         const lineScore = game.data.liveData.linescore;
+         liveData.away = lineScore.teams.away.goals;
+         liveData.home = lineScore.teams.home.goals;
+         liveData.clock = lineScore.currentPeriodTimeRemaining;
+         liveData.status = liveData.clock === 'Final'? 2 : 1;
+      } catch(err) {
+         console.log(err)
+      } finally {
+         return liveData;
+      }
+   }
+
+  async getGamesData(live_games) {
 
     var currentDate = new Date;
     var previousDate = new Date;
@@ -156,6 +176,8 @@ getScrapedHeadlines(code){
       new_game.numInSeries = 0;
       new_game.homePlayoffs = false;
       new_game.awayPlayoffs = false;
+      new_game.gId = game.gamePk;
+      new_game.sportCode = this.sportCode();
       new_games.push(new_game);
     }
     return new_games;
