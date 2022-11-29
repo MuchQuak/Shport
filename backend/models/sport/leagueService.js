@@ -4,26 +4,7 @@ class LeagueService {
     constructor(host) {
         this.host = host;
     }
-
-   ESTtoUTC(time) {
-      const timeParts = time.split(' ');
-
-      if(timeParts.length < 2) {
-         return time;
-      }
-      const t = new Date()
-      const pmAm = timeParts[1];
-      const newtime = timeParts[0].split(':');
-      const offset = pmAm[0] === 'A' ? 0 : 12;
-      //Page is in est instead of pst for some reason so -3 is needed
-      const hour = parseInt(newtime[0]) + offset - 3;
-      const min = parseInt(newtime[1]);
-      t.setHours(hour);
-      t.setMinutes(min); 
-      return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDay(), 
-         t.getUTCHours(), t.getUTCMinutes(), 0));
-   }
-    
+ 
    async getGames(offset_param) {      
       const offset_num = offset_param === undefined ? 0 : parseInt(offset_param);
       const offset = isNaN(offset_num) ? 0 : offset_num;

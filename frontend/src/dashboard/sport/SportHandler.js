@@ -83,8 +83,9 @@ export function NBA_logo(abbreviation, divId) {
       </div>
     );
   }
+
   const url =
-    "https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/" +
+    "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/" +
     abbreviation.toLowerCase() +
     ".png";
   return (

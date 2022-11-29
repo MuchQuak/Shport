@@ -47,7 +47,7 @@ async function getSportStanding(league, scoreSep) {
           scores.push($(element).text());
         }
         i++;
-        if (i == scoreSep) i = 0;
+        if (i === scoreSep) i = 0;
       });
 
       let sportsInfo = {
@@ -142,6 +142,47 @@ function createNflObj(
   }
 }
 
+function createNbaObj(
+  sportObj,
+  currentLeague,
+  natLeague,
+  natCodes,
+  scores,
+  start
+) {
+  let j = start;
+  let k = 1;
+
+  for (let i = 0; i < natLeague.length; i++) {
+    sportObj[natCodes[i]] = {};
+    sportObj[natCodes[i]]["name"] = natLeague[i];
+    sportObj[natCodes[i]]["city"] = "";
+    sportObj[natCodes[i]]["code"] = natCodes[i];
+    sportObj[natCodes[i]]["espn"] = natCodes[i];
+    sportObj[natCodes[i]]["rank"] = k.toString();
+    sportObj[natCodes[i]]["wins"] = scores[j];
+    sportObj[natCodes[i]]["losses"] = scores[j + 1];
+
+    j += 2;
+    k += 1;
+
+
+    if (i < 4) {
+      sportObj[natCodes[i]]["conference"] = currentLeague;
+    } else if (i < 8) {
+      sportObj[natCodes[i]]["conference"] = currentLeague;
+    } else if (i < 12) {
+      sportObj[natCodes[i]]["conference"] = currentLeague;
+    } else {
+      sportObj[natCodes[i]]["conference"] = currentLeague;
+    }
+
+    if (k == 5) {
+      k = 1;
+    }
+  }
+}
+
 function getMlbSportStanding() {
   return getSportStanding("mlb", 11).then((response) => {
     let sportObj = {};
@@ -194,6 +235,34 @@ function getNflSportStanding() {
   });
 }
 
+function getNbaSportStanding() {
+  return getSportStanding("nba", 13).then((response) => {
+    let sportObj = {
+      teams: {},
+    };
+ 
+    createNbaObj(
+      sportObj,
+      "East",
+      response["amLeague"],
+      response["amCodes"],
+      response["scores"],
+      0
+    );
+    createNbaObj(
+      sportObj,
+      "West",
+      response["natLeague"],
+      response["natCodes"],
+      response["scores"],
+      30
+    );
+
+    return sportObj;
+  });
+}
+
+exports.getNbaSportStanding = getNbaSportStanding;
 exports.getMlbSportStanding = getMlbSportStanding;
 exports.getNflSportStanding = getNflSportStanding;
 exports.getSportStanding = getSportStanding;

@@ -43,23 +43,25 @@ function createGameCachingSchedule(games, sport_service, live_games) {
 
    var scheduled_games = [];
    for(let g of games) {
-      const game_date = new Date(Date.parse(g.startTimeUTC));
+      const startTime = new Date(Date.parse(g.startTimeUTC));
+      const game_date = new Date(Date.parse(g.date));
       if(g.status === LIVE) {
          live_games.push(g);
       }
+
       else if(g.status !== ENDED && game_date.getDate() === today.getDate() 
          && game_date.getFullYear() === today.getFullYear()) {
 
          const rule = new schedule.RecurrenceRule();
          scheduled_games.push(g);
          rule.second = 0;         
-         rule.hour = game_date.getHours();
-         rule.minute = game_date.getMinutes();
+         rule.hour = startTime.getHours();
+         rule.minute = startTime.getMinutes();
          rule.month = game_date.getMonth();
          rule.year = game_date.getFullYear();
          rule.date = game_date.getDate();
 
-         console.log(`Scheduled ${sport_service.sportCode()} ${g.away} @ ${g.home} for ${game_date.getHours()}:${game_date.getMinutes()}`)
+         console.log(`Scheduled ${sport_service.sportCode()} ${g.away} @ ${g.home} for ${startTime.getHours()}:${startTime.getMinutes()}`)
 
          schedule.scheduleJob(rule, function(){
             console.log(`Cached ${sport_service.sportCode()} ${g.away} @ ${g.home} Data at: ${new Date()}`)
