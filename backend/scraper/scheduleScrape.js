@@ -237,14 +237,17 @@ async function scrapeGames(sportCode, dateString) {
                //Scrape Time is always in EST
                let startTime = util.ESTtoUTC(dateText.trim());
 
-               startTime.setFullYear(date.getFullYear())
-               startTime.setMonth(date.getMonth())
-               startTime.setDate(date.getDate())
+               if(startTime instanceof Date) {
+                  startTime.setFullYear(date.getFullYear())
+                  startTime.setMonth(date.getMonth())
+                  startTime.setDate(date.getDate())
+               }
+
                game.startTimeUTC = startTime;
             }
          }
          game.gId = parsingGameId(dateElem.find('a').attr('href'));
-
+         
          games.push(game); 
       });
    });
@@ -262,8 +265,6 @@ async function scrapeGames(sportCode, dateString) {
    }
    return games;
 }
-
-scrapeGames("nba", "20221128")
 
 exports.scrapeGames = scrapeGames;
 exports.scrapeLiveGameData = scrapeLiveGameData;

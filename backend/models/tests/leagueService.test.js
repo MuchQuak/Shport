@@ -13,27 +13,6 @@ test("TESTING: leagueServices host (endpoint)", () => {
   expect(leageueConst.host).toStrictEqual("API endpoint");
 });
 
-test("TESTING: leagueServices EST To UTC", () => {
-  let leageueConst = new leagues.LeagueService("API endpoint");
-  let testESTDate = "1:30 PM";
-
-  let testUTCHour = 18; // Military time
-  let testUTCmin = 30;
-  let t = new Date();
-  let testDate = new Date(
-    Date.UTC(
-      t.getUTCFullYear(),
-      t.getUTCMonth(),
-      t.getUTCDay(),
-      testUTCHour,
-      testUTCmin,
-      0
-    )
-  );
-
-  expect(leageueConst.ESTtoUTC(testESTDate)).toStrictEqual(testDate);
-});
-
 test("TESTING: getGamesData --- ERROR", async () => {
   let leageueConst = new leagues.LeagueService("API endpoint");
   const date = new Date("December 17, 1995 03:24:00");

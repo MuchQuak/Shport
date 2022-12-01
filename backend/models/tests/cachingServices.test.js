@@ -36,9 +36,9 @@ let games =  [
       home_code:"det",
       home_score:"5",
       home_record:"",
-      startTimeUTC: utc_today.toString(),
-      "date":new Date("2022-05-31T00:00:00.000+00:00"),
-      "gId":"4221355636"
+      startTimeUTC: today,
+      date:today,
+      gId:"4221355636"
    },
    {
       status:1,
@@ -55,9 +55,28 @@ let games =  [
       home_code:"nyy",
       home_score:"4",
       home_record:"",
-      startTimeUTC: utc_today.toString(),
-      "date":new Date("2022-06-31T00:00:00.000+00:00"),
-      "gId":"4335636"
+      startTimeUTC: today,
+      date:today,
+      gId:"4335636"
+   },
+   {
+      status:0,
+      clock:"",
+      halftime:"",
+      arena:"",
+      currentQtr:"",
+      maxQtr:"",
+      away:"Boston Red Fox",
+      away_code:"min",
+      away_score:"2",
+      away_record:"",
+      home:"New York Mets",
+      home_code:"nyy",
+      home_score:"4",
+      home_record:"",
+      startTimeUTC: today,
+      date:today,
+      gId:"4335636"
    }
 ];
 
@@ -95,8 +114,8 @@ beforeEach(async () => {
                 clock:"",
                 halftime:"",
                 arena:"",
-                currentQtr:"",
-                maxQtr:"",
+                currentQtr:0,
+                maxQtr:4,
                 away:"Minnesota Twins",
                 away_code:"min",
                 away_score:"2",
@@ -106,7 +125,7 @@ beforeEach(async () => {
                 home_score:"8",
                 home_record:"",
                 startTimeUTC:"Ended",
-                "date":new Date("2022-05-31T00:00:00.000+00:00"),
+                "date":today,
                 "gId":"401355636"
             },
             {
@@ -114,8 +133,8 @@ beforeEach(async () => {
                 clock:"",
                 halftime:"",
                 arena:"",
-                currentQtr:"",
-                maxQtr:"",
+                currentQtr:1,
+                maxQtr:4,
                 away:"Minnesota Twins",
                 away_code:"min",
                 away_score:"2",
@@ -125,7 +144,7 @@ beforeEach(async () => {
                 home_score:"4",
                 home_record:"",
                 startTimeUTC:utc_today.toString(),
-                "date":new Date("202-05-31T00:00:00.000+00:00"),
+                "date":today,
                 "gId":"4055636"
                 }
             ]
@@ -185,19 +204,19 @@ test("TESTING: Cached Games", async () => {
     expect(game.clock).toBe("");
     expect(game.halftime).toBe("");
     expect(game.arena).toBe("");
-    expect(game.currentQtr).toBe("");
-    expect(game.maxQtr).toBe("");
+    expect(game.currentQtr).toBe(0);
+    expect(game.maxQtr).toBe(4);
     expect(game.away).toStrictEqual("Minnesota Twins");
     expect(game.away_code).toBe("min");
-    expect(game.away_score).toBe("2");
+    expect(game.away_score).toBe(2);
     expect(game.away_record).toBe("");
     expect(game.home).toStrictEqual("Detroit Tigers");
     expect(game.home_code).toBe("det");
-    expect(game.home_score).toBe("8");
+    expect(game.home_score).toBe(8);
     expect(game.home_record).toBe("");
     expect(game.startTimeUTC).toBe("Ended");
-    expect(game.date).toStrictEqual(new Date("2022-05-31T00:00:00.000+00:00"));
-    expect(game.gId).toStrictEqual("401355636");
+    expect(game.date).toStrictEqual(today);
+    expect(game.gId).toStrictEqual(401355636);
 });
 
 test("TESTING: Cached Standings", async () => {
@@ -263,8 +282,9 @@ test("TESTING: Cached Standings", async () => {
 test("TESTING: createGameCachingSchedule", async () => {
    let live_games = []
    let res = cacheServices.createGameCachingSchedule(games, mlb, live_games);
-   expect(Array.isArray(res)).toBeTruthy();
-   expect(res.length).toBe(2);
+   expect(Array.isArray(live_games)).toBeTruthy();
+   expect(live_games.length).toBe(2);
+   expect(res.length).toBe(1);
 })
 
 
@@ -276,8 +296,8 @@ test("TESTING: Cached Games", async () => {
             clock:"",
             halftime:"",
             arena:"",
-            currentQtr:"",
-            maxQtr:"",
+            currentQtr:0,
+            maxQtr:4,
             away:"San Diego Padres",
             away_code:"min",
             away_score:"2",
@@ -287,7 +307,7 @@ test("TESTING: Cached Games", async () => {
             home_score:"5",
             home_record:"",
             startTimeUTC:"Started",
-            "date":new Date("2022-05-31T00:00:00.000+00:00"),
+            "date":today,
             "gId":"4221355636"
         },
         {
@@ -295,8 +315,8 @@ test("TESTING: Cached Games", async () => {
             clock:"",
             halftime:"",
             arena:"",
-            currentQtr:"",
-            maxQtr:"",
+            currentQtr:3,
+            maxQtr:4,
             away:"Boston Red Fox",
             away_code:"min",
             away_score:"2",
@@ -306,7 +326,7 @@ test("TESTING: Cached Games", async () => {
             home_score:"4",
             home_record:"",
             startTimeUTC:"Middle",
-            "date":new Date("2022-06-31T00:00:00.000+00:00"),
+            "date": today,
             "gId":"4335636"
             }
         ];
@@ -323,18 +343,18 @@ test("TESTING: Cached Games", async () => {
     expect(game1.clock).toBe("");
     expect(game1.halftime).toBe("");
     expect(game1.arena).toBe("");
-    expect(game1.currentQtr).toBe("");
-    expect(game1.maxQtr).toBe("");
+    expect(game1.currentQtr).toBe(0);
+    expect(game1.maxQtr).toBe(4);
     expect(game1.away).toStrictEqual("San Diego Padres");
     expect(game1.away_code).toBe("min");
-    expect(game1.away_score).toBe("2");
+    expect(game1.away_score).toBe(2);
     expect(game1.away_record).toBe("");
     expect(game1.home).toStrictEqual("Detroit Tigers");
     expect(game1.home_code).toBe("det");
-    expect(game1.home_score).toBe("5");
+    expect(game1.home_score).toBe(5);
     expect(game1.home_record).toBe("");
     expect(game1.startTimeUTC).toBe("Started");
-    expect(game1.date).toStrictEqual(new Date("2022-05-31T00:00:00.000+00:00"));
-    expect(game1.gId).toStrictEqual("4221355636");
+    expect(game1.date).toStrictEqual(today);
+    expect(game1.gId).toStrictEqual(4221355636);
 
 });

@@ -11,6 +11,8 @@ const gamesSchema = new mongoose.Schema(
       games: [{
          status: Number,
          arena: String,
+         halftime: String,
+         currentQtr: Number,
          maxQtr: Number,
          home: String,
          home_score: Number,
