@@ -97,7 +97,7 @@ async function updateLiveGame(sport, gId, liveData) {
 async function cacheGames(sport, games) {
     const gamesModel = getDbConnection().model("gameCache", Games.schema);
     try {
-        const SPORT = String(sport).trim().toUpperCase()
+        const SPORT = String(sport).trim().toUpperCase();
         return await gamesModel.updateOne(
             { sport: SPORT },
             { sport: SPORT, games: games }, 

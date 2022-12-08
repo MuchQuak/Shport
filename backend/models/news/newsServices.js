@@ -1,5 +1,39 @@
 //apikey = 'ae61e309e55d47469fd1c8e1cc89cf86'
 const NewsAPI = require("newsapi");
+const News = require('../../schemas/news');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const games = require("../caching/games");
+
+let dbConnection;
+
+function getDbConnection() {
+    if (!dbConnection) {
+      dbConnection = mongoose.createConnection(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+    }
+    return dbConnection;
+  }
+
+  function setConnection(newConn) {
+    dbConnection = newConn;
+    return dbConnection;
+  }
+
+async function cacheNews(news) {
+   const newsModel = getDbConnection().model('news', News.schema);
+   try {
+      for (const article of news) {
+         await newsModel.updateOne(article, {'$set': article } ,{upsert: true})
+   }
+   return true;
+   } catch(error) {
+      console.log(error);
+      return false;
+   }
+}
 
 async function getNews(query) {
     const newsapi = new NewsAPI(process.env.NEWSAPI_KEY);
@@ -41,3 +75,4 @@ function formatNewsData(responseData) {
 }
 
 exports.getNews = getNews;
+exports.cacheNews = cacheNews;
