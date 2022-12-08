@@ -342,6 +342,7 @@ async function getHeadlines(sport, code, num = -1) {
           console.log(error);
       });
 }
+
 exports.getInjuries = getInjuries;
 exports.getRoster = getRoster;
 exports.getSchedule = getSchedule;
