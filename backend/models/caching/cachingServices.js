@@ -97,8 +97,6 @@ async function cacheGames(sport, games) {
     const gamesModel = getDbConnection().model("gameCache", Games.schema);
     try {
         const SPORT = String(sport).trim().toUpperCase();
-      if(SPORT === 'NFL')
-         //console.log(games)
         return await gamesModel.updateOne(
             { sport: SPORT },
             { sport: SPORT, games: games }, 

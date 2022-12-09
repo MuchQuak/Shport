@@ -332,6 +332,7 @@ test("TESTING: Cached Games", async () => {
         ];
 
     let newGamesInfo = await cacheServices.cacheGames(sport, newGames);
+   console.log(newGamesInfo)
     expect(newGamesInfo.acknowledged).toBeTruthy();
 
     let gamesFromDB = await cacheServices.getCachedGames(sport);     

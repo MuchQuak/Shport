@@ -35,7 +35,8 @@ test("TESTING: Live Game with GID", async () => {
   let liveData = {
     away: "",
     home: "",
-    clock: "",
+    clock: "0",
+    qtr: 0,
     status: 1
 }
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/scheduleExample.html") });
@@ -49,7 +50,8 @@ test("TESTING: Live Game with no GID", async () => {
   let liveData = {
     away: "0",
     home: "0",
-    clock: "",
+    clock: "0",
+    qtr: 0,
     status: ""
 }
   axios.get.mockResolvedValue({ data: fs.readFileSync("./models/tests/html_tests/scheduleExample.html") });
