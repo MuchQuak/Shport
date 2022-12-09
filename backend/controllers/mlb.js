@@ -2,13 +2,15 @@ const mlbServices = require("../models/sport/mlbServices");
 let mlb = new mlbServices.MlbService("");
 
 async function getGames(req, res) {
-      const offset_param = String(req.params['offset']).trim();
-      try {
-         const games = await mlb.getGames(offset_param);
-        res.send(games);
-      } catch(e) {
-        console.error(e);
-    }
+   const offset_param = String(req.params['offset']).trim();
+   try {
+      const games = await mlb.getGames(offset_param);
+      res.send(games);
+   } catch(error) {
+      console.log(`ERROR mlb.controllers.getGames: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 
 async function getStandings(req, res) {
@@ -21,51 +23,85 @@ async function getStandings(req, res) {
       } else {
          res.send(standings[id]);
       }
-   } catch (e) {
-      console.error(e);
+   } catch (error) {
+      console.log(`ERROR mlb.controllers.getStandings: ${error}`);
+      res.json(500)
+      res.send()
    }
 }
 
 async function getPlayers(req, res) {
    const id = req.params["id"];
-    try {
+   try {
       const players = await mlb.getPlayers(req, res);
       if (id === undefined) {
-        res.send(players);
+         res.send(players);
       } else {
-        res.send(players.find((player) => player["personId"] === id));
+         res.send(players.find((player) => player["personId"] === id));
       }
-    } catch (e) {
-      console.error(e);
-    }
+   } catch (error) {
+      console.log(`ERROR mlb.controllers.getPlayers: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 
 async function getScrapedPlayers(req, res) {
    //Move this down to scraper level
-  res.send({});
+   try {
+      res.send({});
+   } catch(error) {
+      console.log(`ERROR mlb.controllers.getScrapedPlayers: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 
 async function getPlayerInjuries (req, res) {
-    await mlb.getScrapedInjuries(req.params["id"]).then((result) => {
-      res.send(result);
-  });
+   try {
+      await mlb.getScrapedInjuries(req.params["id"]).then((result) => {
+         res.send(result);
+      });
+   }catch(error) { 
+      console.log(`ERROR mlb.controllers.getPlayerInjuries: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 
 async function getTopPlayers(req, res) {
-    await mlb.getScrapedTopPlayers(req.params["id"]).then((result) => {
-      res.send(result);
-  });
+   try {
+      await mlb.getScrapedTopPlayers(req.params["id"]).then((result) => {
+         res.send(result);
+      });
+   }catch(error) {
+      console.log(`ERROR mlb.controllers.getTopPlayers: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 async function getPlayerTransactions(req, res) {
-    await mlb.getScrapedTransactions(req.params["id"]).then((result) => {
-      res.send(result);
-  });
+   try {
+      await mlb.getScrapedTransactions(req.params["id"]).then((result) => {
+         res.send(result);
+      });
+   }catch(error) {
+      console.log(`ERROR mlb.controllers.getPlayerTransactions: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 
 async function getHeadlines(req, res) {
-  await mlb.getScrapedHeadlines(req.params["id"]).then((result) => {
-    res.send(result);
-  });
+   try {
+      await mlb.getScrapedHeadlines(req.params["id"]).then((result) => {
+         res.send(result);
+      });
+   }catch(error) {
+      console.log(`ERROR mlb.controllers.getHeadlines: ${error}`);
+      res.json(500)
+      res.send()
+   }
 }
 
 exports.getGames = getGames;

@@ -6,10 +6,10 @@ async function getGames(req, res) {
    try {
       const games = await nba.getGames(offset_param);
       res.send(games);
-   } catch(e) {
+   } catch(error) {
+      console.log(`ERROR nba.controllers.getGames: ${error}`);
       res.json(500)
       res.send()
-      console.error(e);
    }
 }
 
@@ -23,10 +23,10 @@ async function getStandings(req, res) {
       } else {
          res.send(standings[id]);
       }
-   } catch (e) {
+   } catch (error) {
+      console.log(`ERROR nba.controllers.getStandings: ${error}`);
       res.json(500)
       res.send()
-      console.error(e);
    }
 }
 
@@ -39,40 +39,70 @@ async function getPlayers(req, res) {
       } else {
          res.send(players.find((player) => player["personId"] === id));
       }
-   } catch (e) {
+   } catch (error) {
+      console.log(`ERROR nba.controllers.getPlayers: ${error}`);
       res.json(500)
       res.send()
-      console.error(e);
    }
 }
 
 async function getScrapedPlayers(req, res) {
-   await nba.getScrapedPlayers(req.params["id"]).then((result) => {
-      res.send(result);
-   });
+   try {
+      await nba.getScrapedPlayers(req.params["id"]).then((result) => {
+         res.send(result);
+      });
+   } catch(error) {
+      console.log(`ERROR nba.controllers.getScrapedPlayers: ${error}`);
+      res.status(500)
+      res.send();
+   }
 }
 
 async function getPlayerInjuries (req, res) {
+   try {
     await nba.getScrapedInjuries(req.params["id"]).then((result) => {
       res.send(result);
   });
+   } catch(error) {
+      res.status(500)
+      res.send();
+      console.log(`ERROR nba.controllers.getScrapedInjuries: ${error}`);
+   }
 }
 
 async function getTopPlayers(req, res) {
+   try {
     await nba.getScrapedTopPlayers(req.params["id"]).then((result) => {
       res.send(result);
   });
+   }catch(error) {
+      console.log(`ERROR nba.controllers.getTopPlayers: ${error}`);
+      res.status(500)
+      res.send();
+   }
 }
 async function getPlayerTransactions(req, res) {
+   try {
     await nba.getScrapedTransactions(req.params["id"]).then((result) => {
       res.send(result);
   });
+   } catch(error) { 
+      console.log(`ERROR nba.controllers.getPlayerTransactions: ${error}`);
+      res.status(500)
+      res.send();
+   }
 }
 
 async function getHeadlines(req, res) {
+   try{
   await nba.getScrapedHeadlines(req.params["id"]).then((result) => {
     res.send(result);
   });
+   } catch(error) {
+      console.log(`ERROR nba.controllers.getHeadlines: ${error}`);
+      res.status(500)
+      res.send();
+   }
 }
 
 exports.getGames = getGames;

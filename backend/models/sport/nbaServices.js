@@ -78,6 +78,7 @@ class NbaService extends league.LeagueService {
 
   getScrapedPlayers(code){
     return teamScraper.getRoster("nba", code).then((result) => {
+         console.log(players)
       return result;
     });
   }
