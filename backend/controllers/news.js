@@ -6,7 +6,7 @@ async function getNews(req, res) {
 
    try {
       const articles = await news.getNews(query);
-      await news.cacheNews(articles);
+      //await news.cacheNews(articles);
       res.status(200);
       res.send(articles);
    } catch (err) {

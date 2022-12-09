@@ -3,7 +3,6 @@ const NewsAPI = require("newsapi");
 const News = require('../../schemas/news');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const games = require("../caching/games");
 
 let dbConnection;
 

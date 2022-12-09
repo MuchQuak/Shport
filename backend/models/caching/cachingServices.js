@@ -77,8 +77,7 @@ async function updateLiveGame(sport, gId, liveData) {
 
    try {
       const SPORT = String(sport).trim().toUpperCase()
-
-      console.log(await gamesModel.updateOne(
+      await gamesModel.updateOne(
          {sport: SPORT},
          {$set: {
             "games.$[updatedGame].status": liveData.status, 
@@ -87,7 +86,7 @@ async function updateLiveGame(sport, gId, liveData) {
             "games.$[updatedGame].clock": liveData.clock
          }},
          {arrayFilters: [{"updatedGame.gId": gId}]}
-      ))
+      )
 
    } catch (err) {
       console.log(err);
