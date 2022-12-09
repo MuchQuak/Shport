@@ -48,7 +48,7 @@ class LeagueService {
 
          return scheduled_games;
       } catch(e) {
-         console.log(`Failed to intialize and scheduled ${this.sportCode()} games`);
+         console.log(`Failed to intialize and scheduled ${this.sportCode()} games: ${e}`);
       }
   }
 

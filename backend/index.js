@@ -148,11 +148,12 @@ async function refreshLiveData(service, live_g) {
 }
 
 schedule.scheduleJob('*/2 * * * * *', function(){
+   /*
    refreshLiveData(nhl, live_games.nhl);
    refreshLiveData(nba, live_games.nba);
    refreshLiveData(mlb, live_games.mlb);
    refreshLiveData(nfl, live_games.nfl);
-
+   */
 });
 
 schedule_games();

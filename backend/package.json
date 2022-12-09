@@ -22,7 +22,8 @@
     "mongoose": "^6.2.0",
     "newsapi": "^2.4.1",
     "node-schedule": "^2.1.0",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "puppeteer": "^19.4.0"
   },
   "devDependencies": {
     "mockingoose": "^2.15.2",

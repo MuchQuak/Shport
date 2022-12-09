@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "cypress": "^9.6.1",
-    "node-schedule": "^2.1.0"
+    "cypress": "^9.6.1"
   }
 }

@@ -1,5 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
+const games = require('../models/caching/games');
 const util = require("../utility")
 
 function PSTtoUTC(time) {
@@ -111,39 +113,83 @@ function capatilize(str) {
     return str.toUpperCase();
 }
 
+function splitTimeParts(time_string) {
+   if(time_string === undefined)
+      return time_string;
+
+   const time_parts = time_string.split('-');
+
+   if(time_parts.length <= 1) {
+      return time_string;
+   }
+
+   return {
+      clock: time_parts[0].trim(),
+      qtr: time_parts[1].trim()[0]
+   }
+}
+
 async function scrapeLiveGameData(sportCode, gId) {
 
-    let liveData = {
-        away: "0",
-        home: "0",
-        clock: "",
-        status: ""
-    }
+   let liveData = {
+      away: "0",
+      home: "0",
+      clock: "0",
+      status: "",
+      qtr: 0,
+   }
 
-    if(gId === undefined) {
-        console.log('gId undefined');
-        return liveData;
-    }
+   if(gId === undefined) {
+      console.log('gId undefined');
+      return liveData;
+   }
 
-    let response = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
+   const browser = await puppeteer.launch();
 
-    let $ = cheerio.load(response.data);
+   const page = await browser.newPage();
+   const game_url = `https://www.espn.com/${sportCode}/game/_/gameId/${gId}`;
 
-    let teams = $('div.competitors');
+   await page.goto(game_url, {
+    waitUntil: "load",
+  });
 
-    var away_score = teams.find('.team.away').find('.score.icon-font-after').text().trim();
-    var home_score = teams.find('.team.home').find('.score.icon-font-before').text().trim();
+   const game_html = await page.evaluate(() => {
+      return document.documentElement.innerHTML
+   })
 
-   /*gameTime.contents().map(function() {
-        const text = $(this).text();
-        return text !== undefined || text !== '' ? text + ' ' : '';
-    }).get().join('');*/
- 
-    liveData.status = 1;    
-    liveData.away = away_score;
-    liveData.home = home_score;
+   await browser.close();
 
-    return liveData;
+   //let response = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
+
+   let $ = cheerio.load(game_html);
+
+   let teams = $('div.competitors');
+
+   var away_score = teams.find('.team.away').find('.score.icon-font-after').text().trim();
+   var home_score = teams.find('.team.home').find('.score.icon-font-before').text().trim();
+   var clock = "";
+   var qtr = 0;
+
+   if(away_score === '' || home_score === '') {
+      teams = $('.Gamestrip__Competitors');
+
+      away_score = teams.find('.Gamestrip__Team--away .Gamestrip__Score').text().trim();
+      home_score = teams.find('.Gamestrip__Team--home .Gamestrip__Score').text().trim();
+
+      const game_time = splitTimeParts(
+         teams.find('div.Gamestrip__Overview').find('div:first').text());
+
+      clock = game_time.clock !== undefined ? game_time.clock: "0";
+      qtr = parseInt(game_time.qtr !== undefined ? game_time.qtr: 0);
+   }
+
+   liveData.status = 1;    
+   liveData.away = away_score;
+   liveData.home = home_score;
+   liveData.clock = clock;
+   liveData.qtr = qtr;
+
+   return liveData;
 }
 
 async function scrapeGames(sportCode, dateString) {
@@ -173,7 +219,7 @@ async function scrapeGames(sportCode, dateString) {
             clock: "",
             halftime: "",
             arena: "",
-            currentQtr: "",
+            currentQtr: 0,
             maxQtr: "",
             away: "",
             away_code: "",
@@ -260,7 +306,8 @@ async function scrapeGames(sportCode, dateString) {
          games[i].home_score = liveData.home;
          games[i].clock = liveData.clock;
          games[i].status = liveData.status;
-         games[i].date = new Date()
+         games[i].date = new Date();
+         games[i].currentQtr = liveData.qtr; 
       }
    }
    return games;
