@@ -11,7 +11,7 @@ import Login from "./login-signup/Login";
 
 const queryClient = new QueryClient();
 
-export const BACKEND = process.env.REACT_APP_BACKEND; 
+export const BACKEND = 'https://shport-backend.herokuapp.com/'; 
 
 function Root() {
   const [cookies, setCookie, removeCookie] = useCookies(["auth_token"]);
