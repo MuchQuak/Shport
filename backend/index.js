@@ -135,10 +135,11 @@ schedule.scheduleJob(daily_update_rule, function(){
 });
 
 async function refreshLiveData(service, live_g) {
+
    let new_live_games = [];
    if(live_g.length > 0) { 
       for(let g of live_g) {
-         const res = await service.cacheLiveUpdates(g.gId)
+         const res = await service.cacheLiveUpdates(g.gId);
          if(res === true)
             new_live_games.push(g);
       }
@@ -147,13 +148,12 @@ async function refreshLiveData(service, live_g) {
    live_g = new_live_games;
 }
 
-schedule.scheduleJob('*/2 * * * * *', function(){
-   /*
+schedule.scheduleJob('* * * * * *', function(){
+   
    refreshLiveData(nhl, live_games.nhl);
    refreshLiveData(nba, live_games.nba);
    refreshLiveData(mlb, live_games.mlb);
    refreshLiveData(nfl, live_games.nfl);
-   */
 });
 
 schedule_games();

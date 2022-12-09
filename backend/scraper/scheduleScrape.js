@@ -129,6 +129,33 @@ function splitTimeParts(time_string) {
    }
 }
 
+//Causes Memory leak from listeners need to have one browser with multiple
+//pages
+async function getLiveGameHTML(game_url) {
+   const browser = await puppeteer.launch();
+
+   try {
+      const page = await browser.newPage();
+
+      await page.goto(game_url, {
+         waitUntil: "load",
+      });
+
+      const html = await page.evaluate(() => {
+         return document.documentElement.innerHTML
+      })
+
+      return html;
+
+   } catch(error) {
+      console.log(`ERROR scraper.scheduleScrape.getLiveGameHTML ${error}`)
+      return false;
+
+   } finally {
+      browser.close();
+   }
+}
+
 async function scrapeLiveGameData(sportCode, gId) {
 
    let liveData = {
@@ -144,24 +171,14 @@ async function scrapeLiveGameData(sportCode, gId) {
       return liveData;
    }
 
-   const browser = await puppeteer.launch();
 
-   const page = await browser.newPage();
    const game_url = `https://www.espn.com/${sportCode}/game/_/gameId/${gId}`;
 
-   await page.goto(game_url, {
-    waitUntil: "load",
-  });
+   //const game_html = await getLiveGameHTML(game_url);
 
-   const game_html = await page.evaluate(() => {
-      return document.documentElement.innerHTML
-   })
+   let response = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
 
-   await browser.close();
-
-   //let response = await axios.get(`https://www.espn.com/${sportCode}/game/_/gameId/${gId}`)
-
-   let $ = cheerio.load(game_html);
+   let $ = cheerio.load(response.data);
 
    let teams = $('div.competitors');
 
@@ -308,6 +325,7 @@ async function scrapeGames(sportCode, dateString) {
          games[i].status = liveData.status;
          games[i].date = new Date();
          games[i].currentQtr = liveData.qtr; 
+
       }
    }
    return games;
